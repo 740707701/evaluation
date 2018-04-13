@@ -1,7 +1,7 @@
 <template>
 <div class="home-page">
-  <div>qweasd</div>
   <!-- <headerNav></headerNav> -->
+  <div>qweasdsfdfdlkvjfdl;jgf bmfgnmdfljgslj;</div>
   <!-- <div class="msg">{{msg}}</div> -->
 </div>
 </template>
