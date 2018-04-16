@@ -1,6 +1,6 @@
 <template>
   <div class="resume-page">
-    <!-- <header-nav></header-nav> -->
+    <headerNav></headerNav>
     <div>这里是简历页面</div>
     <p>{{msg}}</p>
     <p>

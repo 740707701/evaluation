@@ -1,42 +1,58 @@
 <template>
-  <div class="headernav">
-      <header class="header">
-        <nav class="wrapper">
-            <router-link to="/" exact class="logo">
-                <img src="../assets/images/logo.png" alt="">
-            </router-link>
-            <ul class="nav-list">
-                <li>
-                    <router-link to="/">测评</router-link>
-                </li>
-                <li>
-                    <router-link to="resume">简历</router-link>
-                </li>
-            </ul>
-        <div class="nav-right">
-            <el-button round plain class="cart-btn" size="small" icon="el-icon-search">购物车</el-button>
-            <div class="logout" >
-              <router-link to="/login">登录</router-link>
-              <span>/</span>
-              <router-link to="/register">注册</router-link>
-            </div>
-            <div class="login">
-              <i class="el-icon-bell"></i>
-              <div class="avatar">
-                <img src="" alt="">
-              </div>
-            </div>
-            
+  <el-container>
+    <el-header class="header">
+      <nav class="navbar">
+        <div class="nav-left">
+          <img src="../assets/images/demo/02.jpg" alt="" class="logo">
         </div>
-        </nav>
-      </header>
-  </div>
+        <ul class="nav-center">
+          <li>
+            <router-link to="/" exact>测评</router-link>
+          </li>
+          <li>
+            <router-link to="resume">简历</router-link>
+          </li>
+        </ul>
+        <div class="nav-right">
+          <router-link to="cartDetail"> 
+            <el-button class="cart-btn" round size="small">
+              <i class="el-icon-setting"></i>
+              购物车
+            </el-button>
+
+          </router-link>
+          <ul class="logout">
+            <li>
+              <router-link to="login">登录</router-link>
+            </li>
+            <li>
+              <router-link to="register">注册</router-link>
+            </li>
+          </ul>
+          <div class="login">
+            <el-badge is-dot class="badge">
+              <i class="el-icon-bell"></i>
+            </el-badge>
+            <el-dropdown>
+              <el-button class="avatar el-dropdown-link">
+                <img src="../assets/images/demo/02.jpg" alt="">
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>我的测评</el-dropdown-item>
+                <el-dropdown-item>订单中心</el-dropdown-item>
+                <el-dropdown-item>个人设置</el-dropdown-item>
+                <el-dropdown-item>退出账号</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+        </div>
+      </nav>
+    </el-header>
+  </el-container>
 </template>
 <script>
 import Vue from "vue";
 import { Button, Select } from "element-ui";
-Vue.use(Button);
-Vue.use(Select);
 export default {
   name: "headerNav",
   props: {},
@@ -47,74 +63,86 @@ export default {
 };
 </script>
 <style lang="less"  scoped>
-.headernav {
-  width: 100%;
-  height: 60px;
-  background-color: fuchsia;
-  color: #333;
+.header {
+  background-color: #fff;
+  box-shadow: 8px 0px 20px rgba(163, 185, 235, 0.3);
   a {
     color: #333;
   }
-  .header {
-    display: inline-block;
-    width: 100%;
-    nav {
+  .navbar {
+    width: 1200px;
+    height: 60px;
+    margin: 0 auto;
+    .nav-left {
+      float: left;
+      margin-right: 30px;
       .logo {
-        float: left;
-        margin-left: 20px;
-        img {
-          width: 180px;
-          height: 60px;
-        }
+        width: 140px;
+        height: 48px;
+        margin-top: 6px;
       }
-      .nav-list {
+    }
+    .nav-center {
+      display: inline-block;
+      li {
         float: left;
-        margin-left: 60px;
-        li {
-          float: left;
-          a {
-            padding: 0 10px;
-            height: 58px;
-            line-height: 58px;
-            text-align: center;
-            color: #464c5b;
-            display: inline-block;
-          }
-          .router-link-active {
-            color: #387ef6;
-            border-bottom: 2px solid #387ef6;
-          }
-        }
-      }
-      .nav-right {
-        float: right;
-        margin-right: 100px;
-        .cart-btn {
-          margin-right: 20px;
-        }
+        margin: 0 10px;
         a {
-          line-height: 60px;
+          height: 58px;
+          line-height: 58px;
           padding: 0 10px;
           display: inline-block;
         }
-        .login , .logout{
-          display: inline-block;
-          .el-icon-bell {
-            font-size: 20px;
-            line-height: 52px;
-            margin-left: 10px;
-          }
-          .avatar {
+        .router-link-active {
+          color: #387ef6;
+          border-bottom: 2px solid #387ef6;
+        }
+      }
+    }
+    .nav-right {
+      float: right;
+      .cart-btn {
+        float: left;
+        margin-top: 15px;
+        margin-right: 10px;
+      }
+      .badge {
+        margin: -18px 20px 0 20px;
+      }
+      .el-icon-bell {
+        font-size: 20px;
+        margin-top: -2px;
+      }
+      .avatar {
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        padding: 0;
+        border: none;
+        background-color: #fff;
+        img {
+          width: 30px;
+          height: 30px;
+          border-radius: 30px;
+          margin-top: 15px;
+        }
+      }
+      .avatar:hover,
+      .avatar:active,
+      .avatar:visited {
+        background-color: transparent;
+      }
+      .login,
+      .logout {
+        float: left;
+      }
+      .logout {
+        li {
+          float: left;
+          a {
+            line-height: 60px;
+            padding: 0 10px;
             display: inline-block;
-            img {
-              width: 24px;
-              height: 24px;
-              border-radius: 24px;
-              background-color: lawngreen;
-              display: inline-block;
-              margin-bottom: -5px;
-              margin-left: 10px;
-            }
           }
         }
       }
