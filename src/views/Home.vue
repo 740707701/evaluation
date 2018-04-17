@@ -291,19 +291,17 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@import "../assets/css/colors.less";
 .home-page {
-  background-color: rgb(248,250,252);
-  padding-bottom: 10px;
+  height: 100%;
+  background-color: @main-color-bg;
+  padding-bottom: 25px;
   .container {
     width: 1200px;
     margin: 0 auto;
     .category {
       .title {
         line-height: 2;
-      }
-      .el-tabs__nav-wrap::after {
-        height: 1px!important;
-        background-color: #F1F5FB!important;
       }
       .left-list {
         background-color: #fff;
@@ -321,13 +319,13 @@ export default {
               padding-bottom: 10px;
               img {
                 width: 180px;
-                height: auto;
+                height: 110px;
                 border-radius: 10px;
               }
               .info {
                 padding: 0 5px;
                 .gray {
-                  color: #94999e;
+                  color: @main-color-gray;
                   font-size: 12px;
                   line-height: 1.5;
                   display: flex;
@@ -349,11 +347,12 @@ export default {
     .right-list {
       background-color: #fff;
       border-radius: 10px;
+      padding-bottom: 4px;
       .title {
         font-size: 16px;
-        color: #387FF6;
+        color: @main-color-blue;
         line-height: 40px;
-        border-bottom: 1px solid #F1F5FB;
+        border-bottom: 1px solid @main-color-border;
         padding-left: 20px;
         margin-bottom: 15px;
       }
@@ -365,7 +364,7 @@ export default {
           justify-content: space-between;
           .item {
             width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             img {
               float: left;
               width: 50px;
@@ -380,14 +379,14 @@ export default {
               }
               .gray {
                 font-size: 12px;
-                color: #A4A4A6;
+                color: @main-color-gray;
               }
             }
             .price-btn {
               float: right;
               width: 65px;
               font-weight: bold;
-              color: #387CEC;
+              color: @main-color-blue;
               background-color: #F0F1F6;
             }
           }

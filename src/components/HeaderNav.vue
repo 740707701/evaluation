@@ -62,12 +62,13 @@ export default {
   methods: {}
 };
 </script>
-<style lang="less"  scoped>
+<style lang="less" scoped>
+@import '../assets/css/colors.less';
 .header {
   background-color: #fff;
   box-shadow: 8px 0px 20px rgba(163, 185, 235, 0.3);
   a {
-    color: #333;
+    color: @main-color-text;
   }
   .navbar {
     width: 1200px;
@@ -94,8 +95,8 @@ export default {
           display: inline-block;
         }
         .router-link-active {
-          color: #387ef6;
-          border-bottom: 2px solid #387ef6;
+          color: @main-color-blue;
+          border-bottom: 2px solid @main-color-blue;
         }
       }
     }
