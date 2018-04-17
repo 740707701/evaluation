@@ -1,23 +1,38 @@
 <template>
   <div class="detail-page">
-    <p>{{msg}}</p>
+    <headerNav></headerNav>
+    <Banner></Banner>
+    <div class="container">
+      <p>{{msg}}</p>
+    </div>
   </div>
 </template>
 <script>
-  export default {
-    name: 'detail',
-    data() {
-      return {
-        msg: 'this is detail page'
-      }
-    }
+import headerNav from "../components/HeaderNav.vue";
+import Banner from "../components/Banner.vue";
+export default {
+  name: "detail",
+  data() {
+    return {
+      msg: "this is detail page"
+    };
+  },
+  method: {},
+  components: {
+    headerNav,
+    Banner
   }
+};
 </script>
 <style lang="less" scoped>
-  .detail-page {
-    p {
-      color: lightblue
-    }
+@import "../assets/css/colors.less";
+.detail-page {
+  width: 100%;
+  height: 100%;
+  background-color: @main-color-bg;
+  p {
+    color: lightblue;
   }
+}
 </style>
 

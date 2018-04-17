@@ -8,6 +8,8 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import CartDetail from '../views/CartDetail.vue'
 import Detail from '../views/Detail.vue'
+import CourseList from '../views/CourseList.vue'
+import CourseDetail from '../views/CourseDetail.vue'
 
 Vue.use(Router)
 
@@ -18,8 +20,19 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: '/',
+          name: 'courselist',
+          component: CourseList
+        },
+        {
+          path: '/coursedetail/:id',
+          name: 'coursedetail',
+          component: CourseDetail
+        }
+      ]
     },
     {
       path: '/helloworld',
@@ -45,11 +58,7 @@ export default new Router({
       path: '/cartdetail',
       name: 'CartDetail',
       component: CartDetail
-    },
-    {
-      path: '/detail',
-      name: 'Detail',
-      component: Detail
     }
+
   ]
 })

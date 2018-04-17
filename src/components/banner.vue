@@ -1,12 +1,14 @@
 <template>
   <div class="banner">
-    <el-carousel :interval="4000" type="card" height="150px">
-      <el-carousel-item v-for="item in bannerList" :key="item.id">
-        <a :href="item.url">
-          <img class="carousel-img" :src="item.img">
-        </a>
-      </el-carousel-item>
-    </el-carousel>
+    <div class="container">
+      <el-carousel :interval="4000" type="card" height="150px">
+        <el-carousel-item v-for="item in bannerList" :key="item.id">
+          <a :href="item.url">
+            <img class="carousel-img" :src="item.img">
+          </a>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
   </div>
 </template>
 <script>
@@ -52,10 +54,14 @@ export default {
 </script>
 <style lang="less">
 .banner {
-  margin-top: 15px;
-  .carousel-img {
-    width: 500px;
-    height: 150px;
+  margin-top: 12px;
+  .container {
+    width: 1200px;
+    margin: 0 auto;
+    .carousel-img {
+      width: 600px;
+      height: 150px;
+    }
   }
 }
 </style>
