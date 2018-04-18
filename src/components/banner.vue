@@ -1,7 +1,7 @@
 <template>
   <div class="banner">
     <div class="container">
-      <el-carousel :interval="4000" type="card" height="150px">
+      <el-carousel :interval="4000" type="card" height="300px">
         <el-carousel-item v-for="item in bannerList" :key="item.id">
           <a :href="item.url">
             <img class="carousel-img" :src="item.img">
@@ -60,7 +60,8 @@ export default {
     margin: 0 auto;
     .carousel-img {
       width: 600px;
-      height: 150px;
+      height: 300px;
+      border-radius: 15px;
     }
   }
 }

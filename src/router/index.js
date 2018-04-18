@@ -10,6 +10,7 @@ import CartDetail from '../views/CartDetail.vue'
 import Detail from '../views/Detail.vue'
 import CourseList from '../views/CourseList.vue'
 import CourseDetail from '../views/CourseDetail.vue'
+import Evaluation from '../views/Evaluation.vue'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
           component: CourseDetail
         }
       ]
+    },
+    {
+      path: '/evaluation',
+      name: 'evaluation',
+      component: Evaluation
     },
     {
       path: '/helloworld',

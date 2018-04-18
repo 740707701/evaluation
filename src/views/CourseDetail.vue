@@ -16,7 +16,7 @@
           <p class="gray">数量：220题</p>
           <p class="red">价格： ¥9.80</p>
           <div class="btn-box">
-            <el-button size="small" class="buy-btn">立即购买</el-button>
+            <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button>
             <el-button size="small" icon="el-icon-search" class="cart-btn"></el-button>
           </div>
         </div>
@@ -36,6 +36,21 @@
           <el-table-column prop="people">人</el-table-column>
         </el-table>
       </div>
+      <div class="dialog" v-if="showDialog" @click="showDialog=false" >
+        <div class="success-box">
+          <div class="header">
+            <img src="../assets/images/buy_bg.png" alt="">
+          </div>
+          <div class="content">
+            <p class="title">付款成功</p>
+            <p class="gray">序列号：2375869784856869</p>
+            <el-button round size="small" class="evaluation-btn" @click="toValuation()">进入测评</el-button>
+            <div class="home-btn">
+              <router-link to="/">返回首页</router-link>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -44,26 +59,27 @@ export default {
   name: "coursedetail",
   data() {
     return {
+      showDialog: false,
       hotList: [
         {
-          name: "大脑有事测试",
+          name: "大脑优势测试",
           count: 100,
           price: 9.8,
           people: 238
         },
         {
-          name: "大脑有事测试",
+          name: "大脑优势测试",
           count: 100,
           price: 9.8,
           people: 238
         },
         {
-          name: "大脑有事测试",
+          name: "大脑优势测试",
           count: 100,
           price: 9.8,
           people: 238
         },{
-          name: "大脑有事测试",
+          name: "大脑优势测试",
           count: 100,
           price: 9.8,
           people: 238
@@ -71,18 +87,24 @@ export default {
       ]
     };
   },
-  methods: {},
+  methods: {
+    toValuation(){
+      this.$router.push('/evaluation')
+    },
+  },
   components: {}
 };
 </script>
 <style lang="less" scoped>
 @import "../assets/css/colors.less";
 .coursedetail-page {
+  height: 100%;
   .container {
     width: 100%;
     height: 100%;
     background-color: #fff;
     border-radius: 10px;
+    position: relative;
     .back {
       padding-left: 20px;
       line-height: 40px;
@@ -100,7 +122,7 @@ export default {
       img {
         float: left;
         width: 300px;
-        height: 180px;
+        height: 160px;
         border-radius: 10px;
       }
       .info-box {
@@ -109,7 +131,7 @@ export default {
           font-weight: bold;
         }
         p {
-          line-height: 2;
+          line-height: 1.6;
           font-size: 14px;
         }
         .gray {
@@ -119,7 +141,7 @@ export default {
           color: @main-color-red;
         }
         .btn-box {
-          margin-top: 6px;
+          margin-top: 10px;
           .buy-btn,
           .cart-btn {
             height: 30px;
@@ -146,12 +168,65 @@ export default {
           line-height: 30px;
         }
         .intro-text {
-          line-height: 2;
+          line-height: 1.6;
         }
       }
       .hot {
         color: @main-color-blue;
         line-height: 40px;
+      }
+    }
+    .dialog {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.3);
+      border-radius: 10px;
+      z-index: 11;
+      position: absolute;
+      top: 0;
+      left: 0;
+      .success-box {
+        width: 250px;
+        background-color: #fff;
+        border-radius: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -150px;
+        margin-left: -125px;
+        .header {
+          width: 100%;
+          height: 110px;
+          border-radius: 10px 10px 0 0;
+          img {
+            width: 100%;
+            height: auto;
+            margin-top: -1px;
+          }
+        }
+        .content {
+          text-align: center;
+          padding: 20px 10px;
+          .title {
+            font-weight: bold;
+            line-height: 2;
+          }
+          .gray {
+            color: @main-color-gray;
+            line-height: 3;
+          }
+          .evaluation-btn {
+            width: 100px;
+            background-color: @main-color-blue;
+            color: #fff;
+          }
+          .home-btn {
+            a {
+              color: @main-color-gray;
+              line-height: 4;
+            }
+          }
+        }
       }
     }
   }
