@@ -11,6 +11,12 @@ import Detail from '../views/Detail.vue'
 import CourseList from '../views/CourseList.vue'
 import CourseDetail from '../views/CourseDetail.vue'
 import Evaluation from '../views/Evaluation.vue'
+import PersonalCenter from '../views/PersonalCenter/PersonalCenter.vue'
+import Completed from '../views/PersonalCenter/MyEvaluation/Completed.vue'
+import Unfinished from '../views/PersonalCenter/MyEvaluation/Unfinished.vue'
+import Setting from '../views/PersonalCenter/Setting.vue'
+// import Order from '../views/PersonalCenter/Order.vue'
+
 
 Vue.use(Router)
 
@@ -33,6 +39,32 @@ export default new Router({
           name: 'coursedetail',
           component: CourseDetail
         }
+      ]
+    },
+    {
+      path: '/PersonalCenter',
+      component: PersonalCenter,
+      children: [
+        {
+          path: '/',
+          name: 'completed',
+          component: Completed
+        },
+        {
+          path: '/unfinished',
+          name: 'unfinished',
+          component: Unfinished
+        },
+        {
+          path: '/setting',
+          name: 'setting',
+          component: Setting
+        },
+        // {
+        //   path: '/order',
+        //   name: 'order',
+        //   component: Order
+        // },
       ]
     },
     {

@@ -1,7 +1,7 @@
 <template>
   <div class="evaluation-page">
-    <header-nav></header-nav>
-    <div class="banner">
+    <headerNav></headerNav>
+    <div class="banner-bg">
       <img src="../assets/images/bg_01.png" alt="">
     </div>
     <div class="container">
@@ -54,11 +54,12 @@ export default {
   height: 100%;
   background-color: @main-color-bg;
   position: relative;
-  z-index: -1;
-  .banner {
+  z-index: 1;
+  .banner-bg {
     width: 100%;
+    margin-top: 0;
     position: absolute;
-    top: 60px;
+    // top: 50px;
     z-index: -1;
     img {
       width: 100%;
