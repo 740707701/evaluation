@@ -23,10 +23,10 @@
           </router-link>
           <ul class="logout">
             <li>
-              <router-link to="login">登录</router-link>
+              <router-link to="/login">登录</router-link>
             </li>
             <li>
-              <router-link to="register">注册</router-link>
+              <router-link to="/register">注册</router-link>
             </li>
           </ul>
           <div class="login">
@@ -39,10 +39,14 @@
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
-                  <router-link to="personalcenter">我的测评</router-link>
+                  <router-link to="/personalcenter">我的测评</router-link>
                 </el-dropdown-item>
-                <el-dropdown-item>订单中心</el-dropdown-item>
-                <el-dropdown-item>个人设置</el-dropdown-item>
+                <el-dropdown-item>
+                  <router-link to="/order">订单中心</router-link>
+                  </el-dropdown-item>
+                <el-dropdown-item>
+                  <router-link to="/setting">个人设置</router-link>
+                  </el-dropdown-item>
                 <el-dropdown-item>退出账号</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>

@@ -1,20 +1,20 @@
 <template>
-  <div class="unfinished-page">
+  <div class="myresume-page">
     {{msg}}
   </div>
 </template>
 <script>
   export default {
-    name: 'unfinished',
+    name: 'myresume',
     data(){
       return {
-        msg: '未完成测评页面'
+        msg: '我的简历页面'
       }
     }
   }
 </script>
 <style lang="less" scoped>
-.unfinished-page {
+.myresume-page {
   color: hotpink;
 }
 </style>

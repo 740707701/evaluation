@@ -1,21 +1,22 @@
 <template>
-  <div class="order-page">
+  <div class="news-page">
     {{msg}}
   </div>
 </template>
 <script>
 export default {
-  name: "order",
+  name: "news",
   data() {
     return {
-      msg: "订单页面"
+      msg: "消息通知页面"
     };
   }
 };
 </script>
 <style lang="less" scoped>
-.order-page {
+.news-page {
   color: hotpink;
+  height: 100%;
 }
 </style>
 

@@ -12,11 +12,12 @@ import CourseList from '../views/CourseList.vue'
 import CourseDetail from '../views/CourseDetail.vue'
 import Evaluation from '../views/Evaluation.vue'
 import PersonalCenter from '../views/PersonalCenter/PersonalCenter.vue'
-import Completed from '../views/PersonalCenter/MyEvaluation/Completed.vue'
-import Unfinished from '../views/PersonalCenter/MyEvaluation/Unfinished.vue'
+import MyEvaluation from '../views/PersonalCenter/MyEvaluation.vue'
+import MyResume from '../views/PersonalCenter/MyResume.vue'
+import Order from '../views/PersonalCenter/Order.vue'
 import Setting from '../views/PersonalCenter/Setting.vue'
-// import Order from '../views/PersonalCenter/Order.vue'
-
+import Statistics from '../views/PersonalCenter/Statistics.vue'
+import News from '../views/PersonalCenter/News.vue'
 
 Vue.use(Router)
 
@@ -42,29 +43,39 @@ export default new Router({
       ]
     },
     {
-      path: '/PersonalCenter',
+      path: '/personalcenter',
       component: PersonalCenter,
       children: [
         {
           path: '/',
-          name: 'completed',
-          component: Completed
+          name: 'myevaluation',
+          component: MyEvaluation
         },
         {
-          path: '/unfinished',
-          name: 'unfinished',
-          component: Unfinished
+          path: '/myresume',
+          name: 'myresume',
+          component: MyResume
+        },
+        {
+          path: '/news',
+          name: 'news',
+          component: News
+        },
+        {
+          path: '/statistics',
+          name: 'statistics',
+          component: Statistics
         },
         {
           path: '/setting',
           name: 'setting',
           component: Setting
         },
-        // {
-        //   path: '/order',
-        //   name: 'order',
-        //   component: Order
-        // },
+        {
+          path: '/order',
+          name: 'order',
+          component: Order
+        },
       ]
     },
     {
