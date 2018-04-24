@@ -4,7 +4,64 @@
       <el-tab-pane label="我的测评" name="first">
         <div class="completed">
           <p class="tag">时至今日，{{username}}共测评了21份</p>
-          <div>ndjkdfnvdfkbnks</div>
+          <div class="item-list">
+            <div class="date-box">
+              <div class="day">04</div>
+              <div class="year">2018</div>
+            </div>
+            <ul class="item-row">
+              <li>
+                <img src="../../assets/images/demo/05.jpg" alt="">
+                <div class="mask">
+                  <div class="preview">
+                    <div class="circle">
+                      <img src="../../assets/images/demo/06.jpg" alt="">
+                    </div>
+                    <div class="title">点击预览</div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <img src="../../assets/images/demo/05.jpg" alt="">
+              </li>
+              <li>
+                <img src="../../assets/images/demo/05.jpg" alt="">
+                <div class="mask">
+                  <div class="preview">
+                    <div class="circle">
+                      <img src="../../assets/images/demo/06.jpg" alt="">
+                    </div>
+                    <div class="title">点击预览</div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <img src="../../assets/images/demo/05.jpg" alt="">
+                <div class="mask">
+                  <div class="preview">
+                    <div class="circle">
+                      <img src="../../assets/images/demo/06.jpg" alt="">
+                    </div>
+                    <div class="title">点击预览</div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <img src="../../assets/images/demo/05.jpg" alt="">
+                <div class="mask">
+                  <div class="preview">
+                    <div class="circle">
+                      <img src="../../assets/images/demo/06.jpg" alt="">
+                    </div>
+                    <div class="title">点击预览</div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="page-box">
+              <i class="el-icon-arrow-right"></i>
+            </div>
+          </div>
         </div>
       </el-tab-pane>
       <el-tab-pane label="未完成测评" name="second">
@@ -138,6 +195,7 @@ export default {
           img: require("../../assets/images/demo/06.jpg")
         }
       ]
+      
     };
   },
   methods: {
@@ -168,7 +226,100 @@ export default {
   .completed {
     .tag {
       line-height: 30px;
-      padding-left: 20px;
+    }
+    .item-list {
+      width: 100%;
+      height: 140px;
+      border-bottom: 1px solid @main-color-border;
+      .date-box {
+        float: left;
+        width: 110px;
+        height: 120px;
+        text-align: center;
+        background-color: #5E99FF;
+        color: #fff;
+        border-radius: 4px;
+        .day {
+          font-size: 30px;
+          line-height: 30px;
+          padding-top: 25px;
+        }
+        .year {
+          font-size: 14px;
+          line-height: 30px;
+        }
+      }
+      .item-row {
+        width: 830px;
+        // overflow: hidden;
+        display: inline-block;
+        li {
+          float: left;
+          width: 156px;
+          margin-left: 10px;
+          position: relative;
+          img {
+            width: 100%;
+            height: 120px;
+            border-radius: 4px;
+          }
+          .mask {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            .preview {
+              width: 100%;
+              height: 60px;
+              background-color: #fff;
+              box-shadow: 2px 2px 4px #eee; 
+              cursor: pointer;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              .circle {
+                width: 50px;
+                height: 50px;
+                position: absolute;
+                top: -25px;
+                left: 50%;
+                margin-left: -25px;
+              }
+              img {
+                width:50px;
+                height: 50px;
+                border-radius: 50px;
+              }
+              .title {
+                line-height: 30px;
+                padding-top: 25px;
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+      .page-box {
+        float: right;
+        width: 60px;
+        height: 105px;
+        line-height: 105px;
+        text-align: center;
+        border-radius: 4px;
+        border: 1px solid red;
+        margin-top: 7px;
+        i {
+          width: 30px;
+          border-radius: 15px;
+          height: 30px;
+          line-height: 30px;
+          background-color: #eee;
+          opacity: 0.3;
+          text-align: center;
+        }
+      }
     }
   }
   .unfinished {
