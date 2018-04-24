@@ -25,6 +25,7 @@
                   </li>
                   <li>
                     <span class="point" v-if="$route.name==`news`"></span>
+                    <el-badge class="badge" is-dot></el-badge>
                     <router-link to="/news">消息通知</router-link>
                   </li>
                   <li>
@@ -114,21 +115,25 @@ export default {
           li {
             position: relative;
             width: 100%;
-            height: 30px;
+            height: 44px;
             .point {
               width: 8px;
               height: 8px;
               border-radius: 8px;
               background-color: @main-color-blue;
               display: inline-block;
-              line-height: 2;
               margin-right: 6px;
               position: absolute;
-              top: 10px; 
+              top: 15px; 
               left: 0;
             }
+            .badge {
+              position: absolute;
+              top: 8px;
+              left: 72px;
+            }
             a {
-              line-height: 30px;
+              line-height: 40px;
               padding-left: 20px;
               display: inline-block;
               color: @main-color-gray;

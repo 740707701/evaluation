@@ -22,10 +22,7 @@
                 </div>
               </li>
               <li>
-                <img src="../../assets/images/demo/05.jpg" alt="">
-              </li>
-              <li>
-                <img src="../../assets/images/demo/05.jpg" alt="">
+                <img src="../../assets/images/demo/06.jpg" alt="">
                 <div class="mask">
                   <div class="preview">
                     <div class="circle">
@@ -36,7 +33,7 @@
                 </div>
               </li>
               <li>
-                <img src="../../assets/images/demo/05.jpg" alt="">
+                <img src="../../assets/images/demo/04.jpg" alt="">
                 <div class="mask">
                   <div class="preview">
                     <div class="circle">
@@ -47,7 +44,18 @@
                 </div>
               </li>
               <li>
-                <img src="../../assets/images/demo/05.jpg" alt="">
+                <img src="../../assets/images/demo/03.jpg" alt="">
+                <div class="mask">
+                  <div class="preview">
+                    <div class="circle">
+                      <img src="../../assets/images/demo/06.jpg" alt="">
+                    </div>
+                    <div class="title">点击预览</div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <img src="../../assets/images/demo/02.jpg" alt="">
                 <div class="mask">
                   <div class="preview">
                     <div class="circle">
@@ -267,6 +275,7 @@ export default {
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.5);
+            display: none;
             position: absolute;
             top: 0;
             left: 0;
@@ -298,6 +307,11 @@ export default {
                 text-align: center;
               }
             }
+          }
+        }
+        li:hover{
+          .mask {
+            display: inline-block;
           }
         }
       }
