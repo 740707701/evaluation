@@ -1,7 +1,7 @@
 <template>
   <div class="personalcenter-page">
     <headerNav></headerNav>
-    <el-container class="container">
+    <div class="container">
       <div class="personal-info">
         <img class="avatar" src="../../assets/images/demo/04.jpg" alt="">
           <el-container>
@@ -47,11 +47,10 @@
               <div class="main">
                 <router-view></router-view>
               </div>
-
             </el-container>
           </el-container>
       </div>
-    </el-container>
+    </div>
   </div>
 </template>
 <script>
@@ -78,13 +77,14 @@ export default {
 .personalcenter-page {
   height: 100%;
   background-color: @main-color-bg;
+  padding-bottom: 25px;
   .container {
     width: 1200px;
     margin: 0 auto;
     margin-top: 10px;
     .personal-info {
-      width: 100%;
-      height: 100%;
+      // width: 100%;
+      // height: 100%;
       .avatar {
         width: 100px;
         height: 100px;
@@ -143,7 +143,7 @@ export default {
       }
       .main {
         width: 100%;
-        height: 100%;
+        // height: 100%;
         padding: 10px 20px;
         background-color: #fff;
         border-radius: 10px;

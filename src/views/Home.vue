@@ -31,7 +31,6 @@ export default {
 <style lang="less" scoped>
 @import "../assets/css/colors.less";
 .home-page {
-  height: 100%;
   background-color: @main-color-bg;
   padding-bottom: 25px;
   .container {

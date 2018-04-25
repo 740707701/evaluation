@@ -51,8 +51,8 @@ export default {
 <style lang="less" scoped>
 @import '../assets/css/colors.less';
 .evaluation-page {
-  height: 100%;
   background-color: @main-color-bg;
+  padding-bottom: 25px;
   position: relative;
   z-index: 1;
   .banner-bg {
