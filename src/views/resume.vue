@@ -21,39 +21,53 @@
             </div>
             <ul class="tabs">
               <li>
-                <i class="el-icon-service"></i>
-                <span>基本信息</span>
-                <i class="el-icon-check"></i>
+                <a href="#base">
+                  <i class="el-icon-service"></i>
+                  <span>基本信息</span>
+                  <i class="el-icon-check"></i>
+                </a>
               </li>
               <li class="active">
-                <i class="el-icon-service"></i>
-                <span>求职意向</span>
-                <i class="el-icon-check"></i>
+                <a href="#job">
+                  <i class="el-icon-service"></i>
+                  <span>求职意向</span>
+                  <i class="el-icon-check"></i>
+                </a>
               </li>
               <li>
-                <i class="el-icon-service"></i>
-                <span>工作经验</span>
-                <i class="el-icon-check"></i>
+                <a href="#work">
+                  <i class="el-icon-service"></i>
+                  <span>工作经验</span>
+                  <i class="el-icon-check"></i>
+                </a>
               </li>
               <li>
-                <i class="el-icon-service"></i>
-                <span>教育经历</span>
-                <i class="el-icon-check"></i>
+                <a href="#education">
+                  <i class="el-icon-service"></i>
+                  <span>教育经历</span>
+                  <i class="el-icon-check"></i>
+                </a>
               </li>
               <li>
-                <i class="el-icon-service"></i>
-                <span>在校情况</span>
-                <i class="el-icon-check"></i>
+                <a href="#school">
+                  <i class="el-icon-service"></i>
+                  <span>在校情况</span>
+                  <i class="el-icon-check"></i>
+                </a>
               </li>
               <li>
-                <i class="el-icon-service"></i>
-                <span>技能证书</span>
-                <i class="el-icon-check"></i>
+                <a href="#skill">
+                  <i class="el-icon-service"></i>
+                  <span>技能证书</span>
+                  <i class="el-icon-check"></i>
+                </a>
               </li>
               <li>
-                <i class="el-icon-service"></i>
-                <span>自我评价</span>
-                <i class="el-icon-check"></i>
+                <a href="#evaluate">
+                  <i class="el-icon-service"></i>
+                  <span>自我评价</span>
+                  <i class="el-icon-check"></i>
+                </a>
               </li>
             </ul>
             <div class="save">
@@ -63,7 +77,7 @@
           </div>
         </el-col>
         <el-col :span="15">
-          <div class="grid-content info-box">
+          <div id="base" class="grid-content info-box" v-if="showBaseInfo">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
@@ -76,7 +90,7 @@
                 <div class="info-list">
                   <div class="name">
                     <span>小峰峰</span>
-                    <i class="el-icon-edit-outline right-icon"></i>
+                    <i class="el-icon-edit-outline right-icon" @click="editBaseInfo"></i>
                   </div>
                   <div class="status">
                     <span>现居住：上海</span>
@@ -107,12 +121,117 @@
               </div>
             </div>
           </div>
-          <div class="grid-content info-box">
+          <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit">
+            <div class="base-info">
+              <div class="title">
+                <i class="el-icon-bell"></i>
+                <span>基本信息</span>
+              </div>
+              <div class="base-content">
+                <div class="avtar edit-avatar">
+                  <img src="../assets/images/demo/05.jpg" alt="">
+                  <div class="text">修改头像</div>
+                </div>
+                <div class="edit-content baseinfo-content">
+                  <ul class="edit-item-list">
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">姓名：</span>
+                        <el-input v-model="name" placeholder="请输入姓名"></el-input>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">性别：</span>
+                        <el-input v-model="sex" placeholder="请输入内容"></el-input>
+                      </div>
+                    </li>
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">出生日期：</span>
+                         <el-date-picker class="select-box"
+                          v-model="birth"
+                          type="date"
+                          placeholder="选择日期"
+                          format="yyyy-MM-dd">
+                        </el-date-picker>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">手机：</span>
+                        <el-input v-model="phone" placeholder="请输入手机号码"></el-input>
+                      </div>
+                    </li>
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">邮箱：</span>
+                        <el-input v-model="email" placeholder="请输入邮箱"></el-input>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">籍贯：</span>
+                        <el-input v-model="native_place" placeholder="请选择"></el-input>
+                      </div>
+                    </li>
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">工作年份：</span>
+                        <el-input v-model="work_year" placeholder="请选择"></el-input>
+                        
+                      </div>
+                      <div class="input-box">
+                        <span class="name">求职状态：</span>
+                        <el-select v-model="job_status" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in jobStatus"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                    </li>
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">职业类型：</span>
+                        <el-select v-model="career_type" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in careerTpye"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">婚姻状态：</span>
+                        <el-select v-model="marriage_status" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in marriageStatus"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                    </li>
+                    <li class="item">
+                      <div class="input-box text-left">
+                        <span class="name">现居住：</span>
+                        <el-input v-model="address" placeholder="请输入现居住地址"></el-input>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="edit-btn-box">
+                    <div class="edit-btn save-btn" @click="saveBaseInfo">保存</div>
+                    <div class="edit-btn cancel-btn" @click="showBaseInfoEdit=false;showBaseInfo=true">取消</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="job" class="grid-content info-box" v-if="showJobIntension">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
                 <span>求职意向</span>
-                <i class="el-icon-edit-outline right-icon"></i>
+                <i class="el-icon-edit-outline right-icon" @click="editJobIntension"></i>
               </div>
               <ul class="item-list">
                 <li>
@@ -142,20 +261,111 @@
               </ul>
             </div>
           </div>
-          <div class="grid-content info-box">
+          <div class="grid-content info-box edit-border" v-if="showJobIntensionEdit">
+            <div class="base-info">
+              <div class="title">
+                <i class="el-icon-bell"></i>
+                <span>求职意向</span>
+              </div>
+              <div class="base-content">
+                <div class="edit-content">
+                  <ul class="edit-item-list">
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">期望薪资：</span>
+                        <el-select v-model="salary" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in salaryRange"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">工作地点：</span>
+                        <el-select v-model="work_place" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in workplaceList"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                    </li>
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">职能/职位：</span>
+                        <el-select v-model="position" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in positionType"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">行业：</span>
+                        <el-select v-model="industry" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in industryType"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                    </li>
+                     <li class="item">
+                      <div class="input-box">
+                        <span class="name">工作类型：</span>
+                        <el-select v-model="work_type" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in workType"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">到岗时间：</span>
+                        <el-select v-model="arrive" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in arriveRange"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="edit-btn-box">
+                    <div class="edit-btn save-btn" @click="saveJobIntension">保存</div>
+                    <div class="edit-btn cancel-btn" @click="showJobIntensionEdit=false;showJobIntension=true">取消</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="evaluate" class="grid-content info-box">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
                 <span>自我评价</span>
+                <i class="el-icon-edit-outline right-icon"></i>
               </div>
-              <ul class="evaluate">
-                <li>1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，
-                  对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。</li>
-                <li>2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职</li>
-              </ul>
+              <div class="evaluate-box">
+                <div class="evaluate">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职 </div>
+                <!-- <textarea class="evaluate" name="" id="">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职  
+                </textarea> -->
+              </div>
             </div>
           </div>
-          <div class="grid-content info-box">
+          <div id="work" class="grid-content info-box">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
@@ -226,7 +436,7 @@
               </div>
             </div>
           </div>
-          <div class="grid-content info-box">
+          <div id="education" class="grid-content info-box">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
@@ -295,7 +505,7 @@
               </div>
             </div>
           </div>
-          <div class="grid-content info-box">
+          <div id="school" class="grid-content info-box">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
@@ -383,7 +593,7 @@
               </div>
             </div>
           </div>
-          <div class="grid-content info-box">
+          <div id="skill" class="grid-content info-box">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
@@ -413,6 +623,9 @@
                 </li>
               </ul>
             </div>
+          </div>
+          <div class="post-resume">
+            <el-button size="sm" class="resume-btn">提交简历</el-button>
           </div>
         </el-col>
         <el-col :span="6">
@@ -517,11 +730,111 @@ export default {
   name: "resume",
   data() {
     return {
-      showMoreBase: false
+      showMoreBase: false,
+      showBaseInfo: true,
+      showBaseInfoEdit: false,
+      showJobIntension: true,
+      showJobIntensionEdit: false,
+      input: '',
+      career_type: '',
+      name: '',
+      phone: '',
+      email: '',
+      sex: '',
+      birth: '2018-02-01',
+      native_place: '',
+      work_year: '2年',
+      job_status: '',
+      marriage_status: '',
+      address: '',
+      salary: '',
+      work_place: '',
+      position: '',
+      industry: '',
+      work_type: '',
+      arrive: '',
+
+      careerTpye: [
+        {
+          value: '0',
+          label: '全职'
+        }, {
+          value: '1',
+          label: '兼职'
+        }, {
+          value: '2',
+          label: '实习'
+        }
+      ],
+      jobStatus: [
+        {
+          value: '0',
+          label: '离职-随时到岗'
+        },{
+          value: '1',
+          label: '在职-暂不考虑'
+        }, {
+          value: '2',
+          label: '在职-考虑机会'
+        }, {
+          value: '3',
+          label: '在职-月内到岗'
+        }
+      ],
+      marriageStatus: [
+        {
+          value: '0',
+          label: '未婚'
+        }, {
+          value: '1',
+          label: '已婚'
+        }, {
+          value: '2',
+          label: '保密'
+        }
+      ],
+      salaryRange: [],
+      workplaceList: [],
+      positionType: [],
+      industryType:[],
+      workType: [],
+      arriveRange: []
+
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    //编辑基本信息
+    editBaseInfo: function(){
+      this.showBaseInfo = false;
+      this.showBaseInfoEdit = true;
+    },
+    //保存基本信息
+    saveBaseInfo: function(){
+      //保存数据
+      this.showBaseInfoEdit = false;
+      this.showBaseInfo = true;
+    },
+    //编辑求职意向
+    editJobIntension: function(){
+      this.showJobIntension = false;
+      this.showJobIntensionEdit = true;
+    },
+    //保存求职意向
+    saveJobIntension: function(){
+      //保存数据
+      this.showJobIntensionEdit = false;
+      this.showJobIntension = true;
+    },
+    //新增,编辑工作经验
+    editWorkExperienced: function(){},
+    //新增,编辑教育经历
+    editEducation: function(){},
+    //新增,编辑在校情况
+    editSchoolInfo: function(){},
+    //新增,编辑技能证书
+    editSkill: function(){}
+  },
   watch: {},
   components: {
     headerNav
@@ -547,6 +860,9 @@ export default {
     margin: 20px auto;
     .info-box {
       margin-bottom: 10px;
+    }
+    .edit-border {
+      border: 1px solid @main-color-yellow;
     }
     .grid-content {
       border-radius: 8px;
@@ -640,18 +956,24 @@ export default {
           .avtar {
             float: left;
             width: 85px;
-            height: 85px;
             img {
               width: 85px;
               height: 85px;
             }
+            .text {
+              text-align: center;
+              line-height: 26px;
+            }
+          }
+          .edit-avatar {
+            cursor: pointer;
           }
           .info-list {
             margin-left: 105px;
             .name {
               line-height: 28px;
               .right-icon {
-                color: @main-color-yellow;
+                color: @main-color-blue;
               }
             }
             .status {
@@ -706,6 +1028,79 @@ export default {
               right: 25px;
             }
           }
+          .baseinfo-content {
+            margin-left: 105px;
+          }
+          .edit-content {
+            .edit-item-list {
+              width: 100%;
+              display: inline-block;
+              li {
+                display: flex;
+                padding-bottom: 10px;
+                .input-box {
+                  flex: 1 1 auto;
+                  .name {
+                    width: 75px;
+                    text-align: left;
+                    display: inline-block;
+                    color: gray;
+                  }
+                  .el-input {
+                    width: 180px;
+                  }
+                  .el-select .el-input.is-focus .el-input__inner {
+                    border-color: @main-color-yellow;
+                  }
+                  .select-box {
+                    width: 180px;
+                    .el-input {
+                      border: 1px solid red; //?
+                      .el-input__inner {
+                        width: 180px!important;
+                        height: 30px!important;
+                      }
+                    }
+                  }
+                  input {
+                    width: 180px;
+                    height: 30px;
+                    line-height: 30px;
+                    padding-left: 10px;
+                    box-sizing: border-box;
+                  }
+                }
+                .input-box:last-child {
+                  text-align: right;
+                }
+                .text-left {
+                  text-align: left!important;
+                }
+              }
+            }
+            .edit-btn-box {
+              padding: 15px 0;
+              text-align: center;
+              .edit-btn {
+                width: 90px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                cursor: pointer;
+                border-radius: 4px;
+                display: inline-block;
+              }
+              .save-btn {
+                background-color: @main-color-yellow;
+                color: #fff;
+              }
+              .cancel-btn {
+                border: 1px solid @main-color-border;
+                color: @main-color-text;
+                margin-left: 20px;
+              }
+            }
+          }
         }
         .item-list {
           width: 100%;
@@ -737,6 +1132,7 @@ export default {
           color: @main-color-blue;
           i {
             margin-right: 6px;
+            color: @main-color-blue;
           }
         }
         .icon-box {
@@ -810,10 +1206,20 @@ export default {
             box-sizing: border-box;
           }
         }
-        .evaluate {
-          padding: 5px 20px;
-          li {
+        .evaluate-box {
+          width: 100%;
+          display: inline-block;
+          padding: 10px 20px;
+          box-sizing: border-box;
+          .evaluate {
+            width: 100%;
+            min-height: 150px;
+            padding: 5px 20px;
             line-height: 26px;
+            font-family: "微软雅黑";
+            border: 1px solid @main-color-border;
+            border-radius: 4px;
+            box-sizing: border-box;
           }
         }
       }
@@ -850,6 +1256,17 @@ export default {
             padding: 5px 0;
           }
         }
+      }
+    }
+    .post-resume {
+      text-align: right;
+      padding-top: 10px;
+      .resume-btn {
+        border: 1px solid @main-color-blue;
+        color: @main-color-blue;
+        width: 150px;
+        height: 36px;
+        border-radius: 4px;
       }
     }
   }
