@@ -70,14 +70,14 @@
                 </a>
               </li>
             </ul>
-            <div class="save">
+            <div class="save-close">
               <i class="el-icon-service"></i>
               <span>保存关闭</span>
             </div>
           </div>
         </el-col>
         <el-col :span="15">
-          <div id="base" class="grid-content info-box" v-if="showBaseInfo">
+          <div id="base" class="grid-content info-box" v-if="!showBaseInfoEdit">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
@@ -137,11 +137,14 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">姓名：</span>
-                        <el-input v-model="name" placeholder="请输入姓名"></el-input>
+                        <el-input v-model="name" placeholder="请输入姓名" maxlength="10"></el-input>
                       </div>
                       <div class="input-box">
                         <span class="name">性别：</span>
-                        <el-input v-model="sex" placeholder="请输入内容"></el-input>
+                        <div class="el-input sex-box">
+                          <el-radio v-model="sex" label="0">男</el-radio>
+                          <el-radio v-model="sex" label="1">女</el-radio>
+                        </div>
                       </div>
                     </li>
                     <li class="item">
@@ -156,24 +159,36 @@
                       </div>
                       <div class="input-box">
                         <span class="name">手机：</span>
-                        <el-input v-model="phone" placeholder="请输入手机号码"></el-input>
+                        <el-input v-model="phone" placeholder="请输入手机号码" maxlength="11"></el-input>
                       </div>
                     </li>
                     <li class="item">
                       <div class="input-box">
                         <span class="name">邮箱：</span>
-                        <el-input v-model="email" placeholder="请输入邮箱"></el-input>
+                        <el-input v-model="email" placeholder="请输入邮箱" maxlength="20"></el-input>
                       </div>
                       <div class="input-box">
                         <span class="name">籍贯：</span>
-                        <el-input v-model="native_place" placeholder="请选择"></el-input>
+                        <el-select  v-model="native_place" placeholder="请选择" class="select-box">
+                          <el-option 
+                            v-for="item in cities"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                            >
+                          </el-option>
+                        </el-select>
                       </div>
                     </li>
                     <li class="item">
                       <div class="input-box">
                         <span class="name">工作年份：</span>
-                        <el-input v-model="work_year" placeholder="请选择"></el-input>
-                        
+                        <el-date-picker class="select-box"
+                          v-model="work_year"
+                          type="date"
+                          placeholder="选择日期"
+                          format="yyyy">
+                        </el-date-picker>
                       </div>
                       <div class="input-box">
                         <span class="name">求职状态：</span>
@@ -220,13 +235,13 @@
                   </ul>
                   <div class="edit-btn-box">
                     <div class="edit-btn save-btn" @click="saveBaseInfo">保存</div>
-                    <div class="edit-btn cancel-btn" @click="showBaseInfoEdit=false;showBaseInfo=true">取消</div>
+                    <div class="edit-btn cancel-btn" @click="showBaseInfoEdit=false">取消</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div id="job" class="grid-content info-box" v-if="showJobIntension">
+          <div id="job" class="grid-content info-box" v-if="!showJobIntensionEdit">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
@@ -273,7 +288,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">期望薪资：</span>
-                        <el-select v-model="salary" placeholder="请选择" class="select-box">
+                        <el-select v-model="expect_salary" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in salaryRange"
                             :key="item.value"
@@ -284,9 +299,9 @@
                       </div>
                       <div class="input-box">
                         <span class="name">工作地点：</span>
-                        <el-select v-model="work_place" placeholder="请选择" class="select-box">
+                        <el-select v-model="expect_work_place" placeholder="请选择" class="select-box">
                           <el-option
-                            v-for="item in workplaceList"
+                            v-for="item in cities"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value">
@@ -297,7 +312,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">职能/职位：</span>
-                        <el-select v-model="position" placeholder="请选择" class="select-box">
+                        <el-select v-model="expect_position" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in positionType"
                             :key="item.value"
@@ -308,7 +323,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">行业：</span>
-                        <el-select v-model="industry" placeholder="请选择" class="select-box">
+                        <el-select v-model="expect_industry" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in industryType"
                             :key="item.value"
@@ -321,7 +336,7 @@
                      <li class="item">
                       <div class="input-box">
                         <span class="name">工作类型：</span>
-                        <el-select v-model="work_type" placeholder="请选择" class="select-box">
+                        <el-select v-model="expect_work_type" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in workType"
                             :key="item.value"
@@ -345,7 +360,7 @@
                   </ul>
                   <div class="edit-btn-box">
                     <div class="edit-btn save-btn" @click="saveJobIntension">保存</div>
-                    <div class="edit-btn cancel-btn" @click="showJobIntensionEdit=false;showJobIntension=true">取消</div>
+                    <div class="edit-btn cancel-btn" @click="showJobIntensionEdit=false">取消</div>
                   </div>
                 </div>
               </div>
@@ -356,21 +371,27 @@
               <div class="title">
                 <i class="el-icon-bell"></i>
                 <span>自我评价</span>
-                <i class="el-icon-edit-outline right-icon"></i>
+                <i class="el-icon-edit-outline right-icon" v-if="!showEvaluateEdit" @click="editEvaluate"></i>
               </div>
-              <div class="evaluate-box">
-                <div class="evaluate">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职 </div>
-                <!-- <textarea class="evaluate" name="" id="">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职  
-                </textarea> -->
+              <div class="evaluate-box" v-if="!showEvaluateEdit">
+                <div class="evaluate-text">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职 </div>
+              </div>
+              <div class="evaluate-box edit-content" v-if="showEvaluateEdit">
+                <textarea class="textarea edit-border" v-model="evaluate" name="" id="">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职  
+                </textarea>
+                <div class="edit-btn-box">
+                    <div class="edit-btn save-btn" @click="saveEvaluate">保存</div>
+                    <div class="edit-btn cancel-btn" @click="showEvaluateEdit=false">取消</div>
+                  </div>
               </div>
             </div>
           </div>
-          <div id="work" class="grid-content info-box">
+          <div id="work" class="grid-content info-box" v-if="!showWorkExperiencedEdit">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
                 <span>工作经验</span>
-                <div class="add-job">
+                <div class="add-job" @click="showWorkExperiencedEdit=true">
                   <i class="el-icon-bell"></i>新增工作
                 </div>
               </div>
@@ -380,8 +401,8 @@
                   <span>上海扶城金融公司</span>
                   <span>市场销售</span>
                   <span class="icon-box">
-                    <i class="el-icon-edit"></i>
-                    <i class="el-icon-delete"></i>
+                    <i class="el-icon-edit" @click="editWorkExper('0')"></i>
+                    <i class="el-icon-delete" @click="deleteWorkExper('0')"></i>
                   </span>
                 </div>
                 <div class="job-type">
@@ -410,8 +431,8 @@
                   <span>上海扶城金融公司</span>
                   <span>市场销售</span>
                   <span class="icon-box">
-                    <i class="el-icon-edit"></i>
-                    <i class="el-icon-delete"></i>
+                    <i class="el-icon-edit" @click="editWorkExper(1)"></i>
+                    <i class="el-icon-delete" @click="deleteWorkExper(1)"></i>
                   </span>
                 </div>
                 <div class="job-type">
@@ -436,12 +457,129 @@
               </div>
             </div>
           </div>
-          <div id="education" class="grid-content info-box">
+          <div class="grid-content info-box edit-border" v-if="showWorkExperiencedEdit">
+            <div class="base-info">
+              <div class="title">
+                <i class="el-icon-bell"></i>
+                <span>工作经验</span>
+              </div>
+              <div class="base-content">
+                <div class="edit-content">
+                  <ul class="edit-item-list">
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">开始时间：</span>
+                        <el-date-picker class="select-box"
+                          v-model="work_start"
+                          type="date"
+                          placeholder="选择日期"
+                          format="yyyy-MM-dd">
+                        </el-date-picker>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">结束时间：</span>
+                        <el-date-picker class="select-box"
+                          v-model="work_end"
+                          type="date"
+                          placeholder="选择日期"
+                          format="yyyy-MM-dd">
+                        </el-date-picker>
+                      </div>
+                    </li>
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">公司：</span>
+                        <el-input v-model="company_name" placeholder="请输入公司" maxlength="30"></el-input>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">部门：</span>
+                        <el-input v-model="department" placeholder="请输入部门" maxlenth="30"></el-input>
+                      </div>
+                    </li>
+                     <li class="item">
+                      <div class="input-box">
+                        <span class="name">职能：</span>
+                        <el-select v-model="fun" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in funType"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">行业：</span>
+                        <el-select v-model="company_industry" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in industryType"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                    </li>
+                     <li class="item">
+                      <div class="input-box">
+                        <span class="name">职位：</span>
+                        <el-input v-model="work_position" placeholder="所在职位" maxlenth="30"></el-input>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">公司规模：</span>
+                        <el-select v-model="company_size" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in companySize"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                    </li>
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">工作类型：</span>
+                        <el-radio-group v-model="work_type">
+                          <el-radio-button label="全职"></el-radio-button>
+                          <el-radio-button label="兼职"></el-radio-button>
+                        </el-radio-group>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">公司性质：</span>
+                        <el-select v-model="company_nature" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in companyNature"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                    </li>
+                    <li class="item work-desc-item">
+                      <div class="input-box text-left">
+                        <span class="name">工作描述：</span>
+                        <div class="work-desc">
+                          <textarea v-model="work_desc" maxlength="300" class="textarea" name="" id="" placeholder="描述你的职责范围、工作任务以及取得成绩"></textarea>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="edit-btn-box">
+                    <div class="edit-btn save-btn" @click="saveWorkExper">保存</div>
+                    <div class="edit-btn cancel-btn" @click="showWorkExperiencedEdit=false">取消</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="education" class="grid-content info-box" v-if="!showEducationEdit">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
                 <span>教育经历</span>
-                 <div class="add-job">
+                 <div class="add-job" @click="showEducationEdit=true">
                   <i class="el-icon-bell"></i>新增教育
                 </div>
               </div>
@@ -451,8 +589,8 @@
                   <span>上海交通大学</span>
                   <span>视觉传达艺术设计（本科）</span>
                   <span class="icon-box">
-                    <i class="el-icon-edit"></i>
-                    <i class="el-icon-delete"></i>
+                    <i class="el-icon-edit" @click="editEducation('0')"></i>
+                    <i class="el-icon-delete" @click="deleteEducation('0')"></i>
                   </span>
                 </div>
                 <div class="job-desc">
@@ -480,8 +618,8 @@
                   <span>上海交通大学</span>
                   <span>视觉传达艺术设计（本科）</span>
                   <span class="icon-box">
-                    <i class="el-icon-edit"></i>
-                    <i class="el-icon-delete"></i>
+                    <i class="el-icon-edit" @click="editEducation('1')"></i>
+                    <i class="el-icon-delete" @click="deleteEducation('1')"></i>
                   </span>
                 </div>
                 <div class="job-desc">
@@ -505,100 +643,271 @@
               </div>
             </div>
           </div>
-          <div id="school" class="grid-content info-box">
+          <div class="grid-content info-box edit-border" v-if="showEducationEdit">
+            <div class="base-info">
+              <div class="title">
+                <i class="el-icon-bell"></i>
+                <span>教育经历</span>
+              </div>
+              <div class="base-content">
+                <div class="edit-content">
+                  <ul class="edit-item-list">
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">开始时间：</span>
+                        <el-date-picker class="select-box"
+                          v-model="edu_start"
+                          type="date"
+                          placeholder="选择日期"
+                          format="yyyy-MM-dd">
+                        </el-date-picker>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">结束时间：</span>
+                        <el-date-picker class="select-box"
+                          v-model="edu_end"
+                          type="date"
+                          placeholder="选择日期"
+                          format="yyyy-MM-dd">
+                        </el-date-picker>
+                      </div>
+                    </li>
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">学校：</span>
+                        <el-input v-model="school_name" placeholder="请输入学校" maxlength="30"></el-input>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">学历/学位：</span>
+                        <el-select v-model="edu_degree" placeholder="请选择" class="select-box">
+                          <el-option 
+                          v-for="item in degreeType"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                          ></el-option>
+                        </el-select>
+                      </div>
+                    </li>
+                     <li class="item">
+                      <div class="input-box">
+                        <span class="name">专业：</span>
+                        <el-select v-model="edu_major" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in majorType"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">学业性质：</span>
+                        <el-select v-model="edu_nature" placeholder="请选择" class="select-box">
+                          <el-option
+                            v-for="item in eduNatureType"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </div>
+                    </li>
+                    <li class="item work-desc-item">
+                      <div class="input-box text-left">
+                        <span class="name">主修课程：</span>
+                        <div class="work-desc">
+                          <textarea v-model="edu_desc" maxlength="300" class="textarea" name="" id="" placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等"></textarea>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="edit-btn-box">
+                    <div class="edit-btn save-btn" @click="saveEducation">保存</div>
+                    <div class="edit-btn cancel-btn" @click="showEducationEdit=false">取消</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="school" class="grid-content info-box" >
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
                 <span>在校情况</span>
               </div>
-              <div class="honor">
-                <div class="school-type">
-                  <span>校内荣誉</span>
-                  <div class="add-job">
-                    <i class="el-icon-bell"></i>新增荣誉
+              <div class="schoolwork">
+                <div class="honor" v-if="!showSchoolHonorEdit">
+                  <div class="school-type">
+                    <span>校内荣誉</span>
+                    <div class="add-job" @click="showSchoolHonorEdit=true">
+                      <i class="el-icon-bell"></i>新增荣誉
+                    </div>
                   </div>
+                  <ul class="honor-list job-item">
+                    <li class="">
+                      <div class="job-time">
+                        <span class="gray">2013/4</span>
+                        <span>微视频比赛</span>
+                        <span>荣获全省“第二名”</span>
+                        <span class="icon-box">
+                          <i class="el-icon-edit"></i>
+                          <i class="el-icon-delete"></i>
+                        </span>
+                      </div>
+                    </li>
+                    <li class="">
+                      <div class="job-time">
+                        <span class="gray">2013/4</span>
+                        <span>微视频比赛2</span>
+                        <span>荣获全省“第二名”</span>
+                        <span class="icon-box">
+                          <i class="el-icon-edit"></i>
+                          <i class="el-icon-delete"></i>
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
                 </div>
-                <ul class="honor-list job-item">
-                  <li class="">
-                    <div class="job-time">
-                      <span class="gray">2013/4</span>
-                      <span>微视频比赛</span>
-                      <span>荣获全省“第二名”</span>
-                      <span class="icon-box">
-                        <i class="el-icon-edit"></i>
-                        <i class="el-icon-delete"></i>
-                      </span>
+                <div class="post" v-if="!showSchoolWorkEdit">
+                  <div class="school-type">
+                    <span>校内职务</span>
+                    <div class="add-job" @click="showSchoolWorkEdit=true">
+                      <i class="el-icon-bell"></i>新增职务
                     </div>
-                  </li>
-                  <li class="">
-                    <div class="job-time">
-                      <span class="gray">2013/4</span>
-                      <span>微视频比赛2</span>
-                      <span>荣获全省“第二名”</span>
-                      <span class="icon-box">
-                        <i class="el-icon-edit"></i>
-                        <i class="el-icon-delete"></i>
-                      </span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div class="post">
-                <div class="school-type">
-                  <span>校内职务</span>
-                  <div class="add-job">
-                    <i class="el-icon-bell"></i>新增职务
                   </div>
+                  <ul class="post-list ">
+                    <li class="job-item">
+                      <div class="job-time">
+                        <span class="gray">2013/4-2014/6</span>
+                        <span>学生会主席</span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <div class="job-desc">
+                        <div class="desc-text gray">主修课程：</div>
+                        <div class="desc-content">
+                          <ul class="desc-list">
+                            <li>1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，
+                              若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。</li>
+                            <li>2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，
+                              以此判断该求职者是否为同行业或跨行业求职</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="job-item">
+                      <div class="job-time">
+                        <span class="gray">2013/4-2014/6</span>
+                        <span>学生会主席</span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <div class="job-desc">
+                        <div class="desc-text gray">主修课程：</div>
+                        <div class="desc-content">
+                          <ul class="desc-list">
+                            <li>1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，
+                              若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。</li>
+                            <li>2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，
+                              以此判断该求职者是否为同行业或跨行业求职</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                 </div>
-                <ul class="post-list ">
-                  <li class="job-item">
-                    <div class="job-time">
-                      <span class="gray">2013/4-2014/6</span>
-                      <span>学生会主席</span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                    <div class="job-desc">
-                      <div class="desc-text gray">主修课程：</div>
-                      <div class="desc-content">
-                        <ul class="desc-list">
-                          <li>1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，
-                            若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。</li>
-                          <li>2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，
-                            以此判断该求职者是否为同行业或跨行业求职</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="job-item">
-                    <div class="job-time">
-                      <span class="gray">2013/4-2014/6</span>
-                      <span>学生会主席</span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                    <div class="job-desc">
-                      <div class="desc-text gray">主修课程：</div>
-                      <div class="desc-content">
-                        <ul class="desc-list">
-                          <li>1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，
-                            若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。</li>
-                          <li>2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，
-                            以此判断该求职者是否为同行业或跨行业求职</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
-          <div id="skill" class="grid-content info-box">
+          <div class="grid-content info-box edit-border" v-if="showSchoolHonorEdit">
+            <div class="base-info">
+              <div class="title">
+                <i class="el-icon-bell"></i>
+                <span>校内荣誉</span>
+              </div>
+              <div class="base-content">
+                <div class="edit-content">
+                  <ul  class="edit-item-list">
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">时间：</span>
+                        <el-date-picker class="select-box"
+                          v-model="honor_time"
+                          type="date"
+                          placeholder="选择日期"
+                          format="yyyy-MM-dd">
+                        </el-date-picker>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">奖项：</span>
+                        <el-input v-model="honor_prize" placeholder="请输入奖项"></el-input>
+                      </div>
+                    </li>
+                    <li class="item">
+                      <div class="input-box text-left">
+                        <span class="name">级别：</span>
+                        <el-input v-model="honor_level" placeholder="请输入级别"></el-input>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="edit-btn-box">
+                    <div class="edit-btn save-btn" @click="saveSchoolHonor">保存</div>
+                    <div class="edit-btn cancel-btn" @click="showSchoolHonorEdit=false">取消</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="grid-content info-box edit-border" v-if="showSchoolWorkEdit">
+            <div class="base-info">
+              <div class="title">
+                <i class="el-icon-bell"></i>
+                <span>校内职务</span>
+              </div>
+              <div class="base-content">
+                <div class="edit-content">
+                  <ul  class="edit-item-list">
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">时间：</span>
+                        <el-date-picker class="select-box"
+                          v-model="school_work_time"
+                          type="date"
+                          placeholder="选择日期"
+                          format="yyyy-MM-dd">
+                        </el-date-picker>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">职务：</span>
+                        <el-input v-model="school_work_name" placeholder="请输入职务"></el-input>
+                      </div>
+                    </li>
+                    <li class="item work-desc-item">
+                      <div class="input-box text-left">
+                        <span class="name">职务描述：</span>
+                        <div class="work-desc">
+                          <textarea v-model="school_work_desc" maxlength="300" class="textarea" name="" id="" placeholder="描述你的职责范围、工作任务以及取得成绩"></textarea>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="edit-btn-box">
+                    <div class="edit-btn save-btn" @click="saveSchoolWork">保存</div>
+                    <div class="edit-btn cancel-btn" @click="showSchoolWorkEdit=false">取消</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="skill" class="grid-content info-box" v-if="!showSkillEdit">
             <div class="base-info">
               <div class="title">
                 <i class="el-icon-bell"></i>
                 <span>技能证书</span>
-                <div class="add-job">
+                <div class="add-job" @click="showSkillEdit=true">
                   <i class="el-icon-bell"></i>新增证书
                 </div>
               </div>
@@ -622,6 +931,46 @@
                   </span>
                 </li>
               </ul>
+            </div>
+          </div>
+          <div class="grid-content info-box edit-border" v-if="showSkillEdit">
+            <div class="base-info">
+              <div class="title">
+                <i class="el-icon-bell"></i>
+                <span>技能证书</span>
+              </div>
+              <div class="base-content">
+                <div class="edit-content">
+                  <ul  class="edit-item-list">
+                    <li class="item">
+                      <div class="input-box">
+                        <span class="name">时间：</span>
+                        <el-date-picker class="select-box"
+                          v-model="skill_time"
+                          type="date"
+                          placeholder="选择日期"
+                          format="yyyy-MM-dd">
+                        </el-date-picker>
+                      </div>
+                      <div class="input-box">
+                        <span class="name">证书名称：</span>
+                        <el-input v-model="skill_name" placeholder="请输入证书名称" maxlength="30"></el-input>
+                      </div>
+                    </li>
+                    <li class="item work-desc-item">
+                      <div class="input-box text-left">
+                        <span class="name">成绩：</span>
+                        <el-input v-model="skill_score" placeholder="请输入成绩" maxlength="30" ></el-input>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="edit-btn-box">
+                    <div class="edit-btn save-btn" @click="saveSkill(id)">保存</div>
+                    <div class="edit-btn cancel-btn" @click="showSkillEdit=false">取消</div>
+                  </div>
+
+                </div>
+              </div>
             </div>
           </div>
           <div class="post-resume">
@@ -722,6 +1071,18 @@
         </el-col>
       </el-row>
     </div>
+    <!-- dialog 删除弹框 -->
+    <el-dialog
+    title="提示"
+    :visible.sync="dialogVisible"
+    width="30%"
+    :before-close="handleClose">
+    <span>{{dialogMessage}}</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    </span>
+  </el-dialog>
   </div>
 </template>
 <script>
@@ -731,109 +1092,210 @@ export default {
   data() {
     return {
       showMoreBase: false,
-      showBaseInfo: true,
       showBaseInfoEdit: false,
-      showJobIntension: true,
       showJobIntensionEdit: false,
-      input: '',
-      career_type: '',
-      name: '',
-      phone: '',
-      email: '',
-      sex: '',
-      birth: '2018-02-01',
-      native_place: '',
-      work_year: '2年',
-      job_status: '',
-      marriage_status: '',
-      address: '',
-      salary: '',
-      work_place: '',
-      position: '',
-      industry: '',
-      work_type: '',
-      arrive: '',
+      showEvaluateEdit: false,
+      showWorkExperiencedEdit: false,
+      showEducationEdit: false,
+      showSchoolHonorEdit: false,
+      showSchoolWorkEdit: false,
+      showSkillEdit: false,
+
+      dialogVisible: false,
+      dialogMessage: "",
+      cities: [],
+      //基本信息
+      career_type: "",
+      name: "",
+      phone: "",
+      email: "",
+      sex: "",
+      birth: "2018-02-01",
+      native_place: "",
+      work_year: "2013", //工作年份
+      job_status: "", //求职状态
+      marriage_status: "", //婚姻状态
+      address: "", //现居住
+      //自我评价
+      evaluate: '',
+      //求职意向
+      expect_salary: "", //期望薪资
+      expect_work_place: "", //工作地点
+      expect_position: "", //职位
+      expect_industry: "", //期望行业
+      expect_work_type: "", //期望工作类型
+      arrive: "", //到岗时间
+      //工作经验
+      work_start: '', //开始时间
+      work_end: '', //结束时间
+      company_name: '', //公司名称
+      department: '', //部门
+      fun: '', //职能
+      company_industry: '', //公司行业
+      work_position: '', //职位
+      company_size: '', //公司规模
+      work_type: '', //工作类型
+      company_nature: '',// 公司性质
+      work_desc: '', //工作描述
+      //教育经历
+      edu_start: '',
+      edu_end: '',
+      school_name: '', 
+      edu_degree: '', //学历/学位
+      edu_major: '', //专业
+      edu_nature: '', //学业性质
+      edu_desc: '', //专业描述
+      //在校情况
+      //荣誉
+      honor_time: '', //荣誉时间
+      honor_prize: '',  //荣誉奖项
+      honor_level: '', //荣誉级别
+      //职务
+      school_work_time: '',
+      school_work_name: '',
+      school_work_desc: '', 
+      //技能证书
+      skill_time: '',
+      skill_name: '',
+      skill_score: '',
+
 
       careerTpye: [
         {
-          value: '0',
-          label: '全职'
-        }, {
-          value: '1',
-          label: '兼职'
-        }, {
-          value: '2',
-          label: '实习'
+          value: "0",
+          label: "全职"
+        },
+        {
+          value: "1",
+          label: "兼职"
+        },
+        {
+          value: "2",
+          label: "实习"
         }
       ],
       jobStatus: [
         {
-          value: '0',
-          label: '离职-随时到岗'
-        },{
-          value: '1',
-          label: '在职-暂不考虑'
-        }, {
-          value: '2',
-          label: '在职-考虑机会'
-        }, {
-          value: '3',
-          label: '在职-月内到岗'
+          value: "0",
+          label: "离职-随时到岗"
+        },
+        {
+          value: "1",
+          label: "在职-暂不考虑"
+        },
+        {
+          value: "2",
+          label: "在职-考虑机会"
+        },
+        {
+          value: "3",
+          label: "在职-月内到岗"
         }
       ],
       marriageStatus: [
         {
-          value: '0',
-          label: '未婚'
-        }, {
-          value: '1',
-          label: '已婚'
-        }, {
-          value: '2',
-          label: '保密'
+          value: "0",
+          label: "未婚"
+        },
+        {
+          value: "1",
+          label: "已婚"
+        },
+        {
+          value: "2",
+          label: "保密"
         }
       ],
       salaryRange: [],
       workplaceList: [],
       positionType: [],
-      industryType:[],
+      industryType: [],
       workType: [],
-      arriveRange: []
-
+      arriveRange: [],
+      companySize: [],
+      funType: [],
+      companyNature: [], 
+      majorType: [], //专业
+      eduNatureType: [], //专业性质
+      degreeType: [] //学历/学位
     };
   },
   computed: {},
   methods: {
     //编辑基本信息
-    editBaseInfo: function(){
-      this.showBaseInfo = false;
+    editBaseInfo: function() {
       this.showBaseInfoEdit = true;
     },
     //保存基本信息
-    saveBaseInfo: function(){
-      //保存数据
+    saveBaseInfo: function() {
+      //保存数据....
       this.showBaseInfoEdit = false;
-      this.showBaseInfo = true;
     },
     //编辑求职意向
-    editJobIntension: function(){
-      this.showJobIntension = false;
+    editJobIntension: function() {
       this.showJobIntensionEdit = true;
     },
     //保存求职意向
-    saveJobIntension: function(){
-      //保存数据
+    saveJobIntension: function() {
+      //保存数据....
       this.showJobIntensionEdit = false;
-      this.showJobIntension = true;
+    },
+    //编辑自我评价
+    editEvaluate: function() {
+      this.showEvaluateEdit = true;
+    },
+    //保存自我评价
+    saveEvaluate: function() {
+      //保存数据....
+      this.showEvaluateEdit = false;
     },
     //新增,编辑工作经验
-    editWorkExperienced: function(){},
+    editWorkExper: function(id) {
+      if (id) {
+        //编辑
+        this.showWorkExperiencedEdit = true;
+      } else {
+        //新增
+      }
+    },
+    //删除某一条工作经验
+    deleteWorkExper: function(id) {},
+    //保存工作经验
+    saveWorkExper: function() {
+      //保存数据....
+      this.showWorkExperiencedEdit = false;
+    },
     //新增,编辑教育经历
-    editEducation: function(){},
+    editEducation: function(id) {
+      if(id){
+        //编辑
+        this.showEducationEdit = true;
+      }else{
+        //新增
+      }
+    },
+    //保存教育经历
+    saveEducation: function(){
+      //保存数据...
+      this.showEducationEdit = false;
+    },
+    //删除教育经历
+    deleteEducation: function(id){},
     //新增,编辑在校情况
-    editSchoolInfo: function(){},
+    saveSchoolHonor: function(){},
+    saveSchoolWork: function(){},
     //新增,编辑技能证书
-    editSkill: function(){}
+    editSkill: function() {},
+    saveSkill: function(){},
+
+
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(data => {
+          done();
+        })
+        .catch(err => {});
+    }
   },
   watch: {},
   components: {
@@ -854,6 +1316,21 @@ export default {
   }
   .gray {
     color: @main-color-gray;
+  }
+  .textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: 1px solid @main-color-border;
+    box-sizing: border-box;
+    color: @main-color-text;
+    font-family: "微软雅黑";
+  }
+  .textarea:-moz-placeholder,
+  .textarea::-webkit-input-placeholder {
+    // color: @main-color-gray;
+    color: red;
   }
   .container {
     width: 1200px;
@@ -924,11 +1401,33 @@ export default {
           color: @main-color-blue;
         }
       }
-      .save {
+      .save-close {
         line-height: 30px;
         padding: 10px;
         span {
           margin: 0 10px;
+        }
+      }
+      .edit-btn-box {
+        padding: 15px 0;
+        text-align: center;
+        .edit-btn {
+          width: 90px;
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          display: inline-block;
+        }
+        .save-btn {
+          background-color: @main-color-yellow;
+          color: #fff;
+        }
+        .cancel-btn {
+          border: 1px solid @main-color-border;
+          color: @main-color-text;
+          margin-left: 20px;
         }
       }
       .base-info {
@@ -1046,6 +1545,9 @@ export default {
                     display: inline-block;
                     color: gray;
                   }
+                  .sex-box {
+                    text-align: left;
+                  }
                   .el-input {
                     width: 180px;
                   }
@@ -1057,8 +1559,8 @@ export default {
                     .el-input {
                       border: 1px solid red; //?
                       .el-input__inner {
-                        width: 180px!important;
-                        height: 30px!important;
+                        width: 180px !important;
+                        height: 30px !important;
                       }
                     }
                   }
@@ -1074,30 +1576,15 @@ export default {
                   text-align: right;
                 }
                 .text-left {
-                  text-align: left!important;
+                  text-align: left !important;
+                }
+                .work-desc {
+                  margin-left: 80px;
+                  margin-top: -20px;
                 }
               }
-            }
-            .edit-btn-box {
-              padding: 15px 0;
-              text-align: center;
-              .edit-btn {
-                width: 90px;
-                height: 40px;
-                line-height: 40px;
-                text-align: center;
-                cursor: pointer;
-                border-radius: 4px;
-                display: inline-block;
-              }
-              .save-btn {
-                background-color: @main-color-yellow;
-                color: #fff;
-              }
-              .cancel-btn {
-                border: 1px solid @main-color-border;
-                color: @main-color-text;
-                margin-left: 20px;
+              .work-desc-item {
+                margin-top: 10px;
               }
             }
           }
@@ -1130,6 +1617,7 @@ export default {
         .add-job {
           float: right;
           color: @main-color-blue;
+          cursor: pointer;
           i {
             margin-right: 6px;
             color: @main-color-blue;
@@ -1191,7 +1679,7 @@ export default {
             }
           }
         }
-        .honor {
+        .schoolwork {
           padding-top: 10px;
         }
         .honor,
@@ -1211,14 +1699,11 @@ export default {
           display: inline-block;
           padding: 10px 20px;
           box-sizing: border-box;
-          .evaluate {
+          .evaluate-text {
             width: 100%;
             min-height: 150px;
             padding: 5px 20px;
             line-height: 26px;
-            font-family: "微软雅黑";
-            border: 1px solid @main-color-border;
-            border-radius: 4px;
             box-sizing: border-box;
           }
         }
