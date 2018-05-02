@@ -12,6 +12,12 @@
           <li>
             <router-link to="resume">简历</router-link>
           </li>
+          <li>
+            <router-link to="/careerplan">大学职业规划</router-link>
+          </li>
+          <li>
+            <router-link to="/industryintro">行业与岗位介绍</router-link>
+          </li>
         </ul>
         <div class="nav-right">
           <router-link to="cartDetail"> 
@@ -93,7 +99,7 @@ export default {
       display: inline-block;
       li {
         float: left;
-        margin: 0 10px;
+        margin: 0 20px;
         a {
           height: 58px;
           line-height: 58px;

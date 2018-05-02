@@ -20,7 +20,7 @@
               </div>
             </div>
             <ul class="tabs">
-              <li>
+              <li class="current-tab">
                 <a href="#base">
                   <i class="el-icon-service"></i>
                   <span>基本信息</span>
@@ -137,7 +137,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">姓名：</span>
-                        <el-input v-model="name" placeholder="请输入姓名" maxlength="10"></el-input>
+                        <el-input size="small" v-model="name" placeholder="请输入姓名" maxlength="10"></el-input>
                       </div>
                       <div class="input-box">
                         <span class="name">性别：</span>
@@ -150,7 +150,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">出生日期：</span>
-                         <el-date-picker class="select-box"
+                         <el-date-picker size="small" class="select-box"
                           v-model="birth"
                           type="date"
                           placeholder="选择日期"
@@ -159,17 +159,17 @@
                       </div>
                       <div class="input-box">
                         <span class="name">手机：</span>
-                        <el-input v-model="phone" placeholder="请输入手机号码" maxlength="11"></el-input>
+                        <el-input size="small" v-model="phone" placeholder="请输入手机号码" maxlength="11"></el-input>
                       </div>
                     </li>
                     <li class="item">
                       <div class="input-box">
                         <span class="name">邮箱：</span>
-                        <el-input v-model="email" placeholder="请输入邮箱" maxlength="20"></el-input>
+                        <el-input  size="small" v-model="email" placeholder="请输入邮箱" maxlength="20"></el-input>
                       </div>
                       <div class="input-box">
                         <span class="name">籍贯：</span>
-                        <el-select  v-model="native_place" placeholder="请选择" class="select-box">
+                        <el-select size="small"  v-model="native_place" placeholder="请选择" class="select-box">
                           <el-option 
                             v-for="item in cities"
                             :key="item.value"
@@ -183,7 +183,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">工作年份：</span>
-                        <el-date-picker class="select-box"
+                        <el-date-picker size="small" class="select-box"
                           v-model="work_year"
                           type="date"
                           placeholder="选择日期"
@@ -192,7 +192,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">求职状态：</span>
-                        <el-select v-model="job_status" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="job_status" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in jobStatus"
                             :key="item.value"
@@ -205,7 +205,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">职业类型：</span>
-                        <el-select v-model="career_type" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="career_type" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in careerTpye"
                             :key="item.value"
@@ -216,7 +216,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">婚姻状态：</span>
-                        <el-select v-model="marriage_status" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="marriage_status" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in marriageStatus"
                             :key="item.value"
@@ -229,7 +229,7 @@
                     <li class="item">
                       <div class="input-box text-left">
                         <span class="name">现居住：</span>
-                        <el-input v-model="address" placeholder="请输入现居住地址"></el-input>
+                        <el-input size="small" v-model="address" placeholder="请输入现居住地址"></el-input>
                       </div>
                     </li>
                   </ul>
@@ -248,7 +248,7 @@
                 <span>求职意向</span>
                 <i class="el-icon-edit-outline right-icon" @click="editJobIntension"></i>
               </div>
-              <ul class="item-list">
+              <ul class="item-list" style="display:none">
                 <li>
                   <span class="item">
                     <span class="name">期望工资： </span>3500-5000元/月
@@ -274,6 +274,10 @@
                   </span>
                 </li>
               </ul>
+              <div class="imperfect" v-if="!showJobIntensionEdit||true">
+                <p class="perfect-text">完善求职意向，展现专业能力，让HR更了解你！</p>
+                <el-button size="small" class="perfect-btn" @click="showJobIntensionEdit=true">开始完善</el-button>
+              </div>
             </div>
           </div>
           <div class="grid-content info-box edit-border" v-if="showJobIntensionEdit">
@@ -288,7 +292,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">期望薪资：</span>
-                        <el-select v-model="expect_salary" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="expect_salary" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in salaryRange"
                             :key="item.value"
@@ -299,7 +303,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">工作地点：</span>
-                        <el-select v-model="expect_work_place" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="expect_work_place" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in cities"
                             :key="item.value"
@@ -312,7 +316,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">职能/职位：</span>
-                        <el-select v-model="expect_position" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="expect_position" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in positionType"
                             :key="item.value"
@@ -323,7 +327,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">行业：</span>
-                        <el-select v-model="expect_industry" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="expect_industry" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in industryType"
                             :key="item.value"
@@ -336,7 +340,7 @@
                      <li class="item">
                       <div class="input-box">
                         <span class="name">工作类型：</span>
-                        <el-select v-model="expect_work_type" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="expect_work_type" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in workType"
                             :key="item.value"
@@ -347,7 +351,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">到岗时间：</span>
-                        <el-select v-model="arrive" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="arrive" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in arriveRange"
                             :key="item.value"
@@ -373,7 +377,7 @@
                 <span>自我评价</span>
                 <i class="el-icon-edit-outline right-icon" v-if="!showEvaluateEdit" @click="editEvaluate"></i>
               </div>
-              <div class="evaluate-box" v-if="!showEvaluateEdit">
+              <div class="evaluate-box" v-if="!showEvaluateEdit" style="display:none">
                 <div class="evaluate-text">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职 </div>
               </div>
               <div class="evaluate-box edit-content" v-if="showEvaluateEdit">
@@ -383,6 +387,10 @@
                     <div class="edit-btn save-btn" @click="saveEvaluate">保存</div>
                     <div class="edit-btn cancel-btn" @click="showEvaluateEdit=false">取消</div>
                   </div>
+              </div>
+              <div class="imperfect" v-if="!showEvaluateEdit">
+                <p class="perfect-text">完善自我评价，展现自身优势，让HR更了解你！</p>
+                <el-button size="small" class="perfect-btn" @click="showEvaluateEdit=true">开始完善</el-button>
               </div>
             </div>
           </div>
@@ -395,7 +403,7 @@
                   <i class="el-icon-bell"></i>新增工作
                 </div>
               </div>
-              <div class="job-item item-first">
+              <div class="job-item item-first" style="display:none">
                 <div class="job-time">
                   <span class="gray">2018/3-2018/5</span>
                   <span>上海扶城金融公司</span>
@@ -425,7 +433,7 @@
                   </div>
                 </div>
               </div>
-              <div class="job-item">
+              <div class="job-item" style="display:none">
                 <div class="job-time">
                   <span class="gray">2018/3-2018/5</span>
                   <span>上海扶城金融公司</span>
@@ -455,6 +463,10 @@
                   </div>
                 </div>
               </div>
+              <div class="imperfect" v-if="!showWorkExperiencedEdit||true">
+                <p class="perfect-text">完善工作经验，展现工作内容及能力，让HR更了解你！</p>
+                <el-button size="small" class="perfect-btn" @click="showWorkExperiencedEdit=true">开始完善</el-button>
+              </div>
             </div>
           </div>
           <div class="grid-content info-box edit-border" v-if="showWorkExperiencedEdit">
@@ -469,7 +481,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">开始时间：</span>
-                        <el-date-picker class="select-box"
+                        <el-date-picker size="small" class="select-box"
                           v-model="work_start"
                           type="date"
                           placeholder="选择日期"
@@ -478,7 +490,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">结束时间：</span>
-                        <el-date-picker class="select-box"
+                        <el-date-picker size="small" class="select-box"
                           v-model="work_end"
                           type="date"
                           placeholder="选择日期"
@@ -489,17 +501,17 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">公司：</span>
-                        <el-input v-model="company_name" placeholder="请输入公司" maxlength="30"></el-input>
+                        <el-input size="small" v-model="company_name" placeholder="请输入公司" maxlength="30"></el-input>
                       </div>
                       <div class="input-box">
                         <span class="name">部门：</span>
-                        <el-input v-model="department" placeholder="请输入部门" maxlenth="30"></el-input>
+                        <el-input size="small" v-model="department" placeholder="请输入部门" maxlenth="30"></el-input>
                       </div>
                     </li>
                      <li class="item">
                       <div class="input-box">
                         <span class="name">职能：</span>
-                        <el-select v-model="fun" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="fun" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in funType"
                             :key="item.value"
@@ -510,7 +522,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">行业：</span>
-                        <el-select v-model="company_industry" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="company_industry" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in industryType"
                             :key="item.value"
@@ -523,11 +535,11 @@
                      <li class="item">
                       <div class="input-box">
                         <span class="name">职位：</span>
-                        <el-input v-model="work_position" placeholder="所在职位" maxlenth="30"></el-input>
+                        <el-input size="small" v-model="work_position" placeholder="所在职位" maxlenth="30"></el-input>
                       </div>
                       <div class="input-box">
                         <span class="name">公司规模：</span>
-                        <el-select v-model="company_size" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="company_size" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in companySize"
                             :key="item.value"
@@ -540,14 +552,14 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">工作类型：</span>
-                        <el-radio-group v-model="work_type">
+                        <el-radio-group size="small" v-model="work_type">
                           <el-radio-button label="全职"></el-radio-button>
                           <el-radio-button label="兼职"></el-radio-button>
                         </el-radio-group>
                       </div>
                       <div class="input-box">
                         <span class="name">公司性质：</span>
-                        <el-select v-model="company_nature" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="company_nature" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in companyNature"
                             :key="item.value"
@@ -583,7 +595,7 @@
                   <i class="el-icon-bell"></i>新增教育
                 </div>
               </div>
-              <div class="job-item item-first">
+              <div class="job-item item-first" style="display: none">
                 <div class="job-time">
                   <span class="gray">2012/9-2015/7</span>
                   <span>上海交通大学</span>
@@ -612,7 +624,7 @@
                   </div>
                 </div>
               </div>
-              <div class="job-item">
+              <div class="job-item" style="display: none">
                 <div class="job-time">
                   <span class="gray">2012/9-2015/7</span>
                   <span>上海交通大学</span>
@@ -641,6 +653,10 @@
                   </div>
                 </div>
               </div>
+              <div class="imperfect" v-if="!showEducationEdit||true">
+                <p class="perfect-text">完善教育经历，展现专业能力，让HR更了解你！</p>
+                <el-button size="small" class="perfect-btn" @click="showEducationEdit=true">开始完善</el-button>
+              </div>
             </div>
           </div>
           <div class="grid-content info-box edit-border" v-if="showEducationEdit">
@@ -655,7 +671,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">开始时间：</span>
-                        <el-date-picker class="select-box"
+                        <el-date-picker size="small" class="select-box"
                           v-model="edu_start"
                           type="date"
                           placeholder="选择日期"
@@ -664,7 +680,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">结束时间：</span>
-                        <el-date-picker class="select-box"
+                        <el-date-picker size="small" class="select-box"
                           v-model="edu_end"
                           type="date"
                           placeholder="选择日期"
@@ -675,11 +691,11 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">学校：</span>
-                        <el-input v-model="school_name" placeholder="请输入学校" maxlength="30"></el-input>
+                        <el-input size="small" v-model="school_name" placeholder="请输入学校" maxlength="30"></el-input>
                       </div>
                       <div class="input-box">
                         <span class="name">学历/学位：</span>
-                        <el-select v-model="edu_degree" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="edu_degree" placeholder="请选择" class="select-box">
                           <el-option 
                           v-for="item in degreeType"
                           :key="item.value"
@@ -692,7 +708,7 @@
                      <li class="item">
                       <div class="input-box">
                         <span class="name">专业：</span>
-                        <el-select v-model="edu_major" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="edu_major" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in majorType"
                             :key="item.value"
@@ -703,7 +719,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">学业性质：</span>
-                        <el-select v-model="edu_nature" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="edu_nature" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in eduNatureType"
                             :key="item.value"
@@ -744,7 +760,7 @@
                       <i class="el-icon-bell"></i>新增荣誉
                     </div>
                   </div>
-                  <ul class="honor-list job-item">
+                  <ul class="honor-list job-item" style="display:none">
                     <li class="">
                       <div class="job-time">
                         <span class="gray">2013/4</span>
@@ -768,6 +784,10 @@
                       </div>
                     </li>
                   </ul>
+                  <div class="imperfect" v-if="!showSchoolHonorEdit">
+                    <p class="perfect-text">完善校内荣誉，展现学习能力，让HR更了解你！</p>
+                    <el-button size="small" class="perfect-btn" @click="showSchoolHonorEdit=true">开始完善</el-button>
+                  </div>
                 </div>
                 <div class="post" v-if="!showSchoolWorkEdit">
                   <div class="school-type">
@@ -776,7 +796,7 @@
                       <i class="el-icon-bell"></i>新增职务
                     </div>
                   </div>
-                  <ul class="post-list ">
+                  <ul class="post-list" style="display:none">
                     <li class="job-item">
                       <div class="job-time">
                         <span class="gray">2013/4-2014/6</span>
@@ -816,6 +836,10 @@
                       </div>
                     </li>
                   </ul>
+                  <div class="imperfect" v-if="!showSchoolWorkEdit">
+                    <p class="perfect-text">完善校内职务，展现校园活动经验，让HR更了解你！</p>
+                    <el-button size="small" class="perfect-btn" @click="showSchoolWorkEdit=true">开始完善</el-button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -832,7 +856,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">时间：</span>
-                        <el-date-picker class="select-box"
+                        <el-date-picker size="small" class="select-box"
                           v-model="honor_time"
                           type="date"
                           placeholder="选择日期"
@@ -841,13 +865,13 @@
                       </div>
                       <div class="input-box">
                         <span class="name">奖项：</span>
-                        <el-input v-model="honor_prize" placeholder="请输入奖项"></el-input>
+                        <el-input size="small" v-model="honor_prize" placeholder="请输入奖项"></el-input>
                       </div>
                     </li>
                     <li class="item">
                       <div class="input-box text-left">
                         <span class="name">级别：</span>
-                        <el-input v-model="honor_level" placeholder="请输入级别"></el-input>
+                        <el-input size="small" v-model="honor_level" placeholder="请输入级别"></el-input>
                       </div>
                     </li>
                   </ul>
@@ -872,7 +896,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">时间：</span>
-                        <el-date-picker class="select-box"
+                        <el-date-picker size="small" class="select-box"
                           v-model="school_work_time"
                           type="date"
                           placeholder="选择日期"
@@ -881,7 +905,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">职务：</span>
-                        <el-input v-model="school_work_name" placeholder="请输入职务"></el-input>
+                        <el-input size="small" v-model="school_work_name" placeholder="请输入职务"></el-input>
                       </div>
                     </li>
                     <li class="item work-desc-item">
@@ -911,7 +935,7 @@
                   <i class="el-icon-bell"></i>新增证书
                 </div>
               </div>
-              <ul class="skill">
+              <ul class="skill" style="display: none">
                 <li>
                   <span class="gray">2009/12</span>
                   <span>市场销售精英证</span>
@@ -931,6 +955,10 @@
                   </span>
                 </li>
               </ul>
+              <div class="imperfect" v-if="!showSkillEdit">
+                    <p class="perfect-text">完善所获证书，展现专业技能，让HR更了解你！</p>
+                    <el-button size="small" class="perfect-btn" @click="showSkillEdit=true">开始完善</el-button>
+                  </div>
             </div>
           </div>
           <div class="grid-content info-box edit-border" v-if="showSkillEdit">
@@ -945,7 +973,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">时间：</span>
-                        <el-date-picker class="select-box"
+                        <el-date-picker size="small" class="select-box"
                           v-model="skill_time"
                           type="date"
                           placeholder="选择日期"
@@ -954,13 +982,13 @@
                       </div>
                       <div class="input-box">
                         <span class="name">证书名称：</span>
-                        <el-input v-model="skill_name" placeholder="请输入证书名称" maxlength="30"></el-input>
+                        <el-input size="small" v-model="skill_name" placeholder="请输入证书名称" maxlength="30"></el-input>
                       </div>
                     </li>
                     <li class="item work-desc-item">
                       <div class="input-box text-left">
                         <span class="name">成绩：</span>
-                        <el-input v-model="skill_score" placeholder="请输入成绩" maxlength="30" ></el-input>
+                        <el-input size="small" v-model="skill_score" placeholder="请输入成绩" maxlength="30" ></el-input>
                       </div>
                     </li>
                   </ul>
@@ -974,7 +1002,7 @@
             </div>
           </div>
           <div class="post-resume">
-            <el-button size="sm" class="resume-btn">提交简历</el-button>
+            <el-button size="small" class="resume-btn">提交简历</el-button>
           </div>
         </el-col>
         <el-col :span="6">
@@ -984,7 +1012,15 @@
                 <i class="el-icon-bell"></i>
                 <span>HR视角小提示</span>
               </div>
-              <div class="tag">基本信息</div>
+              <el-select size="small" v-model="tag" placeholder="请选择" class="tag">
+                <el-option
+                  v-for="item in tags"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <!-- <div class="tag">基本信息</div> -->
               <div class="tag-box">
                 <div class="tag-title">姓名</div>
                 <div class="tag-split"></div>
@@ -1104,6 +1140,7 @@ export default {
       dialogVisible: false,
       dialogMessage: "",
       cities: [],
+      tag: '',
       //基本信息
       career_type: "",
       name: "",
@@ -1159,7 +1196,36 @@ export default {
       skill_name: '',
       skill_score: '',
 
-
+      tags: [
+        {
+          value: 0,
+          label: '基本信息'
+        },
+        {
+          value: 1,
+          label: '自我评价'
+        },
+        {
+          value: 2,
+          label: '求职意向'
+        },
+        {
+          value: 3,
+          label: '工作经验'
+        },
+        {
+          value: 4,
+          label: '教育经历'
+        },
+        {
+          value: 5,
+          label: '在校情况'
+        },
+        {
+          value: 6,
+          label: '技能证书'
+        }
+      ],
       careerTpye: [
         {
           value: "0",
@@ -1383,6 +1449,11 @@ export default {
         font-size: 14px;
         box-sizing: border-box;
         border-bottom: 1px solid @main-color-border;
+        .current-tab {
+          a {
+            color: @main-color-blue;
+          }
+        }
         li {
           height: 20px;
           line-height: 20px;
@@ -1412,9 +1483,9 @@ export default {
         padding: 15px 0;
         text-align: center;
         .edit-btn {
-          width: 90px;
-          height: 40px;
-          line-height: 40px;
+          width: 70px;
+          height: 32px;
+          line-height: 32px;
           text-align: center;
           cursor: pointer;
           border-radius: 4px;
@@ -1589,6 +1660,18 @@ export default {
             }
           }
         }
+        .imperfect {
+          padding: 10px 20px;
+          text-align: center;
+          .perfect-text {
+            line-height: 32px;
+            padding-bottom: 20px;
+          }
+          .perfect-btn {
+            background-color: @main-color-graybtn;
+            color: #fff;
+          }
+        }
         .item-list {
           width: 100%;
           display: inline-block;
@@ -1684,6 +1767,9 @@ export default {
         }
         .honor,
         .post {
+          .imperfect {
+            padding-top: 20px;
+          }
           .school-type {
             padding: 0 20px;
             line-height: 30px;
@@ -1712,22 +1798,30 @@ export default {
         padding: 15px;
         .title {
           color: @main-color-blue;
+          padding-bottom: 10px;
           span {
             padding-left: 10px;
           }
         }
+        .tag input {
+          border: 1px solid red;
+        }
         .tag {
-          height: 30px;
-          line-height: 30px;
-          font-size: 14px;
-          border: 1px solid @main-color-border;
-          border-radius: 15px;
-          padding-left: 30px;
-          margin: 10px 0;
+          width: 100%;
+          margin-bottom: 5px;
+          .el-input {
+            input {
+              height: 30px;
+            }
+          }
+         .el-input__inner {
+           border-radius: 20px;
+         }
         }
         .tag-box {
           .tag-title {
             line-height: 26px;
+            font-size: 13px;
           }
           .tag-split {
             width: 30px;
@@ -1749,9 +1843,9 @@ export default {
       .resume-btn {
         border: 1px solid @main-color-blue;
         color: @main-color-blue;
-        width: 150px;
-        height: 36px;
-        border-radius: 4px;
+        // width: 150px;
+        // height: 36px;
+        // border-radius: 4px;
       }
     }
   }

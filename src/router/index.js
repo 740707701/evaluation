@@ -18,6 +18,8 @@ import Order from '../views/PersonalCenter/Order.vue'
 import Setting from '../views/PersonalCenter/Setting.vue'
 import Statistics from '../views/PersonalCenter/Statistics.vue'
 import News from '../views/PersonalCenter/News.vue'
+import CareerPlan from '../views/CareerPlan.vue'
+import IndustryIntro from '../views/IndustryIntro.vue'
 
 Vue.use(Router)
 
@@ -82,6 +84,16 @@ export default new Router({
       path: '/evaluation',
       name: 'evaluation',
       component: Evaluation
+    },
+    {
+      path: '/careerplan',
+      name: 'careerplan',
+      component: CareerPlan
+    },
+    {
+      path: '/industryintro',
+      name: 'industryintro',
+      component: IndustryIntro
     },
     {
       path: '/helloworld',
