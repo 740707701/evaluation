@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 
 import Home from '../views/Home.vue'
 import Resume from '../views/Resume.vue'
@@ -94,11 +93,6 @@ export default new Router({
       path: '/industryintro',
       name: 'industryintro',
       component: IndustryIntro
-    },
-    {
-      path: '/helloworld',
-      name: 'HelloWorld',
-      component: HelloWorld
     },
     {
       path: '/resume',

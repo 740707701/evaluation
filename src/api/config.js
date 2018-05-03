@@ -1,0 +1,3 @@
+let Apiurl = {
+  getlist: '',
+}
