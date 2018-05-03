@@ -10,7 +10,7 @@
             <router-link to="/" exact>测评</router-link>
           </li>
           <li>
-            <router-link to="resume">简历</router-link>
+            <router-link to="/resume">简历</router-link>
           </li>
           <li>
             <router-link to="/careerplan">大学职业规划</router-link>
@@ -77,8 +77,13 @@ export default {
 <style lang="less" scoped>
 @import '../assets/css/colors.less';
 .header {
+  width: 100%;
   background-color: #fff;
   box-shadow: 8px 0px 20px rgba(163, 185, 235, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
   a {
     color: @main-color-text;
   }

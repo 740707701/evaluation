@@ -52,6 +52,7 @@ export default {
 @import '../assets/css/colors.less';
 .evaluation-page {
   background-color: @main-color-bg;
+  padding-top: 60px;
   padding-bottom: 25px;
   position: relative;
   z-index: 1;

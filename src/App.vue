@@ -12,6 +12,7 @@ export default {
 </script>
  
 <style lang="less" >
+@import './assets/css/colors.less';
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -19,5 +20,18 @@ export default {
   color: #333;
   font-size: 14px;
   height: 100%;
+  .page {
+    padding-top: 60px;
+  }
+  //element-ui input边线
+  .el-input__inner {
+    border: 1px solid @main-color-border;
+  }
+  //element-ui input日期框的图标
+  /*8
+  .el-input__prefix {
+    right: 5px; //右侧有关闭按钮
+  }
+  */
 }
 </style>

@@ -26,6 +26,7 @@ export default {
 .careerplan-page {
   height: 100%;
   background-color: @main-color-bg;
+  padding-top: 60px;
   padding-bottom: 25px;
   .container {
     width: 1200px;

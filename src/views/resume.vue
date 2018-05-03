@@ -2,8 +2,8 @@
   <div class="resume-page">
     <headerNav></headerNav>
     <div class="container">
-      <el-row :gutter="10">
-        <el-col :span="3">
+      <el-row :gutter="10" class="el-content">
+        <el-col :span="3" class="left-content">
           <div class="grid-content">
             <div class="name-box">
               <div class="title">小峰峰 <span class="resume-text">(简历)</span></div>
@@ -76,7 +76,7 @@
             </div>
           </div>
         </el-col>
-        <el-col :span="15">
+        <el-col :span="15" class="center-content">
           <div id="base" class="grid-content info-box" v-if="!showBaseInfoEdit">
             <div class="base-info">
               <div class="title">
@@ -1002,10 +1002,10 @@
             </div>
           </div>
           <div class="post-resume">
-            <el-button size="small" class="resume-btn">提交简历</el-button>
+            <el-button size="small" class="resume-btn" @click="postResume">提交简历</el-button>
           </div>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" class="right-content">
           <div class="grid-content">
             <div class="hr-tag">
               <div class="title">
@@ -1107,6 +1107,16 @@
         </el-col>
       </el-row>
     </div>
+    <!-- 提交简历弹框 -->
+    <div class="dialog" v-if="showSuccessDialog" @click.self="showSuccessDialog=false">
+      <div class="post-box">
+        <img src="../assets/images/resume_success.png" alt="" class="post-success">
+        <div class="title">简历提交成功</div>
+        <div class="date">2018-05-03 11:02</div>
+        <el-button size="small" round class="back-btn">返回</el-button>
+    
+      </div>
+    </div>
     <!-- dialog 删除弹框 -->
     <el-dialog
     title="提示"
@@ -1137,10 +1147,11 @@ export default {
       showSchoolWorkEdit: false,
       showSkillEdit: false,
 
+      showSuccessDialog: false,
       dialogVisible: false,
       dialogMessage: "",
       cities: [],
-      tag: '',
+      tag: "",
       //基本信息
       career_type: "",
       name: "",
@@ -1154,7 +1165,7 @@ export default {
       marriage_status: "", //婚姻状态
       address: "", //现居住
       //自我评价
-      evaluate: '',
+      evaluate: "",
       //求职意向
       expect_salary: "", //期望薪资
       expect_work_place: "", //工作地点
@@ -1163,67 +1174,67 @@ export default {
       expect_work_type: "", //期望工作类型
       arrive: "", //到岗时间
       //工作经验
-      work_start: '', //开始时间
-      work_end: '', //结束时间
-      company_name: '', //公司名称
-      department: '', //部门
-      fun: '', //职能
-      company_industry: '', //公司行业
-      work_position: '', //职位
-      company_size: '', //公司规模
-      work_type: '', //工作类型
-      company_nature: '',// 公司性质
-      work_desc: '', //工作描述
+      work_start: "", //开始时间
+      work_end: "", //结束时间
+      company_name: "", //公司名称
+      department: "", //部门
+      fun: "", //职能
+      company_industry: "", //公司行业
+      work_position: "", //职位
+      company_size: "", //公司规模
+      work_type: "", //工作类型
+      company_nature: "", // 公司性质
+      work_desc: "", //工作描述
       //教育经历
-      edu_start: '',
-      edu_end: '',
-      school_name: '', 
-      edu_degree: '', //学历/学位
-      edu_major: '', //专业
-      edu_nature: '', //学业性质
-      edu_desc: '', //专业描述
+      edu_start: "",
+      edu_end: "",
+      school_name: "",
+      edu_degree: "", //学历/学位
+      edu_major: "", //专业
+      edu_nature: "", //学业性质
+      edu_desc: "", //专业描述
       //在校情况
       //荣誉
-      honor_time: '', //荣誉时间
-      honor_prize: '',  //荣誉奖项
-      honor_level: '', //荣誉级别
+      honor_time: "", //荣誉时间
+      honor_prize: "", //荣誉奖项
+      honor_level: "", //荣誉级别
       //职务
-      school_work_time: '',
-      school_work_name: '',
-      school_work_desc: '', 
+      school_work_time: "",
+      school_work_name: "",
+      school_work_desc: "",
       //技能证书
-      skill_time: '',
-      skill_name: '',
-      skill_score: '',
+      skill_time: "",
+      skill_name: "",
+      skill_score: "",
 
       tags: [
         {
           value: 0,
-          label: '基本信息'
+          label: "基本信息"
         },
         {
           value: 1,
-          label: '自我评价'
+          label: "自我评价"
         },
         {
           value: 2,
-          label: '求职意向'
+          label: "求职意向"
         },
         {
           value: 3,
-          label: '工作经验'
+          label: "工作经验"
         },
         {
           value: 4,
-          label: '教育经历'
+          label: "教育经历"
         },
         {
           value: 5,
-          label: '在校情况'
+          label: "在校情况"
         },
         {
           value: 6,
-          label: '技能证书'
+          label: "技能证书"
         }
       ],
       careerTpye: [
@@ -1280,7 +1291,7 @@ export default {
       arriveRange: [],
       companySize: [],
       funType: [],
-      companyNature: [], 
+      companyNature: [],
       majorType: [], //专业
       eduNatureType: [], //专业性质
       degreeType: [] //学历/学位
@@ -1333,27 +1344,31 @@ export default {
     },
     //新增,编辑教育经历
     editEducation: function(id) {
-      if(id){
+      if (id) {
         //编辑
         this.showEducationEdit = true;
-      }else{
+      } else {
         //新增
       }
     },
     //保存教育经历
-    saveEducation: function(){
+    saveEducation: function() {
       //保存数据...
       this.showEducationEdit = false;
     },
     //删除教育经历
-    deleteEducation: function(id){},
+    deleteEducation: function(id) {},
     //新增,编辑在校情况
-    saveSchoolHonor: function(){},
-    saveSchoolWork: function(){},
+    saveSchoolHonor: function() {},
+    saveSchoolWork: function() {},
     //新增,编辑技能证书
     editSkill: function() {},
-    saveSkill: function(){},
+    saveSkill: function() {},
 
+    //提交简历
+    postResume: function() {
+      this.showSuccessDialog = true;
+    },
 
     handleClose(done) {
       this.$confirm("确认关闭？")
@@ -1372,35 +1387,61 @@ export default {
 <style lang="less" scoped>
 @import url("../assets/css/colors.less");
 .resume-page {
+  width: 100%;
   background-color: @main-color-bg;
   padding-bottom: 25px;
-  .right-icon {
-    float: right;
-    padding-top: 7px;
-    color: @main-color-yellow;
-    cursor: pointer;
-  }
-  .gray {
-    color: @main-color-gray;
-  }
-  .textarea {
-    width: 100%;
-    min-height: 150px;
-    padding: 10px 15px;
-    border-radius: 4px;
-    border: 1px solid @main-color-border;
-    box-sizing: border-box;
-    color: @main-color-text;
-    font-family: "微软雅黑";
-  }
-  .textarea:-moz-placeholder,
-  .textarea::-webkit-input-placeholder {
-    // color: @main-color-gray;
-    color: red;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
   .container {
     width: 1200px;
     margin: 20px auto;
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    bottom: 0;
+    margin-left: -600px;
+    .el-content {
+      height: 100%;
+    }
+    .center-content,
+    .right-content {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      overflow-y: auto;
+    }
+    .center-content {
+      left: 12.5%;
+    }
+    .right-content {
+      right: 0;
+    }
+    .right-icon {
+      float: right;
+      padding-top: 7px;
+      color: @main-color-yellow;
+      cursor: pointer;
+    }
+    .gray {
+      color: @main-color-gray;
+    }
+    .textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 10px 15px;
+      border-radius: 4px;
+      border: 1px solid @main-color-border;
+      // box-sizing: border-box;
+      color: @main-color-text;
+      font-family: "微软雅黑";
+    }
+    .textarea:-moz-placeholder,
+    .textarea::-webkit-input-placeholder {
+      // color: @main-color-gray;
+      color: red;
+    }
     .info-box {
       margin-bottom: 10px;
     }
@@ -1447,7 +1488,7 @@ export default {
         width: 100%;
         display: inline-block;
         font-size: 14px;
-        box-sizing: border-box;
+        // box-sizing: border-box;
         border-bottom: 1px solid @main-color-border;
         .current-tab {
           a {
@@ -1522,7 +1563,7 @@ export default {
           width: 100%;
           display: inline-block;
           padding: 5px 20px;
-          box-sizing: border-box;
+          // box-sizing: border-box;
           .avtar {
             float: left;
             width: 85px;
@@ -1533,6 +1574,8 @@ export default {
             .text {
               text-align: center;
               line-height: 26px;
+              cursor: pointer;
+              color: @main-color-blue;
             }
           }
           .edit-avatar {
@@ -1640,7 +1683,7 @@ export default {
                     height: 30px;
                     line-height: 30px;
                     padding-left: 10px;
-                    box-sizing: border-box;
+                    // box-sizing: border-box;
                   }
                 }
                 .input-box:last-child {
@@ -1675,7 +1718,7 @@ export default {
         .item-list {
           width: 100%;
           display: inline-block;
-          box-sizing: border-box;
+          // box-sizing: border-box;
           padding: 0 20px;
           li {
             line-height: 30px;
@@ -1751,7 +1794,7 @@ export default {
           width: 100%;
           display: inline-block;
           padding: 5px 20px;
-          box-sizing: border-box;
+          // box-sizing: border-box;
           li {
             width: 100%;
             display: flex;
@@ -1777,20 +1820,20 @@ export default {
           }
           .honor-list {
             width: 100%;
-            box-sizing: border-box;
+            // box-sizing: border-box;
           }
         }
         .evaluate-box {
           width: 100%;
           display: inline-block;
           padding: 10px 20px;
-          box-sizing: border-box;
+          // box-sizing: border-box;
           .evaluate-text {
             width: 100%;
             min-height: 150px;
             padding: 5px 20px;
             line-height: 26px;
-            box-sizing: border-box;
+            // box-sizing: border-box;
           }
         }
       }
@@ -1814,9 +1857,9 @@ export default {
               height: 30px;
             }
           }
-         .el-input__inner {
-           border-radius: 20px;
-         }
+          .el-input__inner {
+            border-radius: 20px;
+          }
         }
         .tag-box {
           .tag-title {
@@ -1846,6 +1889,49 @@ export default {
         // width: 150px;
         // height: 36px;
         // border-radius: 4px;
+      }
+    }
+  }
+  .dialog {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 11;
+    position: absolute;
+    top: 0;
+    left: 0;
+    .post-box {
+      width: 650px;
+      background-color: #fff;
+      border-radius: 8px;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -200px;
+      margin-left: -325px;
+      padding: 50px 0;
+      .post-success {
+        width: 370x;
+        height: auto;
+        margin: 0 auto;
+      }
+      .title {
+        line-height: 30px;
+        font-weight: 600;
+        padding-top: 10px;
+      }
+      .date {
+        font-size: 12px;
+        color: @main-color-gray;
+        margin-bottom: 20px;
+      }
+      .back-btn {
+        width: 140px;
+        height: 36px;
+        color: #fff;
+        text-align: center;
+        background-color: @main-color-blue;
       }
     }
   }

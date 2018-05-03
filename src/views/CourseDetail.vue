@@ -36,7 +36,7 @@
           <el-table-column prop="people">人</el-table-column>
         </el-table>
       </div>
-      <div class="dialog" v-if="showDialog" @click="showDialog=false" >
+      <div class="dialog" v-if="showDialog" @click.self="showDialog=false" >
         <div class="success-box">
           <div class="header">
             <img src="../assets/images/buy_bg.png" alt="">

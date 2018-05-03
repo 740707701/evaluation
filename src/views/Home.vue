@@ -32,6 +32,7 @@ export default {
 @import "../assets/css/colors.less";
 .home-page {
   background-color: @main-color-bg;
+  padding-top: 60px;
   padding-bottom: 25px;
   .container {
     width: 1200px;
