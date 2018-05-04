@@ -381,7 +381,7 @@
                 <div class="evaluate-text">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职 </div>
               </div>
               <div class="evaluate-box edit-content" v-if="showEvaluateEdit">
-                <textarea class="textarea edit-border" v-model="evaluate" name="" id="">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职  
+                <textarea class="textarea edit-border" v-model="evaluate" placeholder="良好的自我评价，可以展现自身优势，让HR更了解你！">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职  
                 </textarea>
                 <div class="edit-btn-box">
                     <div class="edit-btn save-btn" @click="saveEvaluate">保存</div>
@@ -1429,17 +1429,10 @@ export default {
       color: @main-color-gray;
     }
     .textarea {
-      width: 100%;
       min-height: 150px;
-      padding: 10px 15px;
-      border-radius: 4px;
-      border: 1px solid @main-color-border;
-      // box-sizing: border-box;
-      color: @main-color-text;
-      font-family: "微软雅黑";
     }
-    .textarea:-moz-placeholder,
-    .textarea::-webkit-input-placeholder {
+    textarea:-moz-placeholder,
+    textarea::-webkit-input-placeholder {
       // color: @main-color-gray;
       color: red;
     }
@@ -1447,7 +1440,7 @@ export default {
       margin-bottom: 10px;
     }
     .edit-border {
-      border: 1px solid @main-color-yellow;
+      border: 1px solid @main-color-yellow!important;
     }
     .grid-content {
       border-radius: 8px;

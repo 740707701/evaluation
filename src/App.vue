@@ -12,7 +12,7 @@ export default {
 </script>
  
 <style lang="less" >
-@import './assets/css/colors.less';
+@import "./assets/css/colors.less";
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -22,6 +22,19 @@ export default {
   height: 100%;
   .page {
     padding-top: 60px;
+  }
+  .textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: 1px solid @main-color-border;
+    color: @main-color-text;
+    font-family: "微软雅黑";
+  }
+  textarea:-moz-placeholder,
+  textarea::-webkit-input-placeholder {
+    // color: @main-color-gray;
+    color: red;
   }
   //element-ui input边线
   .el-input__inner {
