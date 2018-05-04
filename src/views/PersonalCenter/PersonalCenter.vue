@@ -75,14 +75,15 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/css/colors.less";
 .personalcenter-page {
-  height: 100%;
+  min-height: 100%;
   background-color: @main-color-bg;
   padding-top: 60px;  
   padding-bottom: 25px;
   .container {
     width: 1200px;
+    height: 100%;
     margin: 0 auto;
-    margin-top: 10px;
+    padding-top: 10px;
     .personal-info {
       // width: 100%;
       // height: 100%;

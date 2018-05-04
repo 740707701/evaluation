@@ -20,49 +20,49 @@
               </div>
             </div>
             <ul class="tabs">
-              <li class="current-tab">
+              <li :class="{'active':tabIndex==0}" @click="tabIndex=0">
                 <a href="#base">
                   <i class="el-icon-service"></i>
                   <span>基本信息</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
-              <li class="active">
+              <li :class="{'active':tabIndex==1}" @click="tabIndex=1">
                 <a href="#job">
                   <i class="el-icon-service"></i>
                   <span>求职意向</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
-              <li>
+              <li :class="{'active':tabIndex==2}" @click="tabIndex=2">
                 <a href="#work">
                   <i class="el-icon-service"></i>
                   <span>工作经验</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
-              <li>
+              <li :class="{'active':tabIndex==3}" @click="tabIndex=3">
                 <a href="#education">
                   <i class="el-icon-service"></i>
                   <span>教育经历</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
-              <li>
+              <li :class="{'active':tabIndex==4}" @click="tabIndex=4">
                 <a href="#school">
                   <i class="el-icon-service"></i>
                   <span>在校情况</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
-              <li>
+              <li :class="{'active':tabIndex==5}" @click="tabIndex=5">
                 <a href="#skill">
                   <i class="el-icon-service"></i>
                   <span>技能证书</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
-              <li>
+              <li :class="{'active':tabIndex==6}" @click="tabIndex=6">
                 <a href="#evaluate">
                   <i class="el-icon-service"></i>
                   <span>自我评价</span>
@@ -1152,6 +1152,7 @@ export default {
       dialogMessage: "",
       cities: [],
       tag: "",
+      tabIndex: 0,
       //基本信息
       career_type: "",
       name: "",
@@ -1488,13 +1489,7 @@ export default {
         width: 100%;
         display: inline-block;
         font-size: 14px;
-        // box-sizing: border-box;
         border-bottom: 1px solid @main-color-border;
-        .current-tab {
-          a {
-            color: @main-color-blue;
-          }
-        }
         li {
           height: 20px;
           line-height: 20px;
@@ -1510,7 +1505,9 @@ export default {
         }
         .active {
           border-left: 3px solid @main-color-blue;
-          color: @main-color-blue;
+          a {
+            color: @main-color-blue;
+          }
         }
       }
       .save-close {
