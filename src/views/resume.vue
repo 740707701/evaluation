@@ -10,11 +10,11 @@
               <div class="time">时间: 2013-05-01</div>
               <div class="operation">
                 <div class="icon-box refresh">
-                  <i class="el-icon-service"></i>
+                  <i class="iconfont icon-refresh"></i>
                   <div class="icon-text">刷新</div>
                 </div>
                 <div class="icon-box preview">
-                  <i class="el-icon-service"></i>
+                  <i class="iconfont icon-yulan"></i>
                   <div class="icon-text">预览</div>
                 </div>
               </div>
@@ -22,65 +22,65 @@
             <ul class="tabs">
               <li :class="{'active':tabIndex==0}" @click="tabIndex=0">
                 <a href="#base">
-                  <i class="el-icon-service"></i>
+                  <i class="iconfont icon-user"></i>
                   <span>基本信息</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==1}" @click="tabIndex=1">
                 <a href="#job">
-                  <i class="el-icon-service"></i>
+                  <i class="iconfont icon-job"></i>
                   <span>求职意向</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==2}" @click="tabIndex=2">
                 <a href="#work">
-                  <i class="el-icon-service"></i>
+                  <i class="iconfont icon-work"></i>
                   <span>工作经验</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==3}" @click="tabIndex=3">
                 <a href="#education">
-                  <i class="el-icon-service"></i>
+                  <i class="iconfont icon-edu"></i>
                   <span>教育经历</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==4}" @click="tabIndex=4">
                 <a href="#school">
-                  <i class="el-icon-service"></i>
+                  <i class="iconfont icon-school"></i>
                   <span>在校情况</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==5}" @click="tabIndex=5">
                 <a href="#skill">
-                  <i class="el-icon-service"></i>
+                  <i class="iconfont icon-skill"></i>
                   <span>技能证书</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==6}" @click="tabIndex=6">
                 <a href="#evaluate">
-                  <i class="el-icon-service"></i>
+                  <i class="iconfont icon-evaluate"></i>
                   <span>自我评价</span>
                   <i class="el-icon-check"></i>
                 </a>
               </li>
             </ul>
-            <div class="save-close">
-              <i class="el-icon-service"></i>
+            <!-- <div class="save-close">
+              <i class="iconfont icon-star"></i>
               <span>保存关闭</span>
-            </div>
+            </div> -->
           </div>
         </el-col>
         <el-col :span="15" class="center-content">
           <div id="base" class="grid-content info-box" v-if="!showBaseInfoEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-user"></i>
                 <span>基本信息</span>
               </div>
               <div class="base-content">
@@ -90,7 +90,7 @@
                 <div class="info-list">
                   <div class="name">
                     <span>小峰峰</span>
-                    <i class="el-icon-edit-outline right-icon" @click="editBaseInfo"></i>
+                    <i class="iconfont icon-edit right-icon" @click="editBaseInfo"></i>
                   </div>
                   <div class="status">
                     <span>现居住：上海</span>
@@ -101,10 +101,10 @@
                   </div>
                   <div class="concat">
                     <span>
-                      <i class="el-icon-bell"></i>123456789@123.com
+                      <i class="iconfont icon-email"></i>123456789@123.com
                     </span>
                     <span>
-                      <i class="el-icon-bell"></i>12343546546899
+                      <i class="iconfont icon-phone"></i>12343546546899
                     </span>
                     <span class="more" @click="showMoreBase=!showMoreBase">
                       {{showMoreBase?'收起':'更多'}}
@@ -124,7 +124,7 @@
           <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-user"></i>
                 <span>基本信息</span>
               </div>
               <div class="base-content">
@@ -244,9 +244,9 @@
           <div id="job" class="grid-content info-box" v-if="!showJobIntensionEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-job"></i>
                 <span>求职意向</span>
-                <i class="el-icon-edit-outline right-icon" @click="editJobIntension"></i>
+                <i class="iconfont icon-edit right-icon" @click="editJobIntension"></i>
               </div>
               <ul class="item-list" style="display:none">
                 <li>
@@ -283,7 +283,7 @@
           <div class="grid-content info-box edit-border" v-if="showJobIntensionEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-job"></i>
                 <span>求职意向</span>
               </div>
               <div class="base-content">
@@ -373,9 +373,9 @@
           <div id="evaluate" class="grid-content info-box">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-evaluate"></i>
                 <span>自我评价</span>
-                <i class="el-icon-edit-outline right-icon" v-if="!showEvaluateEdit" @click="editEvaluate"></i>
+                <i class="iconfont icon-edit right-icon" v-if="!showEvaluateEdit" @click="editEvaluate"></i>
               </div>
               <div class="evaluate-box" v-if="!showEvaluateEdit" style="display:none">
                 <div class="evaluate-text">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职 </div>
@@ -397,10 +397,10 @@
           <div id="work" class="grid-content info-box" v-if="!showWorkExperiencedEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-work"></i>
                 <span>工作经验</span>
                 <div class="add-job" @click="showWorkExperiencedEdit=true">
-                  <i class="el-icon-bell"></i>新增工作
+                  <i class="iconfont icon-add"></i>新增工作
                 </div>
               </div>
               <div class="job-item item-first" style="display:none">
@@ -409,8 +409,8 @@
                   <span>上海扶城金融公司</span>
                   <span>市场销售</span>
                   <span class="icon-box">
-                    <i class="el-icon-edit" @click="editWorkExper('0')"></i>
-                    <i class="el-icon-delete" @click="deleteWorkExper('0')"></i>
+                    <i class="iconfont icon-edit" @click="editWorkExper('0')"></i>
+                    <i class="iconfont icon-delete" @click="deleteWorkExper('0')"></i>
                   </span>
                 </div>
                 <div class="job-type">
@@ -439,8 +439,8 @@
                   <span>上海扶城金融公司</span>
                   <span>市场销售</span>
                   <span class="icon-box">
-                    <i class="el-icon-edit" @click="editWorkExper(1)"></i>
-                    <i class="el-icon-delete" @click="deleteWorkExper(1)"></i>
+                    <i class="iconfont icon-edit" @click="editWorkExper(1)"></i>
+                    <i class="iconfont icon-delete" @click="deleteWorkExper(1)"></i>
                   </span>
                 </div>
                 <div class="job-type">
@@ -472,7 +472,7 @@
           <div class="grid-content info-box edit-border" v-if="showWorkExperiencedEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-work"></i>
                 <span>工作经验</span>
               </div>
               <div class="base-content">
@@ -589,10 +589,10 @@
           <div id="education" class="grid-content info-box" v-if="!showEducationEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-edu"></i>
                 <span>教育经历</span>
                  <div class="add-job" @click="showEducationEdit=true">
-                  <i class="el-icon-bell"></i>新增教育
+                  <i class="iconfont icon-add"></i>新增教育
                 </div>
               </div>
               <div class="job-item item-first" style="display: none">
@@ -601,8 +601,8 @@
                   <span>上海交通大学</span>
                   <span>视觉传达艺术设计（本科）</span>
                   <span class="icon-box">
-                    <i class="el-icon-edit" @click="editEducation('0')"></i>
-                    <i class="el-icon-delete" @click="deleteEducation('0')"></i>
+                    <i class="iconfont icon-edit" @click="editEducation('0')"></i>
+                    <i class="iconfont icon-delete" @click="deleteEducation('0')"></i>
                   </span>
                 </div>
                 <div class="job-desc">
@@ -630,8 +630,8 @@
                   <span>上海交通大学</span>
                   <span>视觉传达艺术设计（本科）</span>
                   <span class="icon-box">
-                    <i class="el-icon-edit" @click="editEducation('1')"></i>
-                    <i class="el-icon-delete" @click="deleteEducation('1')"></i>
+                    <i class="iconfont icon-edit" @click="editEducation('1')"></i>
+                    <i class="iconfont icon-delete" @click="deleteEducation('1')"></i>
                   </span>
                 </div>
                 <div class="job-desc">
@@ -662,7 +662,7 @@
           <div class="grid-content info-box edit-border" v-if="showEducationEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-edu"></i>
                 <span>教育经历</span>
               </div>
               <div class="base-content">
@@ -749,7 +749,7 @@
           <div id="school" class="grid-content info-box" >
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-school"></i>
                 <span>在校情况</span>
               </div>
               <div class="schoolwork">
@@ -757,7 +757,7 @@
                   <div class="school-type">
                     <span>校内荣誉</span>
                     <div class="add-job" @click="showSchoolHonorEdit=true">
-                      <i class="el-icon-bell"></i>新增荣誉
+                      <i class="iconfont icon-add"></i>新增荣誉
                     </div>
                   </div>
                   <ul class="honor-list job-item" style="display:none">
@@ -767,8 +767,8 @@
                         <span>微视频比赛</span>
                         <span>荣获全省“第二名”</span>
                         <span class="icon-box">
-                          <i class="el-icon-edit"></i>
-                          <i class="el-icon-delete"></i>
+                          <i class="iconfont icon-edit"></i>
+                          <i class="iconfont icon-delete"></i>
                         </span>
                       </div>
                     </li>
@@ -778,8 +778,8 @@
                         <span>微视频比赛2</span>
                         <span>荣获全省“第二名”</span>
                         <span class="icon-box">
-                          <i class="el-icon-edit"></i>
-                          <i class="el-icon-delete"></i>
+                          <i class="iconfont icon-edit"></i>
+                          <i class="iconfont icon-delete"></i>
                         </span>
                       </div>
                     </li>
@@ -793,7 +793,7 @@
                   <div class="school-type">
                     <span>校内职务</span>
                     <div class="add-job" @click="showSchoolWorkEdit=true">
-                      <i class="el-icon-bell"></i>新增职务
+                      <i class="iconfont icon-add"></i>新增职务
                     </div>
                   </div>
                   <ul class="post-list" style="display:none">
@@ -847,7 +847,7 @@
           <div class="grid-content info-box edit-border" v-if="showSchoolHonorEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-school"></i>
                 <span>校内荣誉</span>
               </div>
               <div class="base-content">
@@ -887,7 +887,7 @@
           <div class="grid-content info-box edit-border" v-if="showSchoolWorkEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-school"></i>
                 <span>校内职务</span>
               </div>
               <div class="base-content">
@@ -929,10 +929,10 @@
           <div id="skill" class="grid-content info-box" v-if="!showSkillEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-skill"></i>
                 <span>技能证书</span>
                 <div class="add-job" @click="showSkillEdit=true">
-                  <i class="el-icon-bell"></i>新增证书
+                  <i class="iconfont icon-add"></i>新增证书
                 </div>
               </div>
               <ul class="skill" style="display: none">
@@ -941,8 +941,8 @@
                   <span>市场销售精英证</span>
                   <span>合格</span>
                   <span class="icon-box">
-                    <i class="el-icon-edit"></i>
-                    <i class="el-icon-delete"></i>
+                    <i class="iconfont icon-edit"></i>
+                    <i class="iconfont icon-delete"></i>
                   </span>
                 </li>
                 <li>
@@ -950,8 +950,8 @@
                   <span>市场销售高级证书</span>
                   <span>合格</span>
                   <span class="icon-box">
-                    <i class="el-icon-edit"></i>
-                    <i class="el-icon-delete"></i>
+                    <i class="iconfont icon-edit"></i>
+                    <i class="iconfont icon-delete"></i>
                   </span>
                 </li>
               </ul>
@@ -964,7 +964,7 @@
           <div class="grid-content info-box edit-border" v-if="showSkillEdit">
             <div class="base-info">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-skill"></i>
                 <span>技能证书</span>
               </div>
               <div class="base-content">
@@ -1009,7 +1009,7 @@
           <div class="grid-content">
             <div class="hr-tag">
               <div class="title">
-                <i class="el-icon-bell"></i>
+                <i class="iconfont icon-prompt"></i>
                 <span>HR视角小提示</span>
               </div>
               <el-select size="small" v-model="tag" placeholder="请选择" class="tag">
@@ -1421,7 +1421,6 @@ export default {
     }
     .right-icon {
       float: right;
-      padding-top: 7px;
       color: @main-color-yellow;
       cursor: pointer;
     }
@@ -1472,6 +1471,12 @@ export default {
             .icon-text {
               padding-top: 6px;
             }
+            .icon-refresh {
+              color: #6BD7B0;
+            }
+            .icon-yulan {
+              color: @main-color-yellow;
+            }
           }
           .preview {
             padding-left: 20px;
@@ -1482,7 +1487,6 @@ export default {
         width: 100%;
         display: inline-block;
         font-size: 14px;
-        border-bottom: 1px solid @main-color-border;
         li {
           height: 20px;
           line-height: 20px;
@@ -1830,7 +1834,7 @@ export default {
       .hr-tag {
         padding: 15px;
         .title {
-          color: @main-color-blue;
+          color: #82B0FF;
           padding-bottom: 10px;
           span {
             padding-left: 10px;

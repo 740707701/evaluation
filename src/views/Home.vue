@@ -4,7 +4,9 @@
   <Banner></Banner>
   <div class="container">
     <div class="category">
-      <p class="title">测试分类</p>
+      <p class="title">
+        <i class="iconfont icon-star"></i>
+        测试分类</p>
     </div>
 
     <router-view></router-view>
@@ -40,6 +42,10 @@ export default {
     .category {
       .title {
         line-height: 2;
+        i {
+          color: @main-color-blue;
+          margin-right: 10px;
+        }
       }
     }
   }

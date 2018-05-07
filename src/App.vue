@@ -13,6 +13,7 @@ export default {
  
 <style lang="less" >
 @import "./assets/css/colors.less";
+@import "./assets/icon/iconfont.css";
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -39,6 +40,10 @@ export default {
   //element-ui input边线
   .el-input__inner {
     border: 1px solid @main-color-border;
+  }
+  //checkbox label字体大小
+  .el-checkbox__label {
+    font-size: 12px;
   }
   //element-ui input日期框的图标
   /*8
