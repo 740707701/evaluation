@@ -41,6 +41,12 @@ export default {
   .el-input__inner {
     border: 1px solid @main-color-border;
   }
+  .el-tabs__item.is-active,.el-tabs__item:hover {
+    color: @main-color-blue;
+  }
+  .el-tabs__active-bar {
+    background-color: @main-color-blue;
+  }
   //checkbox label字体大小
   .el-checkbox__label {
     font-size: 12px;

@@ -332,7 +332,7 @@ export default {
       border-radius: 10px;
       padding-bottom: 4px;
       .title {
-        font-size: 16px;
+        font-size: 14px;
         color: @main-color-blue;
         line-height: 40px;
         border-bottom: 1px solid @main-color-border;

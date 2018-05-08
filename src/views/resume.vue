@@ -1468,6 +1468,7 @@ export default {
             display: inline-block;
             flex: 1;
             text-align: center;
+            cursor: pointer;
             .icon-text {
               padding-top: 6px;
             }
@@ -1648,7 +1649,7 @@ export default {
                 .input-box {
                   flex: 1 1 auto;
                   .name {
-                    width: 75px;
+                    width: 80px;
                     text-align: left;
                     display: inline-block;
                     color: gray;

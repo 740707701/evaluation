@@ -7,16 +7,16 @@
         </div>
         <ul class="nav-center">
           <li>
-            <router-link to="/" exact>测评</router-link>
+            <router-link to="/" exact>职业测评</router-link>
           </li>
           <li>
-            <router-link to="/resume">简历</router-link>
+            <router-link to="/careerplan">大学规划与管理</router-link>
           </li>
           <li>
-            <router-link to="/careerplan">大学职业规划</router-link>
+            <router-link to="/resume">我的简历</router-link>
           </li>
           <li>
-            <router-link to="/industryintro">行业与岗位介绍</router-link>
+            <router-link to="/industryintro">书籍库</router-link>
           </li>
         </ul>
         <div class="nav-right">
@@ -37,7 +37,9 @@
           </ul>
           <div class="login">
             <el-badge is-dot class="badge">
-              <i class="el-icon-bell"></i>
+              <router-link to="/news">
+                <i class="el-icon-bell"></i>
+              </router-link>
             </el-badge>
             <el-dropdown>
               <el-button class="avatar el-dropdown-link">

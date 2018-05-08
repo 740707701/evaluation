@@ -146,7 +146,7 @@
                 <div class="input-list">
                   <div class="input-box">
                     <div class="name">课程名称</div>
-                    <el-select v-model="value" placeholder="请选择">
+                    <el-select size="small" v-model="value" placeholder="请选择">
                       <el-option
                         v-for="item in options"
                         :key="item.value"

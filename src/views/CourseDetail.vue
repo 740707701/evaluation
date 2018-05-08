@@ -17,7 +17,8 @@
           <p class="red">价格： ¥9.80</p>
           <div class="btn-box">
             <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button>
-            <el-button size="small" icon="el-icon-search" class="cart-btn"></el-button>
+            <i class="iconfont icon-cart"></i>
+            <!-- <el-button size="small" icon="el-icon-search" class="cart-btn"></el-button> -->
           </div>
         </div>
         <div class="intro">
@@ -142,8 +143,8 @@ export default {
         }
         .btn-box {
           margin-top: 10px;
-          .buy-btn,
-          .cart-btn {
+          display: inline-block;
+          .buy-btn {
             height: 30px;
             color: #fff;
             margin: 0;
@@ -151,13 +152,19 @@ export default {
             border: none;
           }
           .buy-btn {
+            float: left;
             background-color: #db3523;
             border-radius: 4px 0 0 4px;
           }
-          .cart-btn {
+          .icon-cart {
+            float: left;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
             background-color: #dc534d;
-            border-radius: 0 4px 4px 0;
-            margin-left: -5px;
+            cursor: pointer;
           }
         }
       }
@@ -175,6 +182,7 @@ export default {
         color: @main-color-blue;
         line-height: 40px;
       }
+      .el-table {}
     }
     .dialog {
       width: 100%;
