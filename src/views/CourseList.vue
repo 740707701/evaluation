@@ -4,63 +4,75 @@
       <el-row :gutter="20">
         <el-col :span="16">
           <div class="left-list">
-            <el-tabs v-model="activeName" class="tabs-box">
+            <el-tabs v-model="activeName" @tab-click="tabsClick" class="tabs-box">
               <el-tab-pane label="专业选择" name="first">
                 <ul class="item">
-                  <li v-for="item in majorChoice" :key="item.id" @click="toDetail(item.id)">
-                    <img :src="item.img" alt="">
+                  <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
+                    <img :src="item.pic?item.pic:require('../assets/images/demo/06.jpg')" alt="">
                     <div class="info">
-                      <p class="title">{{item.name}}</p>
+                      <p class="title">{{item.cepingName}}</p>
                       <div class="gray">
-                        <span>适应：{{item.range}}</span>
-                        <span>难度： {{item.difficulty}}</span>
+                        <span>适应：{{item.peopleScope}}</span>
+                        <span>难度： {{item.cepingLevel}}</span>
                       </div>
                       <div class="price">¥ {{item.price}}</div>
+                    </div>
+                    <div class="desc" :title="item.remark">
+                      {{item.remark}}
                     </div>
                   </li>
                 </ul>
               </el-tab-pane>
               <el-tab-pane label="自我认知" name="second">
                 <ul class="item">
-                  <li v-for="item in selfCognition" :key="item.id" @click="toDetail(item.id)">
-                    <img :src="item.img" alt="">
+                  <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
+                    <img :src="item.pic?item.pic:require('../assets/images/demo/05.jpg')" alt="">
                     <div class="info">
-                      <p class="title">{{item.name}}</p>
+                      <p class="title">{{item.cepingName}}</p>
                       <div class="gray">
-                        <span>适应：{{item.range}}</span>
-                        <span>难度： {{item.difficulty}}</span>
+                        <span>适应：{{item.peopleScope}}</span>
+                        <span>难度： {{item.cepingLevel}}</span>
                       </div>
                       <div class="price">¥ {{item.price}}</div>
+                    </div>
+                    <div class="desc">
+                      {{item.remark}}
                     </div>
                   </li>
                 </ul>
               </el-tab-pane>
               <el-tab-pane label="职业形象与风格" name="third">
                 <ul class="item">
-                  <li v-for="item in occupationStyle" :key="item.id" @click="toDetail(item.id)">
-                    <img :src="item.img" alt="">
+                  <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
+                    <img :src="item.pic?item.pic:require('../assets/images/demo/04.jpg')" alt="">
                     <div class="info">
-                      <p class="title">{{item.name}}</p>
+                      <p class="title">{{item.cepingName}}</p>
                       <div class="gray">
-                        <span>适应：{{item.range}}</span>
-                        <span>难度： {{item.difficulty}}</span>
+                        <span>适应：{{item.peopleScope}}</span>
+                        <span>难度： {{item.cepingLevel}}</span>
                       </div>
                       <div class="price">¥ {{item.price}}</div>
+                    </div>
+                    <div class="desc">
+                      {{item.remark}}
                     </div>
                   </li>
                 </ul>
               </el-tab-pane>
               <el-tab-pane label="岗位分类" name="fourth">
                 <ul class="item">
-                  <li v-for="item in postClassification" :key="item.id" @click="toDetail(item.id)">
-                    <img :src="item.img" alt="">
+                  <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
+                    <img :src="item.pic?item.pic:require('../assets/images/demo/03.jpg')" alt="">
                     <div class="info">
-                      <p class="title">{{item.name}}</p>
+                      <p class="title">{{item.cepingName}}</p>
                       <div class="gray">
-                        <span>适应：{{item.range}}</span>
-                        <span>难度： {{item.difficulty}}</span>
+                        <span>适应：{{item.peopleScope}}</span>
+                        <span>难度： {{item.cepingLevel}}</span>
                       </div>
                       <div class="price">¥ {{item.price}}</div>
+                    </div>
+                    <div class="desc">
+                      {{item.remark}}
                     </div>
                   </li>
                 </ul>
@@ -72,12 +84,12 @@
           <div class="right-list">
             <p class="title">热门课程</p>
             <ul class="item-box">
-              <li v-for="item of majorChoice" :key="item.id" @click="toDetail(item.id)">
+              <li v-for="item of hotList" :key="item.id" @click="toDetail(item.id)">
                   <div class="item">
-                    <img :src="item.img" alt="">
+                    <img :src="item.pic?item.pic:require('../assets/images/demo/03.jpg')" alt="">
                     <div class="item-center">
-                      <p class="item-title">{{item.name}}</p>
-                      <p class="gray">难度：{{item.difficulty}}</p>
+                      <p class="item-title">{{item.cepingName}}</p>
+                      <p class="gray">难度：{{item.cepingLevel}}</p>
                     </div>
                     <el-button round size="small" class="price-btn">¥ {{item.price}}</el-button>
                   </div>
@@ -90,194 +102,260 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   name: "courselist",
   data() {
     return {
-      msg: "this id course list page",
-      activeName: "third",
+      activeName: "first",
+      tabIndex: 0,
+      evaluationList: [],
+      hotList: [],
+    /*
       majorChoice: [
         {
           id: "00",
-          name: "高考专业选择",
-          img: require("../assets/images/demo/01.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "高考专业选择",
+          pic: require("../assets/images/demo/01.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "01",
-          name: "高考专业选择",
-          img: require("../assets/images/demo/01.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "高考专业选择",
+          pic: require("../assets/images/demo/02.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "02",
-          name: "高考专业选择",
-          img: require("../assets/images/demo/01.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "高考专业选择",
+          pic: require("../assets/images/demo/03.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "03",
-          name: "高考专业选择",
-          img: require("../assets/images/demo/01.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "高考专业选择",
+          pic: require("../assets/images/demo/04.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "04",
-          name: "高考专业选择",
-          img: require("../assets/images/demo/01.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "高考专业选择",
+          pic: require("../assets/images/demo/05.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "05",
-          name: "高考专业选择",
-          img: require("../assets/images/demo/01.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "高考专业选择",
+          pic: require("../assets/images/demo/06.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         }
       ],
       selfCognition: [
         {
           id: "10",
-          name: "自我认知",
-          img: require("../assets/images/demo/02.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "自我认知",
+          pic: require("../assets/images/demo/02.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "11",
-          name: "自我认知",
-          img: require("../assets/images/demo/02.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "自我认知",
+          pic: require("../assets/images/demo/02.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "12",
-          name: "自我认知",
-          img: require("../assets/images/demo/02.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "自我认知",
+          pic: require("../assets/images/demo/02.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "13",
-          name: "自我认知",
-          img: require("../assets/images/demo/02.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "自我认知",
+          pic: require("../assets/images/demo/02.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "14",
-          name: "自我认知",
-          img: require("../assets/images/demo/02.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "自我认知",
+          pic: require("../assets/images/demo/02.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         }
       ],
       occupationStyle: [
         {
           id: "20",
-          name: "职业形象与风格",
-          img: require("../assets/images/demo/03.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "职业形象与风格",
+          pic: require("../assets/images/demo/03.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "21",
-          name: "职业形象与风格",
-          img: require("../assets/images/demo/03.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "职业形象与风格",
+          pic: require("../assets/images/demo/03.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "22",
-          name: "职业形象与风格",
-          img: require("../assets/images/demo/03.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "职业形象与风格",
+          pic: require("../assets/images/demo/03.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "23",
-          name: "职业形象与风格",
-          img: require("../assets/images/demo/03.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "职业形象与风格",
+          pic: require("../assets/images/demo/03.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "24",
-          name: "职业形象与风格",
-          img: require("../assets/images/demo/03.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "职业形象与风格",
+          pic: require("../assets/images/demo/03.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         }
       ],
       postClassification: [
         {
           id: "30",
-          name: "岗位分类",
-          img: require("../assets/images/demo/04.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "岗位分类",
+          pic: require("../assets/images/demo/04.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "31",
-          name: "岗位分类",
-          img: require("../assets/images/demo/04.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "岗位分类",
+          pic: require("../assets/images/demo/04.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "32",
-          name: "岗位分类",
-          img: require("../assets/images/demo/04.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "岗位分类",
+          pic: require("../assets/images/demo/04.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "33",
-          name: "岗位分类",
-          img: require("../assets/images/demo/04.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "岗位分类",
+          pic: require("../assets/images/demo/04.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         },
         {
           id: "34",
-          name: "岗位分类",
-          img: require("../assets/images/demo/04.jpg"),
-          difficulty: "高级", // 难度
-          range: "高中生", // 适应范围
-          price: "9.80"
+          cepingName: "岗位分类",
+          pic: require("../assets/images/demo/04.jpg"),
+          cepingLevel: "高级", // 难度
+          peopleScope: "高中生", // 适应范围
+          price: "9.80",
+          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
         }
       ]
+    */
     };
   },
+  computed: {
+    // ...mapState({
+    //   evaluationList: state => state.evalautionList
+    // })
+  },
+  created: function(){
+    this.getEvaluationList(1)
+    this.getHotList ()
+  },
   methods: {
+    getEvaluationList: function(index){
+      this.$store.dispatch('EVALUATION_LIST', {cepingItem: index}).then( res => {
+        this.evaluationList = res.data
+      })
+    },
+    getHotList: function(){
+      this.$store.dispatch('HOT_LIST', {size: 10}).then(res => {
+        this.hotList = res.data
+      })
+    },
     toDetail: function(id) {
-      console.log(id);
+      // console.log(id);
       this.$router.push({ name: `coursedetail`, params: { id: id } });
+    },
+    tabsClick: function(tab, event) {
+      this.tabIndex = Number(tab.index) + Number(1)
+      console.log(this.tabIndex)
+      switch(this.tabIndex) {
+        case 0:
+         this.getEvaluationList(this.tabIndex)
+         break;
+        case 1:
+        this.getEvaluationList(this.tabIndex)
+        break;
+         case 2:
+        this.getEvaluationList(this.tabIndex)
+        break;
+         case 3:
+        this.getEvaluationList(this.tabIndex)
+        break;
+         case 4:
+        this.getEvaluationList(this.tabIndex)
+        break;
+      }
     }
   },
   components: {}
@@ -301,15 +379,16 @@ export default {
           li {
             order: 4;
             padding-bottom: 10px;
+            width: 160px;
             img {
-              width: 180px;
+              width: 100%;
               height: 110px;
               border-radius: 10px;
             }
             .info {
               padding: 0 5px;
               .gray {
-                color: @main-color-gray;
+                color: #a2a9b8;
                 font-size: 12px;
                 line-height: 1.5;
                 display: flex;
@@ -320,8 +399,21 @@ export default {
                 line-height: 1.5;
               }
               .title {
-                font-weight: bold;
+                // font-weight: bold;
               }
+            }
+            .desc {
+              font-size: 12px;
+              line-height: 18px;
+              padding: 0 5px;
+              color: #a2a9b8;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              // white-space: nowrap; //强制不换行
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+
             }
           }
         }

@@ -1133,6 +1133,7 @@
 </template>
 <script>
 import headerNav from "../components/HeaderNav.vue";
+import { mapState } from 'vuex'
 export default {
   name: "resume",
   data() {
@@ -1298,11 +1299,17 @@ export default {
       degreeType: [] //学历/学位
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      resumeInfo: state => state.resumeInfo
+    })
+  },
   methods: {
     //编辑基本信息
     editBaseInfo: function() {
       this.showBaseInfoEdit = true;
+      this.$store.dispatch('RESUME_INFO', {})
+      console.log(this)
     },
     //保存基本信息
     saveBaseInfo: function() {

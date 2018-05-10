@@ -43,6 +43,8 @@ export default {
       msg: "测评页面"
     };
   },
+  computed: {},
+  created: {},
   components: {
     headerNav
   }
