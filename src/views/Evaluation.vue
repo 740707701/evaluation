@@ -9,42 +9,57 @@
         <img src="../assets/images/demo/06.jpg" alt="">
         <div class="intro-top">
           <div class="intro-title">
-            <p class="title">高中生高考选择</p>
+            <p class="title">{{detail.cepingName}}</p>
             <ul class="tab">
-              <li><span class="name">难度：</span><span class="value">高级</span></li>
-              <li><span class="name">时长：</span><span class="value">1小时25分钟</span></li>
-              <li><span class="name">学习人数：</span><span class="value">26578</span></li>
-              <li><span class="name">题目数量：</span><span class="value">225</span></li>
-              <li><span class="name">适应人群：</span><span class="value">高中生</span></li>
+              <li><span class="name">难度：</span><span class="value">{{detail.cepingLevel}}</span></li>
+              <!-- <li><span class="name">时长：</span><span class="value">{{detail.timeLength}}</span></li> -->
+              <li><span class="name">学习人数：</span><span class="value">{{detail.browseCount || 0}}</span></li>
+              <li><span class="name">题目数量：</span><span class="value">{{detail.num || 0}}</span></li>
+              <li><span class="name">适应人群：</span><span class="value">{{detail.peopleScope}}</span></li>
             </ul>
           </div>
           <div class="intro-text">
             <p>简介：</p>
-            <div class="gray">
-              人生路漫漫，要选择一条十分满意的道路，首先必须要了解自己，探索多种可能性，而选择专业可说是职业生涯发展的第一步。
-            面对数百种专业，我们常常会无从选起，本报告力图从多个角度客观解析你的兴趣、性格、价值观，帮助你更充分地了解自己、了解专业。
-            我们希望，通过这份报告，你会发现你平常从未知觉的自我，唤醒你对于自己职业生涯的重视。这个新的自我发现，将会为你的人生选择带来新的契机和启示。
-            </div>
+            <div class="gray">{{detail.remark}}</div>
           </div>
         </div>
       </div>
       <div class="caichu-box">
-        <iframe width="100%" height="500" frameborder="0" scrolling="no" src="http://www.apesk.com/h/f.asp?u=5727234&l=MBTI-STEP-II-112"></iframe>
+        <iframe width="100%" height="500" frameborder="0" scrolling="no" :src="`http://www.apesk.com/h/f.asp?u=5727234&l=${detail.caichuCode}`"></iframe>
       </div>
     </div>
   </div>
 </template>
 <script>
 import headerNav from "../components/HeaderNav.vue";
+import { mapState } from 'vuex'
 export default {
   name: "evaluation",
   data() {
     return {
-      msg: "测评页面"
+      detail: {}
     };
   },
-  computed: {},
-  created: {},
+  computed: {
+    // ...mapState({
+    //   evaluationInfo: state => state.evaluationInfo
+    // })
+  },
+  created: function(){
+    this.evaluationDetail()
+    // console.log('evaluationInfo',this.evaluationInfo)
+  },
+  methods: {
+     evaluationDetail: function(){
+      this.$store.dispatch('EVALUATION_DETAIL', {cepingId: this.$route.params.id})
+      .then( res => {
+        this.detail = res.data
+      })
+      .catch( err => {
+        console.log(err)
+      })
+    },
+  },
   components: {
     headerNav
   }

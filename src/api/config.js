@@ -6,15 +6,31 @@ export default {
     cepingInfo: 'ceping/cepinginfo',
     hotList: 'ceping/hotlist',
     caichu: 'ceping/tocaichu',
+
     //简历
-    baseInfo: 'resume/baseinfo', 
+    //基本信息
+    baseInfo: 'resume/baseinfo',
+    //评价 
     evaluate: 'resume/expect',
+    //期望职位
     expect: 'resume/expect',
+    //教育   保存,修改
     edu: 'resume/edu',
+    deleteEdu: 'resume/edu/{id}',
+    //荣誉
     honor: 'resume/honor',
+    deleteHonor: 'resume/honor/{id}',
+    //工作经验
     jobexp: 'resume/jobexp',
+    deleteJobexp: 'resume/jobexp/{id}',
+    //校内职务
     schoolwork: 'resume/schoolwork',
+    deleteSchoolwork: 'resume/schoolwork/{id}',
+    //技能证书
     skills: 'resume/skills',
+    deleteSkills: 'resume/skills/{id}',
+
+    //提交简历
     submitResume: 'resume/submit', //提交个人简历
     resumeInfo: 'resume/info', //查看个人简历
 

@@ -151,6 +151,7 @@ export default {
       .avatar:active,
       .avatar:visited {
         background-color: transparent;
+        font-weight: bold;
       }
       .login,
       .logout {

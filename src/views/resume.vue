@@ -6,8 +6,8 @@
         <el-col :span="3" class="left-content">
           <div class="grid-content">
             <div class="name-box">
-              <div class="title">小峰峰 <span class="resume-text">(简历)</span></div>
-              <div class="time">时间: 2013-05-01</div>
+              <div class="title">{{resume.resumeBaseInfo.name}} <span class="resume-text">(简历)</span></div>
+              <div class="time">时间: {{resume.resumeBaseInfo.updateDate}}</div>
               <div class="operation">
                 <div class="icon-box refresh">
                   <i class="iconfont icon-refresh"></i>
@@ -70,10 +70,6 @@
                 </a>
               </li>
             </ul>
-            <!-- <div class="save-close">
-              <i class="iconfont icon-star"></i>
-              <span>保存关闭</span>
-            </div> -->
           </div>
         </el-col>
         <el-col :span="15" class="center-content">
@@ -89,22 +85,22 @@
                 </div>
                 <div class="info-list">
                   <div class="name">
-                    <span>小峰峰</span>
+                    <span>{{resume.resumeBaseInfo.name}}</span>
                     <i class="iconfont icon-edit right-icon" @click="editBaseInfo"></i>
                   </div>
                   <div class="status">
-                    <span>现居住：上海</span>
-                    <span>1年工作经验</span>
-                    <span>男</span>
-                    <span>28岁 (1991/05-8)</span>
+                    <span>现居住：{{resume.resumeBaseInfo.address}}</span>
+                    <span>{{resume.resumeBaseInfo.workYear}}年工作经验</span>
+                    <span>{{resume.resumeBaseInfo.sex==1?'男':'女'}}</span>
+                    <span>28岁 ({{resume.resumeBaseInfo.birth}})</span>
                     <span>目前正在找工作</span>
                   </div>
                   <div class="concat">
                     <span>
-                      <i class="iconfont icon-email"></i>123456789@123.com
+                      <i class="iconfont icon-email"></i>{{resume.resumeBaseInfo.email}}
                     </span>
                     <span>
-                      <i class="iconfont icon-phone"></i>12343546546899
+                      <i class="iconfont icon-phone"></i>{{resume.resumeBaseInfo.phone}}
                     </span>
                     <span class="more" @click="showMoreBase=!showMoreBase">
                       {{showMoreBase?'收起':'更多'}}
@@ -137,13 +133,13 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">姓名：</span>
-                        <el-input size="small" v-model="name" placeholder="请输入姓名" maxlength="10"></el-input>
+                        <el-input size="small" v-model="resume.resumeBaseInfo.name" placeholder="请输入姓名" maxlength="10"></el-input>
                       </div>
                       <div class="input-box">
                         <span class="name">性别：</span>
                         <div class="el-input sex-box">
-                          <el-radio v-model="sex" label="0">男</el-radio>
-                          <el-radio v-model="sex" label="1">女</el-radio>
+                          <el-radio v-model="resume.resumeBaseInfo.sex" label="0">男</el-radio>
+                          <el-radio v-model="resume.resumeBaseInfo.sex" label="1">女</el-radio>
                         </div>
                       </div>
                     </li>
@@ -151,7 +147,7 @@
                       <div class="input-box">
                         <span class="name">出生日期：</span>
                          <el-date-picker size="small" class="select-box"
-                          v-model="birth"
+                          v-model="resume.resumeBaseInfo.birth"
                           type="date"
                           placeholder="选择日期"
                           format="yyyy-MM-dd">
@@ -159,17 +155,17 @@
                       </div>
                       <div class="input-box">
                         <span class="name">手机：</span>
-                        <el-input size="small" v-model="phone" placeholder="请输入手机号码" maxlength="11"></el-input>
+                        <el-input size="small" v-model="resume.resumeBaseInfo.phone" placeholder="请输入手机号码" maxlength="11"></el-input>
                       </div>
                     </li>
                     <li class="item">
                       <div class="input-box">
                         <span class="name">邮箱：</span>
-                        <el-input  size="small" v-model="email" placeholder="请输入邮箱" maxlength="20"></el-input>
+                        <el-input  size="small" v-model="resume.resumeBaseInfo.email" placeholder="请输入邮箱" maxlength="20"></el-input>
                       </div>
                       <div class="input-box">
                         <span class="name">籍贯：</span>
-                        <el-select size="small"  v-model="native_place" placeholder="请选择" class="select-box">
+                        <el-select size="small"  v-model="resume.resumeBaseInfo.nativePlace" placeholder="请选择" class="select-box">
                           <el-option 
                             v-for="item in cities"
                             :key="item.value"
@@ -192,7 +188,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">求职状态：</span>
-                        <el-select size="small" v-model="job_status" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="resume.resumeBaseInfo.jobStatus" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in jobStatus"
                             :key="item.value"
@@ -205,7 +201,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">职业类型：</span>
-                        <el-select size="small" v-model="career_type" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="resume.resumeBaseInfo.careerType" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in careerTpye"
                             :key="item.value"
@@ -216,7 +212,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">婚姻状态：</span>
-                        <el-select size="small" v-model="marriage_status" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="resume.resumeBaseInfo.marriageStatus" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in marriageStatus"
                             :key="item.value"
@@ -229,7 +225,7 @@
                     <li class="item">
                       <div class="input-box text-left">
                         <span class="name">现居住：</span>
-                        <el-input size="small" v-model="address" placeholder="请输入现居住地址"></el-input>
+                        <el-input size="small" v-model="resume.resumeBaseInfo.address" placeholder="请输入现居住地址"></el-input>
                       </div>
                     </li>
                   </ul>
@@ -241,46 +237,46 @@
               </div>
             </div>
           </div>
-          <div id="job" class="grid-content info-box" v-if="!showJobIntensionEdit">
+          <div id="job" class="grid-content info-box" v-if="showJobIntensionEdit==false&&resume.resumeBaseInfo.address">
             <div class="base-info">
               <div class="title">
                 <i class="iconfont icon-job"></i>
                 <span>求职意向</span>
                 <i class="iconfont icon-edit right-icon" @click="editJobIntension"></i>
               </div>
-              <ul class="item-list" style="display:none">
+              <ul class="item-list">
                 <li>
                   <span class="item">
-                    <span class="name">期望工资： </span>3500-5000元/月
+                    <span class="name">期望工资： </span>{{resume.resumeBaseInfo.expectSalary}}元/月
                   </span>
                   <span class="item">
-                    <span class="name">工作地点： </span>上海市
+                    <span class="name">工作地点： </span>{{resume.resumeBaseInfo.expectPlace}}
                   </span>
                 </li>
                 <li>
                   <span class="item">
-                    <span class="name">职能/职位： </span>UI设计师/顾问
+                    <span class="name">职能/职位： </span>{{resume.resumeBaseInfo.expectPosition}}
                   </span>
                   <span class="item">
-                    <span class="name">工作类型：  </span>全职
+                    <span class="name">工作类型：  </span>{{resume.resumeBaseInfo.expectWorkType}}
                   </span>
                 </li>
                 <li>
                   <span class="item">
-                    <span class="name">行业： </span>互联网/电子商务
+                    <span class="name">行业： </span>{{resume.resumeBaseInfo.expectIndustry}}
                   </span>
                   <span class="item">
-                    <span class="name">到岗时间： </span>一周之内
+                  <span class="name">到岗时间： </span>{{resume.resumeBaseInfo.arriveTime}}
                   </span>
                 </li>
               </ul>
-              <div class="imperfect" v-if="!showJobIntensionEdit||true">
+              <div class="imperfect" v-if="!resume.resumeBaseInfo.address">
                 <p class="perfect-text">完善求职意向，展现专业能力，让HR更了解你！</p>
                 <el-button size="small" class="perfect-btn" @click="showJobIntensionEdit=true">开始完善</el-button>
               </div>
             </div>
           </div>
-          <div class="grid-content info-box edit-border" v-if="showJobIntensionEdit">
+          <div class="grid-content info-box edit-border" v-if="!resume.resumeBaseInfo.address||showJobIntensionEdit==true">
             <div class="base-info">
               <div class="title">
                 <i class="iconfont icon-job"></i>
@@ -292,7 +288,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">期望薪资：</span>
-                        <el-select size="small" v-model="expect_salary" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="resume.resumeBaseInfo.expectSalary" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in salaryRange"
                             :key="item.value"
@@ -303,7 +299,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">工作地点：</span>
-                        <el-select size="small" v-model="expect_work_place" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="resume.resumeBaseInfo.expectWorkPlace" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in cities"
                             :key="item.value"
@@ -316,7 +312,7 @@
                     <li class="item">
                       <div class="input-box">
                         <span class="name">职能/职位：</span>
-                        <el-select size="small" v-model="expect_position" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="resume.resumeBaseInfo.expectPosition" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in positionType"
                             :key="item.value"
@@ -327,7 +323,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">行业：</span>
-                        <el-select size="small" v-model="expect_industry" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="resume.resumeBaseInfo.expectIndustry" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in industryType"
                             :key="item.value"
@@ -340,7 +336,7 @@
                      <li class="item">
                       <div class="input-box">
                         <span class="name">工作类型：</span>
-                        <el-select size="small" v-model="expect_work_type" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="resume.resumeBaseInfo.expectWorkType" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in workType"
                             :key="item.value"
@@ -351,7 +347,7 @@
                       </div>
                       <div class="input-box">
                         <span class="name">到岗时间：</span>
-                        <el-select size="small" v-model="arrive" placeholder="请选择" class="select-box">
+                        <el-select size="small" v-model="resume.resumeBaseInfo.arriveTime" placeholder="请选择" class="select-box">
                           <el-option
                             v-for="item in arriveRange"
                             :key="item.value"
@@ -377,18 +373,18 @@
                 <span>自我评价</span>
                 <i class="iconfont icon-edit right-icon" v-if="!showEvaluateEdit" @click="editEvaluate"></i>
               </div>
-              <div class="evaluate-box" v-if="!showEvaluateEdit" style="display:none">
-                <div class="evaluate-text">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职 </div>
+              <div class="evaluate-box" v-if="showEvaluateEdit==false">
+              <div class="evaluate-text">{{resume.resumeBaseInfo.evalaute}}</div>
               </div>
-              <div class="evaluate-box edit-content" v-if="showEvaluateEdit">
-                <textarea class="textarea edit-border" v-model="evaluate" placeholder="良好的自我评价，可以展现自身优势，让HR更了解你！">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职  
+              <div class="evaluate-box edit-content" v-if="showEvaluateEdit==true">
+                <textarea class="textarea edit-border" v-model="resume.resumeBaseInfo.evalaute" placeholder="良好的自我评价，可以展现自身优势，让HR更了解你！"> 
                 </textarea>
                 <div class="edit-btn-box">
                     <div class="edit-btn save-btn" @click="saveEvaluate">保存</div>
                     <div class="edit-btn cancel-btn" @click="showEvaluateEdit=false">取消</div>
                   </div>
               </div>
-              <div class="imperfect" v-if="!showEvaluateEdit">
+              <div class="imperfect" >
                 <p class="perfect-text">完善自我评价，展现自身优势，让HR更了解你！</p>
                 <el-button size="small" class="perfect-btn" @click="showEvaluateEdit=true">开始完善</el-button>
               </div>
@@ -1119,21 +1115,21 @@
     </div>
     <!-- dialog 删除弹框 -->
     <el-dialog
-    title="提示"
-    :visible.sync="dialogVisible"
-    width="30%"
-    :before-close="handleClose">
-    <span>{{dialogMessage}}</span>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-    </span>
-  </el-dialog>
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span>{{dialogMessage}}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import headerNav from "../components/HeaderNav.vue";
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
   name: "resume",
   data() {
@@ -1154,6 +1150,34 @@ export default {
       cities: [],
       tag: "",
       tabIndex: 0,
+      /********************************** */
+      resume: {
+        resumeBaseInfo: {
+          name: "",
+          updateDate: "",
+          phone: "",
+          email: "",
+          sex: "",
+          address: "",
+          evaluate: "",
+          expectIndustry: 0,
+          expectPlace: "",
+          expectPosition: "",
+          expectSalary: "",
+          expectWorkType: "",
+          jobStatus: 0
+        },
+        schoolPostList: []
+      },
+      //数据对象
+      baseInfo: {},
+      expect: {},
+      // education: {},
+      workExper: [],
+      schoolWork: [],
+      schoolHonor: [],
+      skills: [],
+      /************************************ */
       //基本信息
       career_type: "",
       name: "",
@@ -1300,20 +1324,46 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      resumeInfo: state => state.resumeInfo
-    })
+    // ...mapState({
+    //   resumeInfo: state => state.resumeInfo
+    // })
   },
+  beforeCreate: function() {},
+  created: function() {
+    this.getResumeInfo();
+  },
+  mounted: function() {},
   methods: {
+    //获取简历信息
+    getResumeInfo: function() {
+      this.$store
+        .dispatch("RESUME_INFO", { creator: "cc" })
+        .then(res => {
+          this.$nextTick(() => {
+            this.resume = res.data;
+          });
+          console.log("resume", this.resume);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     //编辑基本信息
     editBaseInfo: function() {
       this.showBaseInfoEdit = true;
-      this.$store.dispatch('RESUME_INFO', {})
-      console.log(this)
+      // this.$store.dispatch('RESUME_INFO', {})
+      console.log(this);
     },
     //保存基本信息
     saveBaseInfo: function() {
       //保存数据....
+      this.dispatch("SET_BASEINFO", { entityParam: this.resumeInfo })
+        .then(res => {
+          // this.resume.baseInfo =
+        })
+        .catch(err => {
+          console.log(err);
+        });
       this.showBaseInfoEdit = false;
     },
     //编辑求职意向
@@ -1480,7 +1530,7 @@ export default {
               padding-top: 6px;
             }
             .icon-refresh {
-              color: #6BD7B0;
+              color: #6bd7b0;
             }
             .icon-yulan {
               color: @main-color-yellow;
@@ -1842,7 +1892,7 @@ export default {
       .hr-tag {
         padding: 15px;
         .title {
-          color: #82B0FF;
+          color: #82b0ff;
           padding-bottom: 10px;
           span {
             padding-left: 10px;

@@ -72,7 +72,7 @@
                       <div class="price">¥ {{item.price}}</div>
                     </div>
                     <div class="desc">
-                      {{item.remark}}
+                      {{item.simpleRemark}}
                     </div>
                   </li>
                 </ul>
@@ -111,205 +111,6 @@ export default {
       tabIndex: 0,
       evaluationList: [],
       hotList: [],
-    /*
-      majorChoice: [
-        {
-          id: "00",
-          cepingName: "高考专业选择",
-          pic: require("../assets/images/demo/01.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "01",
-          cepingName: "高考专业选择",
-          pic: require("../assets/images/demo/02.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "02",
-          cepingName: "高考专业选择",
-          pic: require("../assets/images/demo/03.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "03",
-          cepingName: "高考专业选择",
-          pic: require("../assets/images/demo/04.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "04",
-          cepingName: "高考专业选择",
-          pic: require("../assets/images/demo/05.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "05",
-          cepingName: "高考专业选择",
-          pic: require("../assets/images/demo/06.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        }
-      ],
-      selfCognition: [
-        {
-          id: "10",
-          cepingName: "自我认知",
-          pic: require("../assets/images/demo/02.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "11",
-          cepingName: "自我认知",
-          pic: require("../assets/images/demo/02.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "12",
-          cepingName: "自我认知",
-          pic: require("../assets/images/demo/02.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "13",
-          cepingName: "自我认知",
-          pic: require("../assets/images/demo/02.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "14",
-          cepingName: "自我认知",
-          pic: require("../assets/images/demo/02.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        }
-      ],
-      occupationStyle: [
-        {
-          id: "20",
-          cepingName: "职业形象与风格",
-          pic: require("../assets/images/demo/03.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "21",
-          cepingName: "职业形象与风格",
-          pic: require("../assets/images/demo/03.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "22",
-          cepingName: "职业形象与风格",
-          pic: require("../assets/images/demo/03.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "23",
-          cepingName: "职业形象与风格",
-          pic: require("../assets/images/demo/03.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "24",
-          cepingName: "职业形象与风格",
-          pic: require("../assets/images/demo/03.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        }
-      ],
-      postClassification: [
-        {
-          id: "30",
-          cepingName: "岗位分类",
-          pic: require("../assets/images/demo/04.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "31",
-          cepingName: "岗位分类",
-          pic: require("../assets/images/demo/04.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "32",
-          cepingName: "岗位分类",
-          pic: require("../assets/images/demo/04.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "33",
-          cepingName: "岗位分类",
-          pic: require("../assets/images/demo/04.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        },
-        {
-          id: "34",
-          cepingName: "岗位分类",
-          pic: require("../assets/images/demo/04.jpg"),
-          cepingLevel: "高级", // 难度
-          peopleScope: "高中生", // 适应范围
-          price: "9.80",
-          remark: '现代心理学吧啦吧啦吧啦吧啦巴拉巴拉吧啦吧啦吧啦吧啦啊'
-        }
-      ]
-    */
     };
   },
   computed: {
@@ -323,39 +124,27 @@ export default {
   },
   methods: {
     getEvaluationList: function(index){
-      this.$store.dispatch('EVALUATION_LIST', {cepingItem: index}).then( res => {
+      this.$store.dispatch('EVALUATION_LIST', {cepingItem: index})
+      .then( res => {
         this.evaluationList = res.data
+      })
+      .catch(err => {
+        console.log(err)
       })
     },
     getHotList: function(){
       this.$store.dispatch('HOT_LIST', {size: 10}).then(res => {
         this.hotList = res.data
+      }).catch( err => {
+        console.log(err)
       })
     },
     toDetail: function(id) {
-      // console.log(id);
       this.$router.push({ name: `coursedetail`, params: { id: id } });
     },
     tabsClick: function(tab, event) {
       this.tabIndex = Number(tab.index) + Number(1)
-      console.log(this.tabIndex)
-      switch(this.tabIndex) {
-        case 0:
-         this.getEvaluationList(this.tabIndex)
-         break;
-        case 1:
-        this.getEvaluationList(this.tabIndex)
-        break;
-         case 2:
-        this.getEvaluationList(this.tabIndex)
-        break;
-         case 3:
-        this.getEvaluationList(this.tabIndex)
-        break;
-         case 4:
-        this.getEvaluationList(this.tabIndex)
-        break;
-      }
+      this.getEvaluationList(this.tabIndex)
     }
   },
   components: {}
@@ -384,6 +173,8 @@ export default {
               width: 100%;
               height: 110px;
               border-radius: 10px;
+              background-color: #fafafa;
+              display: inline-block;
             }
             .info {
               padding: 0 5px;
@@ -445,6 +236,7 @@ export default {
               width: 50px;
               height: 50px;
               border-radius: 4px;
+              background-color: #fafafa;
             }
             .item-center {
               float: left;
