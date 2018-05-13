@@ -6,9 +6,9 @@ let AUTH_TOKEN = ''
 
 //axios 默认值
 axios.defaults.timeout = 5000
-// axios.defaults.baseURL = 'http://139.196.104.246:8089/cepingweb'; //api测试环境地址
+axios.defaults.baseURL = 'http://139.196.104.246:8089/cepingweb'; //api测试环境地址
 // axios.defaults.baseURL = 'http://192.168.0.176:8089/'; //resume本机
-axios.defaults.baseURL = 'http://192.168.0.191:8089/cepingweb/'; //plan本机
+// axios.defaults.baseURL = 'http://192.168.0.191:8089/cepingweb/'; //plan本机
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

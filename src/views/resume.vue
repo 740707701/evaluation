@@ -5,7 +5,7 @@
       <el-row :gutter="10" class="el-content">
         <el-col :span="3" class="left-content">
           <div class="grid-content">
-            <div class="name-box">
+            <div class="name-box" v-if="resume.resumeBaseInfo">
               <div class="title">{{resume.resumeBaseInfo.name}} <span class="resume-text">(简历)</span></div>
               <div class="time">时间: {{resume.resumeBaseInfo.updateDate}}</div>
               <div class="operation">
@@ -79,7 +79,7 @@
                 <i class="iconfont icon-user"></i>
                 <span>基本信息</span>
               </div>
-              <div class="base-content">
+              <div class="base-content" v-if="resume.resumeBaseInfo">
                 <div class="avtar">
                   <img src="../assets/images/demo/05.jpg" alt="">
                 </div>
@@ -237,7 +237,7 @@
               </div>
             </div>
           </div>
-          <div id="job" class="grid-content info-box" v-if="showJobIntensionEdit==false&&resume.resumeBaseInfo.address">
+          <div id="job" class="grid-content info-box" v-if="showJobIntensionEdit==false&&resume.resumeBaseInfo">
             <div class="base-info">
               <div class="title">
                 <i class="iconfont icon-job"></i>
@@ -270,13 +270,13 @@
                   </span>
                 </li>
               </ul>
-              <div class="imperfect" v-if="!resume.resumeBaseInfo.address">
+              <div class="imperfect" v-if="!resume.resumeBaseInfo">
                 <p class="perfect-text">完善求职意向，展现专业能力，让HR更了解你！</p>
                 <el-button size="small" class="perfect-btn" @click="showJobIntensionEdit=true">开始完善</el-button>
               </div>
             </div>
           </div>
-          <div class="grid-content info-box edit-border" v-if="!resume.resumeBaseInfo.address||showJobIntensionEdit==true">
+          <div class="grid-content info-box edit-border" v-if="resume.resumeBaseInfo&&showJobIntensionEdit==true">
             <div class="base-info">
               <div class="title">
                 <i class="iconfont icon-job"></i>
@@ -373,21 +373,21 @@
                 <span>自我评价</span>
                 <i class="iconfont icon-edit right-icon" v-if="!showEvaluateEdit" @click="editEvaluate"></i>
               </div>
-              <div class="evaluate-box" v-if="showEvaluateEdit==false">
-              <div class="evaluate-text">{{resume.resumeBaseInfo.evalaute}}</div>
+              <div class="evaluate-box" v-if="showEvaluateEdit==false&&resume.resumeBaseInfo">
+                <div class="evaluate-text" v-if="resume.resumeBaseInfo">{{resume.resumeBaseInfo.evaluate}}</div>
               </div>
-              <div class="evaluate-box edit-content" v-if="showEvaluateEdit==true">
-                <textarea class="textarea edit-border" v-model="resume.resumeBaseInfo.evalaute" placeholder="良好的自我评价，可以展现自身优势，让HR更了解你！"> 
+              <div class="evaluate-box edit-content" v-if="showEvaluateEdit==true && resume.resumeBaseInfo">
+                <textarea class="textarea edit-border" v-model="resume.resumeBaseInfo.evaluate" placeholder="良好的自我评价，可以展现自身优势，让HR更了解你！"> 
                 </textarea>
                 <div class="edit-btn-box">
-                    <div class="edit-btn save-btn" @click="saveEvaluate">保存</div>
-                    <div class="edit-btn cancel-btn" @click="showEvaluateEdit=false">取消</div>
-                  </div>
+                  <div class="edit-btn save-btn" @click="saveEvaluate">保存</div>
+                  <div class="edit-btn cancel-btn" @click="showEvaluateEdit=false">取消</div>
+                </div>
               </div>
-              <div class="imperfect" >
+              <!-- <div class="imperfect" v-if="resume.resumeBaseInfo.evaluate == ''">
                 <p class="perfect-text">完善自我评价，展现自身优势，让HR更了解你！</p>
                 <el-button size="small" class="perfect-btn" @click="showEvaluateEdit=true">开始完善</el-button>
-              </div>
+              </div> -->
             </div>
           </div>
           <div id="work" class="grid-content info-box" v-if="!showWorkExperiencedEdit">
@@ -1152,22 +1152,22 @@ export default {
       tabIndex: 0,
       /********************************** */
       resume: {
-        resumeBaseInfo: {
-          name: "",
-          updateDate: "",
-          phone: "",
-          email: "",
-          sex: "",
-          address: "",
-          evaluate: "",
-          expectIndustry: 0,
-          expectPlace: "",
-          expectPosition: "",
-          expectSalary: "",
-          expectWorkType: "",
-          jobStatus: 0
-        },
-        schoolPostList: []
+        // resumeBaseInfo: {
+        //   name: "",
+        //   updateDate: "",
+        //   phone: "",
+        //   email: "",
+        //   sex: "",
+        //   address: "",
+        //   evaluate: "",
+        //   expectIndustry: 0,
+        //   expectPlace: "",
+        //   expectPosition: "",
+        //   expectSalary: "",
+        //   expectWorkType: "",
+        //   jobStatus: 0
+        // },
+        // schoolPostList: []
       },
       //数据对象
       baseInfo: {},
@@ -1339,6 +1339,7 @@ export default {
       this.$store
         .dispatch("RESUME_INFO", { creator: "cc" })
         .then(res => {
+          console.log('this',this)
           this.$nextTick(() => {
             this.resume = res.data;
           });
@@ -1882,7 +1883,7 @@ export default {
           // box-sizing: border-box;
           .evaluate-text {
             width: 100%;
-            min-height: 150px;
+            // min-height: 150px;
             padding: 5px 20px;
             line-height: 26px;
             // box-sizing: border-box;
