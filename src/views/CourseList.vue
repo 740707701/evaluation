@@ -77,12 +77,14 @@
                   </li>
                 </ul>
               </el-tab-pane>
+              <div class="nodata" v-if="!evaluationList.length">还没有任何数据~</div>
             </el-tabs>
           </div>
         </el-col>
         <el-col :span="8">
           <div class="right-list">
             <p class="title">热门课程</p>
+            <div class="nodata" v-if="!evaluationList.length">还没有热门课程哦~</div>
             <ul class="item-box">
               <li v-for="item of hotList" :key="item.id" @click="toDetail(item.id)">
                   <div class="item">
@@ -129,6 +131,7 @@ export default {
         this.evaluationList = res.data
       })
       .catch(err => {
+        console.log('数据获取失败')
         console.log(err)
       })
     },
@@ -153,9 +156,22 @@ export default {
 <style lang="less" scoped>
 @import "../assets/css/colors.less";
 .courselist-page {
+  height: 100%;
+  .nodata {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+  }
   .container {
+    height: calc(100% - 30px);
+    .el-row, .el-col {
+      height: 100%;
+    }
+    
     .left-list {
       background-color: #fff;
+      height: calc(100% - 30px);
       border-radius: 10px;
       padding: 0 20px;
       .tabs-box {
@@ -214,6 +230,7 @@ export default {
       background-color: #fff;
       border-radius: 10px;
       padding-bottom: 4px;
+      height: calc(100% - 30px);
       .title {
         font-size: 14px;
         color: @main-color-blue;

@@ -7,7 +7,12 @@ class Api {
       axios.get(url, {
         params: params
       }).then(res => {
-        resolve(res.data)
+        if(res.data.code == 1){
+          resolve(res.data)
+        }else {
+          console.log(res)
+          reject(res)
+        }
       }).catch(err => {
         reject(err)
       })
@@ -18,7 +23,11 @@ class Api {
     return new Promise((resolve, reject) => {
       axios.post(url, data)
         .then(res => {
-          resolve(res)
+          if(res.data.code == 1){
+            resolve(res)
+          }else {
+            reject(res)
+          }
         })
         .catch(err => {
           reject(err)
@@ -30,7 +39,11 @@ class Api {
     return new Promise((resolve, reject) => {
       axios.put(url, data)
         .then(res => {
-          resolve(res)
+          if(res.data.code == 1){
+            resolve(res)
+          }else {
+            reject(res)
+          }
         })
         .catch(err => {
           reject(err)
@@ -42,7 +55,11 @@ class Api {
     return new Promise((resolve, reject) => {
       axios.delete(url, data)
         .then(res => {
-          resolve(res)
+          if(res.data.code == 1){
+            resolve(res)
+          }else {
+            reject(res)
+          }
         })
         .catch(err => {
           reject(err)

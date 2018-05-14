@@ -18,11 +18,11 @@ export default {
     edu: 'resume/edu',
     deleteEdu: 'resume/edu/{id}',
     //荣誉
-    honor: 'resume/honor',
-    deleteHonor: 'resume/honor/{id}',
+    schoolhonor: 'resume/honor',
+    deleteSchoolhonor: 'resume/honor/{id}',
     //工作经验
-    jobexp: 'resume/jobexp',
-    deleteJobexp: 'resume/jobexp/{id}',
+    workExper: 'resume/jobexp',
+    deleteWorkExper: 'resume/jobexp/{id}',
     //校内职务
     schoolwork: 'resume/schoolwork',
     deleteSchoolwork: 'resume/schoolwork/{id}',

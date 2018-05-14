@@ -1152,22 +1152,7 @@ export default {
       tabIndex: 0,
       /********************************** */
       resume: {
-        // resumeBaseInfo: {
-        //   name: "",
-        //   updateDate: "",
-        //   phone: "",
-        //   email: "",
-        //   sex: "",
-        //   address: "",
-        //   evaluate: "",
-        //   expectIndustry: 0,
-        //   expectPlace: "",
-        //   expectPosition: "",
-        //   expectSalary: "",
-        //   expectWorkType: "",
-        //   jobStatus: 0
-        // },
-        // schoolPostList: []
+        
       },
       //数据对象
       baseInfo: {},
@@ -1339,11 +1324,9 @@ export default {
       this.$store
         .dispatch("RESUME_INFO", { creator: "cc" })
         .then(res => {
-          console.log('this',this)
           this.$nextTick(() => {
             this.resume = res.data;
           });
-          console.log("resume", this.resume);
         })
         .catch(err => {
           console.log(err);
@@ -1352,15 +1335,15 @@ export default {
     //编辑基本信息
     editBaseInfo: function() {
       this.showBaseInfoEdit = true;
-      // this.$store.dispatch('RESUME_INFO', {})
-      console.log(this);
     },
     //保存基本信息
     saveBaseInfo: function() {
+      console.log(this.resume)
       //保存数据....
-      this.dispatch("SET_BASEINFO", { entityParam: this.resumeInfo })
+      this.$store.dispatch("SET_BASEINFO", this.resume.resumeBaseInfo)
         .then(res => {
-          // this.resume.baseInfo =
+          console.log(res)
+          this.showBaseInfoEdit = false;
         })
         .catch(err => {
           console.log(err);
