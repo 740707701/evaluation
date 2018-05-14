@@ -264,7 +264,7 @@ export default {
     //////////////////////////////////////////////////////////////////
     //选修课列表
     [OPTIONAL_LIST]({ commit }, params) {
-      return api.get(config.url, params).then(res => {
+      return api.get(config.url.listOptional, params).then(res => {
         commit('PLAN_SET', {
           target: 'optionalList',
           data: res.data
@@ -275,7 +275,7 @@ export default {
     },
     //新增 选修课
     [INSERTOPTIONAL]({ commit }, data) {
-      return api.post(config.url, params).then(res => {
+      return api.post(config.url.insertOptional, params).then(res => {
         commit('PLAN_SET', {
           target: 'optionalInfo',
           data: res.data
@@ -286,7 +286,7 @@ export default {
     },
     //修改
     [OPTIONALINFO]({ commit }, data) {
-      return api.put(config.url, params).then(res => {
+      return api.put(config.url.updateOptional, params).then(res => {
         commit('PLAN_SET', {
           target: 'optionalInfo',
           data: res.data
@@ -297,7 +297,7 @@ export default {
     },
     //删除
     [OPTIONALINFO]({ commit }, data) {
-      return api.delete().then(res => {
+      return api.delete(config.url.deleteOptional.replace('{id}',id)).then(res => {
         commit('PLAN_SET', {
           target: 'optionalInfo',
           data: res.data
@@ -309,7 +309,7 @@ export default {
 
     //专业大赛
     [PROF_LIST]({ commit }, params) {
-      return api.get(config.url, params).then(res => {
+      return api.get(config.url.listProf, params).then(res => {
         commit('PLAN_SET', {
           target: 'profList',
           data: res.data
@@ -320,7 +320,7 @@ export default {
     },
     //新增 专业大赛
     [INSERTPROF]({ commit }, data) {
-      return api.post(config.url, params).then(res => {
+      return api.post(config.url.insertProf, params).then(res => {
         commit('PLAN_SET', {
           target: 'profInfo',
           data: res.data
@@ -331,7 +331,7 @@ export default {
     },
     //修改
     [PROFINFO]({ commit }, data) {
-      return api.put(config.url, params).then(res => {
+      return api.put(config.url.updateProf, params).then(res => {
         commit('PLAN_SET', {
           target: 'profInfo',
           data: res.data
@@ -342,7 +342,7 @@ export default {
     },
     //删除
     [PROFINFO]({ commit }, data) {
-      return api.delete().then(res => {
+      return api.delete(config.url.deleteProf.replace('{id}',id)).then(res => {
         commit('PLAN_SET', {
           target: 'profInfo',
           data: res.data
@@ -354,7 +354,7 @@ export default {
 
     //必修课列表
     [REQUIRE_LIST]({ commit }, params) {
-      return api.get(config.url, params).then(res => {
+      return api.get(config.url.listReruired, params).then(res => {
         commit('PLAN_SET', {
           target: 'requireList',
           data: res.data
@@ -365,7 +365,7 @@ export default {
     },
     //新增必修课
     [INSERTREQUIRE]({ commit }, data) {
-      return api.post(config.url, params).then(res => {
+      return api.post(config.url.insertRequired, params).then(res => {
         commit('PLAN_SET', {
           target: 'requireInfo',
           data: res.data
@@ -376,7 +376,7 @@ export default {
     },
     //修改
     [REQUIREINFO]({ commit }, data) {
-      return api.put(config.url, params).then(res => {
+      return api.put(config.url.updateRequired, params).then(res => {
         commit('PLAN_SET', {
           target: 'requireInfo',
           data: res.data
@@ -387,7 +387,7 @@ export default {
     },
     //删除
     [REQUIREINFO]({ commit }, data) {
-      return api.delete().then(res => {
+      return api.delete(config.url.deleteRequired.replace('{id}',id)).then(res => {
         commit('PLAN_SET', {
           target: 'requireInfo',
           data: res.data
@@ -399,7 +399,7 @@ export default {
 
     //自学课列表
     [SELF_LIST]({ commit }, params) {
-      return api.get(config.url, params).then(res => {
+      return api.get(config.url.listSelf, params).then(res => {
         commit('PLAN_SET', {
           target: 'selfList',
           data: res.data
@@ -410,7 +410,7 @@ export default {
     },
     //新增 自学课
     [INSERTSELF]({ commit }, data) {
-      return api.post(config.url, params).then(res => {
+      return api.post(config.url.insertSelf, params).then(res => {
         commit('PLAN_SET', {
           target: 'selfInfo',
           data: res.data
@@ -421,7 +421,7 @@ export default {
     },
     //修改
     [SELFINFO]({ commit }, data) {
-      return api.put(config.url, params).then(res => {
+      return api.put(config.url.updateSelf, params).then(res => {
         commit('PLAN_SET', {
           target: 'selfInfo',
           data: res.data
@@ -432,7 +432,7 @@ export default {
     },
     //删除
     [SELFINFO]({ commit }, data) {
-      return api.delete().then(res => {
+      return api.delete(config.url.deleteSelf.replace('{id}',id)).then(res => {
         commit('PLAN_SET', {
           target: 'selfInfo',
           data: res.data
@@ -444,7 +444,7 @@ export default {
 
     //职业能力列表
     [VOCATION_LIST]({ commit }, params) {
-      return api.get(config.url, params).then(res => {
+      return api.get(config.url.listVocation, params).then(res => {
         commit('PLAN_SET', {
           target: 'vocationList',
           data: res.data
@@ -455,7 +455,7 @@ export default {
     },
     //新增 职业能力
     [INSERTVOCATION]({ commit }, data) {
-      return api.post(config.url, params).then(res => {
+      return api.post(config.url.insertVocation, data).then(res => {
         commit('PLAN_SET', {
           target: 'vocationInfo',
           data: res.data
@@ -466,7 +466,7 @@ export default {
     },
     //修改
     [VOCATIONINFO]({ commit }, data) {
-      return api.put(config.url, params).then(res => {
+      return api.put(config.url.updateVocation, data).then(res => {
         commit('PLAN_SET', {
           target: 'vocationInfo',
           data: res.data
@@ -477,7 +477,7 @@ export default {
     },
     //删除
     [VOCATIONINFO]({ commit }, data) {
-      return api.delete().then(res => {
+      return api.delete(config.url.deleteVocation.replace('{id}', id)).then(res => {
         commit('PLAN_SET', {
           target: 'vocationInfo',
           data: res.data
@@ -489,7 +489,7 @@ export default {
 
     //其他计划 列表
     [OTHERPLAN_LIST]({ commit }, params) {
-      return api.get(config.url, params).then(res => {
+      return api.get(config.url.otherPlans, params).then(res => {
         commit('PLAN_SET', {
           target: 'otherPlanList',
           data: res.data
@@ -498,6 +498,7 @@ export default {
         return err
       })
     },
+    /*
     //新增 其他列表
     [INSERTOTHERPLAN]({ commit }, data) {
       return api.post(config.url, params).then(res => {
@@ -531,6 +532,7 @@ export default {
         return err
       })
     },
+    */
 
   },
   modules: {}
