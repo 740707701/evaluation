@@ -5,9 +5,9 @@
       <el-row :gutter="10" class="el-content">
         <el-col :span="3" class="left-content">
           <div class="grid-content">
-            <div class="name-box" v-if="resume.resumeBaseInfo">
-              <div class="title">{{resume.resumeBaseInfo.name}} <span class="resume-text">(简历)</span></div>
-              <div class="time">时间: {{resume.resumeBaseInfo.updateDate}}</div>
+            <div class="name-box" v-if="baseInfo.name">
+              <div class="title">{{baseInfo.name}} <span class="resume-text">(简历)</span></div>
+              <div class="time">时间: {{baseInfo.updateDate.slice(0,10)}}</div>
               <div class="operation">
                 <div class="icon-box refresh">
                   <i class="iconfont icon-refresh"></i>
@@ -73,930 +73,14 @@
           </div>
         </el-col>
         <el-col :span="15" class="center-content">
-          <div id="base" class="grid-content info-box" v-if="!showBaseInfoEdit">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-user"></i>
-                <span>基本信息</span>
-              </div>
-              <div class="base-content" v-if="resume.resumeBaseInfo">
-                <div class="avtar">
-                  <img src="../assets/images/demo/05.jpg" alt="">
-                </div>
-                <div class="info-list">
-                  <div class="name">
-                    <span>{{resume.resumeBaseInfo.name}}</span>
-                    <i class="iconfont icon-edit right-icon" @click="editBaseInfo"></i>
-                  </div>
-                  <div class="status">
-                    <span>现居住：{{resume.resumeBaseInfo.address}}</span>
-                    <span>{{resume.resumeBaseInfo.workYear}}年工作经验</span>
-                    <span>{{resume.resumeBaseInfo.sex==1?'男':'女'}}</span>
-                    <span>28岁 ({{resume.resumeBaseInfo.birth}})</span>
-                    <span>目前正在找工作</span>
-                  </div>
-                  <div class="concat">
-                    <span>
-                      <i class="iconfont icon-email"></i>{{resume.resumeBaseInfo.email}}
-                    </span>
-                    <span>
-                      <i class="iconfont icon-phone"></i>{{resume.resumeBaseInfo.phone}}
-                    </span>
-                    <span class="more" @click="showMoreBase=!showMoreBase">
-                      {{showMoreBase?'收起':'更多'}}
-                      <i v-if="showMoreBase==false" class="el-icon-arrow-down"></i>
-                      <i v-if="showMoreBase==true" class="el-icon-arrow-up"></i>
-                    </span>
-                  </div>
-                </div>
-                <div class="more-info" v-if="showMoreBase">
-                  <span class="arrow-top"></span>
-                  <span>户口/国籍：上海市</span>
-                  <span>婚姻状态：未婚</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-user"></i>
-                <span>基本信息</span>
-              </div>
-              <div class="base-content">
-                <div class="avtar edit-avatar">
-                  <img src="../assets/images/demo/05.jpg" alt="">
-                  <div class="text">修改头像</div>
-                </div>
-                <div class="edit-content baseinfo-content">
-                  <ul class="edit-item-list">
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">姓名：</span>
-                        <el-input size="small" v-model="resume.resumeBaseInfo.name" placeholder="请输入姓名" maxlength="10"></el-input>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">性别：</span>
-                        <div class="el-input sex-box">
-                          <el-radio v-model="resume.resumeBaseInfo.sex" label="0">男</el-radio>
-                          <el-radio v-model="resume.resumeBaseInfo.sex" label="1">女</el-radio>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">出生日期：</span>
-                         <el-date-picker size="small" class="select-box"
-                          v-model="resume.resumeBaseInfo.birth"
-                          type="date"
-                          placeholder="选择日期"
-                          format="yyyy-MM-dd">
-                        </el-date-picker>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">手机：</span>
-                        <el-input size="small" v-model="resume.resumeBaseInfo.phone" placeholder="请输入手机号码" maxlength="11"></el-input>
-                      </div>
-                    </li>
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">邮箱：</span>
-                        <el-input  size="small" v-model="resume.resumeBaseInfo.email" placeholder="请输入邮箱" maxlength="20"></el-input>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">籍贯：</span>
-                        <el-select size="small"  v-model="resume.resumeBaseInfo.nativePlace" placeholder="请选择" class="select-box">
-                          <el-option 
-                            v-for="item in cities"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                            >
-                          </el-option>
-                        </el-select>
-                      </div>
-                    </li>
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">工作年份：</span>
-                        <el-date-picker size="small" class="select-box"
-                          v-model="work_year"
-                          type="date"
-                          placeholder="选择日期"
-                          format="yyyy">
-                        </el-date-picker>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">求职状态：</span>
-                        <el-select size="small" v-model="resume.resumeBaseInfo.jobStatus" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in jobStatus"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                    </li>
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">职业类型：</span>
-                        <el-select size="small" v-model="resume.resumeBaseInfo.careerType" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in careerTpye"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">婚姻状态：</span>
-                        <el-select size="small" v-model="resume.resumeBaseInfo.marriageStatus" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in marriageStatus"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                    </li>
-                    <li class="item">
-                      <div class="input-box text-left">
-                        <span class="name">现居住：</span>
-                        <el-input size="small" v-model="resume.resumeBaseInfo.address" placeholder="请输入现居住地址"></el-input>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="edit-btn-box">
-                    <div class="edit-btn save-btn" @click="saveBaseInfo">保存</div>
-                    <div class="edit-btn cancel-btn" @click="showBaseInfoEdit=false">取消</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="job" class="grid-content info-box" v-if="showJobIntensionEdit==false&&resume.resumeBaseInfo">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-job"></i>
-                <span>求职意向</span>
-                <i class="iconfont icon-edit right-icon" @click="editJobIntension"></i>
-              </div>
-              <ul class="item-list">
-                <li>
-                  <span class="item">
-                    <span class="name">期望工资： </span>{{resume.resumeBaseInfo.expectSalary}}元/月
-                  </span>
-                  <span class="item">
-                    <span class="name">工作地点： </span>{{resume.resumeBaseInfo.expectPlace}}
-                  </span>
-                </li>
-                <li>
-                  <span class="item">
-                    <span class="name">职能/职位： </span>{{resume.resumeBaseInfo.expectPosition}}
-                  </span>
-                  <span class="item">
-                    <span class="name">工作类型：  </span>{{resume.resumeBaseInfo.expectWorkType}}
-                  </span>
-                </li>
-                <li>
-                  <span class="item">
-                    <span class="name">行业： </span>{{resume.resumeBaseInfo.expectIndustry}}
-                  </span>
-                  <span class="item">
-                  <span class="name">到岗时间： </span>{{resume.resumeBaseInfo.arriveTime}}
-                  </span>
-                </li>
-              </ul>
-              <div class="imperfect" v-if="!resume.resumeBaseInfo">
-                <p class="perfect-text">完善求职意向，展现专业能力，让HR更了解你！</p>
-                <el-button size="small" class="perfect-btn" @click="showJobIntensionEdit=true">开始完善</el-button>
-              </div>
-            </div>
-          </div>
-          <div class="grid-content info-box edit-border" v-if="resume.resumeBaseInfo&&showJobIntensionEdit==true">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-job"></i>
-                <span>求职意向</span>
-              </div>
-              <div class="base-content">
-                <div class="edit-content">
-                  <ul class="edit-item-list">
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">期望薪资：</span>
-                        <el-select size="small" v-model="resume.resumeBaseInfo.expectSalary" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in salaryRange"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">工作地点：</span>
-                        <el-select size="small" v-model="resume.resumeBaseInfo.expectWorkPlace" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in cities"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                    </li>
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">职能/职位：</span>
-                        <el-select size="small" v-model="resume.resumeBaseInfo.expectPosition" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in positionType"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">行业：</span>
-                        <el-select size="small" v-model="resume.resumeBaseInfo.expectIndustry" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in industryType"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                    </li>
-                     <li class="item">
-                      <div class="input-box">
-                        <span class="name">工作类型：</span>
-                        <el-select size="small" v-model="resume.resumeBaseInfo.expectWorkType" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in workType"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">到岗时间：</span>
-                        <el-select size="small" v-model="resume.resumeBaseInfo.arriveTime" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in arriveRange"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="edit-btn-box">
-                    <div class="edit-btn save-btn" @click="saveJobIntension">保存</div>
-                    <div class="edit-btn cancel-btn" @click="showJobIntensionEdit=false">取消</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="evaluate" class="grid-content info-box">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-evaluate"></i>
-                <span>自我评价</span>
-                <i class="iconfont icon-edit right-icon" v-if="!showEvaluateEdit" @click="editEvaluate"></i>
-              </div>
-              <div class="evaluate-box" v-if="showEvaluateEdit==false&&resume.resumeBaseInfo">
-                <div class="evaluate-text" v-if="resume.resumeBaseInfo">{{resume.resumeBaseInfo.evaluate}}</div>
-              </div>
-              <div class="evaluate-box edit-content" v-if="showEvaluateEdit==true && resume.resumeBaseInfo">
-                <textarea class="textarea edit-border" v-model="resume.resumeBaseInfo.evaluate" placeholder="良好的自我评价，可以展现自身优势，让HR更了解你！"> 
-                </textarea>
-                <div class="edit-btn-box">
-                  <div class="edit-btn save-btn" @click="saveEvaluate">保存</div>
-                  <div class="edit-btn cancel-btn" @click="showEvaluateEdit=false">取消</div>
-                </div>
-              </div>
-              <!-- <div class="imperfect" v-if="resume.resumeBaseInfo.evaluate == ''">
-                <p class="perfect-text">完善自我评价，展现自身优势，让HR更了解你！</p>
-                <el-button size="small" class="perfect-btn" @click="showEvaluateEdit=true">开始完善</el-button>
-              </div> -->
-            </div>
-          </div>
-          <div id="work" class="grid-content info-box" v-if="!showWorkExperiencedEdit">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-work"></i>
-                <span>工作经验</span>
-                <div class="add-job" @click="showWorkExperiencedEdit=true">
-                  <i class="iconfont icon-add"></i>新增工作
-                </div>
-              </div>
-              <div class="job-item item-first" style="display:none">
-                <div class="job-time">
-                  <span class="gray">2018/3-2018/5</span>
-                  <span>上海扶城金融公司</span>
-                  <span>市场销售</span>
-                  <span class="icon-box">
-                    <i class="iconfont icon-edit" @click="editWorkExper('0')"></i>
-                    <i class="iconfont icon-delete" @click="deleteWorkExper('0')"></i>
-                  </span>
-                </div>
-                <div class="job-type">
-                  <span><span class="gray">公司类型：</span>互联网/教育</span>
-                  <span><span class="gray">公司人数：</span>50-100人</span>
-                  <span><span class="gray">公司性质：</span>民营企业</span>
-                  <span><span class="gray">所属部门：</span>市场部</span>
-                </div>
-                <div class="job-desc">
-                  <div class="desc-text gray">工作描述：</div>
-                  <div class="desc-content">
-                    <ul class="desc-list">
-                      <li class="desc-item">1、参与讨论对项目交互设计、界面结构、操作流程等撰写相关需求文档；</li>
-                      <li class="desc-item">2、负责对App （B端＋C端）整体风格的定位，对用户视觉感受的整体把握和设计</li>
-                      <li class="desc-item">3、负责好车伯乐web网站（前台＋后台）设计页面，整体表现风格的定位，对用户视觉感受的整体把握和设计</li>
-                      <li class="desc-item">4、整理产品需求文档 撰写文档</li>
-                      <li class="desc-item">5、制作各类活动广告设计（画册、单页、易拉宝、海报）</li>
-                      <li class="desc-item">6、协助开发人员页面设计的调整与交互动画讨论</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="job-item" style="display:none">
-                <div class="job-time">
-                  <span class="gray">2018/3-2018/5</span>
-                  <span>上海扶城金融公司</span>
-                  <span>市场销售</span>
-                  <span class="icon-box">
-                    <i class="iconfont icon-edit" @click="editWorkExper(1)"></i>
-                    <i class="iconfont icon-delete" @click="deleteWorkExper(1)"></i>
-                  </span>
-                </div>
-                <div class="job-type">
-                  <span><span class="gray">公司类型：</span>互联网/教育</span>
-                  <span><span class="gray">公司人数：</span>50-100人</span>
-                  <span><span class="gray">公司性质：</span>民营企业</span>
-                  <span><span class="gray">所属部门：</span>市场部</span>
-                </div>
-                <div class="job-desc">
-                  <div class="desc-text gray">工作描述：</div>
-                  <div class="desc-content">
-                    <ul class="desc-list">
-                      <li class="desc-item">1、参与讨论对项目交互设计、界面结构、操作流程等撰写相关需求文档；</li>
-                      <li class="desc-item">2、负责对App （B端＋C端）整体风格的定位，对用户视觉感受的整体把握和设计</li>
-                      <li class="desc-item">3、负责好车伯乐web网站（前台＋后台）设计页面，整体表现风格的定位，对用户视觉感受的整体把握和设计</li>
-                      <li class="desc-item">4、整理产品需求文档 撰写文档</li>
-                      <li class="desc-item">5、制作各类活动广告设计（画册、单页、易拉宝、海报）</li>
-                      <li class="desc-item">6、协助开发人员页面设计的调整与交互动画讨论</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="imperfect" v-if="!showWorkExperiencedEdit||true">
-                <p class="perfect-text">完善工作经验，展现工作内容及能力，让HR更了解你！</p>
-                <el-button size="small" class="perfect-btn" @click="showWorkExperiencedEdit=true">开始完善</el-button>
-              </div>
-            </div>
-          </div>
-          <div class="grid-content info-box edit-border" v-if="showWorkExperiencedEdit">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-work"></i>
-                <span>工作经验</span>
-              </div>
-              <div class="base-content">
-                <div class="edit-content">
-                  <ul class="edit-item-list">
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">开始时间：</span>
-                        <el-date-picker size="small" class="select-box"
-                          v-model="work_start"
-                          type="date"
-                          placeholder="选择日期"
-                          format="yyyy-MM-dd">
-                        </el-date-picker>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">结束时间：</span>
-                        <el-date-picker size="small" class="select-box"
-                          v-model="work_end"
-                          type="date"
-                          placeholder="选择日期"
-                          format="yyyy-MM-dd">
-                        </el-date-picker>
-                      </div>
-                    </li>
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">公司：</span>
-                        <el-input size="small" v-model="company_name" placeholder="请输入公司" maxlength="30"></el-input>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">部门：</span>
-                        <el-input size="small" v-model="department" placeholder="请输入部门" maxlenth="30"></el-input>
-                      </div>
-                    </li>
-                     <li class="item">
-                      <div class="input-box">
-                        <span class="name">职能：</span>
-                        <el-select size="small" v-model="fun" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in funType"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">行业：</span>
-                        <el-select size="small" v-model="company_industry" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in industryType"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                    </li>
-                     <li class="item">
-                      <div class="input-box">
-                        <span class="name">职位：</span>
-                        <el-input size="small" v-model="work_position" placeholder="所在职位" maxlenth="30"></el-input>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">公司规模：</span>
-                        <el-select size="small" v-model="company_size" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in companySize"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                    </li>
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">工作类型：</span>
-                        <el-radio-group size="small" v-model="work_type">
-                          <el-radio-button label="全职"></el-radio-button>
-                          <el-radio-button label="兼职"></el-radio-button>
-                        </el-radio-group>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">公司性质：</span>
-                        <el-select size="small" v-model="company_nature" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in companyNature"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                    </li>
-                    <li class="item work-desc-item">
-                      <div class="input-box text-left">
-                        <span class="name">工作描述：</span>
-                        <div class="work-desc">
-                          <textarea v-model="work_desc" maxlength="300" class="textarea" name="" id="" placeholder="描述你的职责范围、工作任务以及取得成绩"></textarea>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="edit-btn-box">
-                    <div class="edit-btn save-btn" @click="saveWorkExper">保存</div>
-                    <div class="edit-btn cancel-btn" @click="showWorkExperiencedEdit=false">取消</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="education" class="grid-content info-box" v-if="!showEducationEdit">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-edu"></i>
-                <span>教育经历</span>
-                 <div class="add-job" @click="showEducationEdit=true">
-                  <i class="iconfont icon-add"></i>新增教育
-                </div>
-              </div>
-              <div class="job-item item-first" style="display: none">
-                <div class="job-time">
-                  <span class="gray">2012/9-2015/7</span>
-                  <span>上海交通大学</span>
-                  <span>视觉传达艺术设计（本科）</span>
-                  <span class="icon-box">
-                    <i class="iconfont icon-edit" @click="editEducation('0')"></i>
-                    <i class="iconfont icon-delete" @click="deleteEducation('0')"></i>
-                  </span>
-                </div>
-                <div class="job-desc">
-                  <div class="desc-text gray">专业描述：</div>
-                  <div class="desc-content">
-                    <ul class="desc-list">
-                      <li class="desc-item">运动学规律与制作 3D建模 动画制作等等，有绘画功底</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="job-desc">
-                  <div class="desc-text gray">主修课程：</div>
-                  <div class="desc-content">
-                    <ul class="desc-list">
-                      <li class="desc-item">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，
-                        若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。</li>
-                      <li class="desc-item">2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="job-item" style="display: none">
-                <div class="job-time">
-                  <span class="gray">2012/9-2015/7</span>
-                  <span>上海交通大学</span>
-                  <span>视觉传达艺术设计（本科）</span>
-                  <span class="icon-box">
-                    <i class="iconfont icon-edit" @click="editEducation('1')"></i>
-                    <i class="iconfont icon-delete" @click="deleteEducation('1')"></i>
-                  </span>
-                </div>
-                <div class="job-desc">
-                  <div class="desc-text gray">专业描述：</div>
-                  <div class="desc-content">
-                    <ul class="desc-list">
-                      <li class="desc-item">运动学规律与制作 3D建模 动画制作等等，有绘画功底</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="job-desc">
-                  <div class="desc-text gray">主修课程：</div>
-                  <div class="desc-content">
-                    <ul class="desc-list">
-                      <li class="desc-item">1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，
-                        若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。</li>
-                      <li class="desc-item">2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，以此判断该求职者是否为同行业或跨行业求职</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="imperfect" v-if="!showEducationEdit||true">
-                <p class="perfect-text">完善教育经历，展现专业能力，让HR更了解你！</p>
-                <el-button size="small" class="perfect-btn" @click="showEducationEdit=true">开始完善</el-button>
-              </div>
-            </div>
-          </div>
-          <div class="grid-content info-box edit-border" v-if="showEducationEdit">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-edu"></i>
-                <span>教育经历</span>
-              </div>
-              <div class="base-content">
-                <div class="edit-content">
-                  <ul class="edit-item-list">
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">开始时间：</span>
-                        <el-date-picker size="small" class="select-box"
-                          v-model="edu_start"
-                          type="date"
-                          placeholder="选择日期"
-                          format="yyyy-MM-dd">
-                        </el-date-picker>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">结束时间：</span>
-                        <el-date-picker size="small" class="select-box"
-                          v-model="edu_end"
-                          type="date"
-                          placeholder="选择日期"
-                          format="yyyy-MM-dd">
-                        </el-date-picker>
-                      </div>
-                    </li>
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">学校：</span>
-                        <el-input size="small" v-model="school_name" placeholder="请输入学校" maxlength="30"></el-input>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">学历/学位：</span>
-                        <el-select size="small" v-model="edu_degree" placeholder="请选择" class="select-box">
-                          <el-option 
-                          v-for="item in degreeType"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value"
-                          ></el-option>
-                        </el-select>
-                      </div>
-                    </li>
-                     <li class="item">
-                      <div class="input-box">
-                        <span class="name">专业：</span>
-                        <el-select size="small" v-model="edu_major" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in majorType"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">学业性质：</span>
-                        <el-select size="small" v-model="edu_nature" placeholder="请选择" class="select-box">
-                          <el-option
-                            v-for="item in eduNatureType"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </div>
-                    </li>
-                    <li class="item work-desc-item">
-                      <div class="input-box text-left">
-                        <span class="name">主修课程：</span>
-                        <div class="work-desc">
-                          <textarea v-model="edu_desc" maxlength="300" class="textarea" name="" id="" placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等"></textarea>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="edit-btn-box">
-                    <div class="edit-btn save-btn" @click="saveEducation">保存</div>
-                    <div class="edit-btn cancel-btn" @click="showEducationEdit=false">取消</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="school" class="grid-content info-box" >
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-school"></i>
-                <span>在校情况</span>
-              </div>
-              <div class="schoolwork">
-                <div class="honor" v-if="!showSchoolHonorEdit">
-                  <div class="school-type">
-                    <span>校内荣誉</span>
-                    <div class="add-job" @click="showSchoolHonorEdit=true">
-                      <i class="iconfont icon-add"></i>新增荣誉
-                    </div>
-                  </div>
-                  <ul class="honor-list job-item" style="display:none">
-                    <li class="">
-                      <div class="job-time">
-                        <span class="gray">2013/4</span>
-                        <span>微视频比赛</span>
-                        <span>荣获全省“第二名”</span>
-                        <span class="icon-box">
-                          <i class="iconfont icon-edit"></i>
-                          <i class="iconfont icon-delete"></i>
-                        </span>
-                      </div>
-                    </li>
-                    <li class="">
-                      <div class="job-time">
-                        <span class="gray">2013/4</span>
-                        <span>微视频比赛2</span>
-                        <span>荣获全省“第二名”</span>
-                        <span class="icon-box">
-                          <i class="iconfont icon-edit"></i>
-                          <i class="iconfont icon-delete"></i>
-                        </span>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="imperfect" v-if="!showSchoolHonorEdit">
-                    <p class="perfect-text">完善校内荣誉，展现学习能力，让HR更了解你！</p>
-                    <el-button size="small" class="perfect-btn" @click="showSchoolHonorEdit=true">开始完善</el-button>
-                  </div>
-                </div>
-                <div class="post" v-if="!showSchoolWorkEdit">
-                  <div class="school-type">
-                    <span>校内职务</span>
-                    <div class="add-job" @click="showSchoolWorkEdit=true">
-                      <i class="iconfont icon-add"></i>新增职务
-                    </div>
-                  </div>
-                  <ul class="post-list" style="display:none">
-                    <li class="job-item">
-                      <div class="job-time">
-                        <span class="gray">2013/4-2014/6</span>
-                        <span>学生会主席</span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                      <div class="job-desc">
-                        <div class="desc-text gray">主修课程：</div>
-                        <div class="desc-content">
-                          <ul class="desc-list">
-                            <li>1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，
-                              若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。</li>
-                            <li>2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，
-                              以此判断该求职者是否为同行业或跨行业求职</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="job-item">
-                      <div class="job-time">
-                        <span class="gray">2013/4-2014/6</span>
-                        <span>学生会主席</span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                      <div class="job-desc">
-                        <div class="desc-text gray">主修课程：</div>
-                        <div class="desc-content">
-                          <ul class="desc-list">
-                            <li>1.HR可根据求职者经历过的公司来判断该求职者适合的工作氛围及已习得的工作方式，国企、上市公司、私企等的作息、工作饱和度均不同，
-                              若此公司为创业型公司，对一直在国企的员工求职也会考虑该求职者的抗压能力及稳定性。</li>
-                            <li>2.若公司全称不为人所熟知，但商标名称是大众所熟知的，可以使用商标名称，让HR可以对求职者所在行业能有一定的了解，
-                              以此判断该求职者是否为同行业或跨行业求职</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="imperfect" v-if="!showSchoolWorkEdit">
-                    <p class="perfect-text">完善校内职务，展现校园活动经验，让HR更了解你！</p>
-                    <el-button size="small" class="perfect-btn" @click="showSchoolWorkEdit=true">开始完善</el-button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="grid-content info-box edit-border" v-if="showSchoolHonorEdit">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-school"></i>
-                <span>校内荣誉</span>
-              </div>
-              <div class="base-content">
-                <div class="edit-content">
-                  <ul  class="edit-item-list">
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">时间：</span>
-                        <el-date-picker size="small" class="select-box"
-                          v-model="honor_time"
-                          type="date"
-                          placeholder="选择日期"
-                          format="yyyy-MM-dd">
-                        </el-date-picker>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">奖项：</span>
-                        <el-input size="small" v-model="honor_prize" placeholder="请输入奖项"></el-input>
-                      </div>
-                    </li>
-                    <li class="item">
-                      <div class="input-box text-left">
-                        <span class="name">级别：</span>
-                        <el-input size="small" v-model="honor_level" placeholder="请输入级别"></el-input>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="edit-btn-box">
-                    <div class="edit-btn save-btn" @click="saveSchoolHonor">保存</div>
-                    <div class="edit-btn cancel-btn" @click="showSchoolHonorEdit=false">取消</div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="grid-content info-box edit-border" v-if="showSchoolWorkEdit">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-school"></i>
-                <span>校内职务</span>
-              </div>
-              <div class="base-content">
-                <div class="edit-content">
-                  <ul  class="edit-item-list">
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">时间：</span>
-                        <el-date-picker size="small" class="select-box"
-                          v-model="school_work_time"
-                          type="date"
-                          placeholder="选择日期"
-                          format="yyyy-MM-dd">
-                        </el-date-picker>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">职务：</span>
-                        <el-input size="small" v-model="school_work_name" placeholder="请输入职务"></el-input>
-                      </div>
-                    </li>
-                    <li class="item work-desc-item">
-                      <div class="input-box text-left">
-                        <span class="name">职务描述：</span>
-                        <div class="work-desc">
-                          <textarea v-model="school_work_desc" maxlength="300" class="textarea" name="" id="" placeholder="描述你的职责范围、工作任务以及取得成绩"></textarea>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="edit-btn-box">
-                    <div class="edit-btn save-btn" @click="saveSchoolWork">保存</div>
-                    <div class="edit-btn cancel-btn" @click="showSchoolWorkEdit=false">取消</div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="skill" class="grid-content info-box" v-if="!showSkillEdit">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-skill"></i>
-                <span>技能证书</span>
-                <div class="add-job" @click="showSkillEdit=true">
-                  <i class="iconfont icon-add"></i>新增证书
-                </div>
-              </div>
-              <ul class="skill" style="display: none">
-                <li>
-                  <span class="gray">2009/12</span>
-                  <span>市场销售精英证</span>
-                  <span>合格</span>
-                  <span class="icon-box">
-                    <i class="iconfont icon-edit"></i>
-                    <i class="iconfont icon-delete"></i>
-                  </span>
-                </li>
-                <li>
-                  <span class="gray">2013/12</span>
-                  <span>市场销售高级证书</span>
-                  <span>合格</span>
-                  <span class="icon-box">
-                    <i class="iconfont icon-edit"></i>
-                    <i class="iconfont icon-delete"></i>
-                  </span>
-                </li>
-              </ul>
-              <div class="imperfect" v-if="!showSkillEdit">
-                    <p class="perfect-text">完善所获证书，展现专业技能，让HR更了解你！</p>
-                    <el-button size="small" class="perfect-btn" @click="showSkillEdit=true">开始完善</el-button>
-                  </div>
-            </div>
-          </div>
-          <div class="grid-content info-box edit-border" v-if="showSkillEdit">
-            <div class="base-info">
-              <div class="title">
-                <i class="iconfont icon-skill"></i>
-                <span>技能证书</span>
-              </div>
-              <div class="base-content">
-                <div class="edit-content">
-                  <ul  class="edit-item-list">
-                    <li class="item">
-                      <div class="input-box">
-                        <span class="name">时间：</span>
-                        <el-date-picker size="small" class="select-box"
-                          v-model="skill_time"
-                          type="date"
-                          placeholder="选择日期"
-                          format="yyyy-MM-dd">
-                        </el-date-picker>
-                      </div>
-                      <div class="input-box">
-                        <span class="name">证书名称：</span>
-                        <el-input size="small" v-model="skill_name" placeholder="请输入证书名称" maxlength="30"></el-input>
-                      </div>
-                    </li>
-                    <li class="item work-desc-item">
-                      <div class="input-box text-left">
-                        <span class="name">成绩：</span>
-                        <el-input size="small" v-model="skill_score" placeholder="请输入成绩" maxlength="30" ></el-input>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="edit-btn-box">
-                    <div class="edit-btn save-btn" @click="saveSkill(id)">保存</div>
-                    <div class="edit-btn cancel-btn" @click="showSkillEdit=false">取消</div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
+          <baseBox :baseInfo="baseInfo" ></baseBox>
+          <expectBox :expectInfo="expectInfo"></expectBox>
+          <evaluateBox :evaluateInfo="evaluateInfo"></evaluateBox>
+          <workExperBox :workExperList="workExperList"></workExperBox>
+          <eduBox :eduList="eduList"></eduBox>
+          <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList"></schoolBox>
+          <skillBox :skillList="skillList"></skillBox>
+          
           <div class="post-resume">
             <el-button size="small" class="resume-btn" @click="postResume">提交简历</el-button>
           </div>
@@ -1129,95 +213,23 @@
 </template>
 <script>
 import headerNav from "../components/HeaderNav.vue";
+import baseBox from '../components/Resume/base.vue';
+import expectBox from '../components/Resume/expect.vue';
+import evaluateBox from '../components/Resume/evaluate.vue';
+import workExperBox from '../components/Resume/workexper.vue';
+import eduBox from '../components/Resume/edu.vue';
+import schoolBox from '../components/Resume/school.vue';
+import skillBox from '../components/Resume/skills.vue';
 import { mapState } from "vuex";
 export default {
   name: "resume",
   data() {
     return {
-      showMoreBase: false,
-      showBaseInfoEdit: false,
-      showJobIntensionEdit: false,
-      showEvaluateEdit: false,
-      showWorkExperiencedEdit: false,
-      showEducationEdit: false,
-      showSchoolHonorEdit: false,
-      showSchoolWorkEdit: false,
-      showSkillEdit: false,
-
       showSuccessDialog: false,
       dialogVisible: false,
       dialogMessage: "",
-      cities: [],
       tag: "",
       tabIndex: 0,
-      /********************************** */
-      resume: {
-        
-      },
-      //数据对象
-      baseInfo: {},
-      expect: {},
-      // education: {},
-      workExper: [],
-      schoolWork: [],
-      schoolHonor: [],
-      skills: [],
-      /************************************ */
-      //基本信息
-      career_type: "",
-      name: "",
-      phone: "",
-      email: "",
-      sex: "",
-      birth: "2018-02-01",
-      native_place: "",
-      work_year: "2013", //工作年份
-      job_status: "", //求职状态
-      marriage_status: "", //婚姻状态
-      address: "", //现居住
-      //自我评价
-      evaluate: "",
-      //求职意向
-      expect_salary: "", //期望薪资
-      expect_work_place: "", //工作地点
-      expect_position: "", //职位
-      expect_industry: "", //期望行业
-      expect_work_type: "", //期望工作类型
-      arrive: "", //到岗时间
-      //工作经验
-      work_start: "", //开始时间
-      work_end: "", //结束时间
-      company_name: "", //公司名称
-      department: "", //部门
-      fun: "", //职能
-      company_industry: "", //公司行业
-      work_position: "", //职位
-      company_size: "", //公司规模
-      work_type: "", //工作类型
-      company_nature: "", // 公司性质
-      work_desc: "", //工作描述
-      //教育经历
-      edu_start: "",
-      edu_end: "",
-      school_name: "",
-      edu_degree: "", //学历/学位
-      edu_major: "", //专业
-      edu_nature: "", //学业性质
-      edu_desc: "", //专业描述
-      //在校情况
-      //荣誉
-      honor_time: "", //荣誉时间
-      honor_prize: "", //荣誉奖项
-      honor_level: "", //荣誉级别
-      //职务
-      school_work_time: "",
-      school_work_name: "",
-      school_work_desc: "",
-      //技能证书
-      skill_time: "",
-      skill_name: "",
-      skill_score: "",
-
       tags: [
         {
           value: 0,
@@ -1248,64 +260,44 @@ export default {
           label: "技能证书"
         }
       ],
-      careerTpye: [
-        {
-          value: "0",
-          label: "全职"
-        },
-        {
-          value: "1",
-          label: "兼职"
-        },
-        {
-          value: "2",
-          label: "实习"
-        }
-      ],
-      jobStatus: [
-        {
-          value: "0",
-          label: "离职-随时到岗"
-        },
-        {
-          value: "1",
-          label: "在职-暂不考虑"
-        },
-        {
-          value: "2",
-          label: "在职-考虑机会"
-        },
-        {
-          value: "3",
-          label: "在职-月内到岗"
-        }
-      ],
-      marriageStatus: [
-        {
-          value: "0",
-          label: "未婚"
-        },
-        {
-          value: "1",
-          label: "已婚"
-        },
-        {
-          value: "2",
-          label: "保密"
-        }
-      ],
-      salaryRange: [],
-      workplaceList: [],
-      positionType: [],
-      industryType: [],
-      workType: [],
-      arriveRange: [],
-      companySize: [],
-      funType: [],
-      companyNature: [],
-      majorType: [], //专业
-      eduNatureType: [], //专业性质
-      degreeType: [] //学历/学位
+      resume: {},
+
+      //数据对象
+      //基本信息
+      baseInfo: {
+        name: '',
+        sex: 0,
+        birth: '',
+        phone: '',
+        email: '',
+        nativePlace: '',
+        workYear: '',
+        jobStatus: 0,
+        careerType: 0,
+        marriageStatus: 0,
+        address: ''
+      },
+      //求职意向
+      expectInfo: {
+        expect_salary: 0,
+        expect_work_place: '',
+        expect_position: 0,
+        expect_industry: 0,
+        expect_work_type: 0,
+        arrive_time: ''
+      },
+      //自我评价
+      evaluateInfo: {
+        evaluate: ''
+      },
+      //工作经验
+      workExperList: [],
+      eduList: [],
+      schoolHonorList: [],
+      schoolWorkList: [],
+      skillList: [],
+
+
     };
   },
   computed: {
@@ -1324,9 +316,15 @@ export default {
       this.$store
         .dispatch("RESUME_INFO", { creator: "cc" })
         .then(res => {
-          this.$nextTick(() => {
-            this.resume = res.data;
-          });
+          this.resume = res.data;
+          this.baseInfo =res.data.resumeBaseInfo;
+          this.expectInfo = res.data.resumeBaseInfo;
+          this.workExperList = res.data.jobexpList;
+          this.eduList = res.data.educationList;
+          this.schoolHonorList = res.data.schoolHonorList;
+          this.schoolWorkList = res.data.schoolPostList;
+          this.skillList = res.data.skillsList;
+          
         })
         .catch(err => {
           console.log(err);
@@ -1338,9 +336,34 @@ export default {
     },
     //保存基本信息
     saveBaseInfo: function() {
-      console.log(this.resume)
+      console.log(this.baseInfo)
+      let base = {
+        "name": this.baseInfo.name,
+        "sex": this.baseInfo.sex,
+        "birth": this.baseInfo.birth,
+        "phone": this.baseInfo.phone,
+        "email": this.baseInfo.email,
+        "nativePlace": this.baseInfo.nativePlace,
+        "workYear": this.baseInfo.workYear,
+        "jobStatus": this.baseInfo.jobStatus,
+        "marriageStatus": this.baseInfo.marriageStatus,
+        "address": this.baseInfo.address,
+        "creator": this.resume.resumeBaseInfo.creator,
+        "updator": this.resume.resumeBaseInfo.updator, 
+        "id": this.resume.resumeBaseInfo.id,
+
+        // "evaluate": this.evaluateInfo.evaluate,
+
+        // "expectIndustry": this.expectInfo.expectIndustry,
+        // "expectPlace": this.expectInfo.expectPlace,
+        // "expectPosition": this.expectInfo.expectPosition,
+        // "expectSalary": this.expectInfo.expectSalary,
+        // "arriveTime": this.expectInfo.arriveTime,
+        // "expectWorkType": this.expectInfo.expectWorkType,
+        
+      }
       //保存数据....
-      this.$store.dispatch("SET_BASEINFO", this.resume.resumeBaseInfo)
+      this.$store.dispatch("SET_BASEINFO", base)
         .then(res => {
           console.log(res)
           this.showBaseInfoEdit = false;
@@ -1348,7 +371,6 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      this.showBaseInfoEdit = false;
     },
     //编辑求职意向
     editJobIntension: function() {
@@ -1422,11 +444,18 @@ export default {
   },
   watch: {},
   components: {
-    headerNav
+    headerNav,
+    baseBox,
+    expectBox,
+    evaluateBox,
+    workExperBox,
+    eduBox,
+    schoolBox,
+    skillBox
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less" scope>
 @import url("../assets/css/colors.less");
 .resume-page {
   width: 100%;
@@ -1701,24 +730,30 @@ export default {
                   .el-input {
                     width: 180px;
                   }
-                  .el-select .el-input.is-focus .el-input__inner {
+                  .el-select .el-input.is-focus .el-input__inner,
+                  .el-radio__input.is-checked .el-radio__inner {
                     border-color: @main-color-yellow;
+                  }
+                  .el-radio__input.is-checked .el-radio__inner {
+                    background-color: @main-color-yellow;
+                  }
+                  .el-radio__input.is-checked+.el-radio__label {
+                    color: @main-color-text;
                   }
                   .select-box {
                     width: 180px;
-                    .el-input {
-                      border: 1px solid red; //?
-                      .el-input__inner {
-                        width: 180px !important;
-                        height: 30px !important;
-                      }
-                    }
+                    // .el-input {
+                    //   border: 1px solid red; //?
+                    //   .el-input__inner {
+                    //     width: 180px !important;
+                    //     height: 30px !important;
+                    //   }
+                    // }
                   }
                   input {
                     width: 180px;
                     height: 30px;
                     line-height: 30px;
-                    padding-left: 10px;
                     // box-sizing: border-box;
                   }
                 }
@@ -1796,6 +831,7 @@ export default {
           }
         }
         .job-item {
+          width: 100%;;
           display: inline-block;
           padding: 10px 20px;
           border-bottom: 1px solid @main-color-border;
@@ -1883,7 +919,7 @@ export default {
           }
         }
         .tag input {
-          border: 1px solid red;
+          border: 1px solid @main-color-border;
         }
         .tag {
           width: 100%;

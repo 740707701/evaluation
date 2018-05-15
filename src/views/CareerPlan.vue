@@ -21,7 +21,8 @@
             <div class="sub-title">职业能力计划</div>
             <div class="item-list">
               <el-checkbox-group v-model="occ_skills">
-                <el-checkbox v-for="skill in occSkills" :label="skill.name" :key="skill.name" :checked="skill.checked">{{skill.name}}</el-checkbox>
+                <el-checkbox v-for="skill in occSkills" :label="skill.name" 
+                :key="skill.name" :checked="skill.checked" @change="checkPlan">{{skill.name}}</el-checkbox>
               </el-checkbox-group>
             </div>
           </div>
@@ -198,7 +199,10 @@ export default {
   methods: {
     postPlan: function(data){
       console.log('adddata',data)
-    }
+    },
+    checkPlan: function(value){
+      console.log(value)
+    },
   },
   components: {
     headerNav,

@@ -95,7 +95,7 @@ export default {
     },
     //新增 其他计划
     [INSERTADDITIONAL]({ commit }, data) {
-      return api.post(config.url.insertAdditional, params).then(res => {
+      return api.post(config.url.insertAdditional, data).then(res => {
         commit('PLAN_SET', {
           target: 'additionalInfo',
           data: res.data
@@ -106,7 +106,7 @@ export default {
     },
     //修改
     [ADDITIONALINFO]({ commit }, data) {
-      return api.put(config.url.updateAdditional, params).then(res => {
+      return api.put(config.url.updateAdditional, data).then(res => {
         commit('PLAN_SET', {
           target: 'additionalInfo',
           data: res.data
@@ -140,7 +140,7 @@ export default {
     },
     //新增 证书
     [INSERTCERTIFICATE]({ commit }, data) {
-      return api.post(config.url.insertCertificate, params).then(res => {
+      return api.post(config.url.insertCertificate, data).then(res => {
         commit('PLAN_SET', {
           target: 'certificateInfo',
           data: res.data
@@ -151,7 +151,7 @@ export default {
     },
     //修改
     [CERTIFICATEINFO]({ commit }, data) {
-      return api.put(config.url.updateCertificate, params).then(res => {
+      return api.put(config.url.updateCertificate, data).then(res => {
         commit('PLAN_SET', {
           target: 'certificateInfo',
           data: res.data
@@ -185,7 +185,7 @@ export default {
     },
     //新增 实习实践
     [INSERTINTERNSHIP]({ commit }, data) {
-      return api.post(config.url.insertInternship, params).then(res => {
+      return api.post(config.url.insertInternship, data).then(res => {
         commit('PLAN_SET', {
           target: 'internshipInfo',
           data: res.data
@@ -196,7 +196,7 @@ export default {
     },
     //修改
     [INTERNSHIPINFO]({ commit }, data) {
-      return api.put(config.url.updateInternship, params).then(res => {
+      return api.put(config.url.updateInternship, data).then(res => {
         commit('PLAN_SET', {
           target: 'internshipInfo',
           data: res.data
@@ -230,7 +230,7 @@ export default {
     },
     //新增 办公技能
     [INSERTOFFICE]({ commit }, data) {
-      return api.post(config.url.insertOffice, params).then(res => {
+      return api.post(config.url.insertOffice, data).then(res => {
         commit('PLAN_SET', {
           target: 'officeInfo',
           data: res.data
@@ -241,7 +241,7 @@ export default {
     },
     //修改
     [OFFICEINFO]({ commit }, data) {
-      return api.put(config.url.updateOffice, params).then(res => {
+      return api.put(config.url.updateOffice, data).then(res => {
         commit('PLAN_SET', {
           target: 'officeInfo',
           data: res.data
@@ -261,7 +261,6 @@ export default {
         return err
       })
     },
-    //////////////////////////////////////////////////////////////////
     //选修课列表
     [OPTIONAL_LIST]({ commit }, params) {
       return api.get(config.url.listOptional, params).then(res => {
@@ -275,7 +274,7 @@ export default {
     },
     //新增 选修课
     [INSERTOPTIONAL]({ commit }, data) {
-      return api.post(config.url.insertOptional, params).then(res => {
+      return api.post(config.url.insertOptional, data).then(res => {
         commit('PLAN_SET', {
           target: 'optionalInfo',
           data: res.data
@@ -286,7 +285,7 @@ export default {
     },
     //修改
     [OPTIONALINFO]({ commit }, data) {
-      return api.put(config.url.updateOptional, params).then(res => {
+      return api.put(config.url.updateOptional, data).then(res => {
         commit('PLAN_SET', {
           target: 'optionalInfo',
           data: res.data
@@ -320,7 +319,7 @@ export default {
     },
     //新增 专业大赛
     [INSERTPROF]({ commit }, data) {
-      return api.post(config.url.insertProf, params).then(res => {
+      return api.post(config.url.insertProf, data).then(res => {
         commit('PLAN_SET', {
           target: 'profInfo',
           data: res.data
@@ -331,7 +330,7 @@ export default {
     },
     //修改
     [PROFINFO]({ commit }, data) {
-      return api.put(config.url.updateProf, params).then(res => {
+      return api.put(config.url.updateProf, data).then(res => {
         commit('PLAN_SET', {
           target: 'profInfo',
           data: res.data
@@ -365,7 +364,7 @@ export default {
     },
     //新增必修课
     [INSERTREQUIRE]({ commit }, data) {
-      return api.post(config.url.insertRequired, params).then(res => {
+      return api.post(config.url.insertRequired, data).then(res => {
         commit('PLAN_SET', {
           target: 'requireInfo',
           data: res.data
@@ -376,7 +375,7 @@ export default {
     },
     //修改
     [REQUIREINFO]({ commit }, data) {
-      return api.put(config.url.updateRequired, params).then(res => {
+      return api.put(config.url.updateRequired, data).then(res => {
         commit('PLAN_SET', {
           target: 'requireInfo',
           data: res.data
@@ -410,7 +409,7 @@ export default {
     },
     //新增 自学课
     [INSERTSELF]({ commit }, data) {
-      return api.post(config.url.insertSelf, params).then(res => {
+      return api.post(config.url.insertSelf, data).then(res => {
         commit('PLAN_SET', {
           target: 'selfInfo',
           data: res.data
@@ -421,7 +420,7 @@ export default {
     },
     //修改
     [SELFINFO]({ commit }, data) {
-      return api.put(config.url.updateSelf, params).then(res => {
+      return api.put(config.url.updateSelf, data).then(res => {
         commit('PLAN_SET', {
           target: 'selfInfo',
           data: res.data
