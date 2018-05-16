@@ -17,9 +17,10 @@
           </div>
           <div class="status">
             <span>现居住：{{baseInfo.address}}</span>
-            <span>{{baseInfo.workYear}}年工作经验</span>
+            <!-- <span>{{baseInfo.workYear}}年工作经验</span> -->
+            <span>0年工作经验</span>
             <span>{{baseInfo.sex==1?'女':'男'}}</span>
-            <span>11岁 ({{baseInfo.birth}})</span>
+            <span>11岁 ({{baseInfo.birth.slice(0,10)}})</span>
             <span>{{baseInfo.jobStatus}}</span>
           </div>
           <div class="concat">
@@ -38,8 +39,8 @@
         </div>
         <div class="more-info" v-if="showMoreBase">
           <span class="arrow-top"></span>
-          <span>户口/国籍：上海市</span>
-          <span>婚姻状态：未婚</span>
+          <span>户口/国籍：{{baseInfo.address}}</span>
+          <span>婚姻状态：{{baseInfo.marriageStatus}}</span>
         </div>
       </div>
     </div>
@@ -56,43 +57,34 @@
           <div class="text">修改头像</div>
         </div>
         <div class="edit-content baseinfo-content">
-          <ul class="edit-item-list">
-            <li class="item">
-              <div class="input-box">
-                <span class="name">姓名：</span>
-                <el-input size="small" v-model="baseInfo.name" placeholder="请输入姓名" maxlength="20"></el-input>
-              </div>
-              <div class="input-box">
-                <span class="name">性别：</span>
-                <div class="el-input sex-box">
-                  <el-radio v-model="baseInfo.sex" label="0">男</el-radio>
-                  <el-radio v-model="baseInfo.sex" label="1">女</el-radio>
+          <el-form :inline="true" :model="base" :rules="rules" ref="base" label-width="100px" class="form-box">
+            <el-form-item label="姓名：" prop="name" class="input-box">
+              <el-input size="small" v-model="base.name" placeholder="请输入姓名" maxlength="30"></el-input>
+            </el-form-item>
+            <el-form-item label="性别：" prop="sex" class="input-box">
+              <div class="el-input sex-box">
+                <el-radio-group v-model="base.sex">
+                  <el-radio :label="0">男</el-radio>
+                  <el-radio :label="1">女</el-radio>
+                </el-radio-group>
                 </div>
-              </div>
-            </li>
-            <li class="item">
-              <div class="input-box">
-                <span class="name">出生日期：</span>
-                  <el-date-picker size="small" class="select-box"
-                  v-model="baseInfo.birth"
+            </el-form-item>
+            <el-form-item label="出生日期：" prop="birth" class="input-box">
+               <el-date-picker size="small" class="select-box"
+                  v-model="base.birth"
                   type="date"
                   placeholder="选择日期"
                   format="yyyy-MM-dd">
                 </el-date-picker>
-              </div>
-              <div class="input-box">
-                <span class="name">手机：</span>
-                <el-input size="small" v-model="baseInfo.phone" placeholder="请输入手机号码" maxlength="11"></el-input>
-              </div>
-            </li>
-            <li class="item">
-              <div class="input-box">
-                <span class="name">邮箱：</span>
-                <el-input  size="small" v-model="baseInfo.email" placeholder="请输入邮箱" maxlength="20"></el-input>
-              </div>
-              <div class="input-box">
-                <span class="name">籍贯：</span>
-                <el-select size="small"  v-model="baseInfo.nativePlace" placeholder="请选择" class="select-box">
+            </el-form-item>
+            <el-form-item label="手机：" prop="phone" class="input-box">
+              <el-input size="small" v-model="base.phone" placeholder="请输入手机号码" maxlength="11"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱：" prop="email" class="input-box">
+              <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" maxlength="20"></el-input>
+            </el-form-item>
+            <el-form-item label="籍贯：" prop="nativePlace" class="input-box">
+              <el-select size="small"  v-model="base.nativePlace" placeholder="请选择" class="select-box">
                   <el-option 
                     v-for="item in cities"
                     :key="item.value"
@@ -101,21 +93,17 @@
                     >
                   </el-option>
                 </el-select>
-              </div>
-            </li>
-            <li class="item">
-              <div class="input-box">
-                <span class="name">工作年份：</span>
-                <el-date-picker size="small" class="select-box"
-                  v-model="baseInfo.workYear"
-                  type="date"
+            </el-form-item>
+            <el-form-item label="工作年份：" prop="workYear" class="input-box">
+              <el-date-picker size="small" class="select-box"
+                  v-model="base.workYear"
+                  type="year"
                   placeholder="选择日期"
-                  format="yyyy">
+                  value-format="yyyy">
                 </el-date-picker>
-              </div>
-              <div class="input-box">
-                <span class="name">求职状态：</span>
-                <el-select size="small" v-model="baseInfo.jobStatus" placeholder="请选择" class="select-box">
+            </el-form-item>
+            <el-form-item label="求职状态：" prop="jobStatus" class="input-box">
+              <el-select size="small" v-model="base.jobStatus" placeholder="请选择" class="select-box">
                   <el-option
                     v-for="item in jobStatus"
                     :key="item.value"
@@ -123,23 +111,19 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-              </div>
-            </li>
-            <li class="item">
-              <div class="input-box">
-                <span class="name">职业类型：</span>
-                <el-select size="small" v-model="baseInfo.careerType" placeholder="请选择" class="select-box">
+            </el-form-item>
+            <el-form-item label="职业类型：" prop="careerType" class="input-box">
+              <el-select size="small" v-model="base.careerType" placeholder="请选择" class="select-box">
                   <el-option
-                    v-for="item in careerTpye"
+                    v-for="item in careerType"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
                   </el-option>
                 </el-select>
-              </div>
-              <div class="input-box">
-                <span class="name">婚姻状态：</span>
-                <el-select size="small" v-model="baseInfo.marriageStatus" placeholder="请选择" class="select-box">
+            </el-form-item>
+            <el-form-item label="婚姻状态：" prop="marriageStatus" class="input-box">
+              <el-select size="small" v-model="base.marriageStatus" placeholder="请选择" class="select-box">
                   <el-option
                     v-for="item in marriageStatus"
                     :key="item.value"
@@ -147,19 +131,15 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-              </div>
-            </li>
-            <li class="item">
-              <div class="input-box text-left">
-                <span class="name">现居住：</span>
-                <el-input size="small" v-model="baseInfo.address" placeholder="请输入现居住地址"></el-input>
-              </div>
-            </li>
-          </ul>
-          <div class="edit-btn-box">
-            <div class="edit-btn save-btn" @click="saveBaseInfo">保存</div>
-            <div class="edit-btn cancel-btn" @click="showBaseInfoEdit=false">取消</div>
-          </div>
+            </el-form-item>
+            <el-form-item label="现居住：" prop="address" class="input-box">
+              <el-input size="small" v-model="base.address" placeholder="请输入现居住地址" maxlength="30"></el-input>
+            </el-form-item>
+            <el-form-item size="small" class="edit-btn-box">
+              <el-button class="save-btn" @click="saveBaseInfo('base')">保存</el-button>
+              <el-button class="cancel" @click="cancel('base')">取消</el-button>
+            </el-form-item>
+          </el-form>
         </div>
       </div>
     </div>
@@ -172,34 +152,138 @@ export default {
   name: "baseInfo",
   data() {
     return {
-      showMoreBase: false,
-      showBaseInfoEdit: false,
       cities: metadata.cities,
       jobStatus: metadata.jobStatus,
-      careerTpye: metadata.careerType,
-      marriageStatus: metadata.marriageStatus
+      careerType: metadata.careerType,
+      marriageStatus: metadata.marriageStatus,
+
+      base: {},
+      showMoreBase: false,
+      showBaseInfoEdit: false,
+      rules: {
+        name: [
+          {
+            required: true,
+            message: "请输入姓名",
+            trigger: "blur"
+          },
+          {
+            min: 2,
+            max: 20,
+            message: "请确认姓名与身份证保持信息一致",
+            trigger: "blur"
+          }
+        ],
+        sex: [
+          {
+            required: true,
+            message: "请确认性别与身份证保持信息一致。",
+            trigger: "change"
+          }
+        ],
+        phone: [
+          { required: true,  message: "请输入手机号", trigger: "blur" },
+          {
+            min: 11,
+            max: 15,
+            message: "请确认电话号码保持畅通，尽量让电话号码归属为求职所在地。",
+            trigger: "blur"
+          }
+        ],
+        email: [
+          { required: true, message: "请输入联系邮箱", trigger: "blur" },
+          {
+            min: 0,
+            max: 14,
+            message: "请确认邮箱地址可正常收发邮件，且未设置陌生邮箱黑名单等。",
+            trigger: "blur"
+          }
+        ],
+        birth: [
+          {
+            required: true,
+            message: "请确认出生日期与身份证保持信息一致。",
+            trigger: "blur"
+          }
+        ],
+        nativePlace: [
+          {
+            required: true,
+            message: "请确认户籍地与你身份证信息保持一致。",
+            trigger: "change"
+          }
+        ],
+        workYear: [
+          { required: true, message: "请选择工作时间", trigger: "change" }
+        ],
+        jobStatus: [
+          { required: true, message: "请选择求职状态", trigger: "change" }
+        ],
+        careerType: [
+          { required: true, message: "请选择职业类型", trigger: "change" }
+        ],
+        marriageStatus: [
+          {
+            required: true,
+            message: "请确认你的婚姻状况属实",
+            trigger: "change"
+          }
+        ],
+        address: [
+          {
+            required: true,
+            min: 0,
+            max: 10,
+            message: "请确认居住地与求职所在城市一致",
+            trigger: "blur"
+          }
+        ]
+      }
     };
   },
   props: ["baseInfo"],
   methods: {
     editBaseInfo: function() {
       this.showBaseInfoEdit = true;
+      this.base = {
+        name: this.baseInfo.name,
+        birth: this.baseInfo.birth,
+        phone: this.baseInfo.phone,
+        email: this.baseInfo.email,
+        nativePlace: this.baseInfo.nativePlace,
+        workYear: this.baseInfo.workYear,
+        jobStatus: this.baseInfo.jobStatus,
+        careerType: this.baseInfo.careerType,
+        marriageStatus: this.baseInfo.marriageStatus,
+        address: this.baseInfo.address,
+        creator: this.baseInfo.creator,
+        updator: this.baseInfo.updator
+      };
     },
-    saveBaseInfo: function() {
-      this.$store
-        .dispatch("SET_BASEINFO", base)
-        .then(res => {
-          console.log(res);
-          this.showBaseInfoEdit = false;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    saveBaseInfo: function(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$store
+            .dispatch("SET_BASEINFO", this.base)
+            .then(res => {
+              this.showBaseInfoEdit = false;
+              this.$emit("baseSaved", this.base);
+            })
+            .catch(err => {
+              console.log(err.data.msg);
+            });
+        } else {
+          return false;
+        }
+      });
+    },
+    cancel: function(formName) {
+      this.showBaseInfoEdit = false;
+      this.$refs[formName].resetFields();
     }
   }
 };
 </script>
 <style lang="less" scope>
-
 </style>
 

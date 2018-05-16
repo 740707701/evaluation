@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div class="grid-content info-box edit-border" v-if="expectInfo&&showJobIntensionEdit==true">
+    <div class="grid-content info-box edit-border" v-if="showJobIntensionEdit==true">
       <div class="base-info">
         <div class="title">
           <i class="iconfont icon-job"></i>
@@ -47,22 +47,19 @@
         </div>
         <div class="base-content">
           <div class="edit-content">
-            <ul class="edit-item-list">
-              <li class="item">
-                <div class="input-box">
-                  <span class="name">期望薪资：</span>
-                  <el-select size="small" v-model="expectInfo.expectSalary" placeholder="请选择" class="select-box">
-                    <el-option
-                      v-for="item in salaryRange"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </div>
-                <div class="input-box">
-                  <span class="name">工作地点：</span>
-                  <el-select size="small" v-model="expectInfo.expectWorkPlace" placeholder="请选择" class="select-box">
+            <el-form :inline="true" :model="expect" :rules="rules" ref="expect" label-width="100px" class="form-box">
+              <el-form-item label="期望薪资：" prop="expectSalary" class="input-box">
+                <el-select size="small" v-model="expect.expectSalary" placeholder="请选择" class="select-box">
+                  <el-option
+                    v-for="item in salaryRange"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="工作地点：" prop="expectPlace" class="input-box">
+                 <el-select size="small" v-model="expect.expectPlace" placeholder="请选择" class="select-box">
                     <el-option
                       v-for="item in cities"
                       :key="item.value"
@@ -70,12 +67,9 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
-                </div>
-              </li>
-              <li class="item">
-                <div class="input-box">
-                  <span class="name">职能/职位：</span>
-                  <el-select size="small" v-model="expectInfo.expectPosition" placeholder="请选择" class="select-box">
+              </el-form-item>
+              <el-form-item label="职能/职位：" prop="expectPosition" class="input-box">
+                <el-select size="small" v-model="expect.expectPosition" placeholder="请选择" class="select-box">
                     <el-option
                       v-for="item in positionType"
                       :key="item.value"
@@ -83,10 +77,9 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
-                </div>
-                <div class="input-box">
-                  <span class="name">行业：</span>
-                  <el-select size="small" v-model="expectInfo.expectIndustry" placeholder="请选择" class="select-box">
+              </el-form-item>
+              <el-form-item label="行业：" prop="expectIndustry" class="input-box">
+                <el-select size="small" v-model="expect.expectIndustry" placeholder="请选择" class="select-box">
                     <el-option
                       v-for="item in industryType"
                       :key="item.value"
@@ -94,23 +87,19 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
-                </div>
-              </li>
-                <li class="item">
-                <div class="input-box">
-                  <span class="name">工作类型：</span>
-                  <el-select size="small" v-model="expectInfo.expectWorkType" placeholder="请选择" class="select-box">
-                    <el-option
-                      v-for="item in workType"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </div>
-                <div class="input-box">
-                  <span class="name">到岗时间：</span>
-                  <el-select size="small" v-model="expectInfo.arriveTime" placeholder="请选择" class="select-box">
+              </el-form-item>
+              <el-form-item label="工作类型：" prop="expectWorkType" class="input-box">
+                <el-select size="small" v-model="expect.expectWorkType" placeholder="请选择" class="select-box">
+                  <el-option
+                    v-for="item in workType"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="到岗时间：" prop="arriveTime" class="input-box">
+                <el-select size="small" v-model="expect.arriveTime" placeholder="请选择" class="select-box">
                     <el-option
                       v-for="item in arriveRange"
                       :key="item.value"
@@ -118,13 +107,12 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
-                </div>
-              </li>
-            </ul>
-            <div class="edit-btn-box">
-              <div class="edit-btn save-btn" @click="saveJobIntension">保存</div>
-              <div class="edit-btn cancel-btn" @click="cancel">取消</div>
-            </div>
+              </el-form-item>
+              <el-form-item size="small" class="edit-btn-box">
+                <el-button class="save-btn" @click="saveJobIntension('expect')">保存</el-button>
+                <el-button class="cancel-btn" @click="cancel('expect')">取消</el-button>
+              </el-form-item>
+            </el-form>
           </div>
         </div>
       </div>
@@ -132,34 +120,93 @@
   </div>
 </template>
 <script>
-  import metadata from '../../api/metadata'
-  export default {
-    name: 'expect',
-    data(){
-      return {
-        salaryRange: metadata.salaryRange,
-        cities: metadata.cities,
-        positionType: metadata.positionType,
-        industryType: metadata.industryType,
-        workType: metadata.workType,
-        arriveRange: metadata.arriveRange,
+import metadata from "../../api/metadata";
+export default {
+  name: "expect",
+  data() {
+    return {
+      salaryRange: metadata.salaryRange,
+      cities: metadata.cities,
+      positionType: metadata.positionType,
+      industryType: metadata.industryType,
+      workType: metadata.workType,
+      arriveRange: metadata.arriveRange,
 
-        showJobIntensionEdit: false,
+      expect: {},
+      showJobIntensionEdit: false,
+      rules: {
+        expectInfo: [
+          {
+            required: true,
+            message: "请确认你所填写的期望薪资符合市场规律，没有过高/过低",
+            trigger: "change"
+          }
+        ],
+        expectPlace: [
+          {
+            require: true,
+            message: "请确认该期望地为单一城市",
+            trigger: "change"
+          }
+        ],
+        expectPosition: [
+          {
+            require: true,
+            message: "请确认你的期望职位符合你的工作年限及实习经历",
+            trigger: "change"
+          }
+        ],
+        expectIndustry: [
+          {
+            require: true,
+            message: "请选择行业",
+            trigger: "change"
+          }
+        ],
+        expectWorkType: [
+          {
+            require: true,
+            message: "请选择工作类型",
+            trigger: "change"
+          }
+        ],
+        arriveTime: [
+          {
+            require: true,
+            message: "请确认你的到岗时间是否在1周内。",
+            trigger: "change"
+          }
+        ]
       }
+    };
+  },
+
+  props: ["expectInfo"],
+
+  methods: {
+    editJobIntension: function() {
+      this.showJobIntensionEdit = true;
+      this.expect = this.expectInfo;
     },
-    props: ['expectInfo'],
-   
-    methods: {
-      editJobIntension: function(){
-        this.showJobIntensionEdit = true;
-      },
-      saveJobIntension: function(){},
-      cancel: function(){
-        this.showJobIntensionEdit = false
-      }
+    saveJobIntension: function(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$store.dispatch('SET_BASEINFO', this.expect).then(res => {
+            this.showJobIntensionEdit = false
+          }).catch(err => {
+            console.log(err)
+          })
+        } else {
+          return false;
+        }
+      });
     },
-    
+    cancel: function(formName) {
+      this.showJobIntensionEdit = false;
+       this.$refs[formName].resetFields();
+    }
   }
+};
 </script>
 <style lang="less" scope></style>
 

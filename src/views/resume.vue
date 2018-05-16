@@ -73,7 +73,7 @@
           </div>
         </el-col>
         <el-col :span="15" class="center-content">
-          <baseBox :baseInfo="baseInfo" ></baseBox>
+          <baseBox :baseInfo="baseInfo" @baseSaved="baseInfoSaved"></baseBox>
           <expectBox :expectInfo="expectInfo"></expectBox>
           <evaluateBox :evaluateInfo="evaluateInfo"></evaluateBox>
           <workExperBox :workExperList="workExperList"></workExperBox>
@@ -287,16 +287,13 @@ export default {
         arrive_time: ''
       },
       //自我评价
-      evaluateInfo: {
-        evaluate: ''
-      },
+      evaluateInfo: {},
       //工作经验
       workExperList: [],
       eduList: [],
       schoolHonorList: [],
       schoolWorkList: [],
       skillList: [],
-
 
     };
   },
@@ -310,6 +307,7 @@ export default {
     this.getResumeInfo();
   },
   mounted: function() {},
+  updated: function(){},
   methods: {
     //获取简历信息
     getResumeInfo: function() {
@@ -318,116 +316,25 @@ export default {
         .then(res => {
           this.resume = res.data;
           this.baseInfo =res.data.resumeBaseInfo;
+          this.evaluateInfo = res.data.resumeBaseInfo;
           this.expectInfo = res.data.resumeBaseInfo;
           this.workExperList = res.data.jobexpList;
           this.eduList = res.data.educationList;
           this.schoolHonorList = res.data.schoolHonorList;
           this.schoolWorkList = res.data.schoolPostList;
           this.skillList = res.data.skillsList;
-          
         })
         .catch(err => {
           console.log(err);
         });
     },
-    //编辑基本信息
-    editBaseInfo: function() {
-      this.showBaseInfoEdit = true;
-    },
-    //保存基本信息
-    saveBaseInfo: function() {
-      console.log(this.baseInfo)
-      let base = {
-        "name": this.baseInfo.name,
-        "sex": this.baseInfo.sex,
-        "birth": this.baseInfo.birth,
-        "phone": this.baseInfo.phone,
-        "email": this.baseInfo.email,
-        "nativePlace": this.baseInfo.nativePlace,
-        "workYear": this.baseInfo.workYear,
-        "jobStatus": this.baseInfo.jobStatus,
-        "marriageStatus": this.baseInfo.marriageStatus,
-        "address": this.baseInfo.address,
-        "creator": this.resume.resumeBaseInfo.creator,
-        "updator": this.resume.resumeBaseInfo.updator, 
-        "id": this.resume.resumeBaseInfo.id,
-
-        // "evaluate": this.evaluateInfo.evaluate,
-
-        // "expectIndustry": this.expectInfo.expectIndustry,
-        // "expectPlace": this.expectInfo.expectPlace,
-        // "expectPosition": this.expectInfo.expectPosition,
-        // "expectSalary": this.expectInfo.expectSalary,
-        // "arriveTime": this.expectInfo.arriveTime,
-        // "expectWorkType": this.expectInfo.expectWorkType,
-        
-      }
-      //保存数据....
-      this.$store.dispatch("SET_BASEINFO", base)
-        .then(res => {
-          console.log(res)
-          this.showBaseInfoEdit = false;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    //编辑求职意向
-    editJobIntension: function() {
-      this.showJobIntensionEdit = true;
-    },
-    //保存求职意向
-    saveJobIntension: function() {
-      //保存数据....
-      this.showJobIntensionEdit = false;
-    },
-    //编辑自我评价
-    editEvaluate: function() {
-      this.showEvaluateEdit = true;
-    },
-    //保存自我评价
-    saveEvaluate: function() {
-      //保存数据....
-      this.showEvaluateEdit = false;
-    },
-    //新增,编辑工作经验
-    editWorkExper: function(id) {
-      if (id) {
-        //编辑
-        this.showWorkExperiencedEdit = true;
-      } else {
-        //新增
-      }
-    },
-    //删除某一条工作经验
-    deleteWorkExper: function(id) {},
-    //保存工作经验
-    saveWorkExper: function() {
-      //保存数据....
-      this.showWorkExperiencedEdit = false;
-    },
-    //新增,编辑教育经历
-    editEducation: function(id) {
-      if (id) {
-        //编辑
-        this.showEducationEdit = true;
-      } else {
-        //新增
-      }
-    },
-    //保存教育经历
-    saveEducation: function() {
-      //保存数据...
-      this.showEducationEdit = false;
-    },
-    //删除教育经历
-    deleteEducation: function(id) {},
-    //新增,编辑在校情况
-    saveSchoolHonor: function() {},
-    saveSchoolWork: function() {},
-    //新增,编辑技能证书
-    editSkill: function() {},
-    saveSkill: function() {},
+   //
+   baseInfoSaved: function(baseinfo){
+     console.log('baseinfo',baseinfo)
+     //更新dom
+    //  this.baseInfo = baseinfo
+   },
+    
 
     //提交简历
     postResume: function() {
@@ -511,6 +418,14 @@ export default {
     .edit-border {
       border: 1px solid @main-color-yellow!important;
     }
+    .el-form-item {
+      margin-bottom: 20px;
+    }
+    .form-box {
+      .el-form-item:nth-of-type(even) {
+        float: right;
+      }
+    }
     .grid-content {
       border-radius: 8px;
       min-height: 36px;
@@ -586,6 +501,7 @@ export default {
         }
       }
       .edit-btn-box {
+        width: 100%;
         padding: 15px 0;
         text-align: center;
         .edit-btn {
@@ -628,7 +544,6 @@ export default {
           width: 100%;
           display: inline-block;
           padding: 5px 20px;
-          // box-sizing: border-box;
           .avtar {
             float: left;
             width: 85px;
@@ -710,66 +625,66 @@ export default {
             margin-left: 105px;
           }
           .edit-content {
+            .input-box {
+              flex: 1 1 auto;
+              .name {
+                width: 80px;
+                text-align: left;
+                display: inline-block;
+                color: gray;
+              }
+              .sex-box {
+                text-align: left;
+              }
+              .el-input {
+                width: 180px;
+              }
+              .el-select .el-input.is-focus .el-input__inner,
+              .el-radio__input.is-checked .el-radio__inner {
+                border-color: @main-color-yellow;
+              }
+              .el-radio__input.is-checked .el-radio__inner {
+                background-color: @main-color-yellow;
+              }
+              .el-radio__input.is-checked+.el-radio__label {
+                color: @main-color-text;
+              }
+              .select-box {
+                width: 180px;
+                // .el-input {
+                //   border: 1px solid red; //?
+                //   .el-input__inner {
+                //     width: 180px !important;
+                //     height: 30px !important;
+                //   }
+                // }
+              }
+              input {
+                width: 180px;
+                height: 30px;
+                line-height: 30px;
+                // box-sizing: border-box;
+              }
+            }
+            .input-box:last-child {
+              text-align: right;
+            }
+            .text-left {
+              text-align: left !important;
+            }
+            .work-desc {
+              margin-left: 80px;
+              margin-top: -20px;
+            }
+            .work-desc-item {
+              margin-top: 10px;
+            }
             .edit-item-list {
               width: 100%;
               display: inline-block;
               li {
                 display: flex;
                 padding-bottom: 10px;
-                .input-box {
-                  flex: 1 1 auto;
-                  .name {
-                    width: 80px;
-                    text-align: left;
-                    display: inline-block;
-                    color: gray;
-                  }
-                  .sex-box {
-                    text-align: left;
-                  }
-                  .el-input {
-                    width: 180px;
-                  }
-                  .el-select .el-input.is-focus .el-input__inner,
-                  .el-radio__input.is-checked .el-radio__inner {
-                    border-color: @main-color-yellow;
-                  }
-                  .el-radio__input.is-checked .el-radio__inner {
-                    background-color: @main-color-yellow;
-                  }
-                  .el-radio__input.is-checked+.el-radio__label {
-                    color: @main-color-text;
-                  }
-                  .select-box {
-                    width: 180px;
-                    // .el-input {
-                    //   border: 1px solid red; //?
-                    //   .el-input__inner {
-                    //     width: 180px !important;
-                    //     height: 30px !important;
-                    //   }
-                    // }
-                  }
-                  input {
-                    width: 180px;
-                    height: 30px;
-                    line-height: 30px;
-                    // box-sizing: border-box;
-                  }
-                }
-                .input-box:last-child {
-                  text-align: right;
-                }
-                .text-left {
-                  text-align: left !important;
-                }
-                .work-desc {
-                  margin-left: 80px;
-                  margin-top: -20px;
-                }
-              }
-              .work-desc-item {
-                margin-top: 10px;
               }
             }
           }
@@ -854,6 +769,7 @@ export default {
             }
             .desc-content {
               margin-left: 80px;
+              line-height: 24px;
               .desc-list {
                 li {
                   line-height: 26px;
@@ -898,14 +814,11 @@ export default {
         .evaluate-box {
           width: 100%;
           display: inline-block;
-          padding: 10px 20px;
-          // box-sizing: border-box;
+          padding: 0 20px;
           .evaluate-text {
             width: 100%;
-            // min-height: 150px;
             padding: 5px 20px;
             line-height: 26px;
-            // box-sizing: border-box;
           }
         }
       }

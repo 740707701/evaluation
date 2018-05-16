@@ -56,7 +56,7 @@
                     v-model="workExperInfo.startTime"
                     type="date"
                     placeholder="选择日期"
-                    format="yyyy-MM-dd">
+                    value-format="yyyy-MM-dd">
                   </el-date-picker>
                 </div>
                 <div class="input-box">
@@ -65,7 +65,7 @@
                     v-model="workExperInfo.endTime"
                     type="date"
                     placeholder="选择日期"
-                    format="yyyy-MM-dd">
+                    value-format="yyyy-MM-dd">
                   </el-date-picker>
                 </div>
               </li>
@@ -177,11 +177,14 @@ export default {
   computed: {},
   created() {},
   methods: {
-    addWorkExper: function() {},
+    addWorkExper: function() {
+      this.showWorkExperiencedEdit = true;
+    },
     editWorkExper: function(id) {
       if (id) {
         //编辑
         this.showWorkExperiencedEdit = true;
+        
       } else {
         //新增
       }

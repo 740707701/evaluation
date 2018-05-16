@@ -22,7 +22,7 @@ export default {
       label: "苏州"
     },
   ],
-  careerTpye: [
+  careerType: [
     {
       value: "0",
       label: "全职"
