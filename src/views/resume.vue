@@ -9,7 +9,7 @@
               <div class="title">{{baseInfo.name}} <span class="resume-text">(简历)</span></div>
               <div class="time">时间: {{baseInfo.updateDate.slice(0,10)}}</div>
               <div class="operation">
-                <div class="icon-box refresh">
+                <div class="icon-box refresh" @click="getResumeInfo">
                   <i class="iconfont icon-refresh"></i>
                   <div class="icon-text">刷新</div>
                 </div>
@@ -73,13 +73,13 @@
           </div>
         </el-col>
         <el-col :span="15" class="center-content">
-          <baseBox :baseInfo="baseInfo" @baseSaved="baseInfoSaved"></baseBox>
-          <expectBox :expectInfo="expectInfo"></expectBox>
-          <evaluateBox :evaluateInfo="evaluateInfo"></evaluateBox>
-          <workExperBox :workExperList="workExperList"></workExperBox>
-          <eduBox :eduList="eduList"></eduBox>
-          <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList"></schoolBox>
-          <skillBox :skillList="skillList"></skillBox>
+          <baseBox :baseInfo="baseInfo" @saved="updateInfo"></baseBox>
+          <expectBox :expectInfo="expectInfo" @saved="updateInfo"></expectBox>
+          <evaluateBox :evaluateInfo="evaluateInfo" @saved="updateInfo"></evaluateBox>
+          <workExperBox :workExperList="workExperList" @saved="updateInfo"></workExperBox>
+          <eduBox :eduList="eduList" @saved="updateInfo"></eduBox>
+          <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" @saved="updateInfo"></schoolBox>
+          <skillBox :skillList="skillList" @saved="updateInfo"></skillBox>
           
           <div class="post-resume">
             <el-button size="small" class="resume-btn" @click="postResume">提交简历</el-button>
@@ -194,21 +194,8 @@
         <div class="title">简历提交成功</div>
         <div class="date">2018-05-03 11:02</div>
         <el-button size="small" round class="back-btn">返回</el-button>
-    
       </div>
     </div>
-    <!-- dialog 删除弹框 -->
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose">
-      <span>{{dialogMessage}}</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -297,11 +284,7 @@ export default {
 
     };
   },
-  computed: {
-    // ...mapState({
-    //   resumeInfo: state => state.resumeInfo
-    // })
-  },
+  computed: {},
   beforeCreate: function() {},
   created: function() {
     this.getResumeInfo();
@@ -328,25 +311,14 @@ export default {
           console.log(err);
         });
     },
-   //
-   baseInfoSaved: function(baseinfo){
-     console.log('baseinfo',baseinfo)
-     //更新dom
-    //  this.baseInfo = baseinfo
-   },
-    
+    //更新数据
+    updateInfo: function(){
+      this.getResumeInfo()
+    },
 
     //提交简历
     postResume: function() {
       this.showSuccessDialog = true;
-    },
-
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then(data => {
-          done();
-        })
-        .catch(err => {});
     }
   },
   watch: {},
@@ -405,12 +377,11 @@ export default {
       color: @main-color-gray;
     }
     .textarea {
-      min-height: 150px;
+      min-height: 90px;
     }
     textarea:-moz-placeholder,
     textarea::-webkit-input-placeholder {
-      // color: @main-color-gray;
-      color: red;
+      color: @main-color-gray;
     }
     .info-box {
       margin-bottom: 10px;
@@ -425,6 +396,22 @@ export default {
       .el-form-item:nth-of-type(even) {
         float: right;
       }
+    }
+    .desc-box {
+      width: 100%;
+      .el-form-item__content {
+        width: calc(100% - 110px);
+      }
+    }
+    .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+      background-color: @main-color-yellow;
+      border-color: @main-color-yellow;
+      box-shadow: -1px 0 0 0 @main-color-yellow;
+      color: #fff;
+    }
+    
+    .el-radio-button__inner:hover {
+      color: @main-color-yellow;
     }
     .grid-content {
       border-radius: 8px;
@@ -673,8 +660,7 @@ export default {
               text-align: left !important;
             }
             .work-desc {
-              margin-left: 80px;
-              margin-top: -20px;
+              width:100%;
             }
             .work-desc-item {
               margin-top: 10px;

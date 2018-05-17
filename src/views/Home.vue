@@ -36,7 +36,7 @@ export default {
   background-color: @main-color-bg;
   padding-top: 60px;
   padding-bottom: 25px;
-  height: 100%;
+  min-height: 100%;
   .container {
     width: 1200px;
     margin: 0 auto;

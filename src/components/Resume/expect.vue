@@ -174,28 +174,30 @@ export default {
           {
             require: true,
             message: "请确认你的到岗时间是否在1周内。",
-            trigger: "change"
+            trigger: "click"
           }
         ]
       }
     };
   },
-
   props: ["expectInfo"],
-
   methods: {
     editJobIntension: function() {
       this.showJobIntensionEdit = true;
       this.expect = this.expectInfo;
     },
     saveJobIntension: function(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.dispatch('SET_BASEINFO', this.expect).then(res => {
-            this.showJobIntensionEdit = false
-          }).catch(err => {
-            console.log(err)
-          })
+          this.$store
+            .dispatch("SET_BASEINFO", this.expect)
+            .then(res => {
+              this.$emit('saved');
+              this.showJobIntensionEdit = false;
+            })
+            .catch(err => {
+              console.log(err);
+            });
         } else {
           return false;
         }
@@ -203,7 +205,7 @@ export default {
     },
     cancel: function(formName) {
       this.showJobIntensionEdit = false;
-       this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields();
     }
   }
 };

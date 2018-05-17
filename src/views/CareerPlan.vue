@@ -213,7 +213,7 @@ export default {
 <style lang="less" scoped>
 @import "../assets/css/colors.less";
 .careerplan-page {
-  height: 100%;
+  min-height: 100%;
   background-color: @main-color-bg;
   padding-top: 60px;
   padding-bottom: 25px;

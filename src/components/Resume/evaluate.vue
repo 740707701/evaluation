@@ -28,32 +28,31 @@ export default {
   data() {
     return {
       eva: {},
-      showEvaluateEdit: false,
+      showEvaluateEdit: false
     };
   },
-  props: ['evaluateInfo'],
-  computed: {},
-  created() {},
+  props: ["evaluateInfo"],
   methods: {
-    editEvaluate: function(){
+    editEvaluate: function() {
       this.eva.evaluate = this.evaluateInfo.evaluate;
       this.showEvaluateEdit = true;
     },
-    saveEvaluate: function(){
+    saveEvaluate: function() {
       this.showEvaluateInfo = false;
       this.evaluateInfo.evaluate = this.eva.evaluate;
-      this.$store.dispatch('SET_BASEINFO',  this.evaluateInfo).then(res => {
-        this.showEvaluateEdit = false;
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-  },
-  watch: {},
-  components: {}
+      this.$store
+        .dispatch("SET_BASEINFO", this.evaluateInfo)
+        .then(res => {
+          this.$emit('saved');
+          this.showEvaluateEdit = false;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
 };
 </script>
 <style lang="less" scope>
-
 </style>
 

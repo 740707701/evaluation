@@ -15,8 +15,8 @@ const SET_SCHOOLHONOR = 'SET_SCHOOLHONOR'
 const DELETE_SCHOOLHONOR = 'DELETE_SCHOOLHONOR'
 const SET_SCHOOLWORK = 'SET_SCHOOLWORK'
 const DELETE_SCHOOLWORK = 'DELETE_SCHOOLWORK'
-const SET_SKILLS = 'SET_SKILLS'
-const DELETE_SKILLS = 'DELETE_SKILLS'
+const SET_SKILL = 'SET_SKILL'
+const DELETE_SKILL = 'DELETE_SKILL'
 
 //简历页面
 export default {
@@ -89,7 +89,7 @@ export default {
     },
     //删除工作经历
     [DELETE_WORKEXPER]({ commit }, params) {
-      return api.delete(config.url.deleteWorkExper.replace('{id}', params.id), data).then(res => {
+      return api.delete(config.url.deleteWorkExper.replace('{id}', params)).then(res => {
         commit('RESUME_SET', {
           target: 'workExper',
           data: res
@@ -109,7 +109,7 @@ export default {
     },
     //删除教育经历
     [DELETE_EDU]({ commit }, params) {
-      return api.delete(config.url.deleteEdu.replace('{id}', params.id), data).then(res => {
+      return api.delete(config.url.deleteEdu.replace('{id}', params), params).then(res => {
         commit('RESUME_SET', {
           target: 'education',
           data: res
@@ -129,7 +129,7 @@ export default {
     },
     //删除校内荣誉
     [DELETE_SCHOOLHONOR]({ commit }, params) {
-      return api.delete(config.url.deleteSchoolhonor.replace('{id}', params.id), data).then(res => {
+      return api.delete(config.url.deleteSchoolhonor.replace('{id}', params)).then(res => {
         commit('RESUME_SET', {
           target: 'schoolHonor',
           data: res
@@ -149,7 +149,7 @@ export default {
     },
     //删除校内职务
     [DELETE_SCHOOLWORK]({ commit }, params) {
-      return api.delete(config.url.deleteSchoolwork.replace('{id}', params.id), data).then(res => {
+      return api.delete(config.url.deleteSchoolwork.replace('{id}', params)).then(res => {
         commit('RESUME_SET', {
           target: 'schoolWork',
           data: res
@@ -158,7 +158,7 @@ export default {
       })
     },
     //保存修改技能证书
-    [SET_SKILLS]({ commit }, data) {
+    [SET_SKILL]({ commit }, data) {
       return api.post(config.url.skills, data).then(res => {
         commit('RESUME_SET', {
           target: 'skills',
@@ -168,8 +168,9 @@ export default {
       })
     },
     //删除技能证书
-    [DELETE_SKILLS]({ commit }, params) {
-      return api.delete(config.url.deleteSkills.replace('{id}', params.id), data).then(res => {
+    [DELETE_SKILL]({ commit }, params) {
+      console.log(config.url.deleteSkills)
+      return api.delete(config.url.deleteSkills.replace('{id}', params)).then(res => {
         commit('RESUME_SET', {
           target: 'skills',
           data: res

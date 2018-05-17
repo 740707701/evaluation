@@ -51,7 +51,7 @@ class Api {
     })
   }
 
-  del(url, data = {}) {
+  delete(url, data = {}) {
     return new Promise((resolve, reject) => {
       axios.delete(url, data)
         .then(res => {

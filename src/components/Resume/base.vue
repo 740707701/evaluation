@@ -74,7 +74,7 @@
                   v-model="base.birth"
                   type="date"
                   placeholder="选择日期"
-                  format="yyyy-MM-dd">
+                  value-format="yyyy-MM-dd">
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="手机：" prop="phone" class="input-box">
@@ -182,7 +182,7 @@ export default {
           }
         ],
         phone: [
-          { required: true,  message: "请输入手机号", trigger: "blur" },
+          { required: true, message: "请输入手机号", trigger: "blur" },
           {
             min: 11,
             max: 15,
@@ -267,7 +267,7 @@ export default {
             .dispatch("SET_BASEINFO", this.base)
             .then(res => {
               this.showBaseInfoEdit = false;
-              this.$emit("baseSaved", this.base);
+              this.$emit("saved", this.base);
             })
             .catch(err => {
               console.log(err.data.msg);
