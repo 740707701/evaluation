@@ -49,7 +49,7 @@ export default {
     },
     //提交简历
     [SUBMIT_RESUME]({ commit }, params) {
-      return api.post(config.url.submitResume, params).then(res => {
+      return api.put(config.url.submitResume, params).then(res => {
         commit('RESUME_SET', {
           target: 'resumeInfo',
           data: res

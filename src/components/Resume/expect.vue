@@ -35,7 +35,7 @@
         </ul>
         <div class="imperfect" v-if="!expectInfo">
           <p class="perfect-text">完善求职意向，展现专业能力，让HR更了解你！</p>
-          <el-button size="small" class="perfect-btn" @click="showJobIntensionEdit=true">开始完善</el-button>
+          <el-button size="small" class="perfect-btn" @click="editJobIntension">开始完善</el-button>
         </div>
       </div>
     </div>

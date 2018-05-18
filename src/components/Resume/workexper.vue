@@ -34,9 +34,9 @@
             </div>
           </div>
         </div>
-        <div class="imperfect" v-if="!showWorkExperiencedEdit&&!workExperList.length">
+        <div class="imperfect" v-if="!showWorkExperiencedEdit&&!workExperList">
           <p class="perfect-text">完善工作经验，展现工作内容及能力，让HR更了解你！</p>
-          <el-button size="small" class="perfect-btn" @click="showWorkExperiencedEdit=true">开始完善</el-button>
+          <el-button size="small" class="perfect-btn" @click="addWorkExper">开始完善</el-button>
         </div>
       </div>
     </div>

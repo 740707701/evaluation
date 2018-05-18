@@ -35,7 +35,7 @@ class Api {
     })
   }
 
-  put() {
+  put(url, data = {}) {
     return new Promise((resolve, reject) => {
       axios.put(url, data)
         .then(res => {

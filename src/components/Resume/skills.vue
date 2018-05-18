@@ -9,7 +9,7 @@
             <i class="iconfont icon-add"></i>新增证书
           </div>
         </div>
-        <ul class="skill">
+        <ul class="skill" v-if="skillList">
           <li v-for="skill in skillList" :key="skill.id">
             <span class="gray">{{skill.skillTime.slice(0,10)}}</span>
             <span>{{skill.name}}</span>
@@ -20,9 +20,9 @@
             </span>
           </li>
         </ul>
-        <div class="imperfect" v-if="!showSkillEdit&&!skillList.length">
+        <div class="imperfect" v-if="!showSkillEdit&&!skillList">
           <p class="perfect-text">完善所获证书，展现专业技能，让HR更了解你！</p>
-          <el-button size="small" class="perfect-btn" @click="showSkillEdit=true">开始完善</el-button>
+          <el-button size="small" class="perfect-btn" @click="addSkill">开始完善</el-button>
         </div>
       </div>
     </div>

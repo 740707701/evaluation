@@ -36,9 +36,9 @@
             </div>
           </div>
         </div>
-        <div class="imperfect" v-if="!showEducationEdit&&!eduList.length">
+        <div class="imperfect" v-if="!showEducationEdit&&!eduList">
           <p class="perfect-text">完善教育经历，展现专业能力，让HR更了解你！</p>
-          <el-button size="small" class="perfect-btn" @click="showEducationEdit=true">开始完善</el-button>
+          <el-button size="small" class="perfect-btn" @click="addEdu">开始完善</el-button>
         </div>
       </div>
     </div>

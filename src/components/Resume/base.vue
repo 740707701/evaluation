@@ -59,15 +59,17 @@
         <div class="edit-content baseinfo-content">
           <el-form :inline="true" :model="base" :rules="rules" ref="base" label-width="100px" class="form-box">
             <el-form-item label="姓名：" prop="name" class="input-box">
-              <el-input size="small" v-model="base.name" placeholder="请输入姓名" maxlength="30"></el-input>
+              <el-input size="small" v-model="base.name" placeholder="请输入姓名" maxlength="30" @focus="showNameMsg=true" @blur="showNameMsg=false" @input="showNameMsg=false"></el-input>
+              <div class="msg" v-if="showNameMsg">请确认姓名与身份证保持信息一致。</div>
             </el-form-item>
             <el-form-item label="性别：" prop="sex" class="input-box">
-              <div class="el-input sex-box">
-                <el-radio-group v-model="base.sex">
+              <div class="el-input sex-box" @click="showSexMsg=false">
+                <el-radio-group v-model="base.sex" @change="showSexMsg=true">
                   <el-radio :label="0">男</el-radio>
                   <el-radio :label="1">女</el-radio>
                 </el-radio-group>
-                </div>
+                <div class="msg" v-if="showSexMsg">请确认性别与身份证保持信息一致。</div>
+              </div>
             </el-form-item>
             <el-form-item label="出生日期：" prop="birth" class="input-box">
                <el-date-picker size="small" class="select-box"
@@ -79,6 +81,7 @@
             </el-form-item>
             <el-form-item label="手机：" prop="phone" class="input-box">
               <el-input size="small" v-model="base.phone" placeholder="请输入手机号码" maxlength="11"></el-input>
+              <div class="msg" v-if="showPhoneMsg">请确认电话号码保持畅通，尽量让电话号码归属为求职所在地。</div>
             </el-form-item>
             <el-form-item label="邮箱：" prop="email" class="input-box">
               <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" maxlength="20"></el-input>
@@ -157,6 +160,14 @@ export default {
       careerType: metadata.careerType,
       marriageStatus: metadata.marriageStatus,
 
+      showNameMsg: false,
+      showSexMsg: false,
+      showPhoneMsg: false,
+      showEmailMsg: false,
+      showAddressMsg: false,
+
+
+
       base: {},
       showMoreBase: false,
       showBaseInfoEdit: false,
@@ -182,12 +193,21 @@ export default {
           }
         ],
         phone: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
           {
-            min: 11,
-            max: 15,
-            message: "请确认电话号码保持畅通，尽量让电话号码归属为求职所在地。",
+            required: true, 
+            message: "请输入手机号", 
+            trigger: "blur" 
+          },
+          {
+            min: 9,
+            max: 11,
+            type: 'number',
+            message: "长度在9到15个数字",
             trigger: "blur"
+          },
+          {
+            trigger: 'click',
+            message: '请确认电话号码保持畅通，尽量让电话号码归属为求职所在地。'
           }
         ],
         email: [

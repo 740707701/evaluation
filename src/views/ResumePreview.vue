@@ -236,19 +236,9 @@ export default {
               }
               .select-box {
                 width: 180px;
-                // .el-input {
-                //   border: 1px solid red; //?
-                //   .el-input__inner {
-                //     width: 180px !important;
-                //     height: 30px !important;
-                //   }
-                // }
               }
-              input {
+              input[type='text'] {
                 width: 180px;
-                height: 30px;
-                line-height: 30px;
-                // box-sizing: border-box;
               }
             }
             .input-box:last-child {
