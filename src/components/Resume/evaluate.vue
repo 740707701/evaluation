@@ -5,7 +5,7 @@
         <div class="title">
           <i class="iconfont icon-evaluate"></i>
           <span>自我评价</span>
-          <i class="iconfont icon-edit right-icon" v-if="!showEvaluateEdit" @click="editEvaluate"></i>
+          <i class="iconfont icon-edit right-icon" v-if="!showEvaluateEdit&&!preview" @click="editEvaluate"></i>
         </div>
         <div class="evaluate-box" v-if="showEvaluateEdit==false&&evaluateInfo">
           <div class="evaluate-text">{{evaluateInfo.evaluate}}</div>
@@ -31,7 +31,7 @@ export default {
       showEvaluateEdit: false
     };
   },
-  props: ["evaluateInfo"],
+  props: ["evaluateInfo", "preview"],
   methods: {
     editEvaluate: function() {
       this.eva.evaluate = this.evaluateInfo.evaluate;

@@ -5,7 +5,7 @@
         <div class="title">
           <i class="iconfont icon-skill"></i>
           <span>技能证书</span>
-          <div class="add-job" @click="addSkill">
+          <div class="add-job" @click="addSkill" v-if="!preview">
             <i class="iconfont icon-add"></i>新增证书
           </div>
         </div>
@@ -14,7 +14,7 @@
             <span class="gray">{{skill.skillTime.slice(0,10)}}</span>
             <span>{{skill.name}}</span>
             <span>{{skill.score}}</span>
-            <span class="icon-box">
+            <span class="icon-box" v-if="!preview">
               <i class="iconfont icon-edit" @click="editSkill(skill.id)"></i>
               <i class="iconfont icon-delete" @click="deleteSkill(skill.id)"></i>
             </span>
@@ -108,7 +108,7 @@ export default {
       }
     };
   },
-  props: ["skillList"],
+  props: ["skillList", "preview"],
   methods: {
     addSkill: function() {
       this.skillInfo = {

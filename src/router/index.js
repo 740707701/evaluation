@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Home from '../views/Home.vue'
 import Resume from '../views/Resume.vue'
+import ResumePreview from '../views/ResumePreview.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import CartDetail from '../views/CartDetail.vue'
@@ -113,6 +114,11 @@ export default new Router({
       path: '/cartdetail',
       name: 'CartDetail',
       component: CartDetail
+    },
+    {
+      path: '/resumePreview',
+      name: 'ResumePreview',
+      component: ResumePreview
     }
 
   ]

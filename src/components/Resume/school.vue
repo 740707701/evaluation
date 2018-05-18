@@ -85,7 +85,7 @@
           <div class="honor" v-if="!showSchoolHonorEdit">
             <div class="school-type">
               <span>校内荣誉</span>
-              <div class="add-job" @click="addSchoolHonor">
+              <div class="add-job" @click="addSchoolHonor" v-if="!preview">
                 <i class="iconfont icon-add" ></i>新增荣誉
               </div>
             </div>
@@ -95,7 +95,7 @@
                   <span class="gray">{{honor.honorName.slice(0, 10)}}</span>
                   <span>{{honor.honorName}}</span>
                   <span>{{honor.honorTitle}}</span>
-                  <span class="icon-box">
+                  <span class="icon-box"  v-if="!preview">
                     <i class="iconfont icon-edit" @click="editSchoolHonor(honor.id)"></i>
                     <i class="iconfont icon-delete" @click="deleteSchoolHonor(honor.id)"></i>
                   </span>
@@ -110,7 +110,7 @@
           <div class="post" v-if="!showSchoolWorkEdit">
             <div class="school-type">
               <span>校内职务</span>
-              <div class="add-job" @click="addSchoolWork">
+              <div class="add-job" @click="addSchoolWork" v-if="!preview">
                 <i class="iconfont icon-add"></i>新增职务
               </div>
             </div>
@@ -120,7 +120,7 @@
                   <span class="gray">{{work.startTime.slice(0, 10)}} - {{work.endTime.slice(0, 10)}}</span>
                   <span>{{work.schoolWorkName}}</span>
                   <span></span>
-                  <span class="icon-box">
+                  <span class="icon-box" v-if="!preview">
                     <i class="iconfont icon-edit" @click="editSchoolWork(work.id)"></i>
                     <i class="iconfont icon-delete" @click="deleteSchoolWork(work.id)"></i>
                   </span>
@@ -238,7 +238,7 @@ export default {
       }
     };
   },
-  props: ["schoolHonorList", "schoolWorkList"],
+  props: ["schoolHonorList", "schoolWorkList", "preview"],
   methods: {
     addSchoolHonor: function() {
       this.honorInfo = {

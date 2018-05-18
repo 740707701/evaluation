@@ -13,7 +13,7 @@
                   <i class="iconfont icon-refresh"></i>
                   <div class="icon-text">刷新</div>
                 </div>
-                <div class="icon-box preview">
+                <div class="icon-box preview" @click="preview">
                   <i class="iconfont icon-yulan"></i>
                   <div class="icon-text">预览</div>
                 </div>
@@ -196,6 +196,24 @@
         <el-button size="small" round class="back-btn">返回</el-button>
       </div>
     </div>
+    <!-- 简历预览弹框 -->
+    <div class="dialog" v-if="showPreview" @click.self="showPreview=false">
+      <div class="resume-preview">
+        <div class="preview-container">
+          <el-row :gutter="10" class="el-content">
+            <el-col :span="24" class="preview-center-content">
+              <baseBox :baseInfo="baseInfo" preview="true"></baseBox>
+              <expectBox :expectInfo="expectInfo" preview="true"></expectBox>
+              <evaluateBox :evaluateInfo="evaluateInfo" preview="true"></evaluateBox>
+              <workExperBox :workExperList="workExperList" preview="true"></workExperBox>
+              <eduBox :eduList="eduList" preview="true"></eduBox>
+              <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" preview="true"></schoolBox>
+              <skillBox :skillList="skillList" preview="true"></skillBox>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -213,8 +231,7 @@ export default {
   data() {
     return {
       showSuccessDialog: false,
-      dialogVisible: false,
-      dialogMessage: "",
+      showPreview:false,
       tag: "",
       tabIndex: 0,
       tags: [
@@ -315,10 +332,15 @@ export default {
     updateInfo: function(){
       this.getResumeInfo()
     },
-
     //提交简历
     postResume: function() {
       this.showSuccessDialog = true;
+    },
+    //预览
+    preview: function(){
+      this.showPreview = true;
+      //跳页面 预览
+      // this.$router.push('ResumePreview');
     }
   },
   watch: {},
@@ -352,6 +374,8 @@ export default {
     left: 50%;
     bottom: 0;
     margin-left: -600px;
+  }
+  .container, .preview-container {
     .el-content {
       height: 100%;
     }
@@ -530,7 +554,7 @@ export default {
         .base-content {
           width: 100%;
           display: inline-block;
-          padding: 5px 20px;
+          padding: 10px 20px;
           .avtar {
             float: left;
             width: 85px;
@@ -638,13 +662,6 @@ export default {
               }
               .select-box {
                 width: 180px;
-                // .el-input {
-                //   border: 1px solid red; //?
-                //   .el-input__inner {
-                //     width: 180px !important;
-                //     height: 30px !important;
-                //   }
-                // }
               }
               input {
                 width: 180px;
@@ -690,8 +707,7 @@ export default {
         .item-list {
           width: 100%;
           display: inline-block;
-          // box-sizing: border-box;
-          padding: 0 20px;
+          padding: 10px 20px;
           li {
             line-height: 30px;
             display: flex;
@@ -708,9 +724,6 @@ export default {
         }
         .job-item:last-child {
           border: none;
-        }
-        .item-first {
-          margin-top: -10px;
         }
         .add-job {
           float: right;
@@ -767,8 +780,7 @@ export default {
         .skill {
           width: 100%;
           display: inline-block;
-          padding: 5px 20px;
-          // box-sizing: border-box;
+          padding: 10px 20px;
           li {
             width: 100%;
             display: flex;
@@ -800,10 +812,10 @@ export default {
         .evaluate-box {
           width: 100%;
           display: inline-block;
-          padding: 0 20px;
+          padding: 10px 20px;
           .evaluate-text {
             width: 100%;
-            padding: 5px 20px;
+            padding: 0px 20px;
             line-height: 26px;
           }
         }
@@ -857,9 +869,6 @@ export default {
       .resume-btn {
         border: 1px solid @main-color-blue;
         color: @main-color-blue;
-        // width: 150px;
-        // height: 36px;
-        // border-radius: 4px;
       }
     }
   }
@@ -867,7 +876,7 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
-    z-index: 11;
+    z-index: 21;
     position: absolute;
     top: 0;
     left: 0;
@@ -906,7 +915,22 @@ export default {
       }
     }
   }
+  .resume-preview {
+    width: 1200px;
+    height: calc(100% - 40px);
+    margin: 20px auto;
+    background-color: @main-color-bg;
+    padding-bottom: 25px;
+    overflow-y: auto;
+    .preview-container {
+      padding: 40px;
+      .preview-center-content {
+        left: 0;
+      }
+    }
+  }
 }
+
 </style>
 
 

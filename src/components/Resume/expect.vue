@@ -5,7 +5,7 @@
         <div class="title">
           <i class="iconfont icon-job"></i>
           <span>求职意向</span>
-          <i class="iconfont icon-edit right-icon" @click="editJobIntension"></i>
+          <i class="iconfont icon-edit right-icon" @click="editJobIntension" v-if="!preview"></i>
         </div>
         <ul class="item-list">
           <li>
@@ -180,7 +180,7 @@ export default {
       }
     };
   },
-  props: ["expectInfo"],
+  props: ["expectInfo", "preview"],
   methods: {
     editJobIntension: function() {
       this.showJobIntensionEdit = true;

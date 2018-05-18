@@ -13,14 +13,14 @@
         <div class="info-list">
           <div class="name">
             <span>{{baseInfo.name}}</span>
-            <i class="iconfont icon-edit right-icon" @click="editBaseInfo"></i>
+            <i class="iconfont icon-edit right-icon" v-if="!preview" @click="editBaseInfo"></i>
           </div>
           <div class="status">
             <span>现居住：{{baseInfo.address}}</span>
             <!-- <span>{{baseInfo.workYear}}年工作经验</span> -->
             <span>0年工作经验</span>
             <span>{{baseInfo.sex==1?'女':'男'}}</span>
-            <span>11岁 ({{baseInfo.birth.slice(0,10)}})</span>
+            <span>11岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
             <span>{{baseInfo.jobStatus}}</span>
           </div>
           <div class="concat">
@@ -30,14 +30,14 @@
             <span>
               <i class="iconfont icon-phone"></i>{{baseInfo.phone}}
             </span>
-            <span class="more" @click="showMoreBase=!showMoreBase">
+            <span class="more" @click="showMoreBase=!showMoreBase" v-if="!preview">
               {{showMoreBase?'收起':'更多'}}
               <i v-if="showMoreBase==false" class="el-icon-arrow-down"></i>
               <i v-if="showMoreBase==true" class="el-icon-arrow-up"></i>
             </span>
           </div>
         </div>
-        <div class="more-info" v-if="showMoreBase">
+        <div class="more-info" v-if="showMoreBase || preview">
           <span class="arrow-top"></span>
           <span>户口/国籍：{{baseInfo.address}}</span>
           <span>婚姻状态：{{baseInfo.marriageStatus}}</span>
@@ -45,7 +45,7 @@
       </div>
     </div>
   </div>
-  <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit">
+  <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit&&!preview">
     <div class="base-info">
       <div class="title">
         <i class="iconfont icon-user"></i>
@@ -241,7 +241,7 @@ export default {
       }
     };
   },
-  props: ["baseInfo"],
+  props: ["baseInfo", "preview"],
   methods: {
     editBaseInfo: function() {
       this.showBaseInfoEdit = true;
