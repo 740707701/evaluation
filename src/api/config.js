@@ -1,11 +1,22 @@
 
 export default {
   url: {
+    //metadata
+    //dict code COMPANY_NATURE 公司性质/规模 "EDUCATION 学历学位 "EXPECT_SALARY 
+    //期望薪资 "INDUSTRY 行业类别 "JOB_STATUS 求职状态 "MARRIAGE_STATUS 婚姻状态 "NATIVE 
+    //籍贯 "PROF_TYPE 职业类型 "SCHOOLWORK_PROP 学业性质 "SEX 性别
+    dicItem: 'dict/dictitem',
+    //tree item
+    //dictCode (行政区划AREA/职能FUNCTION/行业INDUSTRY数据)
+    treeItem: 'dict/treeitem',
+
     //测评
     cepingList: 'ceping/cepinglist',
     cepingInfo: 'ceping/cepinginfo',
     hotList: 'ceping/hotlist',
     caichu: 'ceping/tocaichu',
+    finished: 'ceping/finished/{creator}',
+    unfinished: 'ceping/unfinished/{creator}',
 
     //简历
     //基本信息

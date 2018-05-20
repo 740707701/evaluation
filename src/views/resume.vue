@@ -150,6 +150,7 @@ import schoolBox from "../components/Resume/school.vue";
 import skillBox from "../components/Resume/skills.vue";
 import { mapState } from "vuex";
 import tags from "../api/tags";
+
 export default {
   name: "resume",
   data() {
@@ -174,12 +175,18 @@ export default {
       eduList: [],
       schoolHonorList: [],
       schoolWorkList: [],
-      skillList: []
+      skillList: [],
+
+      citiesList: [],
+      funList: [],
+      industryList: [],
     };
   },
   computed: {},
   beforeCreate: function() {},
   created: function() {
+    
+    this.getData();
     this.getResumeInfo();
   },
   mounted: function() {},
@@ -238,7 +245,65 @@ export default {
         });
         this.tagType = tag[0].type;
       }
-    }
+    },
+    //获取字典数据
+    getDictItem: function(dictCode, list){
+      this.$store.dispatch('DICTITEM', {dictCode: dictCode})
+      .then(res => {
+        console.log('111',res)
+        // list = res.data
+      })
+      .catch(err => {
+        if(err.msg){
+          this.$message({
+            message: err.msg,
+            type: "error"
+          });
+        }else {
+          this.$message({
+            message: "获取字典数据失败",
+            type: "success"
+          });
+        }
+      })
+    },
+    //dictCode (行政区划AREA/职能FUNCTION/行业INDUSTRY数据)
+    getTreeItem: function(dictCode){
+      this.$store.dispatch('TREEITEM', {dictCode: dictCode})
+      .then(res => {
+        console.log('list',res)
+        // list = res
+      }).catch(err => {
+        console.log(err)
+        if(err.msg){
+          this.$message({
+            message: err.msg,
+            type: "error"
+          });
+        }else {
+          this.$message({
+            message: "获取字典数据失败",
+            type: "error"
+          });
+        }
+      })
+    },
+    getData: function(){
+      Promise.all([
+        this.$store.dispatch('TREEITEM', {dictCode: 'AREA'}),
+        this.$store.dispatch('TREEITEM', {dictCode: 'FUNCTION'})
+        ]).then(data => {
+        console.log('resssss',data)
+      })
+      // Promise.all([
+      //   this.getTreeItem('AREA'),
+      //   this.getTreeItem('FUNCTION')
+      //   ]).then(data => {
+      //   console.log('resssss',data)
+      // }).catch(err => {
+      //   console.log('wwwww',err)
+      // })
+    },
   },
   watch: {},
   components: {
@@ -334,16 +399,16 @@ export default {
       }
     }
 
-    // .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-    //   background-color: @main-color-yellow;
-    //   border-color: @main-color-yellow;
-    //   box-shadow: -1px 0 0 0 @main-color-yellow;
-    //   color: #fff;
-    // }
+    .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+      background-color: @main-color-yellow;
+      border-color: @main-color-yellow;
+      box-shadow: -1px 0 0 0 @main-color-yellow;
+      color: #fff;
+    }
 
-    // .el-radio-button__inner:hover {
-    //   color: @main-color-yellow;
-    // }
+    .el-radio-button__inner:hover {
+      color: @main-color-yellow;
+    }
     .grid-content {
       border-radius: 8px;
       min-height: 36px;

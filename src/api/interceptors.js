@@ -25,7 +25,7 @@ axios.interceptors.request.use(config => {
 
 //http response 拦截器
 axios.interceptors.response.use(function (response) {
-  console.log('------',response)
+  // console.log('------',response)
   if(response.data.code == 1){
     return Promise.resolve(response) 
   }else {

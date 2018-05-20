@@ -1,6 +1,6 @@
 <template>
   <div class="my-evaluation-page">
-    <el-tabs v-model="activeName">
+    <el-tabs v-model="activeName" @tab-click="tabsClick">
       <el-tab-pane label="我的测评" name="first">
         <div class="completed">
           <p class="tag">时至今日，{{username}}共测评了21份</p>
@@ -10,63 +10,20 @@
               <div class="year">2018</div>
             </div>
             <ul class="item-row">
-              <li>
-                <img src="../../assets/images/demo/05.jpg" alt="">
+              <li v-for="course in courseList.slice(0,5)" :key="course.id">
+                <img :src="course.img" alt="">
                 <div class="mask">
                   <div class="preview">
                     <div class="circle">
-                      <img src="../../assets/images/demo/06.jpg" alt="">
+                      <img :src="course.img" alt="">
                     </div>
                     <div class="title">点击预览</div>
                   </div>
                 </div>
               </li>
-              <li>
-                <img src="../../assets/images/demo/06.jpg" alt="">
-                <div class="mask">
-                  <div class="preview">
-                    <div class="circle">
-                      <img src="../../assets/images/demo/06.jpg" alt="">
-                    </div>
-                    <div class="title">点击预览</div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <img src="../../assets/images/demo/04.jpg" alt="">
-                <div class="mask">
-                  <div class="preview">
-                    <div class="circle">
-                      <img src="../../assets/images/demo/06.jpg" alt="">
-                    </div>
-                    <div class="title">点击预览</div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <img src="../../assets/images/demo/03.jpg" alt="">
-                <div class="mask">
-                  <div class="preview">
-                    <div class="circle">
-                      <img src="../../assets/images/demo/06.jpg" alt="">
-                    </div>
-                    <div class="title">点击预览</div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <img src="../../assets/images/demo/02.jpg" alt="">
-                <div class="mask">
-                  <div class="preview">
-                    <div class="circle">
-                      <img src="../../assets/images/demo/06.jpg" alt="">
-                    </div>
-                    <div class="title">点击预览</div>
-                  </div>
-                </div>
-              </li>
+
             </ul>
-            <div class="page-box">
+            <div class="page-box" @click="next()">
               <i class="el-icon-arrow-right"></i>
             </div>
           </div>
@@ -96,7 +53,10 @@
                     </div>
                     <div class="gray">
                       <div class="serial-number">序列号：{{course.serialNumber}}</div>
-                      <i class="el-icon-document copy-icon" @click="copy(course)"></i>
+                      <i class="el-icon-document copy-icon"
+                        v-clipboard:copy="course.serialNumber"
+                        v-clipboard:success="onCopy"
+                        v-clipboard:error="onError"></i>
                     </div>
                     <div class="test-box">
                       <el-button class="test-btn" size="small" @click="toEvaluation(course.id)">进入测试</el-button>
@@ -112,10 +72,14 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
 export default {
   name: "myevaluation",
   data() {
     return {
+      creator: "cc",
       activeName: "first",
       username: "菜鸟",
       sex: "男",
@@ -202,13 +166,47 @@ export default {
           serialNumber: "WSE3443546576",
           img: require("../../assets/images/demo/06.jpg")
         }
-      ]
+      ],
+      finishedList: [],
+      unfinishedList: []
       
     };
   },
   methods: {
     checkRange: function(range) {
       this.range = range.name;
+    },
+    tabsClick: function(tab, event){
+      let tabIndex = tab.index
+      if(tabIndex == 0){
+        this.getFinished()
+      }else if(tabIndex == 1){
+        this.getUnFinished()
+      }
+    },
+    getFinished: function(){
+      this.$store.dispatch('FINISHED', this.creator).then(res => {
+        this.finishedList = res.data
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getUnFinished: function(){
+      this.$store.dispatch('UNFINISHED', this.creator).then(res => {
+        this.unfinishedList = res.data
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    onCopy: function (e) {
+      this.$message({
+        message: "复制序列号成功",
+        type: "success"
+      });
+      // alert('You just copied: ' + e.text)
+    },
+    onError: function (e) {
+      alert('Failed to copy texts')
     },
     copy: function(course) {
       console.log("序列号", course.serialNumber);
@@ -220,6 +218,9 @@ export default {
     toEvaluation: function(id) {
       alert(id);
       // this.router.push('/')
+    },
+    next: function(){
+
     }
   },
   components: {}

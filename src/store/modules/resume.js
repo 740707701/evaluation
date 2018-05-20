@@ -1,5 +1,6 @@
 import api from '../../api/index'
 import config from '../../api/config'
+import axios from 'axios'
 
 const RESUME_SET = 'RESUME_SET'
 const RESUME_INFO = 'RESUME_INFO'
@@ -18,6 +19,11 @@ const DELETE_SCHOOLWORK = 'DELETE_SCHOOLWORK'
 const SET_SKILL = 'SET_SKILL'
 const DELETE_SKILL = 'DELETE_SKILL'
 
+//metadata
+const DICTTITEM = 'DICTTITEM'
+const TREEITEM = 'TREEITEM'
+const ALL = 'ALL'
+
 //简历页面
 export default {
   state: {
@@ -29,7 +35,10 @@ export default {
     education: [],
     schoolHonor: [],
     schoolWork: [],
-    skills: []
+    skills: [],
+    treeItem: [],
+    dictItem: [],
+    allList: []
   },
   mutations: {
     [RESUME_SET](state, data) {
@@ -37,6 +46,26 @@ export default {
     }
   },
   actions: {
+    //meta data 
+    [DICTTITEM]({ commit }, params){
+      return api.get(config.url.dictItem, params).then( res => {
+        commit('RESUME_SET', {
+          target: 'dictItem',
+          data: res
+        })
+        return res
+      })
+    },
+    [TREEITEM]({ commit }, params){
+      return api.get(config.url.treeItem, params).then( res => {
+        commit('RESUME_SET', {
+          target: 'treeItem',
+          data: res
+        })
+        return res
+      })
+    },
+
     //获取简历信息
     [RESUME_INFO]({ commit }, params) {
       return api.get(config.url.resumeInfo, params).then(res => {
@@ -109,7 +138,7 @@ export default {
     },
     //删除教育经历
     [DELETE_EDU]({ commit }, params) {
-      return api.delete(config.url.deleteEdu.replace('{id}', params), params).then(res => {
+      return api.delete(config.url.deleteEdu.replace('{id}', params)).then(res => {
         commit('RESUME_SET', {
           target: 'education',
           data: res
