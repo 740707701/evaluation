@@ -63,11 +63,11 @@
               <div class="msg" v-if="showNameMsg">请确认姓名与身份证保持信息一致。</div>
             </el-form-item>
             <el-form-item label="性别：" prop="sex" class="input-box">
-              <div class="el-input sex-box" @click="showSexMsg=false">
-                <el-radio-group v-model="base.sex" @change="showSexMsg=true">
-                  <el-radio :label="0">男</el-radio>
-                  <el-radio :label="1">女</el-radio>
-                </el-radio-group>
+              <div class="el-input sex-box" >
+                <input type="radio" name="sex" :checked="base.sex==0" value="0" @click="base.sex=0"/>
+                <label>男</label>  
+                <input type="radio" name="sex" :checked="base.sex==1" value="1" @click="base.sex=1"/>
+                <label>女</label> 
                 <div class="msg" v-if="showSexMsg">请确认性别与身份证保持信息一致。</div>
               </div>
             </el-form-item>
@@ -166,8 +166,6 @@ export default {
       showEmailMsg: false,
       showAddressMsg: false,
 
-
-
       base: {},
       showMoreBase: false,
       showBaseInfoEdit: false,
@@ -188,7 +186,7 @@ export default {
         sex: [
           {
             required: true,
-            message: "请确认性别与身份证保持信息一致。",
+            message: "请选择性别并确认性别与身份证保持信息一致。",
             trigger: "change"
           }
         ],
@@ -199,10 +197,8 @@ export default {
             trigger: "blur" 
           },
           {
-            min: 9,
             max: 11,
-            type: 'number',
-            message: "长度在9到15个数字",
+            message: "请输入正确的手机号",
             trigger: "blur"
           },
           {
@@ -270,6 +266,7 @@ export default {
         birth: this.baseInfo.birth,
         phone: this.baseInfo.phone,
         email: this.baseInfo.email,
+        sex: this.baseInfo.sex,
         nativePlace: this.baseInfo.nativePlace,
         workYear: this.baseInfo.workYear,
         jobStatus: this.baseInfo.jobStatus,
