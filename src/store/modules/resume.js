@@ -20,7 +20,7 @@ const SET_SKILL = 'SET_SKILL'
 const DELETE_SKILL = 'DELETE_SKILL'
 
 //metadata
-const DICTTITEM = 'DICTTITEM'
+const DICTITEM = 'DICTITEM'
 const TREEITEM = 'TREEITEM'
 const ALL = 'ALL'
 
@@ -47,7 +47,7 @@ export default {
   },
   actions: {
     //meta data 
-    [DICTTITEM]({ commit }, params){
+    [DICTITEM]({ commit }, params){
       return api.get(config.url.dictItem, params).then( res => {
         commit('RESUME_SET', {
           target: 'dictItem',

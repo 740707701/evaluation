@@ -92,7 +92,7 @@
                 <i class="iconfont icon-prompt"></i>
                 <span>HR视角小提示</span>
               </div>
-              <el-select size="small" v-model="tag" filterable :filter-method="filterTag(tag)" placeholder="基本信息" class="tag">
+              <el-select size="small" v-model="tag" filterable :filter-method="filterTag(tag)" readonly placeholder="基本信息" class="tag">
                 <el-option
                   v-for="item in tags"
                   :key="item.value"
@@ -185,7 +185,6 @@ export default {
   computed: {},
   beforeCreate: function() {},
   created: function() {
-    
     this.getData();
     this.getResumeInfo();
   },
@@ -290,10 +289,33 @@ export default {
     },
     getData: function(){
       Promise.all([
-        this.$store.dispatch('TREEITEM', {dictCode: 'AREA'}),
-        this.$store.dispatch('TREEITEM', {dictCode: 'FUNCTION'})
+        this.$store.dispatch('TREEITEM', {dictCode: 'AREA'}), //行政区划
+        this.$store.dispatch('TREEITEM', {dictCode: 'FUNCTION'}), //职能
+        this.$store.dispatch('TREEITEM', {dictCode: 'INDUSTRY'}), //行业
+        this.$store.dispatch('DICTITEM', {dictCode: 'COMPANY_NATURE'}), //公司范围
+        this.$store.dispatch('DICTITEM', {dictCode: 'EDUCATION'}), //学历/学位
+        this.$store.dispatch('DICTITEM', {dictCode: 'EXPECT_SALARY'}), //期望薪资
+        this.$store.dispatch('DICTITEM', {dictCode: 'INDUSTRY'}), //行业类别
+        this.$store.dispatch('DICTITEM', {dictCode: 'JOB_STATUS'}), //工作状态
+        this.$store.dispatch('DICTITEM', {dictCode: 'MARRIAGE_STATUS'}), //婚姻状态
+        this.$store.dispatch('DICTITEM', {dictCode: 'NATIVE'}), //籍贯
+        this.$store.dispatch('DICTITEM', {dictCode: 'PROF_TYPE'}), //职业类型
+        this.$store.dispatch('DICTITEM', {dictCode: 'SCHOOLWORK_PROP'}), //学业性质
+        this.$store.dispatch('DICTITEM', {dictCode: 'SEX'}) //性别
         ]).then(data => {
         console.log('resssss',data)
+      }).catch(err => {
+        if(err.msg){
+          this.$message({
+            message: err.msg,
+            type: "error"
+          });
+        }else {
+          this.$message({
+            message: "获取字典数据失败",
+            type: "error"
+          });
+        }
       })
       // Promise.all([
       //   this.getTreeItem('AREA'),

@@ -172,12 +172,16 @@ export default {
       
     };
   },
+  created(){
+    this.getFinished()
+  },
   methods: {
     checkRange: function(range) {
       this.range = range.name;
     },
     tabsClick: function(tab, event){
       let tabIndex = tab.index
+      console.log(tab)
       if(tabIndex == 0){
         this.getFinished()
       }else if(tabIndex == 1){
@@ -203,16 +207,11 @@ export default {
         message: "复制序列号成功",
         type: "success"
       });
-      // alert('You just copied: ' + e.text)
     },
     onError: function (e) {
-      alert('Failed to copy texts')
-    },
-    copy: function(course) {
-      console.log("序列号", course.serialNumber);
       this.$message({
-        message: "复制序列号成功",
-        type: "success"
+        message: "复制序列号失败",
+        type: "error"
       });
     },
     toEvaluation: function(id) {
