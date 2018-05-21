@@ -10,13 +10,18 @@
     </div>
 
     <router-view></router-view>
-
+    <!-- <login></login> -->
+    <!-- <register></register> -->
+    <!-- <forget></forget> -->
   </div>
 </div>
 </template>
 <script>
 import headerNav from "../components/HeaderNav.vue";
 import Banner from "../components/Banner.vue";
+import login from '../components/Login.vue';
+import register from '../components/Register.vue';
+import forget from '../components/Forget.vue';
 export default {
   name: "home",
   data() {
@@ -26,7 +31,10 @@ export default {
   methods: {},
   components: {
     headerNav,
-    Banner
+    Banner,
+    login,
+    register,
+    forget
   }
 };
 </script>

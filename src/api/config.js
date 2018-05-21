@@ -110,7 +110,15 @@ export default {
     //获取规划内容
     planInfo: 'plan/planInfo',
     //根据用户获取规划列表
-    planList: 'plan/planList'
+    planList: 'plan/planList',
+
+    //用户
+    login: 'user/login',
+    register: 'user/register',
+    captcha: 'user/sendMobileCode',
+    forget: 'user/validCode',
+    userInfo: 'user/complete',
+
 
 
   }

@@ -40,7 +40,7 @@
         <div class="more-info" v-if="showMoreBase || preview">
           <span class="arrow-top"></span>
           <span>户口/国籍：{{baseInfo.address}}</span>
-          <span>婚姻状态：{{baseInfo.marriageStatus}}</span>
+          <span>婚姻状态：{{baseInfo.marriageStatusName}}</span>
         </div>
       </div>
     </div>
