@@ -23,7 +23,7 @@ export default {
   },
   actions: {
     [LOGIN]({commit}, params){
-      return api.post(api.url.login, params).then(res => {
+      return api.post(config.url.login, params).then(res => {
         commit('USER_SET', {
           target: 'loginInfo',
           data: res.data
@@ -32,7 +32,7 @@ export default {
       })
     },
     [REGISTER]({commit}, params){
-      return api.post(api.url.register, params).then(res => {
+      return api.post(config.url.register, params).then(res => {
         commit('USER_SET', {
           target: 'registerInfo',
           data: res.data
@@ -41,7 +41,7 @@ export default {
       })
     },
     [FORGET]({commit}, params){
-      return api.post(api.url.forget, params).then(res => {
+      return api.post(config.url.forget, params).then(res => {
         commit('USER_SET', {
           target: 'forgetInfo',
           data: res.data
@@ -50,7 +50,7 @@ export default {
       })
     },
     [CAPTCHA]({commit}, params){
-      return api.post(api.url.captcha, params).then(res => {
+      return api.post(config.url.captcha, params).then(res => {
         commit('USER_SET', {
           target: 'captchaInfo',
           data: res.data
@@ -59,7 +59,7 @@ export default {
       })
     },
     [USERINFO]({commit}, params){
-      return api.put(api.url.userInfo, params).then(res => {
+      return api.put(config.url.userInfo, params).then(res => {
         commit('USER_SET', {
           target: 'userInfo',
           data: res.data

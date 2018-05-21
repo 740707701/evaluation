@@ -16,153 +16,162 @@
           <el-input type="password" v-model="registerForm.pwd2" placeholder="确认密码" :maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="" prop="">
-          <p class="agreement">同意用户的<span @click="agreement()">条款和条件</span></p>
+          <p class="text">同意用户的<span @click="agreement">条款和条件</span></p>
         </el-form-item>
         <el-form-item label="" prop="">
           <div class="register-btn" @click="register('registerForm')">注册</div>
+          <p class="text login">已有账号? <span @click="login">去登录</span> </p>
         </el-form-item>
       </el-form>
     </div>
   </div>
 </template>
 <script>
-  export default {
-    name: 'register',
-    data (){
-      const validatePhone = (rule, value, callback) => {
-        if(!value){
-          callback(new Error("手机号码不能为空"))
-        }else if(value.length == 11 
-        && /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/.test(value)){
-          callback();
-        }else {
-          callback(new Error("请输入正确的手机号"));
-        }
-      };
-      const validatePwd = (rule, value, callback) => {
-        if(!value){
-          callback(new Error("密码不能为空"));
-        }else {
-          callback();
-        }
-      };
-      const validatePwd2 = (rule, value, callback) => {
-        if(!value){
-          callback(new Error("请再次输入密码"));
-        }else if(value != this.registerForm.pwd){
-          callback(new Error("两次输入密码不一致"));
-        }else {
-          callback();
-        }
-      };
-      return {
-        registerForm: {},
-        rules: {
-          number: [{required:true, message: '学号不能为空', trigger: 'blur'}],
-          phone: [{validator: validatePhone, trigger: 'blur'}],
-          pwd: [{validator: validatePwd, trigger: 'blur'}],
-          pwd2: [{validator: validatePwd2, trigger: 'blur'}],
-        }
+export default {
+  name: "register",
+  data() {
+    const validatePhone = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("手机号码不能为空"));
+      } else if (
+        value.length == 11 &&
+        /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/.test(value)
+      ) {
+        callback();
+      } else {
+        callback(new Error("请输入正确的手机号"));
       }
+    };
+    const validatePwd = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("密码不能为空"));
+      } else {
+        callback();
+      }
+    };
+    const validatePwd2 = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("请再次输入密码"));
+      } else if (value != this.registerForm.pwd) {
+        callback(new Error("两次输入密码不一致"));
+      } else {
+        callback();
+      }
+    };
+    return {
+      registerForm: {},
+      rules: {
+        number: [{ required: true, message: "学号不能为空", trigger: "blur" }],
+        phone: [{ validator: validatePhone, trigger: "blur" }],
+        pwd: [{ validator: validatePwd, trigger: "blur" }],
+        pwd2: [{ validator: validatePwd2, trigger: "blur" }]
+      }
+    };
+  },
+  created() {},
+  methods: {
+    agreement: function() {
+      this.$router.push("agreement");
     },
-    created(){},
-    methods: {
-      agreement: function(){
-        this.$router.push('agreement')
-      },
-      register: function(formName){
-        this.$refs[formName].validate(valid => {
-          if(valid){
-            let reg = {
-              mobile: this.registerForm.phone,
-              userNum: this.registerForm.number,
-              password: this.registerForm.password
-            }
-            this.$store.dispatch('REGISTER', reg).then(res => {
-              console.log(res)
-            }).catch(err => {
-              console.log(err)
-              if(err.msg){
+    login: function() {},
+    register: function(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          let reg = {
+            mobile: this.registerForm.phone,
+            userNum: this.registerForm.number,
+            password: this.registerForm.pwd
+          };
+          this.$store
+            .dispatch("REGISTER", reg)
+            .then(res => {
+              console.log(res);
+            })
+            .catch(err => {
+              console.log(err);
+              if (err.msg) {
                 this.$message({
                   message: err.msg,
                   type: "error"
-                })
-              }else {
+                });
+              } else {
                 this.$message({
-                  message:"注册失败",
+                  message: "注册失败",
                   type: "error"
-                })
+                });
               }
-            })
-          }else {
-            return false
-          }
-        })
-      },
+            });
+        } else {
+          return false;
+        }
+      });
     }
   }
+};
 </script>
 <style lang="less" scoped>
-  @import url('../assets/css/colors.less');
-  .bg {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 21;
+@import url("../assets/css/colors.less");
+.bg {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 21;
+}
+.register-form {
+  width: 420px;
+  background-color: #fff;
+  padding: 10px 30px;
+  border-radius: 4px;
+  box-shadow: 6px 0px 10px rgba(255, 255, 255, 0.3);
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  margin-left: -210px;
+  h4 {
+    line-height: 70px;
+    text-align: center;
+    font-size: 20px;
+    color: @main-color-blue;
   }
-  .register-form {
-    width: 420px;
-    background-color: #fff;
-    padding: 10px 30px;
+  input {
+    &&::placeholder {
+      font-size: 14px;
+      color: @main-color-gray;
+    }
+  }
+  .register-btn {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: @main-color-blue;
+    color: #fff;
     border-radius: 4px;
-    box-shadow:6px 0px 10px rgba(255,255,255,0.3);
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    margin-left: -210px;
-    h4 {
-      line-height: 70px;
-      text-align: center;
-      font-size: 20px;
+    cursor: pointer;
+  }
+  .other {
+    text-align: center;
+    i {
+      font-size: 30px;
+      margin-right: 20px;
+      color: #a2a9b8;
+    }
+  }
+  .text {
+    text-align: left;
+    cursor: pointer;
+    color: rgba(162, 169, 184, 1);
+    span {
       color: @main-color-blue;
     }
-    input {
-      &&::placeholder {
-        font-size: 14px;
-        color: @main-color-gray;
-      }
-    }
-    .register-btn {
-      width: 100%;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      background-color: @main-color-blue;
-      color: #fff;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .other {
-      text-align: center;
-      i {
-        font-size: 30px;
-        margin-right: 20px;
-        color: #A2A9B8;
-      }
-    }
-    .agreement {
-      text-align: left;
-      cursor: pointer;
-      color: rgba(162,169,184,1);
-      span {
-        color: @main-color-blue;
-      }
-    }
-
   }
+  .login {
+    text-align: right;
+  }
+}
 </style>
 
 

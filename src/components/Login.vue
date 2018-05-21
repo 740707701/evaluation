@@ -7,8 +7,8 @@
           <el-input v-model="loginForm.number" placeholder="学号/手机号" :maxlength="11"></el-input>
         </el-form-item>
       
-        <el-form-item label="" prop="password">
-          <el-input type="password" v-model="loginForm.password" placeholder="密码" :maxlength="20"></el-input>
+        <el-form-item label="" prop="pwd">
+          <el-input type="password" v-model="loginForm.pwd" placeholder="密码" :maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="" prop="">
           <p class="forget">忘记密码</p>
@@ -33,7 +33,7 @@
   export default {
     name: 'login',
     data(){
-      const validateNumber = (rule, value, callback) => {
+      const validatePhone = (rule, value, callback) => {
         if(!value){
           callback(new Error("手机号码不能为空"))
         }else if(value.length == 11 
@@ -53,7 +53,7 @@
       return {
         loginForm: {},
         rules: {
-          number: [{validator: validateNumber,trigger: 'blur'}],
+          // number: [{validator: validatePhone,trigger: 'blur'}],
           password: [{validator: validatePwd,trigger: 'blur'}]
         },
       }
@@ -63,7 +63,23 @@
       login: function(formName){
         this.$refs[formName].validate(valid => {
           if(valid){
-            console.log('验证通过')
+            let loginInfo = {
+                mobile: this.loginForm.number,
+                password: this.loginForm.pwd
+            }
+            this.$store.dispatch('Login', loginInfo).then().catch(err => {
+              if(err.msg){
+                this.$message({
+                  message: err.msg,
+                  type: "error"
+                })
+              }else {
+                this.$message({
+                  message: "登录失败,请稍后重试",
+                  type: "error"
+                })
+              }
+            })
           }else {
             return false
           }

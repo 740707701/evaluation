@@ -11,7 +11,7 @@
           <div class="captcha-btn">获取验证码</div>
         </el-form-item>
         <el-form-item label="" prop="">
-          <div class="next-btn" @click="next">下一步</div>
+          <div class="next-btn" @click.stop="next('forgetForm')">下一步</div>
         </el-form-item>
       </el-form>
     </div>
@@ -21,14 +21,14 @@
         <el-form-item label="" prop="phone">
           <el-input v-model="resetForm.phone" placeholder="手机号" :maxlength="11"></el-input>
         </el-form-item>
-        <el-form-item label="" prop="password">
-          <el-input v-model="resetForm.password" placeholder="请设置新密码" :maxlength="20"></el-input>
+        <el-form-item label="" prop="pwd">
+          <el-input v-model="resetForm.pwd" placeholder="请设置新密码" :maxlength="20"></el-input>
         </el-form-item>
-        <el-form-item label="" prop="password2">
-          <el-input v-model="resetForm.password2" placeholder="确认新密码" :maxlength="20"></el-input>
+        <el-form-item label="" prop="pwd2">
+          <el-input v-model="resetForm.pwd2" placeholder="确认新密码" :maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="" prop="">
-          <div class="next-btn" @click="post">提交</div>
+          <div class="next-btn" @click="post('resetForm')">提交</div>
         </el-form-item>
       </el-form>
     </div>
@@ -48,7 +48,7 @@
           callback(new Error("请输入正确的手机号"));
         }
       };
-       const validatePwd = (rule, value, callback) => {
+      const validatePwd = (rule, value, callback) => {
         if(!value){
           callback(new Error("密码不能为空"));
         }else {
@@ -67,12 +67,13 @@
       return {
         showReset: false,
         forgetRules: {
-          phone: [{valuator: validatePhone, trigger: 'blur'}]
+          phone: [{validator: validatePhone, trigger: 'blur'}],
+          captcha: [{required: true, message: "验证码不能为空", trigger: "blur"}],
         },
         resetRules: {
-           phone: [{valuator: validatePhone, trigger: 'blur'}],
-           password:[{valuator: validatePwd, trigger: 'blur'}],
-           password2: [{valuator: validatePwd2, trigger: 'blur'}]
+           phone: [{validator: validatePhone, trigger: 'blur'}],
+           password:[{validator: validatePwd, trigger: 'blur'}],
+           password2: [{validator: validatePwd2, trigger: 'blur'}]
         },
         forgetForm: {},
         resetForm: {}
@@ -80,10 +81,60 @@
     },
     created(){},
     methods: {
-      next: function(){
-        this.showReset = true;
+      getCaptcha: function(){
+        if(this.forgetForm.phone){
+          this.$store.dispatch('CAPTCHA', this.forgetForm.phone).then(res => {
+            console.log(res,'获取验证码成功')
+          }).catch(err => {
+            if(err.msg){
+                this.$message({
+                  message: err.msg,
+                  type: "error"
+                })
+              }else {
+                this.$message({
+                  message: "获取验证码失败,请稍后重试",
+                  type: "error"
+                })
+              }
+          })
+        }
       },
-      post: function(){}
+      next: function(formName){
+        this.$refs[formName].validate(valid => {
+          if(valid){
+            this.showReset = true;
+          }
+        })
+      },
+      post: function(){
+        this.$refs[formName].validate(valid => {
+          if(valid){
+            let resetInfo = {
+              mobile: this.resetForm.phone,
+              password: this.resetForm.pwd
+            }
+            this.$store.dispatch('FORGET', resetInfo).then(res => {
+              this.$message({
+                  message: "修改成功",
+                  type: "success"
+                })
+            }).catch(err => {
+              if(err.msg){
+                this.$message({
+                  message: err.msg,
+                  type: "error"
+                })
+              }else {
+                this.$message({
+                  message: "登录失败,请稍后重试",
+                  type: "error"
+                })
+              }
+            })
+          }
+        })
+      }
     }
   }
 </script>
