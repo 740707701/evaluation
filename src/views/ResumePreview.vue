@@ -3,26 +3,253 @@
     <div class="container">
       <el-row :gutter="10" class="el-content">
         <el-col :span="24" class="center-content">
-          <baseBox :baseInfo="baseInfo" preview="true"></baseBox>
-          <expectBox :expectInfo="expectInfo" preview="true"></expectBox>
-          <evaluateBox :evaluateInfo="evaluateInfo" preview="true"></evaluateBox>
-          <workExperBox :workExperList="workExperList" preview="true"></workExperBox>
-          <eduBox :eduList="eduList" preview="true"></eduBox>
-          <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" preview="true"></schoolBox>
-          <skillBox :skillList="skillList" preview="true"></skillBox>
+          <div class="base-info">
+            <div id="base" class="grid-content info-box">
+              <div class="base-info">
+                <div class="title">
+                  <i class="iconfont icon-user"></i>
+                  <span>基本信息</span>
+                </div>
+                <div class="base-content">
+                  <div class="avtar">
+                    <img src="../assets/images/demo/05.jpg" alt="">
+                  </div>
+                  <div class="info-list">
+                    <div class="name">
+                      <span>{{baseInfo.name}}</span>
+                      <i class="iconfont icon-edit right-icon"></i>
+                    </div>
+                    <div class="status">
+                      <span>现居住：{{baseInfo.address}}</span>
+                      <!-- <span>{{baseInfo.workYear}}年工作经验</span> -->
+                      <span>0年工作经验</span>
+                      <span>{{baseInfo.sex==1?'女':'男'}}</span>
+                      <span>11岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
+                      <span>{{baseInfo.jobStatus}}</span>
+                    </div>
+                    <div class="concat">
+                      <span>
+                        <i class="iconfont icon-email"></i>{{baseInfo.email}}
+                      </span>
+                      <span>
+                        <i class="iconfont icon-phone"></i>{{baseInfo.phone}}
+                      </span>
+                      
+                    </div>
+                  </div>
+                  <div class="more-info">
+                    <span class="arrow-top"></span>
+                    <span>户口/国籍：{{baseInfo.address}}</span>
+                    <span>婚姻状态：{{baseInfo.marriageStatusName}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="expext-info">
+            <div id="job" class="grid-content info-box">
+              <div class="base-info">
+                <div class="title">
+                  <i class="iconfont icon-job"></i>
+                  <span>求职意向</span>
+                </div>
+                <ul class="item-list">
+                  <li>
+                    <span class="item">
+                      <span class="name">期望工资： </span>{{expectInfo.expectSalary}}元/月
+                    </span>
+                    <span class="item">
+                      <span class="name">工作地点： </span>{{expectInfo.expectPlace}}
+                    </span>
+                  </li>
+                  <li>
+                    <span class="item">
+                      <span class="name">职能/职位： </span>{{expectInfo.expectPosition}}
+                    </span>
+                    <span class="item">
+                      <span class="name">工作类型：  </span>{{expectInfo.expectWorkType}}
+                    </span>
+                  </li>
+                  <li>
+                    <span class="item">
+                      <span class="name">行业： </span>{{expectInfo.expectIndustry}}
+                    </span>
+                    <span class="item">
+                    <span class="name">到岗时间： </span>{{expectInfo.arriveTime}}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="evaluate-info">
+            <div id="evaluate" class="grid-content info-box">
+              <div class="base-info">
+                <div class="title">
+                  <i class="iconfont icon-evaluate"></i>
+                  <span>自我评价</span>
+                </div>
+                <div class="evaluate-box" v-if="evaluateInfo.evaluate">
+                  <div class="evaluate-text">{{evaluateInfo.evaluate}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="work-exper" v-if="workExperList.length">
+            <div id="work" class="grid-content info-box">
+              <div class="base-info">
+                <div class="title">
+                  <i class="iconfont icon-work"></i>
+                  <span>工作经验</span>
+                </div>
+                <div class="job-item" v-for="exper in workExperList" :key="exper.id">
+                  <div class="job-time">
+                    <span class="gray">{{exper.startTime.slice(0,10)}} - {{exper.endTime.slice(0,10)}}</span>
+                    <span>{{exper.companyName}}</span>
+                    <span>{{exper.deparment}}</span>
+                    <span class="icon-box" v-if="!preview">
+                      <i class="iconfont icon-edit" @click="editWorkExper(exper.id)"></i>
+                      <i class="iconfont icon-delete" @click="deleteWorkExper(exper.id)"></i>
+                    </span>
+                  </div>
+                  <div class="job-type">
+                    <span><span class="gray">公司类型：</span>{{exper.industry}}</span>
+                    <span><span class="gray">公司人数：</span>{{exper.companySize}}人</span>
+                    <span><span class="gray">公司性质：</span>{{exper.companyNature}}</span>
+                    <span><span class="gray">所属部门：</span>{{exper.department}}</span>
+                  </div>
+                  <div class="job-desc">
+                    <div class="desc-text gray">工作描述：</div>
+                    <div class="desc-content">
+                      <ul class="desc-list">
+                        <li class="desc-item">{{exper.workDesc}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="edu-info" v-if="eduList.length">
+            <div id="education" class="grid-content info-box">
+              <div class="base-info">
+                <div class="title">
+                  <i class="iconfont icon-edu"></i>
+                  <span>教育经历111</span>
+                </div>
+                <div class="job-item" v-for="edu in eduList" :key="edu.id">
+                  <div class="job-time">
+                    <span class="gray">{{edu.startTime.slice(0,10)}} - {{edu.endTime.slice(0,10)}}</span>
+                    <span>{{edu.schoolName}}</span>
+                    <span>{{edu.eduMajor}}（{{edu.degree}}）</span>
+                    <span class="icon-box" v-if="!preview">
+                      <i class="iconfont icon-edit" @click="editEdu(edu.id)"></i>
+                      <i class="iconfont icon-delete" @click="deleteEdu(edu.id)"></i>
+                    </span>
+                  </div>
+                  <div class="job-desc">
+                    <div class="desc-text gray">专业描述：</div>
+                    <div class="desc-content">
+                      <ul class="desc-list">
+                        <li class="desc-item">{{edu.majorDesc}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="job-desc">
+                    <div class="desc-text gray">主修课程：</div>
+                    <div class="desc-content">
+                      <ul class="desc-list">
+                        <li class="desc-item">{{edu.eduDesc}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="school-info">
+            <div id="school" class="grid-content info-box">
+              <div class="base-info">
+                <div class="title">
+                  <i class="iconfont icon-school"></i>
+                  <span>在校情况</span>
+                </div>
+                <div class="schoolwork">
+                  <div class="honor">
+                    <div class="school-type">
+                      <span>校内荣誉</span>
+                    </div>
+                    <ul class="honor-list job-item" v-if="schoolHonorList">
+                      <li v-for="honor in schoolHonorList" :key="honor.id">
+                        <div class="job-time">
+                          <span class="gray">{{honor.honorName.slice(0, 10)}}</span>
+                          <span>{{honor.honorName}}</span>
+                          <span>{{honor.honorTitle}}</span>
+                          <span class="icon-box"  v-if="!preview">
+                            <i class="iconfont icon-edit" @click="editSchoolHonor(honor.id)"></i>
+                            <i class="iconfont icon-delete" @click="deleteSchoolHonor(honor.id)"></i>
+                          </span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="post">
+                    <div class="school-type">
+                      <span>校内职务</span>
+                    </div>
+                    <ul class="post-list" v-if="schoolWorkList">
+                      <li class="job-item" v-for="work in schoolWorkList" :key="work.id">
+                        <div class="job-time">
+                          <span class="gray">{{work.startTime.slice(0, 10)}} - {{work.endTime.slice(0, 10)}}</span>
+                          <span>{{work.schoolWorkName}}</span>
+                          <span></span>
+                          <span class="icon-box" v-if="!preview">
+                            <i class="iconfont icon-edit" @click="editSchoolWork(work.id)"></i>
+                            <i class="iconfont icon-delete" @click="deleteSchoolWork(work.id)"></i>
+                          </span>
+                        </div>
+                        <div class="job-desc">
+                          <div class="desc-text gray">主修课程：</div>
+                          <div class="desc-content">
+                            <ul class="desc-list">
+                              {{work.schoolWorkDesc}}
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="skill-info">
+            <div id="skill" class="grid-content info-box">
+              <div class="base-info">
+                <div class="title">
+                  <i class="iconfont icon-skill"></i>
+                  <span>技能证书</span>
+                </div>
+                <ul class="skill" v-if="skillList">
+                  <li v-for="skill in skillList" :key="skill.id">
+                    <span class="gray">{{skill.skillTime.slice(0,10)}}</span>
+                    <span>{{skill.name}}</span>
+                    <span>{{skill.score}}</span>
+                    <span class="icon-box" v-if="!preview">
+                      <i class="iconfont icon-edit" @click="editSkill(skill.id)"></i>
+                      <i class="iconfont icon-delete" @click="deleteSkill(skill.id)"></i>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </el-col>
       </el-row>
     </div>
   </div>
 </template>
 <script>
-import baseBox from '../components/Resume/base.vue';
-import expectBox from '../components/Resume/expect.vue';
-import evaluateBox from '../components/Resume/evaluate.vue';
-import workExperBox from '../components/Resume/workexper.vue';
-import eduBox from '../components/Resume/edu.vue';
-import schoolBox from '../components/Resume/school.vue';
-import skillBox from '../components/Resume/skills.vue';
 export default {
   name: "resumePreview",
   data() {
@@ -47,7 +274,7 @@ export default {
         .dispatch("RESUME_INFO", { creator: "cc" })
         .then(res => {
           this.resume = res.data;
-          this.baseInfo =res.data.resumeBaseInfo;
+          this.baseInfo = res.data.resumeBaseInfo;
           this.evaluateInfo = res.data.resumeBaseInfo;
           this.expectInfo = res.data.resumeBaseInfo;
           this.workExperList = res.data.jobexpList;
@@ -61,15 +288,7 @@ export default {
         });
     }
   },
-  components: {
-    baseBox,
-    expectBox,
-    evaluateBox,
-    workExperBox,
-    eduBox,
-    schoolBox,
-    skillBox
-  }
+  components: {}
 };
 </script>
 <style lang="less" scope>
@@ -231,13 +450,13 @@ export default {
               .el-radio__input.is-checked .el-radio__inner {
                 background-color: @main-color-yellow;
               }
-              .el-radio__input.is-checked+.el-radio__label {
+              .el-radio__input.is-checked + .el-radio__label {
                 color: @main-color-text;
               }
               .select-box {
                 width: 180px;
               }
-              input[type='text'] {
+              input[type="text"] {
                 width: 180px;
               }
             }
@@ -248,7 +467,7 @@ export default {
               text-align: left !important;
             }
             .work-desc {
-              width:100%;
+              width: 100%;
             }
             .work-desc-item {
               margin-top: 10px;
@@ -316,7 +535,7 @@ export default {
           }
         }
         .job-item {
-          width: 100%;;
+          width: 100%;
           display: inline-block;
           padding: 10px 20px;
           border-bottom: 1px solid @main-color-border;

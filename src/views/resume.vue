@@ -115,7 +115,7 @@
       <div class="post-box">
         <img src="../assets/images/resume_success.png" alt="" class="post-success">
         <div class="title">简历提交成功</div>
-        <div class="date">2018-05-03 11:02</div>
+        <div class="date">{{date}}</div>
         <el-button size="small" round class="back-btn">返回</el-button>
       </div>
     </div>
@@ -125,13 +125,7 @@
         <div class="preview-container">
           <el-row :gutter="10" class="el-content">
             <el-col :span="24" class="preview-center-content">
-              <baseBox :baseInfo="baseInfo" preview="true"></baseBox>
-              <expectBox :expectInfo="expectInfo" preview="true"></expectBox>
-              <evaluateBox :evaluateInfo="evaluateInfo" preview="true"></evaluateBox>
-              <workExperBox :workExperList="workExperList" preview="true"></workExperBox>
-              <eduBox :eduList="eduList" preview="true"></eduBox>
-              <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" preview="true"></schoolBox>
-              <skillBox :skillList="skillList" preview="true"></skillBox>
+              <preview></preview>
             </el-col>
           </el-row>
         </div>
@@ -148,6 +142,7 @@ import workExperBox from "../components/Resume/workexper.vue";
 import eduBox from "../components/Resume/edu.vue";
 import schoolBox from "../components/Resume/school.vue";
 import skillBox from "../components/Resume/skills.vue";
+import preview from '../components/Resume/preview.vue';
 import { mapState } from "vuex";
 import tags from "../api/tags";
 
@@ -158,6 +153,7 @@ export default {
       updator: "cc",
       creator: "cc",
       resumeId: "ad3db208de4e450b9c759b35af141410",
+      date: new Date().toLocaleString().slice(0,20),
       showSuccessDialog: false,
       showPreview: false,
       tag: "",
@@ -336,7 +332,8 @@ export default {
     workExperBox,
     eduBox,
     schoolBox,
-    skillBox
+    skillBox,
+    preview
   }
 };
 </script>

@@ -13,7 +13,7 @@
         <div class="info-list">
           <div class="name">
             <span>{{baseInfo.name}}</span>
-            <i class="iconfont icon-edit right-icon" v-if="!preview" @click="editBaseInfo"></i>
+            <i class="iconfont icon-edit right-icon" @click="editBaseInfo"></i>
           </div>
           <div class="status">
             <span>现居住：{{baseInfo.address}}</span>
@@ -30,14 +30,14 @@
             <span>
               <i class="iconfont icon-phone"></i>{{baseInfo.phone}}
             </span>
-            <span class="more" @click="showMoreBase=!showMoreBase" v-if="!preview">
+            <span class="more" @click="showMoreBase=!showMoreBase">
               {{showMoreBase?'收起':'更多'}}
               <i v-if="showMoreBase==false" class="el-icon-arrow-down"></i>
               <i v-if="showMoreBase==true" class="el-icon-arrow-up"></i>
             </span>
           </div>
         </div>
-        <div class="more-info" v-if="showMoreBase || preview">
+        <div class="more-info" v-if="showMoreBase">
           <span class="arrow-top"></span>
           <span>户口/国籍：{{baseInfo.address}}</span>
           <span>婚姻状态：{{baseInfo.marriageStatusName}}</span>
@@ -45,7 +45,7 @@
       </div>
     </div>
   </div>
-  <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit&&!preview">
+  <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit">
     <div class="base-info">
       <div class="title">
         <i class="iconfont icon-user"></i>
@@ -257,7 +257,7 @@ export default {
       }
     };
   },
-  props: ["baseInfo", "preview"],
+  props: ["baseInfo"],
   methods: {
     editBaseInfo: function() {
       this.showBaseInfoEdit = true;

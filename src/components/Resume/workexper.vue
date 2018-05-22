@@ -5,7 +5,7 @@
         <div class="title">
           <i class="iconfont icon-work"></i>
           <span>工作经验</span>
-          <div class="add-job" @click="addWorkExper" v-if="!preview">
+          <div class="add-job" @click="addWorkExper" v-if="workExperList">
             <i class="iconfont icon-add"></i>新增工作
           </div>
         </div>
@@ -14,7 +14,7 @@
             <span class="gray">{{exper.startTime.slice(0,10)}} - {{exper.endTime.slice(0,10)}}</span>
             <span>{{exper.companyName}}</span>
             <span>{{exper.deparment}}</span>
-            <span class="icon-box" v-if="!preview">
+            <span class="icon-box">
               <i class="iconfont icon-edit" @click="editWorkExper(exper.id)"></i>
               <i class="iconfont icon-delete" @click="deleteWorkExper(exper.id)"></i>
             </span>
@@ -253,7 +253,7 @@ export default {
       }
     };
   },
-  props: ["workExperList", "preview"],
+  props: ["workExperList"],
   methods: {
     addWorkExper: function() {
       this.workExperInfo = {

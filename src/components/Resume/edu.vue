@@ -5,7 +5,7 @@
         <div class="title">
           <i class="iconfont icon-edu"></i>
           <span>教育经历</span>
-            <div class="add-job" @click="addEdu" v-if="!preview">
+            <div class="add-job" @click="addEdu" v-if="eduList">
             <i class="iconfont icon-add"></i>新增教育
           </div>
         </div>
@@ -14,7 +14,7 @@
             <span class="gray">{{edu.startTime.slice(0,10)}} - {{edu.endTime.slice(0,10)}}</span>
             <span>{{edu.schoolName}}</span>
             <span>{{edu.eduMajor}}（{{edu.degree}}）</span>
-            <span class="icon-box" v-if="!preview">
+            <span class="icon-box">
               <i class="iconfont icon-edit" @click="editEdu(edu.id)"></i>
               <i class="iconfont icon-delete" @click="deleteEdu(edu.id)"></i>
             </span>
@@ -202,7 +202,7 @@ export default {
       }
     };
   },
-  props: ["eduList", "preview"],
+  props: ["eduList"],
   methods: {
     addEdu: function() {
       this.eduInfo = {

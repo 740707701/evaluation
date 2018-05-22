@@ -1,91 +1,91 @@
 <template>
-  <div class="sshool-info">
-    <div id="school" class="grid-content info-box" >
+  <div class="school-info">
+    <div id="school" class="grid-content info-box">
       <div class="base-info">
         <div class="title">
           <i class="iconfont icon-school"></i>
           <span>在校情况</span>
         </div>
         <div class="grid-content info-box edit-border" v-if="showSchoolHonorEdit">
-      <div class="base-info">
-        <div class="title">
-          <i class="iconfont icon-school"></i>
-          <span>校内荣誉</span>
-        </div>
-        <div class="base-content">
-          <div class="edit-content">
-            <el-form :inline="true" :model="honorInfo" :rules="honorRules" ref="honorInfo" label-width="100px" class="form-box">
-              <el-form-item label="时间：" prop="honorTime" class="input-box">
-                <el-date-picker size="small" class="select-box"
-                    v-model="honorInfo.honorTime"
-                    type="date"
-                    placeholder="选择日期"
-                    value-format="yyyy-MM-dd">
-                  </el-date-picker>
-              </el-form-item>
-              <el-form-item label="奖项：" prop="honorName" class="input-box">
-                <el-input size="small" v-model="honorInfo.honorName" placeholder="请输入奖项"></el-input>
-              </el-form-item>
-              <el-form-item label="级别：" prop="honorTitle" class="input-box">
-                <el-input size="small" v-model="honorInfo.honorTitle" placeholder="请输入级别"></el-input>
-              </el-form-item>
-              <el-form-item label="" prop="" class="input-box"></el-form-item>
-              <el-form-item size="small" class="edit-btn-box">
-                <el-button class="save-btn" @click="saveSchoolHonor('honorInfo')">保存</el-button>
-                <el-button class="cancel" @click="cancelSchoolHonor('honorInfo')">取消</el-button>
-              </el-form-item>
-            </el-form>
+          <div class="base-info">
+            <div class="title">
+              <i class="iconfont icon-school"></i>
+              <span>校内荣誉</span>
+            </div>
+            <div class="base-content">
+              <div class="edit-content">
+                <el-form :inline="true" :model="honorInfo" :rules="honorRules" ref="honorInfo" label-width="100px" class="form-box">
+                  <el-form-item label="时间：" prop="honorTime" class="input-box">
+                    <el-date-picker size="small" class="select-box"
+                        v-model="honorInfo.honorTime"
+                        type="date"
+                        placeholder="选择日期"
+                        value-format="yyyy-MM-dd">
+                      </el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="奖项：" prop="honorName" class="input-box">
+                    <el-input size="small" v-model="honorInfo.honorName" placeholder="请输入奖项"></el-input>
+                  </el-form-item>
+                  <el-form-item label="级别：" prop="honorTitle" class="input-box">
+                    <el-input size="small" v-model="honorInfo.honorTitle" placeholder="请输入级别"></el-input>
+                  </el-form-item>
+                  <el-form-item label="" prop="" class="input-box"></el-form-item>
+                  <el-form-item size="small" class="edit-btn-box">
+                    <el-button class="save-btn" @click="saveSchoolHonor('honorInfo')">保存</el-button>
+                    <el-button class="cancel" @click="cancelSchoolHonor('honorInfo')">取消</el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="grid-content info-box edit-border" v-if="showSchoolWorkEdit">
-      <div class="base-info">
-        <div class="title">
-          <i class="iconfont icon-school"></i>
-          <span>校内职务</span>
-        </div>
-        <div class="base-content">
-          <div class="edit-content">
-            <el-form :inline="true" :model="workInfo" :rules="workRules" ref="workInfo" label-width="100px" class="form-box">
-              <el-form-item label="开始时间：" prop="startTime" class="input-box">
-                <el-date-picker size="small" class="select-box"
-                    v-model="workInfo.startTime"
-                    type="date"
-                    placeholder="选择日期"
-                    value-format="yyyy-MM-dd">
-                  </el-date-picker>
-              </el-form-item>
-              <el-form-item label="结束时间：" prop="endTime" class="input-box">
-                <el-date-picker size="small" class="select-box"
-                    v-model="workInfo.endTime"
-                    type="date"
-                    placeholder="选择日期"
-                    value-format="yyyy-MM-dd">
-                  </el-date-picker>
-              </el-form-item>
-              <el-form-item label="职务：" prop="schoolWorkName" class="input-box">
-                <el-input size="small" v-model="workInfo.schoolWorkName" placeholder="请输入职务"></el-input>
-              </el-form-item>
-              <el-form-item label="职务描述：" prop="schoolWorkDesc" class="input-box desc-box">
-                <div class="work-desc">
-                    <textarea v-model="workInfo.schoolWorkDesc" maxlength="300" class="textarea" name="" id="" placeholder="描述你的职责范围、工作任务以及取得成绩"></textarea>
-                  </div>
-              </el-form-item>
-              <el-form-item size="small" class="edit-btn-box">
-                <el-button class="save-btn" @click="saveSchoolWork('workInfo')">保存</el-button>
-                <el-button class="cancel" @click="cancelSchoolWork('workInfo')">取消</el-button>
-              </el-form-item>
-            </el-form>
+        <div class="grid-content info-box edit-border" v-if="showSchoolWorkEdit">
+          <div class="base-info">
+            <div class="title">
+              <i class="iconfont icon-school"></i>
+              <span>校内职务</span>
+            </div>
+            <div class="base-content">
+              <div class="edit-content">
+                <el-form :inline="true" :model="workInfo" :rules="workRules" ref="workInfo" label-width="100px" class="form-box">
+                  <el-form-item label="开始时间：" prop="startTime" class="input-box">
+                    <el-date-picker size="small" class="select-box"
+                        v-model="workInfo.startTime"
+                        type="date"
+                        placeholder="选择日期"
+                        value-format="yyyy-MM-dd">
+                      </el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="结束时间：" prop="endTime" class="input-box">
+                    <el-date-picker size="small" class="select-box"
+                        v-model="workInfo.endTime"
+                        type="date"
+                        placeholder="选择日期"
+                        value-format="yyyy-MM-dd">
+                      </el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="职务：" prop="schoolWorkName" class="input-box">
+                    <el-input size="small" v-model="workInfo.schoolWorkName" placeholder="请输入职务"></el-input>
+                  </el-form-item>
+                  <el-form-item label="职务描述：" prop="schoolWorkDesc" class="input-box desc-box">
+                    <div class="work-desc">
+                        <textarea v-model="workInfo.schoolWorkDesc" maxlength="300" class="textarea" name="" id="" placeholder="描述你的职责范围、工作任务以及取得成绩"></textarea>
+                      </div>
+                  </el-form-item>
+                  <el-form-item size="small" class="edit-btn-box">
+                    <el-button class="save-btn" @click="saveSchoolWork('workInfo')">保存</el-button>
+                    <el-button class="cancel" @click="cancelSchoolWork('workInfo')">取消</el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
         <div class="schoolwork">
           <div class="honor" v-if="!showSchoolHonorEdit">
             <div class="school-type">
               <span>校内荣誉</span>
-              <div class="add-job" @click="addSchoolHonor" v-if="!preview">
+              <div class="add-job" @click="addSchoolHonor" v-if="schoolHonorList">
                 <i class="iconfont icon-add" ></i>新增荣誉
               </div>
             </div>
@@ -95,7 +95,7 @@
                   <span class="gray">{{honor.honorName.slice(0, 10)}}</span>
                   <span>{{honor.honorName}}</span>
                   <span>{{honor.honorTitle}}</span>
-                  <span class="icon-box"  v-if="!preview">
+                  <span class="icon-box">
                     <i class="iconfont icon-edit" @click="editSchoolHonor(honor.id)"></i>
                     <i class="iconfont icon-delete" @click="deleteSchoolHonor(honor.id)"></i>
                   </span>
@@ -110,7 +110,7 @@
           <div class="post" v-if="!showSchoolWorkEdit">
             <div class="school-type">
               <span>校内职务</span>
-              <div class="add-job" @click="addSchoolWork" v-if="!preview">
+              <div class="add-job" @click="addSchoolWork" v-if="schoolWorkList">
                 <i class="iconfont icon-add"></i>新增职务
               </div>
             </div>
@@ -120,7 +120,7 @@
                   <span class="gray">{{work.startTime.slice(0, 10)}} - {{work.endTime.slice(0, 10)}}</span>
                   <span>{{work.schoolWorkName}}</span>
                   <span></span>
-                  <span class="icon-box" v-if="!preview">
+                  <span class="icon-box">
                     <i class="iconfont icon-edit" @click="editSchoolWork(work.id)"></i>
                     <i class="iconfont icon-delete" @click="deleteSchoolWork(work.id)"></i>
                   </span>
@@ -238,7 +238,7 @@ export default {
       }
     };
   },
-  props: ["schoolHonorList", "schoolWorkList", "preview"],
+  props: ["schoolHonorList", "schoolWorkList"],
   methods: {
     addSchoolHonor: function() {
       this.honorInfo = {
