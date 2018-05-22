@@ -131,6 +131,7 @@
         </div>
       </div>
     </div>
+    <!-- <metadata @metadata="getData"></metadata> -->
   </div>
 </template>
 <script>
@@ -145,6 +146,7 @@ import skillBox from "../components/Resume/skills.vue";
 import preview from '../components/Resume/preview.vue';
 import { mapState } from "vuex";
 import tags from "../api/tags";
+import metadata from '../components/Resume/metadata.vue';
 
 export default {
   name: "resume",
@@ -172,17 +174,14 @@ export default {
       schoolHonorList: [],
       schoolWorkList: [],
       skillList: [],
-
-      citiesList: [],
-      funList: [],
-      industryList: [],
+      metaData: {}
     };
   },
   computed: {},
   beforeCreate: function() {},
   created: function() {
-    this.getData();
     this.getResumeInfo();
+    this.getData();
   },
   mounted: function() {},
   updated: function() {},
@@ -205,6 +204,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
+        console.log('data',metadata)
     },
     //更新数据
     updateInfo: function() {
@@ -284,44 +284,17 @@ export default {
       })
     },
     getData: function(){
+      // console.log('sssss',data)
+      // this.metaData = data
       Promise.all([
-        this.$store.dispatch('TREEITEM', {dictCode: 'AREA'}), //行政区划
-        this.$store.dispatch('TREEITEM', {dictCode: 'FUNCTION'}), //职能
-        this.$store.dispatch('TREEITEM', {dictCode: 'INDUSTRY'}), //行业
-        this.$store.dispatch('DICTITEM', {dictCode: 'COMPANY_NATURE'}), //公司范围
-        this.$store.dispatch('DICTITEM', {dictCode: 'EDUCATION'}), //学历/学位
-        this.$store.dispatch('DICTITEM', {dictCode: 'EXPECT_SALARY'}), //期望薪资
-        this.$store.dispatch('DICTITEM', {dictCode: 'INDUSTRY'}), //行业类别
-        this.$store.dispatch('DICTITEM', {dictCode: 'JOB_STATUS'}), //工作状态
-        this.$store.dispatch('DICTITEM', {dictCode: 'MARRIAGE_STATUS'}), //婚姻状态
-        this.$store.dispatch('DICTITEM', {dictCode: 'NATIVE'}), //籍贯
-        this.$store.dispatch('DICTITEM', {dictCode: 'PROF_TYPE'}), //职业类型
-        this.$store.dispatch('DICTITEM', {dictCode: 'SCHOOLWORK_PROP'}), //学业性质
-        this.$store.dispatch('DICTITEM', {dictCode: 'SEX'}) //性别
-        ]).then(data => {
-        console.log('resssss',data)
+        this.$store.dispatch('AREA', {dictCode: 'AREA'}), //行政区划
+				this.$store.dispatch('FUNCTION', {dictCode: 'FUNCTION'}), //职能
+      ]).then(res => {
+        console.log(res)
       }).catch(err => {
-        if(err.msg){
-          this.$message({
-            message: err.msg,
-            type: "error"
-          });
-        }else {
-          this.$message({
-            message: "获取字典数据失败",
-            type: "error"
-          });
-        }
+        console.log(err)
       })
-      // Promise.all([
-      //   this.getTreeItem('AREA'),
-      //   this.getTreeItem('FUNCTION')
-      //   ]).then(data => {
-      //   console.log('resssss',data)
-      // }).catch(err => {
-      //   console.log('wwwww',err)
-      // })
-    },
+    }
   },
   watch: {},
   components: {
@@ -333,7 +306,8 @@ export default {
     eduBox,
     schoolBox,
     skillBox,
-    preview
+    preview,
+    metadata
   }
 };
 </script>

@@ -90,9 +90,9 @@
               <el-select size="small"  v-model="base.nativePlace" placeholder="请选择" class="select-box">
                   <el-option 
                     v-for="item in cities"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
                     >
                   </el-option>
                 </el-select>
@@ -109,9 +109,9 @@
               <el-select size="small" v-model="base.jobStatus" placeholder="请选择" class="select-box">
                   <el-option
                     v-for="item in jobStatus"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
                   </el-option>
                 </el-select>
             </el-form-item>
@@ -119,9 +119,9 @@
               <el-select size="small" v-model="base.careerType" placeholder="请选择" class="select-box">
                   <el-option
                     v-for="item in careerType"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
                   </el-option>
                 </el-select>
             </el-form-item>
@@ -129,9 +129,9 @@
               <el-select size="small" v-model="base.marriageStatus" placeholder="请选择" class="select-box">
                   <el-option
                     v-for="item in marriageStatus"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
                   </el-option>
                 </el-select>
             </el-form-item>
@@ -147,18 +147,19 @@
       </div>
     </div>
   </div>
+  <!-- <metadata @metadata="getData"></metadata> -->
 </div>
 </template>
 <script>
-import metadata from "../../api/metadata";
+import metadata from "./metadata.vue";
 export default {
   name: "baseInfo",
   data() {
     return {
-      cities: metadata.cities,
-      jobStatus: metadata.jobStatus,
-      careerType: metadata.careerType,
-      marriageStatus: metadata.marriageStatus,
+      cities: [],
+      jobStatus: [],
+      careerType: [],
+      marriageStatus: [],
 
       showNameMsg: false,
       showSexMsg: false,
@@ -258,6 +259,13 @@ export default {
     };
   },
   props: ["baseInfo"],
+  mounted: function(){
+    this.cities = this.$store.state.metadata.cities.data;
+    console.log('cities',this.cities)
+    console.log(this.$store.state.metadata)
+    console.log('cities',this.$store.state.metadata.cities)
+    console.log('data',this.$store.state.metadata.cities.data)
+  },
   methods: {
     editBaseInfo: function() {
       this.showBaseInfoEdit = true;
@@ -297,7 +305,16 @@ export default {
     cancel: function(formName) {
       this.showBaseInfoEdit = false;
       this.$refs[formName].resetFields();
-    }
+    },
+    // getData: function(data){
+    //   this.cities = data.cities;
+    //   this.jobStatus = data.jobStatus;
+    //   this.careerType = data.careerType;
+    //   this.marriageStatus = data.marriageStatus;
+    // }
+  },
+  components: {
+    metadata
   }
 };
 </script>

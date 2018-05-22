@@ -5,6 +5,7 @@ import evaluetion from './modules/evaluation'
 import resume from './modules/resume'
 import plan from './modules/plan'
 import user from './modules/user'
+import metadata from './modules/metadata'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -26,6 +27,6 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    evaluetion, resume, plan, user
+    evaluetion, resume, plan, user, metadata
   }
 })
