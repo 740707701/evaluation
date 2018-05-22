@@ -10,9 +10,9 @@
     </div>
 
     <router-view></router-view>
-    <!-- <login></login> -->
-    <!-- <register></register> -->
-    <!-- <forget></forget> -->
+    <login v-if="showLogin"></login>
+    <register v-if="showRegister"></register>
+    <forget v-if="showForget"></forget>
   </div>
 </div>
 </template>
@@ -25,10 +25,18 @@ import forget from '../components/Forget.vue';
 export default {
   name: "home",
   data() {
-    return {};
+    return {
+      showLogin: false,
+      showRegister: false,
+      showForget: false
+    };
   },
   computed: {},
-  methods: {},
+  methods: {
+    login: function(){
+      this.showLogin = true;
+    }
+  },
   components: {
     headerNav,
     Banner,

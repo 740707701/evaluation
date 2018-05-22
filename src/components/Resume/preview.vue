@@ -127,7 +127,7 @@
           <div class="base-info">
             <div class="title">
               <i class="iconfont icon-edu"></i>
-              <span>教育经历111</span>
+              <span>教育经历</span>
             </div>
             <div class="job-item" v-for="edu in eduList" :key="edu.id">
               <div class="job-time">
