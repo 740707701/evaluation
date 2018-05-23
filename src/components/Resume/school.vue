@@ -150,9 +150,6 @@ export default {
   name: "school",
   data() {
     return {
-      updator: "cc",
-      creator: "cc",
-      resumeId: "ad3db208de4e450b9c759b35af141410",
       showSchoolHonorEdit: false,
       showSchoolWorkEdit: false,
       honorInfo: {},
@@ -265,7 +262,17 @@ export default {
               this.showSchoolHonorEdit = false;
             })
             .catch(err => {
-              console.log(err);
+              if (err.data.msg) {
+                this.$message({
+                  type: "error",
+                  message: err.data.msg
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "保存失败"
+                });
+              }
             });
         } else {
           return false;
@@ -285,8 +292,18 @@ export default {
               this.$emit("saved", this.base);
               console.log("删除成功", response);
             })
-            .catch(error => {
-              console.log("删除失败", error);
+            .catch(err => {
+              if (err.data.msg) {
+                this.$message({
+                  type: "error",
+                  message: err.data.msg
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "删除失败"
+                });
+              }
             });
         })
         .catch(err => {
@@ -319,7 +336,17 @@ export default {
               this.showSchoolWorkEdit = false;
             })
             .catch(err => {
-              console.log(err);
+              if (err.data.msg) {
+                this.$message({
+                  type: "error",
+                  message: err.data.msg
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "保存失败"
+                });
+              }
             });
         } else {
           return false;
@@ -332,15 +359,28 @@ export default {
     },
     deleteSchoolWork: function(id) {
       this.$confirm("是否确认删除？")
-        .then(res => {
+        .then(response => {
           this.$store
-          .dispatch("DELETE_SCHOOLWORK", id)
-          .then(response => {
-            this.$emit("saved");
-            console.log("删除成功", response);
-          });
+            .dispatch("DELETE_SCHOOLWORK", id)
+            .then(res => {
+              this.$emit("saved");
+              console.log("删除成功", res);
+            })
+            .catch(err => {
+              if (err.data.msg) {
+                this.$message({
+                  type: "error",
+                  message: err.data.msg
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "删除失败"
+                });
+              }
+            });
         })
-        .catch(err => {
+        .catch(error=> {
           console.log("取消了删除");
         });
     }
@@ -348,5 +388,6 @@ export default {
 };
 </script>
 <style lang="less" scope>
+
 </style>
 

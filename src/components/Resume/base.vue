@@ -298,7 +298,17 @@ export default {
               this.$emit("saved", res.data.data);
             })
             .catch(err => {
-              console.log(err);
+              if(err.data.msg){
+                this.$message({
+                type: "error",
+                message: err.data.msg
+              })
+              }else{
+                this.$message({
+                  type: "error",
+                  message: "保存简历基本信息失败"
+                })
+              }
             });
         } else {
           return false;

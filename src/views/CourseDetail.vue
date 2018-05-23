@@ -78,7 +78,17 @@ export default {
           this.detail = res.data;
         })
         .catch(err => {
-          console.log(err);
+          if(err.data.msg){
+            this.$message({
+            type: "error",
+            message: err.data.msg
+          })
+          }else{
+            this.$message({
+              type: "error",
+              message: "获取测评详情失败"
+            })
+          }
         });
     },
     getHotList: function() {
@@ -88,7 +98,17 @@ export default {
           this.hotList = res.data;
         })
         .catch(err => {
-          console.log(err);
+          if(err.data.msg){
+            this.$message({
+            type: "error",
+            message: err.data.msg
+          })
+          }else{
+            this.$message({
+              type: "error",
+              message: "获取热门测评失败"
+            })
+          }
         });
     },
     //进入测评

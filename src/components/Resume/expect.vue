@@ -144,7 +144,7 @@ export default {
       cascaderProp: {
         label: "name",
         value: "code",
-        children: 'childrens'
+        children: "childrens"
       },
       rules: {
         expectInfo: [
@@ -157,7 +157,7 @@ export default {
         expectPlace: [
           {
             require: true,
-            type: 'array',
+            type: "array",
             message: "请确认该期望地为单一城市",
             trigger: "blur"
           }
@@ -165,7 +165,7 @@ export default {
         expectPosition: [
           {
             require: true,
-            type: 'array',
+            type: "array",
             message: "请确认你的期望职位符合你的工作年限及实习经历",
             trigger: "blur"
           }
@@ -173,7 +173,7 @@ export default {
         expectIndustry: [
           {
             require: true,
-            type: 'array',
+            type: "array",
             message: "请选择行业",
             trigger: "blur"
           }
@@ -197,13 +197,13 @@ export default {
   },
   props: ["expectInfo", "expectData", "baseParams"],
   methods: {
-    changeIndustry: function(e){
+    changeIndustry: function(e) {
       this.expect.expectIndustry = e;
     },
-    changePosition: function(e){
+    changePosition: function(e) {
       this.expect.expectPosition = e;
     },
-    changePlace: function(e){
+    changePlace: function(e) {
       this.expect.expectPlace = e;
     },
     editJobIntension: function() {
@@ -216,11 +216,21 @@ export default {
           this.$store
             .dispatch("SET_JOBINTENSION", this.expect)
             .then(res => {
-              this.$emit('saved');
+              this.$emit("saved");
               this.showJobIntensionEdit = false;
             })
             .catch(err => {
-              console.log(err);
+              if (err.data.msg) {
+                this.$message({
+                  type: "error",
+                  message: err.data.msg
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "保存失败"
+                });
+              }
             });
         } else {
           return false;

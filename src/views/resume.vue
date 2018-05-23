@@ -143,7 +143,7 @@ import workExperBox from "../components/Resume/workexper.vue";
 import eduBox from "../components/Resume/edu.vue";
 import schoolBox from "../components/Resume/school.vue";
 import skillBox from "../components/Resume/skills.vue";
-import preview from '../components/Resume/preview.vue';
+import preview from "../components/Resume/preview.vue";
 import { mapState } from "vuex";
 import tags from "../api/tags";
 
@@ -155,7 +155,7 @@ export default {
       creator: "cc",
       resumeId: "",
       baseParams: {}, //调用接口基础参数
-      date: new Date().toLocaleString().slice(0,20),
+      date: new Date().toLocaleString().slice(0, 20),
       showSuccessDialog: false,
       showPreview: false,
       tag: "",
@@ -176,9 +176,9 @@ export default {
       skillList: [],
 
       baseData: {},
-      expectData:{},
+      expectData: {},
       workExperData: {},
-      eduData:{},
+      eduData: {}
     };
   },
   computed: {},
@@ -193,7 +193,7 @@ export default {
       let params = {
         creator: this.creator,
         resumeId: this.resumeId
-      }
+      };
       this.$store
         .dispatch("RESUME_INFO", params)
         .then(res => {
@@ -209,12 +209,24 @@ export default {
           this.skillList = res.data.skillsList;
 
           //基础参数赋值
-          this.baseParams.creator = res.data.resumeBaseInfo.creator?res.data.resumeBaseInfo.creator: this.creator;
+          this.baseParams.creator = res.data.resumeBaseInfo.creator
+            ? res.data.resumeBaseInfo.creator
+            : this.creator;
           this.baseParams.updator = res.data.resumeBaseInfo.updator;
           this.baseParams.resumeId = res.data.resumeBaseInfo.id;
         })
         .catch(err => {
-          console.log(err);
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取简历失败"
+            });
+          }
         });
     },
     //更新数据
@@ -225,9 +237,9 @@ export default {
     //提交简历
     postResume: function() {
       this.postInfo = {
-        updator: this.updator,
-        creator: this.creator,
-        resumeId: this.resumeId
+        updator: this.baseParams.updator,
+        creator: this.baseParams.creator,
+        resumeId: this.baseParams.resumeId
       };
       this.$store
         .dispatch("SUBMIT_RESUME", this.postInfo)
@@ -235,7 +247,17 @@ export default {
           this.showSuccessDialog = true;
         })
         .catch(err => {
-          console.log(err, "提交简历失败");
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "提交简历失败"
+            });
+          }
         });
     },
     //预览
@@ -253,94 +275,68 @@ export default {
         this.tagType = tag[0].type;
       }
     },
-    //获取字典数据
-    getDictItem: function(dictCode, list){
-      this.$store.dispatch('DICTITEM', {dictCode: dictCode})
-      .then(res => {
-        console.log('111',res)
-        // list = res.data
-      })
-      .catch(err => {
-        if(err.msg){
-          this.$message({
-            message: err.msg,
-            type: "error"
-          });
-        }else {
-          this.$message({
-            message: "获取字典数据失败",
-            type: "success"
-          });
-        }
-      })
-    },
-    //dictCode (行政区划AREA/职能FUNCTION/行业INDUSTRY数据)
-    getTreeItem: function(dictCode){
-      this.$store.dispatch('TREEITEM', {dictCode: dictCode})
-      .then(res => {
-        console.log('list',res)
-        // list = res
-      }).catch(err => {
-        console.log(err)
-        if(err.msg){
-          this.$message({
-            message: err.msg,
-            type: "error"
-          });
-        }else {
-          this.$message({
-            message: "获取字典数据失败",
-            type: "error"
-          });
-        }
-      })
-    },
-    getData: function(){
+    getData: function() {
       Promise.all([
-        this.$store.dispatch('SEX', {dictCode: 'SEX'}), //性别
-        this.$store.dispatch('AREA', {dictCode: 'AREA'}), //行政区划
-        this.$store.dispatch('PROF_TYPE', {dictCode: 'PROF_TYPE'}), //职业类型
-        this.$store.dispatch('JOB_STATUS', {dictCode: 'JOB_STATUS'}), //工作状态
-        this.$store.dispatch('MARRIAGE_STATUS', {dictCode: 'MARRIAGE_STATUS'}), //婚姻状态
+        this.$store.dispatch("SEX", { dictCode: "SEX" }), //性别
+        this.$store.dispatch("AREA", { dictCode: "AREA" }), //行政区划
+        this.$store.dispatch("PROF_TYPE", { dictCode: "PROF_TYPE" }), //职业类型
+        this.$store.dispatch("JOB_STATUS", { dictCode: "JOB_STATUS" }), //工作状态
+        this.$store.dispatch("MARRIAGE_STATUS", {
+          dictCode: "MARRIAGE_STATUS"
+        }), //婚姻状态
 
-        this.$store.dispatch('MAJOR', {dictCode: 'MAJOR'}), //学业性质
-        this.$store.dispatch('EDUCATION', {dictCode: 'EDUCATION'}), //学历/学位
-        this.$store.dispatch('SCHOOLWORK_PROP', {dictCode: 'SCHOOLWORK_PROP'}), //学业性质
+        this.$store.dispatch("MAJOR", { dictCode: "MAJOR" }), //学业性质
+        this.$store.dispatch("EDUCATION", { dictCode: "EDUCATION" }), //学历/学位
+        this.$store.dispatch("SCHOOLWORK_PROP", {
+          dictCode: "SCHOOLWORK_PROP"
+        }), //学业性质
 
-        this.$store.dispatch('EXPECT_SALARY', {dictCode: 'EXPECT_SALARY'}), //期望薪资
-        this.$store.dispatch('ARRIVE_TIME', {dictCode: 'ARRIVE_TIME'}), //到岗时间
-        this.$store.dispatch('WORK_TYPE', {dictCode: 'WORK_TYPE'}), //工作类型
-        this.$store.dispatch('FUNCTION', {dictCode: 'FUNCTION'}), //职能
-        this.$store.dispatch('INDUSTRY', {dictCode: 'INDUSTRY'}), //行业类别
-        this.$store.dispatch('COMPANY_SIZE', {dictCode: 'COMPANY_SIZE'}), //公司规模
-        this.$store.dispatch('COMPANY_NATURE', {dictCode: 'COMPANY_NATURE'}), //公司性质
-      ]).then(res => {
-        this.baseData.sex = res[0].data;
-        this.baseData.cities = res[1].data;
-        this.baseData.careerType = res[2].data;
-        this.baseData.jobStatus = res[3].data;
-        this.baseData.marriageStatus = res[4].data;
+        this.$store.dispatch("EXPECT_SALARY", { dictCode: "EXPECT_SALARY" }), //期望薪资
+        this.$store.dispatch("ARRIVE_TIME", { dictCode: "ARRIVE_TIME" }), //到岗时间
+        this.$store.dispatch("WORK_TYPE", { dictCode: "WORK_TYPE" }), //工作类型
+        this.$store.dispatch("FUNCTION", { dictCode: "FUNCTION" }), //职能
+        this.$store.dispatch("INDUSTRY", { dictCode: "INDUSTRY" }), //行业类别
+        this.$store.dispatch("COMPANY_SIZE", { dictCode: "COMPANY_SIZE" }), //公司规模
+        this.$store.dispatch("COMPANY_NATURE", { dictCode: "COMPANY_NATURE" }) //公司性质
+      ])
+        .then(res => {
+          this.baseData.sex = res[0].data;
+          this.baseData.cities = res[1].data;
+          this.baseData.careerType = res[2].data;
+          this.baseData.jobStatus = res[3].data;
+          this.baseData.marriageStatus = res[4].data;
 
-        this.eduData.majorType = res[5].data;
-        this.eduData.degreeType = res[6].data;
-        this.eduData.eduNatureType = res[7].data;
+          this.eduData.majorType = res[5].data;
+          this.eduData.degreeType = res[6].data;
+          this.eduData.eduNatureType = res[7].data;
 
-        this.expectData.salaryRange = res[8].data;
-        this.expectData.arriveRange = res[9].data;
-        this.expectData.workType = res[10].data;
-        this.expectData.cities = res[1].data;
-        this.expectData.funType = res[11].data;
-        this.expectData.industryType = res[12].data;
+          this.expectData.salaryRange = res[8].data;
+          this.expectData.arriveRange = res[9].data;
+          this.expectData.workType = res[10].data;
+          this.expectData.cities = res[1].data;
+          this.expectData.funType = res[11].data;
+          this.expectData.industryType = res[12].data;
 
-        this.workExperData.workType = res[10].data;
-        this.workExperData.funType = res[11].data;
-        this.workExperData.industryType = res[12].data;
-        this.workExperData.companySize = res[13].data;
-        this.workExperData.companyNature = res[14].data;
-        
-      }).catch(err => {
-        console.log(err)
-      })
+          this.workExperData.workType = res[10].data;
+          this.workExperData.funType = res[11].data;
+          this.workExperData.industryType = res[12].data;
+          this.workExperData.companySize = res[13].data;
+          this.workExperData.companyNature = res[14].data;
+        })
+        .catch(err => {
+          console.log(err);
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取字典数据失败"
+            });
+          }
+        });
     }
   },
   watch: {},

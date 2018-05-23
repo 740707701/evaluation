@@ -65,9 +65,6 @@ export default {
   name: "skill",
   data() {
     return {
-      updator: "cc",
-      creator: "cc",
-      resumeId: "ad3db208de4e450b9c759b35af141410",
       skillInfo: {},
       currentSkill: [],
       showSkillEdit: false,
@@ -134,10 +131,20 @@ export default {
             .dispatch("SET_SKILL", this.skillInfo)
             .then(res => {
               this.showSkillEdit = false;
-              this.$emit('saved')
+              this.$emit("saved");
             })
             .catch(err => {
-              console.log(err);
+              if(err.data.msg){
+                this.$message({
+                type: "error",
+                message: err.data.msg
+              })
+              }else{
+                this.$message({
+                  type: "error",
+                  message: "保存失败"
+                })
+              }
             });
         } else {
           return false;
@@ -150,18 +157,28 @@ export default {
     },
     deleteSkill: function(id) {
       this.$confirm("是否确认删除？")
-        .then(res => {
+        .then(response => {
           this.$store
             .dispatch("DELETE_SKILL", id)
-            .then(response => {
+            .then(res => {
               this.$emit("saved", this.base);
-              console.log("删除成功", response);
+              console.log("删除成功", res);
             })
-            .catch(error => {
-              console.log("删除失败", error);
+            .catch(err => {
+              if(err.data.msg){
+                this.$message({
+                type: "error",
+                message: err.data.msg
+              })
+              }else{
+                this.$message({
+                  type: "error",
+                  message: "删除失败"
+                })
+              }
             });
         })
-        .catch(err => {
+        .catch(error => {
           console.log("取消了删除");
         });
     }
@@ -169,5 +186,6 @@ export default {
 };
 </script>
 <style lang="less" scope>
+
 </style>
 

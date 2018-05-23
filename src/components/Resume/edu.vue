@@ -216,12 +216,22 @@ export default {
         if (valid) {
           this.$store
             .dispatch("SET_EDU", this.eduInfo)
-            .then(res => {
+            .then(resporesnse => {
               this.$emit('saved');
               this.showEducationEdit = false;
             })
             .catch(err => {
-              console.log(err);
+              if(err.data.msg){
+                this.$message({
+                type: "error",
+                message: err.data.msg
+              })
+              }else{
+                this.$message({
+                  type: "error",
+                  message: "保存失败"
+                })
+              }
             });
         } else {
           return false;
@@ -234,18 +244,28 @@ export default {
     },
     deleteEdu: function(id) {
       this.$confirm("是否确认删除？")
-        .then(res => {
+        .then(response => {
           this.$store
             .dispatch("DELETE_EDU", id)
-            .then(response => {
+            .then(res => {
               this.$emit('saved');
-              console.log("删除成功", response);
+              console.log("删除成功", res);
             })
-            .catch(error => {
-              console.log("删除失败", error);
+            .catch(err => {
+              if(err.data.msg){
+                this.$message({
+                type: "error",
+                message: err.data.msg
+              })
+              }else{
+                this.$message({
+                  type: "error",
+                  message: "删除失败"
+                })
+              }
             });
         })
-        .catch(err => {
+        .catch(error => {
           console.log("取消了删除");
         });
     }

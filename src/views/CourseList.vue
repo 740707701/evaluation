@@ -127,15 +127,34 @@ export default {
         this.evaluationList = res.data
       })
       .catch(err => {
-        console.log('数据获取失败')
-        console.log(err)
+        if(err.data.msg){
+          this.$message({
+          type: "error",
+          message: err.data.msg
+        })
+        }else{
+          this.$message({
+            type: "error",
+            message: "获取数据失败"
+          })
+        }
       })
     },
     getHotList: function(){
       this.$store.dispatch('HOT_LIST', {size: 10}).then(res => {
         this.hotList = res.data
       }).catch( err => {
-        console.log(err)
+        if(err.data.msg){
+            this.$message({
+            type: "error",
+            message: err.data.msg
+          })
+          }else{
+            this.$message({
+              type: "error",
+              message: "获取热门测评失败"
+            })
+          }
       })
     },
     toDetail: function(id) {

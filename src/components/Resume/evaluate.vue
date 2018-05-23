@@ -47,16 +47,27 @@ export default {
       this.$store
         .dispatch("SET_EVALUATE", this.evaluateInfo)
         .then(res => {
-          this.$emit('saved');
+          this.$emit("saved");
           this.showEvaluateEdit = false;
         })
         .catch(err => {
-          console.log(err);
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "保存失败"
+            });
+          }
         });
     }
   }
 };
 </script>
 <style lang="less" scope>
+
 </style>
 
