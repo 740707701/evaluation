@@ -1,4 +1,3 @@
-
 export default {
   url: {
     //metadata
@@ -43,7 +42,7 @@ export default {
 
     //提交简历
     submitResume: 'resume/submit', //提交个人简历
-    resumeInfo: 'resume/info', //查看个人简历
+    resumeInfo: 'resume/info/{creator}', //查看个人简历
 
     //大学规划与管理
     //附加计划

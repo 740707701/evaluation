@@ -8,6 +8,7 @@ const SUBMIT_RESUME = 'SUBMIT_RESUME'
 
 const SET_BASEINFO = 'SET_BASEINFO'
 const SET_JOBINTENSION = 'SET_JOBINTENSION'
+const SET_EVALUATE = 'SET_EVALUATE'
 const SET_WORKEXPER = 'SET_WORKEXPER'
 const DELETE_WORKEXPER = 'DELETE_WORKEXPER'
 const SET_EDU = 'SET_EDU'
@@ -28,8 +29,8 @@ const ALL = 'ALL'
 export default {
   state: {
     resumeInfo: {},
-    baseInfo: [],//评价放在baseInfo里
-    //evaluate: {}, //评价
+    baseInfo: [],
+    evaluate: {}, //评价
     jobIntension: [], //求职意向
     workExper: [],
     education: [],
@@ -46,29 +47,9 @@ export default {
     }
   },
   actions: {
-    //meta data 
-    [DICTITEM]({ commit }, params){
-      return api.get(config.url.dictItem, params).then( res => {
-        commit('RESUME_SET', {
-          target: 'dictItem',
-          data: res
-        })
-        return res
-      })
-    },
-    [TREEITEM]({ commit }, params){
-      return api.get(config.url.treeItem, params).then( res => {
-        commit('RESUME_SET', {
-          target: 'treeItem',
-          data: res
-        })
-        return res
-      })
-    },
-
     //获取简历信息
     [RESUME_INFO]({ commit }, params) {
-      return api.get(config.url.resumeInfo, params).then(res => {
+      return api.get(config.url.resumeInfo.replace('{creator}', params.creator), { resumeId: params.resumeId }).then(res => {
         commit('RESUME_SET', {
           target: 'resumeInfo',
           data: res
@@ -98,9 +79,19 @@ export default {
     },
     //保存修改求职意向
     [SET_JOBINTENSION]({ commit }, data) {
-      return api.post(config.url.jobintension, data).then(res => {
+      return api.post(config.url.expect + '?type=2', data).then(res => {
         commit('RESUME_SET', {
           target: 'jobIntension',
+          data: res
+        })
+        return res
+      })
+    },
+    //保存修改求职意向
+    [SET_EVALUATE]({ commit }, data) {
+      return api.post(config.url.expect + '?type=3', data).then(res => {
+        commit('RESUME_SET', {
+          target: 'evaluate',
           data: res
         })
         return res

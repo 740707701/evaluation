@@ -17,11 +17,10 @@
                 </div>
                 <div class="status">
                   <span>现居住：{{baseInfo.address}}</span>
-                  <!-- <span>{{baseInfo.workYear}}年工作经验</span> -->
-                  <span>0年工作经验</span>
-                  <span>{{baseInfo.sex==1?'女':'男'}}</span>
+                  <span>{{baseInfo.workYear}}年工作经验</span>
+                  <span>{{baseInfo.sex==1?'男':'女'}}</span>
                   <span>11岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
-                  <span>{{baseInfo.jobStatus}}</span>
+                  <span>{{baseInfo.jobStatusName}}</span>
                 </div>
                 <div class="concat">
                   <span>
@@ -34,15 +33,14 @@
                 </div>
               </div>
               <div class="more-info">
-                <!-- <span class="arrow-top"></span> -->
-                <span>户口/国籍：{{baseInfo.address}}</span>
+                <span>户口/国籍：{{baseInfo.nativePlaceName}}</span>
                 <span>婚姻状态：{{baseInfo.marriageStatusName}}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="expext-info">
+      <div class="expext-info" v-if="expectInfo.expectSalaryName">
         <div id="job" class="grid-content info-box">
           <div class="base-info">
             <div class="title">
@@ -52,26 +50,26 @@
             <ul class="item-list">
               <li>
                 <span class="item">
-                  <span class="name">期望工资： </span>{{expectInfo.expectSalary}}元/月
+                  <span class="name">期望工资： </span>{{expectInfo.expectSalaryName}}元/月
                 </span>
                 <span class="item">
-                  <span class="name">工作地点： </span>{{expectInfo.expectPlace}}
-                </span>
-              </li>
-              <li>
-                <span class="item">
-                  <span class="name">职能/职位： </span>{{expectInfo.expectPosition}}
-                </span>
-                <span class="item">
-                  <span class="name">工作类型：  </span>{{expectInfo.expectWorkType}}
+                  <span class="name">工作地点： </span>{{expectInfo.expectPlaceName}}
                 </span>
               </li>
               <li>
                 <span class="item">
-                  <span class="name">行业： </span>{{expectInfo.expectIndustry}}
+                  <span class="name">职能/职位： </span>{{expectInfo.expectPositionName}}
                 </span>
                 <span class="item">
-                <span class="name">到岗时间： </span>{{expectInfo.arriveTime}}
+                  <span class="name">工作类型：  </span>{{expectInfo.expectWorkTypeName}}
+                </span>
+              </li>
+              <li>
+                <span class="item">
+                  <span class="name">行业： </span>{{expectInfo.expectIndustryName}}
+                </span>
+                <span class="item">
+                <span class="name">到岗时间： </span>{{expectInfo.arriveTimeName}}
                 </span>
               </li>
             </ul>
@@ -105,9 +103,9 @@
                 <span>{{exper.deparment}}</span>
               </div>
               <div class="job-type">
-                <span><span class="gray">公司类型：</span>{{exper.industry}}</span>
-                <span><span class="gray">公司人数：</span>{{exper.companySize}}人</span>
-                <span><span class="gray">公司性质：</span>{{exper.companyNature}}</span>
+                <span><span class="gray">公司类型：</span>{{exper.industryName}}</span>
+                <span><span class="gray">公司人数：</span>{{exper.companySizeName}}人</span>
+                <span><span class="gray">公司性质：</span>{{exper.companyNatureName}}</span>
                 <span><span class="gray">所属部门：</span>{{exper.department}}</span>
               </div>
               <div class="job-desc">
@@ -133,7 +131,7 @@
               <div class="job-time">
                 <span class="gray">{{edu.startTime.slice(0,10)}} - {{edu.endTime.slice(0,10)}}</span>
                 <span>{{edu.schoolName}}</span>
-                <span>{{edu.eduMajor}}（{{edu.degree}}）</span>
+                <span>{{edu.eduMajorName}}（{{edu.degreeName}}）</span>
               </div>
               <div class="job-desc">
                 <div class="desc-text gray">专业描述：</div>
@@ -170,9 +168,9 @@
                 <ul class="honor-list job-item">
                   <li v-for="honor in schoolHonorList" :key="honor.id">
                     <div class="job-time">
-                      <span class="gray">{{honor.honorName.slice(0, 10)}}</span>
-                      <span>{{honor.honorName}}</span>
-                      <span>{{honor.honorTitle}}</span>
+                      <span class="gray">{{honor.honorTime.slice(0, 10)}}</span>
+                      <span>{{honor.honorPrize}}</span>
+                      <span>{{honor.honorLevel}}</span>
                     </div>
                   </li>
                 </ul>
@@ -189,7 +187,7 @@
                       <span></span>
                     </div>
                     <div class="job-desc">
-                      <div class="desc-text gray">主修课程：</div>
+                      <div class="desc-text gray">职务描述：</div>
                       <div class="desc-content">
                         <ul class="desc-list">
                           {{work.schoolWorkDesc}}
@@ -237,14 +235,20 @@ export default {
       skillList: []
     };
   },
+  props: ["baseParams"],
   created: function() {
     this.getResumeInfo();
   },
   methods: {
     //获取简历信息
     getResumeInfo: function() {
+      let params = {
+        updator: this.baseParams.updator,
+        creator: this.baseParams.creator,
+        resumeId: this.baseParams.resumeId,
+      }
       this.$store
-        .dispatch("RESUME_INFO", { creator: "cc" })
+        .dispatch("RESUME_INFO", params)
         .then(res => {
           this.resume = res.data;
           this.baseInfo = res.data.resumeBaseInfo;

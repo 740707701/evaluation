@@ -23,11 +23,11 @@
                         value-format="yyyy-MM-dd">
                       </el-date-picker>
                   </el-form-item>
-                  <el-form-item label="奖项：" prop="honorName" class="input-box">
-                    <el-input size="small" v-model="honorInfo.honorName" placeholder="请输入奖项"></el-input>
+                  <el-form-item label="奖项：" prop="honorPrize" class="input-box">
+                    <el-input size="small" v-model="honorInfo.honorPrize" placeholder="请输入奖项"></el-input>
                   </el-form-item>
-                  <el-form-item label="级别：" prop="honorTitle" class="input-box">
-                    <el-input size="small" v-model="honorInfo.honorTitle" placeholder="请输入级别"></el-input>
+                  <el-form-item label="级别：" prop="honorLevel" class="input-box">
+                    <el-input size="small" v-model="honorInfo.honorLevel" placeholder="请输入级别"></el-input>
                   </el-form-item>
                   <el-form-item label="" prop="" class="input-box"></el-form-item>
                   <el-form-item size="small" class="edit-btn-box">
@@ -92,9 +92,9 @@
             <ul class="honor-list job-item" v-if="schoolHonorList">
               <li v-for="honor in schoolHonorList" :key="honor.id">
                 <div class="job-time">
-                  <span class="gray">{{honor.honorName.slice(0, 10)}}</span>
-                  <span>{{honor.honorName}}</span>
-                  <span>{{honor.honorTitle}}</span>
+                  <span class="gray">{{honor.honorTime.slice(0, 10)}}</span>
+                  <span>{{honor.honorPrize}}</span>
+                  <span>{{honor.honorLevel}}</span>
                   <span class="icon-box">
                     <i class="iconfont icon-edit" @click="editSchoolHonor(honor.id)"></i>
                     <i class="iconfont icon-delete" @click="deleteSchoolHonor(honor.id)"></i>
@@ -126,7 +126,7 @@
                   </span>
                 </div>
                 <div class="job-desc">
-                  <div class="desc-text gray">主修课程：</div>
+                  <div class="desc-text gray">职务描述：</div>
                   <div class="desc-content">
                     <ul class="desc-list">
                       {{work.schoolWorkDesc}}
@@ -238,13 +238,13 @@ export default {
       }
     };
   },
-  props: ["schoolHonorList", "schoolWorkList"],
+  props: ["schoolHonorList", "schoolWorkList", "baseParams"],
   methods: {
     addSchoolHonor: function() {
       this.honorInfo = {
-        updator: this.updator,
-        creator: this.creator,
-        resumeId: this.resumeId
+        updator: this.baseParams.updator,
+        creator: this.baseParams.creator,
+        resumeId: this.baseParams.resumeId
       };
       this.showSchoolHonorEdit = true;
     },
@@ -296,9 +296,9 @@ export default {
 
     addSchoolWork: function() {
       this.workInfo = {
-        updator: this.updator,
-        creator: this.creator,
-        resumeId: this.resumeId
+        updator: this.baseParams.updator,
+        creator: this.baseParams.creator,
+        resumeId: this.baseParams.resumeId
       };
       this.showSchoolWorkEdit = true;
     },

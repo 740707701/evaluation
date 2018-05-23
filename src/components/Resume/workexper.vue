@@ -20,9 +20,9 @@
             </span>
           </div>
           <div class="job-type">
-            <span><span class="gray">公司类型：</span>{{exper.industry}}</span>
-            <span><span class="gray">公司人数：</span>{{exper.companySize}}人</span>
-            <span><span class="gray">公司性质：</span>{{exper.companyNature}}</span>
+            <span><span class="gray">公司类型：</span>{{exper.industryName}}</span>
+            <span><span class="gray">公司人数：</span>{{exper.companySizeName}}</span>
+            <span><span class="gray">公司性质：</span>{{exper.companyNatureName}}</span>
             <span><span class="gray">所属部门：</span>{{exper.department}}</span>
           </div>
           <div class="job-desc">
@@ -72,22 +72,27 @@
                 <el-input size="small" v-model="workExperInfo.department" placeholder="请输入部门" maxlenth="30"></el-input>
               </el-form-item>
               <el-form-item label="职能：" prop="fun" class="input-box">
-                <el-select size="small" v-model="workExperInfo.fun" placeholder="请选择" class="select-box">
-                    <el-option
-                      v-for="item in funType"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
+                <!-- <el-select size="small" v-model="workExperInfo.fun" placeholder="请选择" class="select-box">
+                  <el-option
+                    v-for="item in workExperData.funType"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.code">
+                  </el-option>
+                </el-select> -->
+                <el-cascader size="small" v-model="workExperInfo.fun"
+                  :options="workExperData.funType"
+                  :show-all-levels="false"
+                  :props="cascaderProp"
+                  ></el-cascader>
               </el-form-item>
               <el-form-item label="行业：" prop="industry" class="input-box">
                 <el-select size="small" v-model="workExperInfo.industry" placeholder="请选择" class="select-box">
                     <el-option
-                      v-for="item in industryType"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      v-for="item in workExperData.industryType"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.code">
                     </el-option>
                   </el-select>
               </el-form-item>
@@ -97,26 +102,26 @@
               <el-form-item label="公司规模：" prop="companySize" class="input-box">
                 <el-select size="small" v-model="workExperInfo.companySize" placeholder="请选择" class="select-box">
                   <el-option
-                    v-for="item in companySize"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    v-for="item in workExperData.companySize"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.code">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="工作类型：" prop="workType" class="input-box">
                 <el-radio-group size="small" v-model="workExperInfo.workType">
-                  <el-radio-button label="全职"></el-radio-button>
-                  <el-radio-button label="兼职"></el-radio-button>
+                  <el-radio-button v-for="item in workExperData.workType" :key="item.id" :label="item.name"></el-radio-button>
+                  <!-- <el-radio-button label="兼职"></el-radio-button> -->
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="公司性质：" prop="companyNature" class="input-box">
                 <el-select size="small" v-model="workExperInfo.companyNature" placeholder="请选择" class="select-box">
                   <el-option
-                    v-for="item in companyNature"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    v-for="item in workExperData.companyNature"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.code">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -137,20 +142,16 @@
   </div>
 </template>
 <script>
-import metadata from "../../api/metadata";
 export default {
   name: "workExper",
   data() {
     return {
-      updator: "cc",
-      creator: "cc",
-      resumeId: "ad3db208de4e450b9c759b35af141410",
       showWorkExperiencedEdit: false,
-      funType: metadata.funType,
-      industryType: metadata.industryType,
-      companySize: metadata.companySize,
-      companyNature: metadata.companyNature,
-
+      cascaderProp: {
+        label: "name",
+        value: "code",
+        children: 'childrens'
+      },
       workExperInfo: {},
       currentExper: [],
       rules: {
@@ -253,13 +254,13 @@ export default {
       }
     };
   },
-  props: ["workExperList"],
+  props: ["workExperList", "workExperData", "baseParams"],
   methods: {
     addWorkExper: function() {
       this.workExperInfo = {
-        updator: this.updator,
-        creator: this.creator,
-        resumeId: this.resumeId
+        updator: this.baseParams.updator,
+        creator: this.baseParams.creator,
+        resumeId: this.baseParams.resumeId,
       };
       this.showWorkExperiencedEdit = true;
     },

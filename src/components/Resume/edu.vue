@@ -13,7 +13,7 @@
           <div class="job-time">
             <span class="gray">{{edu.startTime.slice(0,10)}} - {{edu.endTime.slice(0,10)}}</span>
             <span>{{edu.schoolName}}</span>
-            <span>{{edu.eduMajor}}（{{edu.degree}}）</span>
+            <span>{{edu.eduMajorName}}（{{edu.degreeName}}）</span>
             <span class="icon-box">
               <i class="iconfont icon-edit" @click="editEdu(edu.id)"></i>
               <i class="iconfont icon-delete" @click="deleteEdu(edu.id)"></i>
@@ -73,30 +73,30 @@
               <el-form-item label="学历/学位：" prop="degree" class="input-box">
                 <el-select size="small" v-model="eduInfo.degree" placeholder="请选择" class="select-box">
                     <el-option 
-                    v-for="item in degreeType"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="item in eduData.degreeType"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.code"
                     ></el-option>
                   </el-select>
               </el-form-item>
               <el-form-item label="专业：" prop="eduMajor" class="input-box">
                 <el-select size="small" v-model="eduInfo.eduMajor" placeholder="请选择" class="select-box">
                   <el-option
-                    v-for="item in majorType"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    v-for="item in eduData.majorType"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.code">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="学业性质：" prop="eduNature" class="input-box">
                 <el-select size="small" v-model="eduInfo.eduNature" placeholder="请选择" class="select-box">
                     <el-option
-                      v-for="item in eduNatureType"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      v-for="item in eduData.eduNatureType"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.code">
                     </el-option>
                   </el-select>
               </el-form-item>
@@ -122,19 +122,11 @@
   </div>
 </template>
 <script>
-import metadata from "../../api/metadata";
 export default {
   name: "edu",
   data() {
     return {
-      updator: "cc",
-      creator: "cc",
-      resumeId: "ad3db208de4e450b9c759b35af141410",
-      degreeType: metadata.degreeType,
-      majorType: metadata.majorType,
-      eduNatureType: metadata.eduNatureType,
       showEducationEdit: false,
-
       eduInfo: {},
       currentEdu: [],
       rules: {
@@ -202,13 +194,13 @@ export default {
       }
     };
   },
-  props: ["eduList"],
+  props: ["eduList", "eduData", "baseParams"],
   methods: {
     addEdu: function() {
       this.eduInfo = {
-        updator: this.updator,
-        creator: this.creator,
-        resumeId: this.resumeId
+        updator: this.baseParams.updator,
+        creator: this.baseParams.creator,
+        resumeId: this.baseParams.resumeId
       };
       this.showEducationEdit = true;
     },

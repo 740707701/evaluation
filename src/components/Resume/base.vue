@@ -17,11 +17,10 @@
           </div>
           <div class="status">
             <span>现居住：{{baseInfo.address}}</span>
-            <!-- <span>{{baseInfo.workYear}}年工作经验</span> -->
-            <span>0年工作经验</span>
-            <span>{{baseInfo.sex==1?'女':'男'}}</span>
-            <span>11岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
-            <span>{{baseInfo.jobStatus}}</span>
+            <span v-if="baseInfo.workYear">{{baseInfo.workYear}}年工作经验</span>
+            <span>{{baseInfo.sex==1?'男':'女'}}</span>
+            <span v-if="baseInfo.birth">00岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
+            <span>{{baseInfo.jobStatusName}}</span>
           </div>
           <div class="concat">
             <span>
@@ -30,7 +29,7 @@
             <span>
               <i class="iconfont icon-phone"></i>{{baseInfo.phone}}
             </span>
-            <span class="more" @click="showMoreBase=!showMoreBase">
+            <span class="more" @click="showMoreBase=!showMoreBase" v-if="baseInfo.nativePlaceName">
               {{showMoreBase?'收起':'更多'}}
               <i v-if="showMoreBase==false" class="el-icon-arrow-down"></i>
               <i v-if="showMoreBase==true" class="el-icon-arrow-up"></i>
@@ -39,7 +38,7 @@
         </div>
         <div class="more-info" v-if="showMoreBase">
           <span class="arrow-top"></span>
-          <span>户口/国籍：{{baseInfo.address}}</span>
+          <span>户口/国籍：{{baseInfo.nativePlaceName}}</span>
           <span>婚姻状态：{{baseInfo.marriageStatusName}}</span>
         </div>
       </div>
@@ -64,9 +63,9 @@
             </el-form-item>
             <el-form-item label="性别：" prop="sex" class="input-box">
               <div class="el-input sex-box" >
-                <input type="radio" name="sex" :checked="base.sex==0" value="0" @click="base.sex=0"/>
-                <label>男</label>  
                 <input type="radio" name="sex" :checked="base.sex==1" value="1" @click="base.sex=1"/>
+                <label>男</label>  
+                <input type="radio" name="sex" :checked="base.sex==2" value="2" @click="base.sex=2"/>
                 <label>女</label> 
                 <div class="msg" v-if="showSexMsg">请确认性别与身份证保持信息一致。</div>
               </div>
@@ -87,15 +86,20 @@
               <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" maxlength="20"></el-input>
             </el-form-item>
             <el-form-item label="籍贯：" prop="nativePlace" class="input-box">
-              <el-select size="small"  v-model="base.nativePlace" placeholder="请选择" class="select-box">
-                  <el-option 
-                    v-for="item in cities"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                    >
-                  </el-option>
-                </el-select>
+              <!-- <el-select size="small"  v-model="base.nativePlace" placeholder="请选择" class="select-box">
+                <el-option 
+                  v-for="item in baseData.cities"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.code"
+                  >
+                </el-option>
+              </el-select> -->
+              <el-cascader size="small" v-model="base.nativePlace" @change="changeNativePlace"
+                :options="baseData.cities"
+                :show-all-levels="false"
+                :props="cascaderProp"
+                ></el-cascader>
             </el-form-item>
             <el-form-item label="工作年份：" prop="workYear" class="input-box">
               <el-date-picker size="small" class="select-box"
@@ -108,30 +112,30 @@
             <el-form-item label="求职状态：" prop="jobStatus" class="input-box">
               <el-select size="small" v-model="base.jobStatus" placeholder="请选择" class="select-box">
                   <el-option
-                    v-for="item in jobStatus"
+                    v-for="item in baseData.jobStatus"
                     :key="item.id"
                     :label="item.name"
-                    :value="item.id">
+                    :value="item.code">
                   </el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="职业类型：" prop="careerType" class="input-box">
               <el-select size="small" v-model="base.careerType" placeholder="请选择" class="select-box">
                   <el-option
-                    v-for="item in careerType"
+                    v-for="item in baseData.careerType"
                     :key="item.id"
                     :label="item.name"
-                    :value="item.id">
+                    :value="item.code">
                   </el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="婚姻状态：" prop="marriageStatus" class="input-box">
               <el-select size="small" v-model="base.marriageStatus" placeholder="请选择" class="select-box">
                   <el-option
-                    v-for="item in marriageStatus"
+                    v-for="item in baseData.marriageStatus"
                     :key="item.id"
                     :label="item.name"
-                    :value="item.id">
+                    :value="item.code">
                   </el-option>
                 </el-select>
             </el-form-item>
@@ -147,20 +151,13 @@
       </div>
     </div>
   </div>
-  <!-- <metadata @metadata="getData"></metadata> -->
 </div>
 </template>
 <script>
-import metadata from "./metadata.vue";
 export default {
   name: "baseInfo",
   data() {
     return {
-      cities: [],
-      jobStatus: [],
-      careerType: [],
-      marriageStatus: [],
-
       showNameMsg: false,
       showSexMsg: false,
       showPhoneMsg: false,
@@ -170,6 +167,11 @@ export default {
       base: {},
       showMoreBase: false,
       showBaseInfoEdit: false,
+      cascaderProp: {
+        label: "name",
+        value: "code",
+        children: 'childrens'
+      },
       rules: {
         name: [
           {
@@ -226,6 +228,7 @@ export default {
         nativePlace: [
           {
             required: true,
+            type: 'array',
             message: "请确认户籍地与你身份证信息保持一致。",
             trigger: "change"
           }
@@ -258,16 +261,14 @@ export default {
       }
     };
   },
-  props: ["baseInfo"],
-  mounted: function(){
-    this.cities = this.$store.state.metadata.cities.data;
-    console.log('cities',this.cities)
-    console.log(this.$store.state.metadata)
-    console.log('cities',this.$store.state.metadata.cities)
-    console.log('data',this.$store.state.metadata.cities.data)
-  },
+  props: ["baseInfo", "baseData"],
+  created: function(){ },
   methods: {
+    changeNativePlace: function(e){
+      this.base.nativePlace = e;
+    },
     editBaseInfo: function() {
+      console.log(this.baseInfo)
       this.showBaseInfoEdit = true;
       this.base = {
         name: this.baseInfo.name,
@@ -282,7 +283,8 @@ export default {
         marriageStatus: this.baseInfo.marriageStatus,
         address: this.baseInfo.address,
         creator: this.baseInfo.creator,
-        updator: this.baseInfo.updator
+        updator: this.baseInfo.updator,
+        id: this.baseInfo.id
       };
     },
     saveBaseInfo: function(formName) {
@@ -292,10 +294,11 @@ export default {
             .dispatch("SET_BASEINFO", this.base)
             .then(res => {
               this.showBaseInfoEdit = false;
-              this.$emit("saved", this.base);
+              // console.log('base', res)
+              this.$emit("saved", res.data.data);
             })
             .catch(err => {
-              console.log(err.data.msg);
+              console.log(err);
             });
         } else {
           return false;
@@ -305,17 +308,9 @@ export default {
     cancel: function(formName) {
       this.showBaseInfoEdit = false;
       this.$refs[formName].resetFields();
-    },
-    // getData: function(data){
-    //   this.cities = data.cities;
-    //   this.jobStatus = data.jobStatus;
-    //   this.careerType = data.careerType;
-    //   this.marriageStatus = data.marriageStatus;
-    // }
+    }
   },
-  components: {
-    metadata
-  }
+  components: {}
 };
 </script>
 <style lang="less" scope>

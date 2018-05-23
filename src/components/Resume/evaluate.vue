@@ -5,7 +5,7 @@
         <div class="title">
           <i class="iconfont icon-evaluate"></i>
           <span>自我评价</span>
-          <i class="iconfont icon-edit right-icon" v-if="!showEvaluateEdit" @click="editEvaluate"></i>
+          <i class="iconfont icon-edit right-icon" v-if="evaluateInfo.evaluate" @click="editEvaluate"></i>
         </div>
         <div class="evaluate-box" v-if="evaluateInfo.evaluate&&showEvaluateEdit==false">
           <div class="evaluate-text">{{evaluateInfo.evaluate}}</div>
@@ -45,7 +45,7 @@ export default {
       this.showEvaluateInfo = false;
       this.evaluateInfo.evaluate = this.eva.evaluate;
       this.$store
-        .dispatch("SET_BASEINFO", this.evaluateInfo)
+        .dispatch("SET_EVALUATE", this.evaluateInfo)
         .then(res => {
           this.$emit('saved');
           this.showEvaluateEdit = false;

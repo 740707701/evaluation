@@ -5,9 +5,9 @@
       <el-row :gutter="10" class="el-content">
         <el-col :span="3" class="left-content">
           <div class="grid-content">
-            <div class="name-box" v-if="baseInfo.name">
-              <div class="title">{{baseInfo.name}} <span class="resume-text">(简历)</span></div>
-              <div class="time">时间: {{baseInfo.updateDate.slice(0,10)}}</div>
+            <div class="name-box" v-if="baseInfo">
+              <div class="title" v-if="baseInfo.name">{{baseInfo.name}} <span class="resume-text">(简历)</span></div>
+              <div class="time" v-if="baseInfo.updateDate">时间: {{baseInfo.updateDate.slice(0,10)}}</div>
               <div class="operation">
                 <div class="icon-box refresh" @click="getResumeInfo">
                   <i class="iconfont icon-refresh"></i>
@@ -73,14 +73,15 @@
           </div>
         </el-col>
         <el-col :span="15" class="center-content">
-          <baseBox :baseInfo="baseInfo" @saved="updateInfo"></baseBox>
-          <expectBox :expectInfo="expectInfo" @saved="updateInfo"></expectBox>
-          <evaluateBox :evaluateInfo="evaluateInfo" @saved="updateInfo"></evaluateBox>
-          <workExperBox :workExperList="workExperList" @saved="updateInfo"></workExperBox>
-          <eduBox :eduList="eduList" @saved="updateInfo"></eduBox>
-          <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" @saved="updateInfo"></schoolBox>
-          <skillBox :skillList="skillList" @saved="updateInfo"></skillBox>
           
+          <baseBox :baseInfo="baseInfo" :baseData="baseData" @saved="updateInfo"></baseBox>
+          <expectBox :expectInfo="expectInfo" :expectData="expectData" :baseParams="baseParams" @saved="updateInfo"></expectBox>
+          <evaluateBox :evaluateInfo="evaluateInfo"  @saved="updateInfo"></evaluateBox>
+          <workExperBox :workExperList="workExperList" :workExperData="workExperData" :baseParams="baseParams" @saved="updateInfo"></workExperBox>
+          <eduBox :eduList="eduList" :eduData="eduData" :baseParams="baseParams" @saved="updateInfo"></eduBox>
+          <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" :baseParams="baseParams" @saved="updateInfo"></schoolBox>
+          <skillBox :skillList="skillList" :baseParams="baseParams" @saved="updateInfo"></skillBox>
+         
           <div class="post-resume">
             <el-button size="small" class="resume-btn" @click="postResume">提交简历</el-button>
           </div>
@@ -125,13 +126,12 @@
         <div class="preview-container">
           <el-row :gutter="10" class="el-content">
             <el-col :span="24" class="preview-center-content">
-              <preview></preview>
+              <preview :baseParams="baseParams"></preview>
             </el-col>
           </el-row>
         </div>
       </div>
     </div>
-    <!-- <metadata @metadata="getData"></metadata> -->
   </div>
 </template>
 <script>
@@ -146,15 +146,15 @@ import skillBox from "../components/Resume/skills.vue";
 import preview from '../components/Resume/preview.vue';
 import { mapState } from "vuex";
 import tags from "../api/tags";
-import metadata from '../components/Resume/metadata.vue';
 
 export default {
   name: "resume",
   data() {
     return {
-      updator: "cc",
+      updator: "",
       creator: "cc",
-      resumeId: "ad3db208de4e450b9c759b35af141410",
+      resumeId: "",
+      baseParams: {}, //调用接口基础参数
       date: new Date().toLocaleString().slice(0,20),
       showSuccessDialog: false,
       showPreview: false,
@@ -174,7 +174,11 @@ export default {
       schoolHonorList: [],
       schoolWorkList: [],
       skillList: [],
-      metaData: {}
+
+      baseData: {},
+      expectData:{},
+      workExperData: {},
+      eduData:{},
     };
   },
   computed: {},
@@ -183,16 +187,19 @@ export default {
     this.getResumeInfo();
     this.getData();
   },
-  mounted: function() {},
-  updated: function() {},
   methods: {
     //获取简历信息
     getResumeInfo: function() {
+      let params = {
+        creator: this.creator,
+        resumeId: this.resumeId
+      }
       this.$store
-        .dispatch("RESUME_INFO", { creator: "cc" })
+        .dispatch("RESUME_INFO", params)
         .then(res => {
           this.resume = res.data;
           this.baseInfo = res.data.resumeBaseInfo;
+          this.resumeId = res.data.resumeBaseInfo.id;
           this.evaluateInfo = res.data.resumeBaseInfo;
           this.expectInfo = res.data.resumeBaseInfo;
           this.workExperList = res.data.jobexpList;
@@ -200,14 +207,19 @@ export default {
           this.schoolHonorList = res.data.schoolHonorList;
           this.schoolWorkList = res.data.schoolPostList;
           this.skillList = res.data.skillsList;
+
+          //基础参数赋值
+          this.baseParams.creator = res.data.resumeBaseInfo.creator?res.data.resumeBaseInfo.creator: this.creator;
+          this.baseParams.updator = res.data.resumeBaseInfo.updator;
+          this.baseParams.resumeId = res.data.resumeBaseInfo.id;
         })
         .catch(err => {
           console.log(err);
         });
-        console.log('data',metadata)
     },
     //更新数据
-    updateInfo: function() {
+    updateInfo: function(id) {
+      this.resumeId = id;
       this.getResumeInfo();
     },
     //提交简历
@@ -284,13 +296,48 @@ export default {
       })
     },
     getData: function(){
-      // console.log('sssss',data)
-      // this.metaData = data
       Promise.all([
+        this.$store.dispatch('SEX', {dictCode: 'SEX'}), //性别
         this.$store.dispatch('AREA', {dictCode: 'AREA'}), //行政区划
-				this.$store.dispatch('FUNCTION', {dictCode: 'FUNCTION'}), //职能
+        this.$store.dispatch('PROF_TYPE', {dictCode: 'PROF_TYPE'}), //职业类型
+        this.$store.dispatch('JOB_STATUS', {dictCode: 'JOB_STATUS'}), //工作状态
+        this.$store.dispatch('MARRIAGE_STATUS', {dictCode: 'MARRIAGE_STATUS'}), //婚姻状态
+
+        this.$store.dispatch('MAJOR', {dictCode: 'MAJOR'}), //学业性质
+        this.$store.dispatch('EDUCATION', {dictCode: 'EDUCATION'}), //学历/学位
+        this.$store.dispatch('SCHOOLWORK_PROP', {dictCode: 'SCHOOLWORK_PROP'}), //学业性质
+
+        this.$store.dispatch('EXPECT_SALARY', {dictCode: 'EXPECT_SALARY'}), //期望薪资
+        this.$store.dispatch('ARRIVE_TIME', {dictCode: 'ARRIVE_TIME'}), //到岗时间
+        this.$store.dispatch('WORK_TYPE', {dictCode: 'WORK_TYPE'}), //工作类型
+        this.$store.dispatch('FUNCTION', {dictCode: 'FUNCTION'}), //职能
+        this.$store.dispatch('INDUSTRY', {dictCode: 'INDUSTRY'}), //行业类别
+        this.$store.dispatch('COMPANY_SIZE', {dictCode: 'COMPANY_SIZE'}), //公司规模
+        this.$store.dispatch('COMPANY_NATURE', {dictCode: 'COMPANY_NATURE'}), //公司性质
       ]).then(res => {
-        console.log(res)
+        this.baseData.sex = res[0].data;
+        this.baseData.cities = res[1].data;
+        this.baseData.careerType = res[2].data;
+        this.baseData.jobStatus = res[3].data;
+        this.baseData.marriageStatus = res[4].data;
+
+        this.eduData.majorType = res[5].data;
+        this.eduData.degreeType = res[6].data;
+        this.eduData.eduNatureType = res[7].data;
+
+        this.expectData.salaryRange = res[8].data;
+        this.expectData.arriveRange = res[9].data;
+        this.expectData.workType = res[10].data;
+        this.expectData.cities = res[1].data;
+        this.expectData.funType = res[11].data;
+        this.expectData.industryType = res[12].data;
+
+        this.workExperData.workType = res[10].data;
+        this.workExperData.funType = res[11].data;
+        this.workExperData.industryType = res[12].data;
+        this.workExperData.companySize = res[13].data;
+        this.workExperData.companyNature = res[14].data;
+        
       }).catch(err => {
         console.log(err)
       })
@@ -306,8 +353,7 @@ export default {
     eduBox,
     schoolBox,
     skillBox,
-    preview,
-    metadata
+    preview
   }
 };
 </script>
@@ -403,6 +449,7 @@ export default {
       color: @main-color-yellow;
     }
     .grid-content {
+      height: 100%;
       border-radius: 8px;
       min-height: 36px;
       background-color: #fff;

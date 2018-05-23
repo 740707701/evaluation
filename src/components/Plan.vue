@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="plan-content">
     <div class="title">
       <span>{{title}}</span>
     </div>
@@ -113,15 +113,15 @@ export default {
 </script>
 <style lang="less" scope>
   @import "../assets/css/colors.less";
-  .content {
+  .plan-content {
     width: 100%;
     height: 100%;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
     .title {
-      height: 50px;
       width: 100%;
+      height: 50px;
       border-bottom: 1px solid @main-color-border;
       span {
         height: 20px;

@@ -108,13 +108,13 @@ export default {
       }
     };
   },
-  props: ["skillList"],
+  props: ["skillList", "baseParams"],
   methods: {
     addSkill: function() {
       this.skillInfo = {
-        updator: this.updator,
-        creator: this.creator,
-        resumeId: this.resumeId
+        updator: this.baseParams.updator,
+        creator: this.baseParams.creator,
+        resumeId: this.baseParams.resumeId
       };
       this.showSkillEdit = true;
     },

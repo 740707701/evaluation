@@ -5,35 +5,35 @@
         <div class="title">
           <i class="iconfont icon-job"></i>
           <span>求职意向</span>
-          <i class="iconfont icon-edit right-icon" @click="editJobIntension"></i>
+          <i class="iconfont icon-edit right-icon" v-if="expectInfo.expectSalary" @click="editJobIntension"></i>
         </div>
-        <ul class="item-list">
+        <ul class="item-list" v-if="expectInfo.expectSalaryName">
           <li>
             <span class="item">
-              <span class="name">期望工资： </span>{{expectInfo.expectSalary}}元/月
+              <span class="name">期望工资： </span>{{expectInfo.expectSalaryName}}元/月
             </span>
             <span class="item">
-              <span class="name">工作地点： </span>{{expectInfo.expectPlace}}
+              <span class="name">工作地点： </span>{{expectInfo.expectPlaceName}}
             </span>
           </li>
           <li>
             <span class="item">
-              <span class="name">职能/职位： </span>{{expectInfo.expectPosition}}
+              <span class="name">职能/职位： </span>{{expectInfo.expectPositionNmae}}
             </span>
             <span class="item">
-              <span class="name">工作类型：  </span>{{expectInfo.expectWorkType}}
+              <span class="name">工作类型：  </span>{{expectInfo.expectWorkTypeName}}
             </span>
           </li>
           <li>
             <span class="item">
-              <span class="name">行业： </span>{{expectInfo.expectIndustry}}
+              <span class="name">行业： </span>{{expectInfo.expectIndustryName}}
             </span>
             <span class="item">
-            <span class="name">到岗时间： </span>{{expectInfo.arriveTime}}
+            <span class="name">到岗时间： </span>{{expectInfo.arriveTimeName}}
             </span>
           </li>
         </ul>
-        <div class="imperfect" v-if="!expectInfo">
+        <div class="imperfect" v-if="!expectInfo.expectSalaryName">
           <p class="perfect-text">完善求职意向，展现专业能力，让HR更了解你！</p>
           <el-button size="small" class="perfect-btn" @click="editJobIntension">开始完善</el-button>
         </div>
@@ -51,60 +51,75 @@
               <el-form-item label="期望薪资：" prop="expectSalary" class="input-box">
                 <el-select size="small" v-model="expect.expectSalary" placeholder="请选择" class="select-box">
                   <el-option
-                    v-for="item in salaryRange"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    v-for="item in expectData.salaryRange"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.code">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="工作地点：" prop="expectPlace" class="input-box">
-                 <el-select size="small" v-model="expect.expectPlace" placeholder="请选择" class="select-box">
+                 <!-- <el-select size="small" v-model="expect.expectPlace" placeholder="请选择" class="select-box">
                     <el-option
-                      v-for="item in cities"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      v-for="item in expectData.cities"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.code">
                     </el-option>
-                  </el-select>
+                  </el-select> -->
+                  <el-cascader size="small" v-model="expect.expectPlace" @change="changePlace"
+                    :options="expectData.cities"
+                    :show-all-levels="false"
+                    :props="cascaderProp"
+                    ></el-cascader>
               </el-form-item>
               <el-form-item label="职能/职位：" prop="expectPosition" class="input-box">
-                <el-select size="small" v-model="expect.expectPosition" placeholder="请选择" class="select-box">
-                    <el-option
-                      v-for="item in positionType"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
+                <!-- <el-select size="small" v-model="expect.expectPosition" placeholder="请选择" class="select-box">
+                  <el-option
+                    v-for="item in expectData.funType"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.code">
+                  </el-option>
+                </el-select> -->
+                <el-cascader size="small" v-model="expect.expectPosition" @change="changePosition"
+                    :options="expectData.funType"
+                    :show-all-levels="false"
+                    :props="cascaderProp"
+                    ></el-cascader>
               </el-form-item>
               <el-form-item label="行业：" prop="expectIndustry" class="input-box">
-                <el-select size="small" v-model="expect.expectIndustry" placeholder="请选择" class="select-box">
-                    <el-option
-                      v-for="item in industryType"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
+                <!-- <el-select size="small" v-model="expect.expectIndustry" placeholder="请选择" class="select-box">
+                  <el-option
+                    v-for="item in expectData.industryType"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.code">
+                  </el-option>
+                </el-select> -->
+                 <el-cascader size="small" v-model="expect.expectIndustry" @change="changeIndustry"
+                    :options="expectData.industryType"
+                    :show-all-levels="false"
+                    :props="cascaderProp"
+                    ></el-cascader>
               </el-form-item>
               <el-form-item label="工作类型：" prop="expectWorkType" class="input-box">
                 <el-select size="small" v-model="expect.expectWorkType" placeholder="请选择" class="select-box">
                   <el-option
-                    v-for="item in workType"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    v-for="item in expectData.workType"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.code">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="到岗时间：" prop="arriveTime" class="input-box">
                 <el-select size="small" v-model="expect.arriveTime" placeholder="请选择" class="select-box">
                     <el-option
-                      v-for="item in arriveRange"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      v-for="item in expectData.arriveRange"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.code">
                     </el-option>
                   </el-select>
               </el-form-item>
@@ -120,68 +135,77 @@
   </div>
 </template>
 <script>
-import metadata from "../../api/metadata";
 export default {
   name: "expect",
   data() {
     return {
-      salaryRange: metadata.salaryRange,
-      cities: metadata.cities,
-      positionType: metadata.positionType,
-      industryType: metadata.industryType,
-      workType: metadata.workType,
-      arriveRange: metadata.arriveRange,
-
       expect: {},
       showJobIntensionEdit: false,
+      cascaderProp: {
+        label: "name",
+        value: "code",
+        children: 'childrens'
+      },
       rules: {
         expectInfo: [
           {
             required: true,
             message: "请确认你所填写的期望薪资符合市场规律，没有过高/过低",
-            trigger: "change"
+            trigger: "blur"
           }
         ],
         expectPlace: [
           {
             require: true,
+            type: 'array',
             message: "请确认该期望地为单一城市",
-            trigger: "change"
+            trigger: "blur"
           }
         ],
         expectPosition: [
           {
             require: true,
+            type: 'array',
             message: "请确认你的期望职位符合你的工作年限及实习经历",
-            trigger: "change"
+            trigger: "blur"
           }
         ],
         expectIndustry: [
           {
             require: true,
+            type: 'array',
             message: "请选择行业",
-            trigger: "change"
+            trigger: "blur"
           }
         ],
         expectWorkType: [
           {
             require: true,
             message: "请选择工作类型",
-            trigger: "change"
+            trigger: "blur"
           }
         ],
         arriveTime: [
           {
             require: true,
             message: "请确认你的到岗时间是否在1周内。",
-            trigger: "click"
+            trigger: "blur"
           }
         ]
       }
     };
   },
-  props: ["expectInfo"],
+  props: ["expectInfo", "expectData", "baseParams"],
   methods: {
+    changeIndustry: function(e){
+      this.expect.expectIndustry = e;
+    },
+    changePosition: function(e){
+      this.expect.expectPosition = e;
+    },
+    changePlace: function(e){
+      this.expect.expectPlace = e;
+    },
     editJobIntension: function() {
       this.showJobIntensionEdit = true;
       this.expect = this.expectInfo;
@@ -190,7 +214,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$store
-            .dispatch("SET_BASEINFO", this.expect)
+            .dispatch("SET_JOBINTENSION", this.expect)
             .then(res => {
               this.$emit('saved');
               this.showJobIntensionEdit = false;

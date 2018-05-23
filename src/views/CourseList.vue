@@ -17,8 +17,8 @@
                       </div>
                       <div class="price">¥ {{item.price}}</div>
                     </div>
-                    <div class="desc" :title="item.remark">
-                      {{item.remark}}
+                    <div class="desc" :title="item.simpleRemark">
+                      {{item.simpleRemark}}
                     </div>
                   </li>
                 </ul>
@@ -35,8 +35,8 @@
                       </div>
                       <div class="price">¥ {{item.price}}</div>
                     </div>
-                    <div class="desc">
-                      {{item.remark}}
+                    <div class="desc" :title="item.simpleRemark">
+                      {{item.simpleRemark}}
                     </div>
                   </li>
                 </ul>
@@ -53,8 +53,8 @@
                       </div>
                       <div class="price">¥ {{item.price}}</div>
                     </div>
-                    <div class="desc">
-                      {{item.remark}}
+                    <div class="desc" :title="item.simpleRemark">
+                      {{item.simpleRemark}}
                     </div>
                   </li>
                 </ul>
@@ -71,7 +71,7 @@
                       </div>
                       <div class="price">¥ {{item.price}}</div>
                     </div>
-                    <div class="desc">
+                    <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
                     </div>
                   </li>
@@ -115,11 +115,7 @@ export default {
       hotList: [],
     };
   },
-  computed: {
-    // ...mapState({
-    //   evaluationList: state => state.evalautionList
-    // })
-  },
+  computed: { },
   created: function(){
     this.getEvaluationList(1)
     this.getHotList ()

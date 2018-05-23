@@ -14,12 +14,12 @@
           <p class="gray">适应人群：{{detail.peopleScope}}</p>
           <p class="gray">难度：{{detail.cepingLevel}}</p>
           <p class="gray">数量：{{detail.num}}题</p>
-          <p class="red" v-if="detail.price>0">价格： ¥{{detail.price}}</p>
-          <div class="btn-box" v-if="detail.price>0">
+          <!-- <p class="red" v-if="detail.price>0">价格： ¥{{detail.price}}</p> -->
+          <!-- <div class="btn-box" v-if="detail.price>0">
             <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button>
             <i class="iconfont icon-cart"></i>
-          </div>
-          <div class="btn-box" v-if="!detail.price">
+          </div> -->
+          <div class="btn-box">
             <el-button size="small" class="buy-btn eva-btn" @click="toEvaluation()">进入测评</el-button>
           </div>
         </div>
