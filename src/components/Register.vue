@@ -73,7 +73,9 @@ export default {
     agreement: function() {
       this.$router.push("agreement");
     },
-    login: function() {},
+    login: function() {
+      this.$emit("showLogin")
+    },
     register: function(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {

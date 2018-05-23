@@ -11,7 +11,7 @@
           <el-input type="password" v-model="loginForm.pwd" placeholder="密码" :maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="" prop="">
-          <p class="forget">忘记密码</p>
+          <p class="forget" @click="forget">忘记密码</p>
         </el-form-item>
         <el-form-item label="" prop="">
           <div class="login-btn" @click="login('loginForm')">登录</div>
@@ -86,10 +86,10 @@
         })
       },
       forget: function(){
-        this.$router.push('forget')
+        this.$emit("showForget")
       },
       register: function(){
-        this.$router.push('register')
+        this.$emit("showRegister")
       }
     }
   }

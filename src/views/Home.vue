@@ -1,6 +1,6 @@
 <template>
 <div class="home-page">
-  <headerNav></headerNav>
+  <headerNav @showLogin="login" @showRegister="register"></headerNav>
   <Banner></Banner>
   <div class="container">
     <div class="category">
@@ -10,9 +10,9 @@
     </div>
 
     <router-view></router-view>
-    <login v-if="showLogin"></login>
-    <register v-if="showRegister"></register>
-    <forget v-if="showForget"></forget>
+    <login v-if="showLogin" @showRegister="register" @showForget="forget"></login>
+    <register v-if="showRegister" @showLogin="login"></register>
+    <forget v-if="showForget" ></forget>
   </div>
 </div>
 </template>
@@ -35,7 +35,19 @@ export default {
   methods: {
     login: function(){
       this.showLogin = true;
-    }
+      this.showRegister = false;
+      this.showForget = false;
+    },
+    register: function(){
+      this.showRegister = true;
+      this.showLogin = false;
+      this.showForget = false;
+    },
+    forget: function(){
+      this.showForget = true;
+      this.showRegister = false;
+      this.showLogin = false;
+    },
   },
   components: {
     headerNav,

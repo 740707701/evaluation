@@ -29,10 +29,12 @@
           </router-link>
           <ul class="logout">
             <li>
-              <router-link to="/login">登录</router-link>
+              <div class="name" @click="login">登录</div>
+              <!-- <router-link to="/login">登录</router-link> -->
             </li>
             <li>
-              <router-link to="/register">注册</router-link>
+              <div class="name" @click="register">注册</div>
+              <!-- <router-link to="/register">注册</router-link> -->
             </li>
           </ul>
           <div class="login">
@@ -65,15 +67,20 @@
   </el-container>
 </template>
 <script>
-import Vue from "vue";
-import { Button, Select } from "element-ui";
 export default {
   name: "headerNav",
   props: {},
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    login: function(){
+      this.$emit("showLogin")
+    },
+    register: function(){
+      this.$emit("showRegister")
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -160,10 +167,11 @@ export default {
       .logout {
         li {
           float: left;
-          a {
+          .name {
             line-height: 60px;
             padding: 0 10px;
             display: inline-block;
+            cursor: pointer;
           }
         }
       }
