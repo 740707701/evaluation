@@ -22,7 +22,7 @@
             <i class="iconfont icon-weixin-login"></i>
           </div>
           <div class="register">
-            没有账号？<span @click="register()">注册</span>
+            没有账号？<span @click="register">注册</span>
           </div>
         </el-form-item>
       </el-form>
@@ -54,6 +54,7 @@
         loginForm: {},
         rules: {
           // number: [{validator: validatePhone,trigger: 'blur'}],
+          number: { resuired: true, message: "请输入手机号或学号", trigger: "blur" },
           password: [{validator: validatePwd,trigger: 'blur'}]
         },
       }
@@ -67,10 +68,12 @@
                 mobile: this.loginForm.number,
                 password: this.loginForm.pwd
             }
-            this.$store.dispatch('Login', loginInfo).then().catch(err => {
-              if(err.msg){
+            this.$store.dispatch('Login', loginInfo).then(res => {
+              this.$emit("hideLogin")
+            }).catch(err => {
+              if(err.data.msg){
                 this.$message({
-                  message: err.msg,
+                  message: err.data.msg,
                   type: "error"
                 })
               }else {

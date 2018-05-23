@@ -10,7 +10,7 @@
     </div>
 
     <router-view></router-view>
-    <login v-if="showLogin" @showRegister="register" @showForget="forget"></login>
+    <login v-if="showLogin" @showRegister="register" @showForget="forget" @hideLogin="hideLogin"></login>
     <register v-if="showRegister" @showLogin="login"></register>
     <forget v-if="showForget" ></forget>
   </div>
@@ -37,6 +37,9 @@ export default {
       this.showLogin = true;
       this.showRegister = false;
       this.showForget = false;
+    },
+    hideLogin: function(){
+      this.showLogin = false;
     },
     register: function(){
       this.showRegister = true;
