@@ -80,9 +80,9 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let reg = {
-            mobile: this.registerForm.phone,
-            userNum: this.registerForm.number,
-            password: this.registerForm.pwd
+            "mobile": this.registerForm.phone,
+            "userNum": this.registerForm.number,
+            "password": this.registerForm.pwd
           };
           this.$store
             .dispatch("REGISTER", reg)

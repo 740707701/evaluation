@@ -10,59 +10,63 @@ const USERINFO = 'USERINFO'
 
 export default {
   state: {
-    loginInfo:{},
+    loginInfo: {},
     registerInfo: {},
     forgetInfo: {},
     captchaInfo: {},
     userInfo: {}
   },
   mutations: {
-    [USER_SET](state, data){
+    [USER_SET](state, data) {
       state[data['target']] = data.data
     }
   },
   actions: {
-    [LOGIN]({commit}, params){
-      return api.post(config.url.login, params).then(res => {
+    [LOGIN]({ commit }, data) {
+      data = new URLSearchParams(data)
+      return api.post(config.url.login, data).then(res => {
         commit('USER_SET', {
           target: 'loginInfo',
-          data: res.data
+          data: res
         })
         return res
       })
     },
-    [REGISTER]({commit}, params){
-      return api.post(config.url.register, params).then(res => {
+    [REGISTER]({ commit }, data) {
+      data = new URLSearchParams(data)
+      return api.post(config.url.register, data).then(res => {
         commit('USER_SET', {
           target: 'registerInfo',
-          data: res.data
+          data: res
         })
         return res
       })
     },
-    [FORGET]({commit}, params){
-      return api.post(config.url.forget, params).then(res => {
+    [FORGET]({ commit }, data) {
+      data = new URLSearchParams(data)
+      return api.post(config.url.forget, data).then(res => {
         commit('USER_SET', {
           target: 'forgetInfo',
-          data: res.data
+          data: res
         })
         return res
       })
     },
-    [CAPTCHA]({commit}, params){
-      return api.post(config.url.captcha, params).then(res => {
+    [CAPTCHA]({ commit }, data) {
+      data = new URLSearchParams(data)
+      return api.post(config.url.captcha, data).then(res => {
         commit('USER_SET', {
           target: 'captchaInfo',
-          data: res.data
+          data: res
         })
         return res
       })
     },
-    [USERINFO]({commit}, params){
+    [USERINFO]({ commit }, params) {
       return api.put(config.url.userInfo, params).then(res => {
         commit('USER_SET', {
           target: 'userInfo',
-          data: res.data
+          data: res
         })
         return res
       })

@@ -196,6 +196,18 @@ export default {
 
     };
   },
+  created() {
+    let params = {
+      planId: '1',
+      additionalName: '名字巴拉',
+      additionalDesc: '描述巴拉'
+    }
+    this.$store.dispatch('ADDITIONAL_LIST', params).then(res => {
+      console.log('res');
+    }).catch(err => {
+      console.log(err)
+    })
+  },
   methods: {
     postPlan: function(data){
       console.log('adddata',data)

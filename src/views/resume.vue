@@ -445,7 +445,7 @@ export default {
       color: @main-color-yellow;
     }
     .grid-content {
-      height: 100%;
+      // height: 100%;
       border-radius: 8px;
       min-height: 36px;
       background-color: #fff;

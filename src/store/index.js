@@ -10,23 +10,37 @@ import metadata from './modules/metadata'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
-    isLogin: false,
-    userInfo: {}
+    isLogin: JSON.parse(localStorage.getItem("isLogin")) || false,
+    userInfo: JSON.parse(localStorage.getItem("userInfo")) || {}
   },
-  actions: {},
-  geters: {
-    getToken: state => state.userInfo.access_token
+  getters: {
+    getToken: state => {
+      return state.userInfo.token
+    }
   },
   mutations: {
-    login: (state, data) => {
-      state.userInfo = data.user_info
+    setUserInfo: (state, data) => {
+      console.log('setUserInfo', data)
+      state.isLogin = localStorage.getItem("isLogin");
+      state.userInfo = localStorage.getItem("userInfo");
     },
     logout: (state) => {
       state.userInfo = {}
-      localStorage.removeItem('user_info')
+      state.isLogin = false;
+      localStorage.removeItem('userInfo');
+      localStorage.removeItem("isLogin")
+    },
+    updateUserInfo: (state, data) => {
+      state.userInfo = {...state.userInfo, ...data.data }
+      localStorage.userInfo = {...state.userInfo, ...data.data }
     }
   },
+  actions: {},
   modules: {
-    evaluetion, resume, plan, user, metadata
+    evaluetion,
+    resume,
+    plan,
+    user,
+    metadata
   }
 })

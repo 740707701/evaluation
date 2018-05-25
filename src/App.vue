@@ -7,6 +7,9 @@
 <script>
 export default {
   name: "App",
+  crested() {
+    // this.$store.dispatch('')
+  },
   components: {}
 };
 </script>

@@ -20,14 +20,14 @@
           </li>
         </ul>
         <div class="nav-right">
-          <router-link to="cartDetail"> 
+          <router-link to="cartDetail" v-if="isLogin"> 
             <el-button class="cart-btn" round size="small">
               <i class="el-icon-setting"></i>
               购物车
             </el-button>
 
           </router-link>
-          <ul class="logout">
+          <ul class="logout" v-if="!isLogin">
             <li>
               <div class="name" @click="login">登录</div>
               <!-- <router-link to="/login">登录</router-link> -->
@@ -37,59 +37,109 @@
               <!-- <router-link to="/register">注册</router-link> -->
             </li>
           </ul>
-          <div class="login">
+          <div class="login" v-if="isLogin">
             <el-badge is-dot class="badge">
               <router-link to="/news">
                 <i class="el-icon-bell"></i>
               </router-link>
             </el-badge>
-            <el-dropdown>
+            <el-dropdown @command="dropdownEvent">
               <el-button class="avatar el-dropdown-link">
                 <img src="../assets/images/demo/02.jpg" alt="">
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>
+                <el-dropdown-item command="personalcenter">
                   <router-link to="/personalcenter">我的测评</router-link>
                 </el-dropdown-item>
-                <el-dropdown-item>
+                <el-dropdown-item command="order">
                   <router-link to="/order">订单中心</router-link>
                   </el-dropdown-item>
-                <el-dropdown-item>
+                <el-dropdown-item command="setting">
                   <router-link to="/setting">个人设置</router-link>
                   </el-dropdown-item>
-                <el-dropdown-item>退出账号</el-dropdown-item>
+                <el-dropdown-item command="logout">退出账号</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
         </div>
       </nav>
     </el-header>
+    <login v-if="showLoginPage" @showRegister="register" @showForget="forget" @hideLogin="hideLogin"></login>
+    <register v-if="showRegisterPage" @showLogin="login"></register>
+    <forget v-if="showForgetPage" ></forget>
   </el-container>
 </template>
 <script>
+import login from "./Login.vue";
+import register from "./Register.vue";
+import forget from "./Forget.vue";
+import { mapState } from 'vuex';
 export default {
   name: "headerNav",
   props: {},
   data() {
-    return {};
+    return { 
+      showLoginPage: false,
+      showRegisterPage: false,
+      showForgetPage: false
+    };
+  },
+  computed: {
+    // isLogin (){
+    //   return this.$store.state.isLogin
+    // }, 等同于下面的写法
+    ...mapState({
+      isLogin(state){
+        return state.isLogin
+      }
+    })
   },
   methods: {
-    login: function(){
-      this.$emit("showLogin")
+    login: function() {
+      this.showLoginPage = true;
+      this.showRegisterPage = false;
+      this.showForgetPage = false;
     },
-    register: function(){
-      this.$emit("showRegister")
-    }
+    hideLogin: function() {
+      this.showLoginPage = false;
+    },
+    register: function() {
+      this.showRegisterPage = true;
+      this.showLoginPage = false;
+      this.showForgetPage = false;
+    },
+    forget: function() {
+      this.showForgetPage = true;
+      this.showRegisterPage = false;
+      this.showLoginPage = false;
+    },
+    logout: function(command) {
+      console.log(command)
+      
+    },
+    dropdownEvent: function(command){
+      console.log('command',command)
+      if(command == 'logout'){
+        this.$store.commit("logout")
+      }else if(command == 'personalcenter'){
+        
+      }
+    },
+  },
+  components: {
+    login,
+    register,
+    forget
   }
 };
 </script>
 <style lang="less" scoped>
-@import '../assets/css/colors.less';
+@import "../assets/css/colors.less";
 .header {
   width: 100%;
   background-color: #fff;
   box-shadow: 8px 0px 20px rgba(163, 185, 235, 0.3);
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   z-index: 20;

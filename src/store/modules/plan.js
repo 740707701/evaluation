@@ -89,6 +89,7 @@ export default {
           target: 'additionalList',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -296,7 +297,7 @@ export default {
     },
     //删除
     [OPTIONALINFO]({ commit }, data) {
-      return api.delete(config.url.deleteOptional.replace('{id}',id)).then(res => {
+      return api.delete(config.url.deleteOptional.replace('{id}', id)).then(res => {
         commit('PLAN_SET', {
           target: 'optionalInfo',
           data: res.data
@@ -341,7 +342,7 @@ export default {
     },
     //删除
     [PROFINFO]({ commit }, data) {
-      return api.delete(config.url.deleteProf.replace('{id}',id)).then(res => {
+      return api.delete(config.url.deleteProf.replace('{id}', id)).then(res => {
         commit('PLAN_SET', {
           target: 'profInfo',
           data: res.data
@@ -386,7 +387,7 @@ export default {
     },
     //删除
     [REQUIREINFO]({ commit }, data) {
-      return api.delete(config.url.deleteRequired.replace('{id}',id)).then(res => {
+      return api.delete(config.url.deleteRequired.replace('{id}', id)).then(res => {
         commit('PLAN_SET', {
           target: 'requireInfo',
           data: res.data
@@ -431,7 +432,7 @@ export default {
     },
     //删除
     [SELFINFO]({ commit }, data) {
-      return api.delete(config.url.deleteSelf.replace('{id}',id)).then(res => {
+      return api.delete(config.url.deleteSelf.replace('{id}', id)).then(res => {
         commit('PLAN_SET', {
           target: 'selfInfo',
           data: res.data

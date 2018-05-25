@@ -27,12 +27,10 @@ export default new Router({
   mode: 'history',
   fallback: false,
   scrollBehavior: () => ({ y: 0 }),
-  routes: [
-    {
+  routes: [{
       path: '/',
       component: Home,
-      children: [
-        {
+      children: [{
           path: '/',
           name: 'courselist',
           component: CourseList
@@ -47,8 +45,11 @@ export default new Router({
     {
       path: '/personalcenter',
       component: PersonalCenter,
-      children: [
-        {
+      redirect: '/',
+      meta: {
+        isLogin: true
+      },
+      children: [{
           path: '/',
           name: 'myevaluation',
           component: MyEvaluation
@@ -81,7 +82,7 @@ export default new Router({
       ]
     },
     {
-      path: '/evaluation',
+      path: '/evaluation/:id',
       name: 'evaluation',
       component: Evaluation
     },

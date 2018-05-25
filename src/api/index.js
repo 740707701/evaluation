@@ -1,15 +1,15 @@
 import axios from './interceptors'
 
 class Api {
-  constructor() { }
+  constructor() {}
   get(url, params = {}) {
     return new Promise((resolve, reject) => {
       axios.get(url, {
         params: params
       }).then(res => {
-        if(res.data.code == 1){
+        if (res.data.code == 1) {
           resolve(res.data)
-        }else {
+        } else {
           console.log(res)
           reject(res)
         }
@@ -23,9 +23,9 @@ class Api {
     return new Promise((resolve, reject) => {
       axios.post(url, data)
         .then(res => {
-          if(res.data.code == 1){
+          if (res.data.code == 1) {
             resolve(res)
-          }else {
+          } else {
             reject(res)
           }
         })
@@ -39,9 +39,9 @@ class Api {
     return new Promise((resolve, reject) => {
       axios.put(url, data)
         .then(res => {
-          if(res.data.code == 1){
+          if (res.data.code == 1) {
             resolve(res)
-          }else {
+          } else {
             reject(res)
           }
         })
@@ -55,9 +55,9 @@ class Api {
     return new Promise((resolve, reject) => {
       axios.delete(url, data)
         .then(res => {
-          if(res.data.code == 1){
+          if (res.data.code == 1) {
             resolve(res)
-          }else {
+          } else {
             reject(res)
           }
         })
@@ -68,4 +68,4 @@ class Api {
   }
 
 }
-export default  new Api()
+export default new Api()
