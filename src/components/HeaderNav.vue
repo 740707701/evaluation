@@ -64,7 +64,7 @@
         </div>
       </nav>
     </el-header>
-    <login v-if="showLoginPage" @showRegister="register" @showForget="forget" @hideLogin="hideLogin"></login>
+    <login v-if="showLoginPage || !isLogin" @showRegister="register" @showForget="forget" @hideLogin="hideLogin"></login>
     <register v-if="showRegisterPage" @showLogin="login"></register>
     <forget v-if="showForgetPage" ></forget>
   </el-container>

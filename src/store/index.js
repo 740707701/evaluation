@@ -21,8 +21,8 @@ export default new Vuex.Store({
   mutations: {
     setUserInfo: (state, data) => {
       console.log('setUserInfo', data)
-      state.isLogin = localStorage.getItem("isLogin");
-      state.userInfo = localStorage.getItem("userInfo");
+      state.isLogin = JSON.parse(localStorage.getItem("isLogin"));
+      state.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     },
     logout: (state) => {
       state.userInfo = {}

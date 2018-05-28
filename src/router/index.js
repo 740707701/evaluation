@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
+import store from '../store'
 
 import Home from '../views/Home.vue'
 import Resume from '../views/Resume.vue'
@@ -21,106 +22,139 @@ import News from '../views/PersonalCenter/News.vue'
 import CareerPlan from '../views/CareerPlan.vue'
 import IndustryIntro from '../views/IndustryIntro.vue'
 
-Vue.use(Router)
+Vue.use(VueRouter)
 
-export default new Router({
-  mode: 'history',
-  fallback: false,
-  scrollBehavior: () => ({ y: 0 }),
-  routes: [{
-      path: '/',
-      component: Home,
-      children: [{
-          path: '/',
-          name: 'courselist',
-          component: CourseList
-        },
-        {
-          path: '/coursedetail/:id',
-          name: 'coursedetail',
-          component: CourseDetail
-        }
-      ]
-    },
-    {
-      path: '/personalcenter',
-      component: PersonalCenter,
-      redirect: '/',
-      meta: {
-        isLogin: true
+
+const routes = [{
+    path: '/',
+    component: Home,
+    children: [{
+        path: '/',
+        name: 'courselist',
+        component: CourseList
       },
-      children: [{
-          path: '/',
-          name: 'myevaluation',
-          component: MyEvaluation
-        },
-        {
-          path: '/myresume',
-          name: 'myresume',
-          component: MyResume
-        },
-        {
-          path: '/news',
-          name: 'news',
-          component: News
-        },
-        {
-          path: '/statistics',
-          name: 'statistics',
-          component: Statistics
-        },
-        {
-          path: '/setting',
-          name: 'setting',
-          component: Setting
-        },
-        {
-          path: '/order',
-          name: 'order',
-          component: Order
-        },
-      ]
+      {
+        path: '/coursedetail/:id',
+        name: 'coursedetail',
+        component: CourseDetail
+      }
+    ]
+  },
+  {
+    path: '/personalcenter',
+    component: PersonalCenter,
+    meta: {
+      requireAuth: true
     },
-    {
-      path: '/evaluation/:id',
-      name: 'evaluation',
-      component: Evaluation
-    },
-    {
-      path: '/careerplan',
-      name: 'careerplan',
-      component: CareerPlan
-    },
-    {
-      path: '/industryintro',
-      name: 'industryintro',
-      component: IndustryIntro
-    },
-    {
-      path: '/resume',
-      name: 'Resume',
-      component: Resume
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/register',
-      name: 'Register',
-      component: Register
-    },
-    {
-      path: '/cartdetail',
-      name: 'CartDetail',
-      component: CartDetail
-    },
-    {
-      path: '/resumePreview',
-      name: 'ResumePreview',
-      component: ResumePreview
+    children: [{
+        path: '/',
+        name: 'myevaluation',
+        component: MyEvaluation
+      },
+      {
+        path: '/myresume',
+        name: 'myresume',
+        component: MyResume
+      },
+      {
+        path: '/news',
+        name: 'news',
+        component: News
+      },
+      {
+        path: '/statistics',
+        name: 'statistics',
+        component: Statistics
+      },
+      {
+        path: '/setting',
+        name: 'setting',
+        component: Setting
+      },
+      {
+        path: '/order',
+        name: 'order',
+        component: Order
+      },
+    ]
+  },
+  {
+    path: '/evaluation/:id',
+    name: 'evaluation',
+    component: Evaluation
+  },
+  {
+    path: '/careerplan',
+    name: 'careerplan',
+    component: CareerPlan,
+    meta: {
+      requireAuth: true
     }
+  },
+  {
+    path: '/industryintro',
+    name: 'industryintro',
+    component: IndustryIntro,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/resume',
+    name: 'Resume',
+    component: Resume,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
+  {
+    path: '/cartdetail',
+    name: 'CartDetail',
+    component: CartDetail
+  },
+  {
+    path: '/resumePreview',
+    name: 'ResumePreview',
+    component: ResumePreview,
+    meta: {
+      requireAuth: true
+    },
+  }
 
-  ]
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  routes
+  // fallback: false, //当浏览器不支持 history.pushState 控制路由是否应该回退到 hash 模式。默认值为 true。
+  // scrollBehavior: () => ({ y: 0 }), 滚动行为
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (store.getters.getToken) {
+      next();
+    } else {
+      store.state.isLogin = false;
+      next({
+        path: '/',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  } else {
+    next()
+  }
+})
+export default router

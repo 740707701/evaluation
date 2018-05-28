@@ -80,6 +80,10 @@ export default {
               localStorage.userInfo = JSON.stringify(res.data.data);
               localStorage.isLogin = true;
               this.$store.commit("setUserInfo", res.data.data);
+              
+              //路由跳转 登录之前记录的路由
+              console.log(this.redirect)
+              this.$router.push({ path: this.redirect})
               this.$emit("hideLogin");
             })
             .catch(err => {
