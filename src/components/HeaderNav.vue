@@ -48,14 +48,14 @@
                 <img src="../assets/images/demo/02.jpg" alt="">
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="personalcenter">
-                  <router-link to="/personalcenter">我的测评</router-link>
+                <el-dropdown-item command="personalcenter">我的测评
+                  <!-- <router-link to="/personalcenter"></router-link> -->
                 </el-dropdown-item>
-                <el-dropdown-item command="order">
-                  <router-link to="/order">订单中心</router-link>
+                <el-dropdown-item command="order">订单中心
+                  <!-- <router-link to="/order"></router-link> -->
                   </el-dropdown-item>
-                <el-dropdown-item command="setting">
-                  <router-link to="/setting">个人设置</router-link>
+                <el-dropdown-item command="setting">个人设置
+                  <!-- <router-link to="/setting"></router-link> -->
                   </el-dropdown-item>
                 <el-dropdown-item command="logout">退出账号</el-dropdown-item>
               </el-dropdown-menu>
@@ -64,9 +64,12 @@
         </div>
       </nav>
     </el-header>
-    <login v-if="showLoginPage || !isLogin" @showRegister="register" @showForget="forget" @hideLogin="hideLogin"></login>
-    <register v-if="showRegisterPage" @showLogin="login"></register>
-    <forget v-if="showForgetPage" ></forget>
+    <div class="bg" v-if="showForgetPage || showLoginPage || showRegisterPage" @click.self="hide">
+      <login v-if="showLoginPage" @showRegister="register" 
+      @showForget="forget" @hideLogin="hideLogin" @click-self="showLoginPage=false"></login>
+      <register v-if="showRegisterPage" @showLogin="login"></register>
+      <forget v-if="showForgetPage" ></forget>
+    </div>
   </el-container>
 </template>
 <script>
@@ -83,6 +86,13 @@ export default {
       showRegisterPage: false,
       showForgetPage: false
     };
+  },
+  created() {
+    // let isLogin = decodeURIComponent(this.$route.query.isLogin);
+    // console.log('isLogin', isLogin)
+    // if(!isLogin){
+    //   this.showLoginPage = true
+    // }
   },
   computed: {
     // isLogin (){
@@ -113,18 +123,24 @@ export default {
       this.showRegisterPage = false;
       this.showLoginPage = false;
     },
-    logout: function(command) {
-      console.log(command)
-      
-    },
     dropdownEvent: function(command){
-      console.log('command',command)
       if(command == 'logout'){
         this.$store.commit("logout")
+        this.$router.push({path: '/'})
       }else if(command == 'personalcenter'){
-        
+        this.$router.push({ path: '/personalcenter'})
+      }else if(command == 'order'){
+        this.$router.push({ path: '/order' })
+      }else if(command == 'setting'){
+        this.$router.push({ path: '/setting' })
       }
     },
+    hide: function(){
+      console.log('111')
+      this.showLoginPage = false;
+      this.showRegisterPage = false;
+      this.showForgetPage = false;
+    }
   },
   components: {
     login,
@@ -227,6 +243,15 @@ export default {
       }
     }
   }
+}
+.bg {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 21;
 }
 </style>
 

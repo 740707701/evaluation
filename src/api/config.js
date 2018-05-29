@@ -13,9 +13,15 @@ export default {
     cepingList: 'ceping/cepinglist',
     cepingInfo: 'ceping/cepinginfo',
     hotList: 'ceping/hotlist',
-    caichu: 'ceping/tocaichu',
     finished: 'ceping/finished/{creator}',
     unfinished: 'ceping/unfinished/{creator}',
+
+    //立即购买
+    cepingBuy: 'ceping/purchase',
+    //测评完成之后记录测评报告
+    seeReport: 'ceping/recordreport',
+    //进入测试
+    tocaichu: 'ceping/tocaichu/{cepingId}/{operator}/{seriaIno}',
 
     //简历
     //基本信息
@@ -43,6 +49,15 @@ export default {
     //提交简历
     submitResume: 'resume/submit', //提交个人简历
     resumeInfo: 'resume/info/{creator}', //查看个人简历
+
+    //上传简历头像
+    headpic: 'resume/file/headpic',
+    //导出简历
+    exportResume: 'resume/export/{resumeId}/{format}',
+
+    //简历列表
+    resumeList: 'resume/list/{creator}',
+
 
     //大学规划与管理
     //附加计划

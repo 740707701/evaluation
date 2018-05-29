@@ -117,6 +117,8 @@ export default {
   },
   computed: { },
   created: function(){
+    let isLogin = decodeURIComponent(this.$route.query.isLogin);
+    console.log('isLogin', isLogin)
     this.getEvaluationList(1)
     this.getHotList ()
   },

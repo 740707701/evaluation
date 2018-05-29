@@ -11,7 +11,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isLogin: JSON.parse(localStorage.getItem("isLogin")) || false,
-    userInfo: JSON.parse(localStorage.getItem("userInfo")) || {}
+    userInfo: JSON.parse(localStorage.getItem("userInfo")) || {},
+    showLoginPage: false,
   },
   getters: {
     getToken: state => {

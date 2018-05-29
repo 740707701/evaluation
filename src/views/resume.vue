@@ -74,7 +74,7 @@
         </el-col>
         <el-col :span="15" class="center-content">
           
-          <baseBox :baseInfo="baseInfo" :baseData="baseData" @saved="updateInfo"></baseBox>
+          <baseBox :baseInfo="baseInfo" :baseData="baseData" :baseParams="baseParams" @saved="updateInfo"></baseBox>
           <expectBox :expectInfo="expectInfo" :expectData="expectData" :baseParams="baseParams" @saved="updateInfo"></expectBox>
           <evaluateBox :evaluateInfo="evaluateInfo"  @saved="updateInfo"></evaluateBox>
           <workExperBox :workExperList="workExperList" :workExperData="workExperData" :baseParams="baseParams" @saved="updateInfo"></workExperBox>
@@ -579,6 +579,16 @@ export default {
           }
           .edit-avatar {
             cursor: pointer;
+            position: relative;
+            .input-file {
+              width: 85px;
+              height: 108px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              opacity: 0;
+              cursor: pointer;
+            }
           }
           .info-list {
             margin-left: 105px;

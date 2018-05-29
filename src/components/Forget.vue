@@ -1,5 +1,5 @@
 <template>
-  <div class="bg">
+  <div class="forget">
     <div class="forget-form" v-if="!showReset">
       <h4>忘记密码</h4>
       <el-form :model="forgetForm" :rules="forgetRules" ref="forgetForm" label-width="0" class="demo-ruleForm">
@@ -140,15 +140,6 @@
 </script>
 <style lang="less" scoped>
   @import url('../assets/css/colors.less');
-  .bg {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 21;
-  }
   .forget-form, .reset-form {
     width: 420px;
     background-color: #fff;

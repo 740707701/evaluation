@@ -11,8 +11,8 @@
                   <li><span>{{username}}</span>
                   <span class="split">|</span>
                   <span>{{sex}}</span></li>
-                  <li>消费金额：<span class="value">¥ {{money}}</span></li>
-                  <li>学习时长：<span class="value">{{time}}</span> min</li>
+                  <!-- <li>消费金额：<span class="value">¥ {{money}}</span></li>
+                  <li>学习时长：<span class="value">{{time}}</span> min</li> -->
                 </ul>
                 <ul class="tabs">
                   <li>

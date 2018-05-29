@@ -19,6 +19,7 @@ const SET_SCHOOLWORK = 'SET_SCHOOLWORK'
 const DELETE_SCHOOLWORK = 'DELETE_SCHOOLWORK'
 const SET_SKILL = 'SET_SKILL'
 const DELETE_SKILL = 'DELETE_SKILL'
+const UPLOAD_HEAD = 'UPLOAD_HEAD'
 
 //metadata
 const DICTITEM = 'DICTITEM'
@@ -39,7 +40,8 @@ export default {
     skills: [],
     treeItem: [],
     dictItem: [],
-    allList: []
+    allList: [],
+    uploadFile: ''
   },
   mutations: {
     [RESUME_SET](state, data) {
@@ -65,6 +67,15 @@ export default {
           data: res
         })
         return res
+      })
+    },
+    //上传简历
+    [UPLOAD_HEAD]({ commit }, params) {
+      return api.post(config.url.headpic, params).then(res => {
+        commit('RESUME_SET', {
+          target: 'uploadFile',
+          dara: res
+        })
       })
     },
     //保存修改基本信息

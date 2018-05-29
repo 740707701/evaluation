@@ -10,7 +10,7 @@
               <div class="year">2018</div>
             </div>
             <ul class="item-row">
-              <li v-for="course in courseList.slice(0,5)" :key="course.id">
+              <li v-for="course in finishedList.slice(0,5)" :key="course.id">
                 <img :src="course.img" alt="">
                 <div class="mask">
                   <div class="preview">
@@ -21,7 +21,6 @@
                   </div>
                 </div>
               </li>
-
             </ul>
             <div class="page-box" @click="next()">
               <i class="el-icon-arrow-right"></i>
@@ -89,16 +88,20 @@ export default {
       range: "",
       rangeList: [
         {
-          id: 0,
-          name: "项目一"
-        },
-        {
           id: 1,
-          name: "项目二"
+          name: "专业选择"
         },
         {
           id: 2,
-          name: "项目三"
+          name: "自我认知"
+        },
+        {
+          id: 3,
+          name: "职业形象与风格"
+        },
+        {
+          id: 4,
+          name: '岗位分类'
         }
       ],
       courseList: [

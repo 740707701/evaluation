@@ -5,14 +5,14 @@ import router from '../router/index'
 //axios 默认值
 axios.defaults.timeout = 5000
 axios.defaults.baseURL = 'http://139.196.104.246:8089/cepingweb'; //api测试环境地址
-// axios.defaults.baseURL = 'http://192.168.0.176:8080/cepingweb/'; //resume本机
+// axios.defaults.baseURL = 'http://192.168.0.177:8080/cepingweb/'; //resume本机
 // axios.defaults.baseURL = 'http://192.168.0.192:8089/cepingweb/'; //plan本机
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 //http request 拦截器
 axios.interceptors.request.use(config => {
   if (store.getters.getToken) {
-    config.headers.Authorization = `Token ${store.getters.getToken}`
+    config.headers.Authorization = `${store.getters.getToken}`
   }
   return config
 }, err => {

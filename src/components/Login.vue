@@ -1,32 +1,30 @@
 <template>
-  <div class="bg">
-    <div class="login-form">
-      <h4>登录</h4>
-      <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="0" class="demo-ruleForm">
-        <el-form-item label="" prop="number">
-          <el-input v-model="loginForm.number" placeholder="学号/手机号" :maxlength="11"></el-input>
-        </el-form-item>
-      
-        <el-form-item label="" prop="pwd">
-          <el-input type="password" v-model="loginForm.pwd" placeholder="密码" :maxlength="20"></el-input>
-        </el-form-item>
-        <el-form-item label="" prop="">
-          <p class="forget" @click="forget">忘记密码</p>
-        </el-form-item>
-        <el-form-item label="" prop="">
-          <div class="login-btn" @click="login('loginForm')">登录</div>
-        </el-form-item>
-        <el-form-item label="" prop="">
-          <div class="other">
-            <i class="iconfont icon-qq-login"></i>
-            <i class="iconfont icon-weixin-login"></i>
-          </div>
-          <div class="register">
-            没有账号？<span @click="register">注册</span>
-          </div>
-        </el-form-item>
-      </el-form>
-    </div>
+  <div class="login-form">
+    <h4>登录</h4>
+    <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="0" class="demo-ruleForm">
+      <el-form-item label="" prop="number">
+        <el-input v-model="loginForm.number" placeholder="学号/手机号" :maxlength="11"></el-input>
+      </el-form-item>
+    
+      <el-form-item label="" prop="pwd">
+        <el-input type="password" v-model="loginForm.pwd" placeholder="密码" :maxlength="20"></el-input>
+      </el-form-item>
+      <el-form-item label="" prop="">
+        <p class="forget" @click="forget">忘记密码</p>
+      </el-form-item>
+      <el-form-item label="" prop="">
+        <div class="login-btn" @click="login('loginForm')">登录</div>
+      </el-form-item>
+      <el-form-item label="" prop="">
+        <div class="other">
+          <i class="iconfont icon-qq-login"></i>
+          <i class="iconfont icon-weixin-login"></i>
+        </div>
+        <div class="register">
+          没有账号？<span @click="register">注册</span>
+        </div>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 <script>
@@ -54,6 +52,7 @@ export default {
     };
     return {
       loginForm: {},
+      redirect: "",
       rules: {
         number: {
           resuired: true,
@@ -64,7 +63,9 @@ export default {
       }
     };
   },
-  created() {},
+  created() {
+     this.redirect = decodeURIComponent(this.$route.query.redirect || "/");
+  },
   methods: {
     login: function(formName) {
       this.$refs[formName].validate(valid => {
@@ -87,17 +88,18 @@ export default {
               this.$emit("hideLogin");
             })
             .catch(err => {
-              if (err.data.msg) {
-                this.$message({
-                  message: err.data.msg,
-                  type: "error"
-                });
-              } else {
-                this.$message({
-                  message: "登录失败,请稍后重试",
-                  type: "error"
-                });
-              }
+              console.log(err)
+              // if (err.data.msg) {
+              //   this.$message({
+              //     message: err.data.msg,
+              //     type: "error"
+              //   });
+              // } else {
+              //   this.$message({
+              //     message: "登录失败,请稍后重试",
+              //     type: "error"
+              //   });
+              // }
             });
         } else {
           return false;
@@ -115,15 +117,6 @@ export default {
 </script>
 <style lang="less" scoped>
 @import url("../assets/css/colors.less");
-.bg {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 21;
-}
 .login-form {
   width: 420px;
   // height: 450px;

@@ -1,29 +1,27 @@
 <template>
-  <div class="bg">
-    <div class="register-form">
-      <h4>注册</h4>
-      <el-form :model="registerForm" :rules="rules" ref="registerForm" label-width="0" class="demo-ruleForm">
-        <el-form-item label="" prop="number">
-          <el-input v-model="registerForm.number" placeholder="学号" :maxlength="11"></el-input>
-        </el-form-item>
-        <el-form-item label="" prop="phone">
-          <el-input v-model="registerForm.phone" placeholder="手机号" :maxlength="11"></el-input>
-        </el-form-item>
-        <el-form-item label="" prop="pwd">
-          <el-input type="password" v-model="registerForm.pwd" placeholder="密码" :maxlength="20"></el-input>
-        </el-form-item>
-        <el-form-item label="" prop="pwd2">
-          <el-input type="password" v-model="registerForm.pwd2" placeholder="确认密码" :maxlength="20"></el-input>
-        </el-form-item>
-        <el-form-item label="" prop="">
-          <p class="text">同意用户的<span @click="agreement">条款和条件</span></p>
-        </el-form-item>
-        <el-form-item label="" prop="">
-          <div class="register-btn" @click="register('registerForm')">注册</div>
-          <p class="text login">已有账号? <span @click="login">去登录</span> </p>
-        </el-form-item>
-      </el-form>
-    </div>
+  <div class="register-form">
+    <h4>注册</h4>
+    <el-form :model="registerForm" :rules="rules" ref="registerForm" label-width="0" class="demo-ruleForm">
+      <el-form-item label="" prop="number">
+        <el-input v-model="registerForm.number" placeholder="学号" :maxlength="11"></el-input>
+      </el-form-item>
+      <el-form-item label="" prop="phone">
+        <el-input v-model="registerForm.phone" placeholder="手机号" :maxlength="11"></el-input>
+      </el-form-item>
+      <el-form-item label="" prop="pwd">
+        <el-input type="password" v-model="registerForm.pwd" placeholder="密码" :maxlength="20"></el-input>
+      </el-form-item>
+      <el-form-item label="" prop="pwd2">
+        <el-input type="password" v-model="registerForm.pwd2" placeholder="确认密码" :maxlength="20"></el-input>
+      </el-form-item>
+      <el-form-item label="" prop="">
+        <p class="text">同意用户的<span @click="agreement">条款和条件</span></p>
+      </el-form-item>
+      <el-form-item label="" prop="">
+        <div class="register-btn" @click="register('registerForm')">注册</div>
+        <p class="text login">已有账号? <span @click="login">去登录</span> </p>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 <script>
@@ -113,15 +111,6 @@ export default {
 </script>
 <style lang="less" scoped>
 @import url("../assets/css/colors.less");
-.bg {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 21;
-}
 .register-form {
   width: 420px;
   background-color: #fff;

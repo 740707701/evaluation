@@ -24,7 +24,6 @@ import IndustryIntro from '../views/IndustryIntro.vue'
 
 Vue.use(VueRouter)
 
-
 const routes = [{
     path: '/',
     component: Home,
@@ -146,10 +145,12 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       store.state.isLogin = false;
+      // store.state.showLoginPage = true;
       next({
         path: '/',
         query: {
-          redirect: to.fullPath
+          redirect: to.fullPath,
+          isLogin: false
         }
       })
     }

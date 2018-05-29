@@ -44,7 +44,7 @@
       </div>
     </div>
   </div>
-  <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit">
+  <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit"><!--  -->
     <div class="base-info">
       <div class="title">
         <i class="iconfont icon-user"></i>
@@ -52,8 +52,10 @@
       </div>
       <div class="base-content">
         <div class="avtar edit-avatar">
-          <img src="../../assets/images/demo/05.jpg" alt="">
-          <div class="text">修改头像</div>
+          <input type="file" class="input-file" @change="getFile($event)">
+          <img src="../../assets/images/demo/05.jpg" alt="" >
+          <div class="text">修改</div>
+          <div class="text" @click="upload">确定</div>
         </div>
         <div class="edit-content baseinfo-content">
           <el-form :inline="true" :model="base" :rules="rules" ref="base" label-width="100px" class="form-box">
@@ -154,10 +156,12 @@
 </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   name: "baseInfo",
   data() {
     return {
+      file: '',
       showNameMsg: false,
       showSexMsg: false,
       showPhoneMsg: false,
@@ -261,9 +265,37 @@ export default {
       }
     };
   },
-  props: ["baseInfo", "baseData"],
+  props: ["baseInfo", "baseData", "baseParams"],
   created: function(){ },
   methods: {
+    getFile: function(e){
+      this.file = event.target.files[0];
+      console.log(this.file);
+    },
+    upload: function(){
+      let formData = new FormData();
+      formData.append('file', this.file)
+      let data = {
+        multfile: formData,
+        operaType: 'resume_head',
+        resumeId: this.baseParams.resumeId
+      }
+      axios({
+        method: 'post',
+        url: 'resume/file/headpic',
+        data: data,
+        // ContantType: 'multipart/form-data'
+      }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+      // this.$store.dispatch('UPLOAD_HEAD', formData).then(res => {
+      //   console.log(res)
+      // }).catch(err => {
+      //   console.log(err)
+      // })
+    },
     changeNativePlace: function(e){
       this.base.nativePlace = e;
     },
