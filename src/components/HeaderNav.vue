@@ -6,18 +6,10 @@
           <img src="../assets/images/demo/02.jpg" alt="" class="logo">
         </div>
         <ul class="nav-center">
-          <li>
-            <router-link to="/" exact>职业测评</router-link>
-          </li>
-          <li>
-            <router-link to="/careerplan">大学规划与管理</router-link>
-          </li>
-          <li>
-            <router-link to="/resume">我的简历</router-link>
-          </li>
-          <li>
-            <router-link to="/industryintro">书籍库</router-link>
-          </li>
+          <li @click="changeLogin(1)" v-bind:class="{'active':$route.path=='/'}">职业测评</li>
+          <li @click="changeLogin(2)" v-bind:class="{'active':$route.path=='/careerplan'}">大学规划与管理</li>
+          <li @click="changeLogin(3)" v-bind:class="{'active':$route.path=='/resume'}">我的简历</li>
+          <li @click="changeLogin(4)" v-bind:class="{'active':$route.path=='/industryintro'}">书籍库</li>
         </ul>
         <div class="nav-right">
           <router-link to="cartDetail" v-if="isLogin"> 
@@ -64,9 +56,9 @@
         </div>
       </nav>
     </el-header>
-    <div class="bg" v-if="showForgetPage || showLoginPage || showRegisterPage" @click.self="hide">
-      <login v-if="showLoginPage" @showRegister="register" 
-      @showForget="forget" @hideLogin="hideLogin" @click-self="showLoginPage=false"></login>
+    <div class="bg" v-if="showLoginPage || showRegisterPage || showForgetPage" @click.self="hide">
+      <login v-if="showLoginPage " @showRegister="register" 
+      @showForget="forget" @hideLogin="hideLogin" ></login>
       <register v-if="showRegisterPage" @showLogin="login"></register>
       <forget v-if="showForgetPage" ></forget>
     </div>
@@ -82,7 +74,7 @@ export default {
   props: {},
   data() {
     return { 
-      showLoginPage: false,
+      // showLoginPage: false,
       showRegisterPage: false,
       showForgetPage: false
     };
@@ -99,29 +91,28 @@ export default {
     //   return this.$store.state.isLogin
     // }, 等同于下面的写法
     ...mapState({
-      isLogin(state){
-        return state.isLogin
-      }
+      isLogin: state => state.isLogin,
+      showLoginPage: state => state.showLoginPage
     })
   },
   methods: {
     login: function() {
-      this.showLoginPage = true;
+      this.$store.commit("setShowLoginPage", true);
       this.showRegisterPage = false;
       this.showForgetPage = false;
     },
     hideLogin: function() {
-      this.showLoginPage = false;
+      this.$store.commit("setShowLoginPage", false);
     },
     register: function() {
       this.showRegisterPage = true;
-      this.showLoginPage = false;
+      this.$store.commit("setShowLoginPage", false);
       this.showForgetPage = false;
     },
     forget: function() {
       this.showForgetPage = true;
       this.showRegisterPage = false;
-      this.showLoginPage = false;
+      this.$store.commit("setShowLoginPage", false);
     },
     dropdownEvent: function(command){
       if(command == 'logout'){
@@ -136,10 +127,29 @@ export default {
       }
     },
     hide: function(){
-      console.log('111')
-      this.showLoginPage = false;
+      this.$store.commit("setShowLoginPage", false)
       this.showRegisterPage = false;
       this.showForgetPage = false;
+    },
+    changeLogin: function(id){
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"))
+      if(userInfo){
+        if(id == 1){
+          this.$router.push({ path: '/' })
+        }else if(id == 2){
+          this.$router.push({ path: '/careerplan' })
+        }else if (id == 3){
+          this.$router.push({ path: '/resume' })
+        }else if(id == 4){
+          this.$router.push({ path: '/industryintro' })
+        }
+      }else {
+        if(id == 1){
+          this.$router.push({ path: '/' })
+        }else {
+          this.$store.commit("setShowLoginPage", true)
+        }
+      }
     }
   },
   components: {
@@ -179,17 +189,20 @@ export default {
       display: inline-block;
       li {
         float: left;
-        margin: 0 20px;
+        padding: 0 10px;
+        margin: 0 10px;
+        line-height: 58px;
+        cursor: pointer;
         a {
           height: 58px;
           line-height: 58px;
           padding: 0 10px;
           display: inline-block;
         }
-        .router-link-active {
-          color: @main-color-blue;
-          border-bottom: 2px solid @main-color-blue;
-        }
+      }
+      .router-link-active, .active {
+        color: @main-color-blue;
+        border-bottom: 2px solid @main-color-blue;
       }
     }
     .nav-right {

@@ -16,10 +16,10 @@
         <div class="login-btn" @click="login('loginForm')">登录</div>
       </el-form-item>
       <el-form-item label="" prop="">
-        <div class="other">
+        <!-- <div class="other">
           <i class="iconfont icon-qq-login"></i>
           <i class="iconfont icon-weixin-login"></i>
-        </div>
+        </div> -->
         <div class="register">
           没有账号？<span @click="register">注册</span>
         </div>
@@ -89,17 +89,17 @@ export default {
             })
             .catch(err => {
               console.log(err)
-              // if (err.data.msg) {
-              //   this.$message({
-              //     message: err.data.msg,
-              //     type: "error"
-              //   });
-              // } else {
-              //   this.$message({
-              //     message: "登录失败,请稍后重试",
-              //     type: "error"
-              //   });
-              // }
+              if (err.data.msg) {
+                this.$message({
+                  message: err.data.msg,
+                  type: "error"
+                });
+              } else {
+                this.$message({
+                  message: "登录失败,请稍后重试",
+                  type: "error"
+                });
+              }
             });
         } else {
           return false;
@@ -165,7 +165,7 @@ export default {
     }
   }
   .forget {
-    text-align: right;
+    float: right;
     cursor: pointer;
     color: rgba(162, 169, 184, 1);
   }

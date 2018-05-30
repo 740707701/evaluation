@@ -582,7 +582,7 @@ export default {
             position: relative;
             .input-file {
               width: 85px;
-              height: 108px;
+              height: 85px;
               position: absolute;
               top: 0;
               left: 0;

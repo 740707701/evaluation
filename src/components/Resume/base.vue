@@ -16,18 +16,18 @@
             <i class="iconfont icon-edit right-icon" @click="editBaseInfo"></i>
           </div>
           <div class="status">
-            <span>现居住：{{baseInfo.address}}</span>
+            <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>
             <span v-if="baseInfo.workYear">{{baseInfo.workYear}}年工作经验</span>
-            <span>{{baseInfo.sex==1?'男':'女'}}</span>
+            <span v-if="baseInfo.sex">{{baseInfo.sex==1?'男':'女'}}</span>
             <span v-if="baseInfo.birth">00岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
             <span>{{baseInfo.jobStatusName}}</span>
           </div>
           <div class="concat">
-            <span>
+            <span v-if="baseInfo.email">
               <i class="iconfont icon-email"></i>{{baseInfo.email}}
             </span>
-            <span>
-              <i class="iconfont icon-phone"></i>{{baseInfo.phone}}
+            <span >
+              <i class="iconfont icon-phone"></i>{{baseInfo.phone?baseInfo.phone:phone}}
             </span>
             <span class="more" @click="showMoreBase=!showMoreBase" v-if="baseInfo.nativePlaceName">
               {{showMoreBase?'收起':'更多'}}
@@ -52,10 +52,10 @@
       </div>
       <div class="base-content">
         <div class="avtar edit-avatar">
-          <input type="file" class="input-file" @change="getFile($event)">
-          <img src="../../assets/images/demo/05.jpg" alt="" >
-          <div class="text">修改</div>
-          <div class="text" @click="upload">确定</div>
+          <input type="file" class="input-file" name="avatar" ref="avatarInput"
+          @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
+          <img :src="avatar" alt="" >
+          <div class="text" @click="upload" v-if="file">确定上传</div>
         </div>
         <div class="edit-content baseinfo-content">
           <el-form :inline="true" :model="base" :rules="rules" ref="base" label-width="100px" class="form-box">
@@ -162,6 +162,8 @@ export default {
   data() {
     return {
       file: '',
+      avatar: require('../../assets/images/demo/05.jpg'),
+      phone: '',
       showNameMsg: false,
       showSexMsg: false,
       showPhoneMsg: false,
@@ -266,35 +268,47 @@ export default {
     };
   },
   props: ["baseInfo", "baseData", "baseParams"],
-  created: function(){ },
+  created: function(){ 
+    let userInfo = JSON.parse(localStorage.getItem("userInfo"))
+    this.phone = userInfo.mobile
+  },
   methods: {
-    getFile: function(e){
-      this.file = event.target.files[0];
-      console.log(this.file);
+    changeImage: function(e){
+      let file = e.target.files[0];
+      this.file = file
+      console.log(this.file)
+      let reader = new FileReader()
+      let that = this
+      reader.readAsDataURL(file)
+      reader.onload= function(e){
+        that.avatar = this.result
+      }
     },
     upload: function(){
-      let formData = new FormData();
-      formData.append('file', this.file)
-      let data = {
-        multfile: formData,
-        operaType: 'resume_head',
-        resumeId: this.baseParams.resumeId
+      if(this.$refs.avatarInput.files[0].length !== 0){
+        let data = new FormData()
+        data.append('multfile', this.$refs.avatarInput.files[0])
+        data.append('operaType', 'resume_head')
+        data.append('resumeId', this.baseParams.resumeId)
+        this.$store.dispatch('UPLOAD_HEAD', data)
+        .then(res => {
+          console.log(res)
+          this.file = '';
+        }).catch(err => {
+          console.log(err)
+          if(err.data.msg){
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            })
+          }else {
+            this.$message({
+              type: "error",
+              message: "上传失败"
+            })
+          }
+        })
       }
-      axios({
-        method: 'post',
-        url: 'resume/file/headpic',
-        data: data,
-        // ContantType: 'multipart/form-data'
-      }).then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
-      // this.$store.dispatch('UPLOAD_HEAD', formData).then(res => {
-      //   console.log(res)
-      // }).catch(err => {
-      //   console.log(err)
-      // })
     },
     changeNativePlace: function(e){
       this.base.nativePlace = e;

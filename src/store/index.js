@@ -34,6 +34,9 @@ export default new Vuex.Store({
     updateUserInfo: (state, data) => {
       state.userInfo = {...state.userInfo, ...data.data }
       localStorage.userInfo = {...state.userInfo, ...data.data }
+    },
+    setShowLoginPage: (state, data) => {
+      state.showLoginPage = data
     }
   },
   actions: {},

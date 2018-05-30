@@ -145,7 +145,7 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       store.state.isLogin = false;
-      // store.state.showLoginPage = true;
+      store.state.showLoginPage = true;
       next({
         path: '/',
         query: {

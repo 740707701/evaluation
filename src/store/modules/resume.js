@@ -70,8 +70,8 @@ export default {
       })
     },
     //上传简历
-    [UPLOAD_HEAD]({ commit }, params) {
-      return api.post(config.url.headpic, params).then(res => {
+    [UPLOAD_HEAD]({ commit }, data) {
+      return api.post(config.url.headpic, data).then(res => {
         commit('RESUME_SET', {
           target: 'uploadFile',
           dara: res
