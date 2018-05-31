@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const RESUME_SET = 'RESUME_SET'
 const RESUME_INFO = 'RESUME_INFO'
+const RESUME_LIST = 'RESUME_LIST'
 const SUBMIT_RESUME = 'SUBMIT_RESUME'
 
 const SET_BASEINFO = 'SET_BASEINFO'
@@ -30,6 +31,7 @@ const ALL = 'ALL'
 export default {
   state: {
     resumeInfo: {},
+    resumeList: [],
     baseInfo: [],
     evaluate: {}, //评价
     jobIntension: [], //求职意向
@@ -51,12 +53,21 @@ export default {
   actions: {
     //获取简历信息
     [RESUME_INFO]({ commit }, params) {
-      return api.get(config.url.resumeInfo.replace('{creator}', params.creator), { resumeId: params.resumeId }).then(res => {
+      return api.get(config.url.resumeInfo, { resumeId: params.resumeId }).then(res => {
         commit('RESUME_SET', {
           target: 'resumeInfo',
           data: res
         })
         return res
+      })
+    },
+    //获取简历列表
+    [RESUME_LIST]({ commit }, params) {
+      return api.get(config.url.resumeList, params).then(res => {
+        commit('RESUME_SET', {
+          target: 'resumeList',
+          data: res
+        })
       })
     },
     //提交简历

@@ -8,7 +8,7 @@
       </div>
       <div class="base-content">
         <div class="avtar">
-          <img src="../../assets/images/demo/05.jpg" alt="">
+          <img :src="base.avatar" alt="">
         </div>
         <div class="info-list">
           <div class="name">
@@ -44,7 +44,7 @@
       </div>
     </div>
   </div>
-  <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit"><!--  -->
+  <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit">
     <div class="base-info">
       <div class="title">
         <i class="iconfont icon-user"></i>
@@ -87,7 +87,7 @@
             <el-form-item label="邮箱：" prop="email" class="input-box">
               <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" maxlength="20"></el-input>
             </el-form-item>
-            <el-form-item label="籍贯：" prop="nativePlace" class="input-box">
+            <el-form-item label="籍贯：" prop="nativePlaceList" class="input-box">
               <!-- <el-select size="small"  v-model="base.nativePlace" placeholder="请选择" class="select-box">
                 <el-option 
                   v-for="item in baseData.cities"
@@ -97,7 +97,7 @@
                   >
                 </el-option>
               </el-select> -->
-              <el-cascader size="small" v-model="base.nativePlace" @change="changeNativePlace"
+              <el-cascader size="small" v-model="base.nativePlaceList" @change="changeNativePlace"
                 :options="baseData.cities"
                 :show-all-levels="false"
                 :props="cascaderProp"
@@ -219,7 +219,7 @@ export default {
           { required: true, message: "请输入联系邮箱", trigger: "blur" },
           {
             min: 0,
-            max: 14,
+            max: 30,
             message: "请确认邮箱地址可正常收发邮件，且未设置陌生邮箱黑名单等。",
             trigger: "blur"
           }
@@ -231,7 +231,7 @@ export default {
             trigger: "blur"
           }
         ],
-        nativePlace: [
+        nativePlaceList: [
           {
             required: true,
             type: 'array',
@@ -311,7 +311,7 @@ export default {
       }
     },
     changeNativePlace: function(e){
-      this.base.nativePlace = e;
+      this.base.nativePlaceList = e;
     },
     editBaseInfo: function() {
       console.log(this.baseInfo)
@@ -322,7 +322,7 @@ export default {
         phone: this.baseInfo.phone,
         email: this.baseInfo.email,
         sex: this.baseInfo.sex,
-        nativePlace: this.baseInfo.nativePlace,
+        nativePlaceList: this.baseInfo.nativePlaceList,
         workYear: this.baseInfo.workYear,
         jobStatus: this.baseInfo.jobStatus,
         careerType: this.baseInfo.careerType,

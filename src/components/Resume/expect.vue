@@ -58,7 +58,7 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="工作地点：" prop="expectPlace" class="input-box">
+              <el-form-item label="工作地点：" prop="expectPlaceList" class="input-box">
                  <!-- <el-select size="small" v-model="expect.expectPlace" placeholder="请选择" class="select-box">
                     <el-option
                       v-for="item in expectData.cities"
@@ -67,13 +67,13 @@
                       :value="item.code">
                     </el-option>
                   </el-select> -->
-                  <el-cascader size="small" v-model="expect.expectPlace" @change="changePlace"
+                  <el-cascader size="small" v-model="expect.expectPlaceList" @change="changePlace"
                     :options="expectData.cities"
                     :show-all-levels="false"
                     :props="cascaderProp"
                     ></el-cascader>
               </el-form-item>
-              <el-form-item label="职能/职位：" prop="expectPosition" class="input-box">
+              <el-form-item label="职能/职位：" prop="expectPositionList" class="input-box">
                 <!-- <el-select size="small" v-model="expect.expectPosition" placeholder="请选择" class="select-box">
                   <el-option
                     v-for="item in expectData.funType"
@@ -82,13 +82,13 @@
                     :value="item.code">
                   </el-option>
                 </el-select> -->
-                <el-cascader size="small" v-model="expect.expectPosition" @change="changePosition"
+                <el-cascader size="small" v-model="expect.expectPositionList" @change="changePosition"
                     :options="expectData.funType"
                     :show-all-levels="false"
                     :props="cascaderProp"
                     ></el-cascader>
               </el-form-item>
-              <el-form-item label="行业：" prop="expectIndustry" class="input-box">
+              <el-form-item label="行业：" prop="expectIndustryList" class="input-box">
                 <!-- <el-select size="small" v-model="expect.expectIndustry" placeholder="请选择" class="select-box">
                   <el-option
                     v-for="item in expectData.industryType"
@@ -97,7 +97,7 @@
                     :value="item.code">
                   </el-option>
                 </el-select> -->
-                 <el-cascader size="small" v-model="expect.expectIndustry" @change="changeIndustry"
+                 <el-cascader size="small" v-model="expect.expectIndustryList" @change="changeIndustry"
                     :options="expectData.industryType"
                     :show-all-levels="false"
                     :props="cascaderProp"
@@ -154,7 +154,7 @@ export default {
             trigger: "blur"
           }
         ],
-        expectPlace: [
+        expectPlaceList: [
           {
             require: true,
             type: "array",
@@ -162,7 +162,7 @@ export default {
             trigger: "blur"
           }
         ],
-        expectPosition: [
+        expectPositionList: [
           {
             require: true,
             type: "array",
@@ -170,7 +170,7 @@ export default {
             trigger: "blur"
           }
         ],
-        expectIndustry: [
+        expectIndustryList: [
           {
             require: true,
             type: "array",
@@ -198,13 +198,13 @@ export default {
   props: ["expectInfo", "expectData", "baseParams"],
   methods: {
     changeIndustry: function(e) {
-      this.expect.expectIndustry = e;
+      this.expect.expectIndustryList = e;
     },
     changePosition: function(e) {
-      this.expect.expectPosition = e;
+      this.expect.expectPositionList = e;
     },
     changePlace: function(e) {
-      this.expect.expectPlace = e;
+      this.expect.expectPlaceList = e;
     },
     editJobIntension: function() {
       this.showJobIntensionEdit = true;

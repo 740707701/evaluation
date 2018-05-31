@@ -566,9 +566,13 @@ export default {
           .avtar {
             float: left;
             width: 85px;
+            height: 85px;
+            background-color: #ddd;
             img {
               width: 85px;
               height: 85px;
+              background-color: #ddd;
+              border: none;
             }
             .text {
               text-align: center;
