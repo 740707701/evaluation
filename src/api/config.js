@@ -11,17 +11,17 @@ export default {
 
     //测评
     cepingList: 'ceping/cepinglist',
-    cepingInfo: 'ceping/cepinginfo',
     hotList: 'ceping/hotlist',
-    finished: 'ceping/finished/{creator}',
-    unfinished: 'ceping/unfinished/{creator}',
+    cepingInfo: 'ceping/cepinginfo',
+    finished: 'ceping/finished',
+    unfinished: 'ceping/unfinished',
 
     //立即购买
     cepingBuy: 'ceping/purchase',
     //测评完成之后记录测评报告
     seeReport: 'ceping/recordreport',
     //进入测试
-    tocaichu: 'ceping/tocaichu/{cepingId}/{operator}/{seriaIno}',
+    tocaichu: 'ceping/tocaichu/{cepingId}/{operator}/{serialno}',
 
     //简历
     //基本信息
@@ -48,7 +48,7 @@ export default {
 
     //提交简历
     submitResume: 'resume/submit', //提交个人简历
-    resumeInfo: 'resume/info/{creator}', //查看个人简历
+    resumeInfo: 'resume/info', //查看个人简历
 
     //上传简历头像
     headpic: 'resume/file/headpic',
@@ -56,7 +56,13 @@ export default {
     exportResume: 'resume/export/{resumeId}/{format}',
 
     //简历列表
-    resumeList: 'resume/list/{creator}',
+    resumeList: 'resume/list',
+
+    //系统信息
+    listMsg: '/message/list',
+    addMsg: '/message/addMsg',
+    deleteMsg: '/message/deleteMsg',
+    updateMsg: '/message/updateMsg',
 
 
     //大学规划与管理

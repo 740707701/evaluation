@@ -2,48 +2,21 @@
   <div class="news-page">
     <el-tabs  v-model="activeName">
       <el-tab-pane label="消息通知" name="first">
-        <div class="notice">
-          <div class="item">
+        <div class="notice" v-if="msgList">
+           <div class="item" v-for="msg in noticeList" :key="msg.id" v-if="msg.type==1" @click="updateStatus(msg.id)">
             <div class="logo">
-              <img src="../../assets/images/demo/06.jpg" alt="">
+              <img :src="msg.user.avatar" alt="">
             </div>
             <div class="content">
               <div class="title">
                 <span>公告</span>
-                <span class="time">04-16 10:34</span>
+                <span class="time">{{msg.createTime}}</span>
               </div>
-              <div class="message">美的空调无风感创意海报设计大赛即将收官，速来挑战！如果你的画工够强，技术够硬，创意够炸，速来开启你的专属无风之旅！
-                十万元现金大奖，28个获奖名额，只差一个你~</div>
-            </div>
-          </div>
-           <div class="item">
-            <div class="logo">
-              <img src="../../assets/images/demo/06.jpg" alt="">
-            </div>
-            <div class="content">
-              <div class="title">
-                <span>公告</span>
-                <span class="time">04-16 10:34</span>
-              </div>
-              <div class="message">美的空调无风感创意海报设计大赛即将收官，速来挑战！如果你的画工够强，技术够硬，创意够炸，速来开启你的专属无风之旅！
-                十万元现金大奖，28个获奖名额，只差一个你~</div>
-            </div>
-          </div>
-           <div class="item">
-            <div class="logo">
-              <img src="../../assets/images/demo/06.jpg" alt="">
-            </div>
-            <div class="content">
-              <div class="title">
-                <span>公告</span>
-                <span class="time">04-16 10:34</span>
-              </div>
-              <div class="message">美的空调无风感创意海报设计大赛即将收官，速来挑战！如果你的画工够强，技术够硬，创意够炸，速来开启你的专属无风之旅！
-                十万元现金大奖，28个获奖名额，只差一个你~</div>
+              <div class="message">{{msg.content}}</div>
             </div>
           </div>
         </div>
-        <div class="share">
+        <!-- <div class="share">
           <div class="item">
             <div class="logo">
               <img src="../../assets/images/demo/03.jpg" alt="">
@@ -56,19 +29,19 @@
               <div class="message">推荐分享给你一份测评题目<a href="javascript:">《高考专业选择测评》</a></div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="system">
-          <div class="item">
+          <div class="item" v-for="msg in systemList" :key="msg.id" v-if="msg.type==0" @click="updateStatus(msg.id)">
             <div class="logo">
-              <img src="../../assets/images/demo/04.jpg" alt="">
+              <img :src="msg.user.avatar" alt="">
             </div>
             <div class="content">
               <div class="title">
                 <span>系统</span>
-                <span class="time">03-30 11:20</span>
+                <span class="time">{{msg.createTime}}</span>
               </div>
-              <div class="message">感谢你，在平台购买了以下测评题目 <a href="javascript:">《高考专业选择测评》</a>
-                </div>
+              <div class="message">{{msg.content}}
+              </div>
             </div>
           </div>
         </div>
@@ -81,8 +54,60 @@ export default {
   name: "news",
   data() {
     return {
-      activeName: 'first'
+      activeName: 'first',
+      msgList: [],
+      noticeList: [],
+      systemList:[]
     };
+  },
+  created(){
+    this.getMsgList()
+  },
+  methods: {
+    getMsgList: function(){
+      this.$store.dispatch('MSG_LIST').then(res => {
+        this.msgList = res.data;
+        this.systemList = this.msgList.filter( item => {
+          return item.type == 0
+        })
+        this.noticeList = this.msgList.filter(item => {
+          return item.type == 1
+        })
+      }).catch(err => {
+        console.log(err)
+        if(err.data.msg){
+          this.$message({
+            type: 'error',
+            message: err.data.msg
+          })
+        }else {
+          this.$message({
+            type: 'error',
+            message: "获取消息失败"
+          })
+        }
+      })
+    },
+    updateStatus: function(id){
+      let params = {
+        id: id
+      }
+      this.$store.dispatch('UPDATE_MSG', params).then(res => {
+        console.log('已读',res)
+      }).catch(err => {
+        if(err.data.msg){
+          this.$message({
+            type: 'error',
+            message: err.data.msg
+          })
+        }else {
+          this.$message({
+            type: 'error',
+            message: "获取消息失败"
+          })
+        }
+      })
+    }
   }
 };
 </script>
@@ -101,6 +126,8 @@ export default {
         float: left;
         width: 40px;
         height: 40px;
+        border-radius: 20px;
+        background-color: gray;
         margin-top: 10px;
         img {
           width: 40px;
