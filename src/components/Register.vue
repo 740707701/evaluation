@@ -86,12 +86,17 @@ export default {
             .dispatch("REGISTER", reg)
             .then(res => {
               console.log(res);
+              this.$message({
+                type: "success",
+                message: "注册成功"
+              })
+              this.$emit("hideLogin");
             })
             .catch(err => {
               console.log(err);
-              if (err.msg) {
+              if (err.data.msg) {
                 this.$message({
-                  message: err.msg,
+                  message: err.data.msg,
                   type: "error"
                 });
               } else {

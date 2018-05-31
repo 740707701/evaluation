@@ -54,12 +54,12 @@ export default {
       loginForm: {},
       redirect: "",
       rules: {
-        number: {
-          resuired: true,
+        number: [{
+          required: true,
           message: "请输入手机号或学号",
           trigger: "blur"
-        },
-        password: [{ validator: validatePwd, trigger: "blur" }]
+        }],
+        password: [{ required: true, validator: validatePwd, trigger: "blur" }]
       }
     };
   },

@@ -57,10 +57,9 @@
       </nav>
     </el-header>
     <div class="bg" v-if="showLoginPage || showRegisterPage || showForgetPage" @click.self="hide">
-      <login v-if="showLoginPage " @showRegister="register" 
-      @showForget="forget" @hideLogin="hideLogin" ></login>
-      <register v-if="showRegisterPage" @showLogin="login"></register>
-      <forget v-if="showForgetPage" ></forget>
+      <login v-if="showLoginPage " @showRegister="register" @showForget="forget" @hideLogin="hideLogin"></login>
+      <register v-if="showRegisterPage" @showLogin="login" @hideLogin="hideLogin"></register>
+      <forget v-if="showForgetPage" @hideLogin="hideLogin"></forget>
     </div>
   </el-container>
 </template>
@@ -79,13 +78,7 @@ export default {
       showForgetPage: false
     };
   },
-  created() {
-    // let isLogin = decodeURIComponent(this.$route.query.isLogin);
-    // console.log('isLogin', isLogin)
-    // if(!isLogin){
-    //   this.showLoginPage = true
-    // }
-  },
+  created() {},
   computed: {
     // isLogin (){
     //   return this.$store.state.isLogin
@@ -102,7 +95,10 @@ export default {
       this.showForgetPage = false;
     },
     hideLogin: function() {
+      console.log('hide')
       this.$store.commit("setShowLoginPage", false);
+      this.showRegisterPage = false;
+      this.showForgetPage = false;
     },
     register: function() {
       this.showRegisterPage = true;
@@ -127,6 +123,7 @@ export default {
       }
     },
     hide: function(){
+      
       this.$store.commit("setShowLoginPage", false)
       this.showRegisterPage = false;
       this.showForgetPage = false;

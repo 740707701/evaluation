@@ -8,24 +8,28 @@
         </el-form-item>
         <el-form-item label="" prop="captcha" class="captcha-box">
           <el-input class="captcha-input" v-model="forgetForm.captcha" placeholder="验证码" :maxlength="6"></el-input>
-          <div class="captcha-btn">获取验证码</div>
+          <div class="captcha-btn" @click="getCaptcha">
+            <span  class="tip" v-if="!sendMsgDisabled && !reGet">发送验证码</span>
+            <span  class="tip" v-if="!sendMsgDisabled && reGet">重新获取</span>
+            <span  class="tip" v-if="sendMsgDisabled">{{rTime+'秒后重新获取'}}</span>
+          </div>
         </el-form-item>
         <el-form-item label="" prop="">
-          <div class="next-btn" @click.stop="next('forgetForm')">下一步</div>
+          <div class="next-btn" @click.self="next('forgetForm')">下一步</div>
         </el-form-item>
       </el-form>
     </div>
     <div class="reset-form" v-if="showReset">
       <h4>重置密码</h4>
       <el-form :model="resetForm" :rules="resetRules" ref="resetForm" label-width="0" class="demo-ruleForm">
-        <el-form-item label="" prop="phone">
-          <el-input v-model="resetForm.phone" placeholder="手机号" :maxlength="11"></el-input>
+        <el-form-item label="" prop="mobile">
+          <el-input v-model="resetForm.mobile" placeholder="手机号" :maxlength="11"></el-input>
         </el-form-item>
         <el-form-item label="" prop="pwd">
-          <el-input v-model="resetForm.pwd" placeholder="请设置新密码" :maxlength="20"></el-input>
+          <el-input type="password" v-model="resetForm.pwd" placeholder="请设置新密码" :maxlength="20"></el-input>
         </el-form-item>
-        <el-form-item label="" prop="pwd2">
-          <el-input v-model="resetForm.pwd2" placeholder="确认新密码" :maxlength="20"></el-input>
+        <el-form-item label="" prop="repwd">
+          <el-input type="password" v-model="resetForm.repwd" placeholder="确认新密码" :maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="" prop="">
           <div class="next-btn" @click="post('resetForm')">提交</div>
@@ -55,25 +59,28 @@
           callback();
         }
       };
-      const validatePwd2 = (rule, value, callback) => {
+      const validateRepwd = (rule, value, callback) => {
         if(!value){
           callback(new Error("请再次输入密码"));
-        }else if(value != this.registerForm.pwd2){
+        }else if(value != this.resetForm.pwd){
           callback(new Error("两次输入密码不一致"));
         }else {
           callback();
         }
       };
       return {
+        reGet: false, // 重新获取
+        rTime: 60, // 发送验证码倒计时
+        sendMsgDisabled: false, // 发送验证码按钮状态
         showReset: false,
         forgetRules: {
-          phone: [{validator: validatePhone, trigger: 'blur'}],
+          phone: [{validator: validatePhone, trigger: "blur"}],
           captcha: [{required: true, message: "验证码不能为空", trigger: "blur"}],
         },
         resetRules: {
-           phone: [{validator: validatePhone, trigger: 'blur'}],
-           password:[{validator: validatePwd, trigger: 'blur'}],
-           password2: [{validator: validatePwd2, trigger: 'blur'}]
+          mobile: [{validator: validatePhone, trigger: "blur"}],
+          pwd: [{validator: validatePwd, trigger: "blur"}],
+          repwd: [{validator: validateRepwd, trigger: "blur"}]
         },
         forgetForm: {},
         resetForm: {}
@@ -82,13 +89,40 @@
     created(){},
     methods: {
       getCaptcha: function(){
-        if(this.forgetForm.phone){
-          this.$store.dispatch('CAPTCHA', this.forgetForm.phone).then(res => {
-            console.log(res,'获取验证码成功')
+        let reg = /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/
+        if(!this.forgetForm.phone){
+          this.$message({
+            type: "error",
+            message: "请输入手机号"
+          })
+          return
+        }
+        if(reg.test(this.forgetForm.phone)){
+          let that = this;
+          that.sendMsgDisabled = true;
+          let rTime = that.rTime;
+          // 倒计时
+          let interval = window.setInterval(() => {
+            if (--that.rTime <= 0) {
+              that.rTime = rTime;
+              that.sendMsgDisabled = false;
+              that.reGet = true; // 重新获取按钮
+              window.clearInterval(interval);
+            }
+          }, 1000);
+          let data = {
+            mobile: this.forgetForm.phone
+          }
+          
+          this.$store.dispatch('CAPTCHA', data).then(res => {
+            this.$message({
+              message: "获取验证码成功",
+              type: "success"
+            })
           }).catch(err => {
-            if(err.msg){
+            if(err.data.msg){
                 this.$message({
-                  message: err.msg,
+                  message: err.data.msg,
                   type: "error"
                 })
               }else {
@@ -107,12 +141,13 @@
           }
         })
       },
-      post: function(){
+      post: function(formName){
         this.$refs[formName].validate(valid => {
           if(valid){
             let resetInfo = {
-              mobile: this.resetForm.phone,
-              password: this.resetForm.pwd
+              mobile: this.resetForm.mobile,
+              password: this.resetForm.pwd,
+              code: this.forgetForm.captcha
             }
             this.$store.dispatch('FORGET', resetInfo).then(res => {
               this.$message({
@@ -120,14 +155,14 @@
                   type: "success"
                 })
             }).catch(err => {
-              if(err.msg){
+              if(err.data.msg){
                 this.$message({
-                  message: err.msg,
+                  message: err.data.msg,
                   type: "error"
                 })
               }else {
                 this.$message({
-                  message: "登录失败,请稍后重试",
+                  message: "修改密码失败,请稍后重试",
                   type: "error"
                 })
               }
