@@ -7,6 +7,9 @@ const HOT_LIST = 'HOT_LIST'
 const EVALUATION_DETAIL = 'EVALUATION_DETAIL'
 const FINISHED = 'FINISHED'
 const UNFINISHED = 'UNFINISHED'
+const TOCAICHU = 'TOCAICHU'
+const CEPINGBUY = 'CEPINGBUY'
+const RECORDREPORT = 'RECORDREPORT'
 
 export default {
   state: {
@@ -14,7 +17,10 @@ export default {
     hotList: [],
     evaluationInfo: {},
     finished: [],
-    unfinished: []
+    unfinished: [],
+    tocaichu: {},
+    cepingbuy: {},
+    report: {}
   },
   mutations: {
     [EVALUATION_SET](state, data) {
@@ -65,6 +71,30 @@ export default {
           data: res.data
         })
         return res
+      })
+    },
+    [TOCAICHU]({ commit }, data) {
+      return api.post(config.url.tocaichu.replace('{cepingId}', data.cepingId).replace('{serialno}', data.serialno).replace('{operator}', data.operator)).then(res => {
+        commit('EVALUATION_SET', {
+          target: 'tocaichu',
+          data: res.data
+        })
+      })
+    },
+    [CEPINGBUY]({ commit }, data) {
+      return api.post(config.url.cepingBuy, data).then(res => {
+        commit('EVALUATION_SET', {
+          target: 'cepingbuy',
+          data: res.data
+        })
+      })
+    },
+    [RECORDREPORT]({ commit }, data) {
+      return api.post(config.url.recordreport, data).then(res => {
+        commit('EVALUATION_SET', {
+          target: 'report',
+          data: res.data
+        })
       })
     }
   },

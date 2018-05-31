@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="caichu-box">
-        <iframe width="100%" height="500" frameborder="0" scrolling="no" :src="`http://www.apesk.com/h/f.asp?u=5727234&l=${detail.caichuCode}`"></iframe>
+        <iframe width="100%" height="500" id="caichu" name="caichu" frameborder="0" scrolling="no" :src="`http://www.apesk.com/h/f.asp?u=5727234&l=${detail.caichuCode}`"></iframe>
       </div>
     </div>
   </div>
@@ -48,6 +48,7 @@ export default {
   created: function(){
     this.evaluationDetail()
     // console.log('evaluationInfo',this.evaluationInfo)
+    
   },
   methods: {
      evaluationDetail: function(){
@@ -57,11 +58,53 @@ export default {
       })
       .catch( err => {
         console.log(err)
+        if(err.data.msg){
+          this.$message({
+            type: 'error',
+            massage: err.data.msg
+          })
+        }else {
+          this.$message({
+            type: 'error',
+            massage: '获取测评详情失败,请稍后重试。'
+          })
+        }
       })
     },
+    toCaichu: function(){
+      let data = {
+        cepingId: this.$route.params.id,
+        operator: 'cc',
+        serialno: this.detail.caichuCode || 'CEWFMIPT8O5ZW5GR5X'
+      }
+      this.$store.dispatch('TOCAICHU', data).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+        if(err.data.msg){
+          this.$message({
+            type: 'error',
+            massage: err.data.msg
+          })
+        }else {
+          this.$message({
+            type: 'error',
+            massage: '找不到相应测评数据,请稍后重试。'
+          })
+        }
+      })
+    }
   },
   components: {
     headerNav
+  },
+  mounted(){
+    let btn = window.frames["caichu"]
+    console.log('fra',btn)
+    let id = document.getElementById('caichu').contentWindow
+    console.log('id', id)
+    let button =  document.getElementById('button')
+    console.log(button)
   }
 }
 </script>

@@ -117,6 +117,28 @@ export default {
         name: `evaluation`,
         params: { id: this.$route.params.id }
       });
+    },
+    //立即购买
+    buy: function(){
+      let data = {
+        cepingId: this.$route.params.id
+      }
+      this.$store.dispatch('CEPINGBUY', data).then(res => {
+        console.log(res)
+        this.showDialog = true
+      }).catch(err => {
+        if(err.data.msg){
+            this.$message({
+            type: "error",
+            message: err.data.msg
+          })
+          }else{
+            this.$message({
+              type: "error",
+              message: "获取测评详情失败"
+            })
+          }
+      })
     }
   },
   components: {}

@@ -9,7 +9,7 @@
               <div class="day">04</div>
               <div class="year">2018</div>
             </div>
-            <ul class="item-row">
+            <ul class="item-row" v-if="finishedList.length">
               <li v-for="course in finishedList.slice(0,5)" :key="course.id">
                 <img :src="course.img" alt="">
                 <div class="mask">

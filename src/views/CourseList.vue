@@ -119,7 +119,7 @@ export default {
   created: function(){
     let isLogin = decodeURIComponent(this.$route.query.isLogin);
     console.log('isLogin', isLogin)
-    this.getEvaluationList(1)
+    this.getEvaluationList(0)
     this.getHotList ()
   },
   methods: {
@@ -131,9 +131,9 @@ export default {
       .catch(err => {
         if(err.data.msg){
           this.$message({
-          type: "error",
-          message: err.data.msg
-        })
+            type: "error",
+            message: err.data.msg
+          })
         }else{
           this.$message({
             type: "error",
@@ -163,7 +163,7 @@ export default {
       this.$router.push({ name: `coursedetail`, params: { id: id } });
     },
     tabsClick: function(tab, event) {
-      this.tabIndex = Number(tab.index) + Number(1)
+      this.tabIndex = Number(tab.index)
       this.getEvaluationList(this.tabIndex)
     }
   },
