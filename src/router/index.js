@@ -5,10 +5,7 @@ import store from '../store'
 import Home from '../views/Home.vue'
 import Resume from '../views/Resume.vue'
 import ResumePreview from '../views/ResumePreview.vue'
-import Login from '../views/LoginPage.vue'
-import Register from '../views/RegisterPage.vue'
 import CartDetail from '../views/CartDetail.vue'
-import Detail from '../views/Detail.vue'
 import CourseList from '../views/CourseList.vue'
 import CourseDetail from '../views/CourseDetail.vue'
 import Evaluation from '../views/Evaluation.vue'
@@ -21,6 +18,7 @@ import Statistics from '../views/PersonalCenter/Statistics.vue'
 import News from '../views/PersonalCenter/News.vue'
 import CareerPlan from '../views/CareerPlan.vue'
 import IndustryIntro from '../views/IndustryIntro.vue'
+import Agreement from '../views/Agreement.vue'
 
 Vue.use(VueRouter)
 
@@ -107,16 +105,6 @@ const routes = [{
     }
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
-  },
-  {
     path: '/cartdetail',
     name: 'CartDetail',
     component: CartDetail
@@ -127,7 +115,12 @@ const routes = [{
     component: ResumePreview,
     meta: {
       requireAuth: true
-    },
+    }
+  },
+  {
+    path: '/agreement',
+    name: 'Agreement',
+    component: Agreement
   }
 
 ]

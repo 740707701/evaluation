@@ -6,27 +6,24 @@
           <img src="../assets/images/demo/02.jpg" alt="" class="logo">
         </div>
         <ul class="nav-center">
-          <li @click="changeLogin(1)" v-bind:class="{'active':$route.path=='/'}">职业测评</li>
-          <li @click="changeLogin(2)" v-bind:class="{'active':$route.path=='/careerplan'}">大学规划与管理</li>
-          <li @click="changeLogin(3)" v-bind:class="{'active':$route.path=='/resume'}">我的简历</li>
-          <li @click="changeLogin(4)" v-bind:class="{'active':$route.path=='/industryintro'}">书籍库</li>
+          <li @click="changeLogin(1, '/')" v-bind:class="{'active':$route.path=='/'}">职业测评</li>
+          <li @click="changeLogin(2, '/careerplan')" v-bind:class="{'active':$route.path=='/careerplan'}">大学规划与管理</li>
+          <li @click="changeLogin(3, '/resume')" v-bind:class="{'active':$route.path=='/resume'}">我的简历</li>
+          <li @click="changeLogin(4, '/industryintro')" v-bind:class="{'active':$route.path=='/industryintro'}">书籍库</li>
         </ul>
         <div class="nav-right">
-          <router-link to="cartDetail" v-if="isLogin"> 
+          <!-- <router-link to="cartDetail" v-if="isLogin"> 
             <el-button class="cart-btn" round size="small">
               <i class="el-icon-setting"></i>
               购物车
             </el-button>
-
-          </router-link>
+          </router-link> -->
           <ul class="logout" v-if="!isLogin">
             <li>
               <div class="name" @click="login">登录</div>
-              <!-- <router-link to="/login">登录</router-link> -->
             </li>
             <li>
               <div class="name" @click="register">注册</div>
-              <!-- <router-link to="/register">注册</router-link> -->
             </li>
           </ul>
           <div class="login" v-if="isLogin">
@@ -41,13 +38,10 @@
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="personalcenter">我的测评
-                  <!-- <router-link to="/personalcenter"></router-link> -->
                 </el-dropdown-item>
                 <el-dropdown-item command="order">订单中心
-                  <!-- <router-link to="/order"></router-link> -->
                   </el-dropdown-item>
                 <el-dropdown-item command="setting">个人设置
-                  <!-- <router-link to="/setting"></router-link> -->
                   </el-dropdown-item>
                 <el-dropdown-item command="logout">退出账号</el-dropdown-item>
               </el-dropdown-menu>
@@ -123,12 +117,11 @@ export default {
       }
     },
     hide: function(){
-      
       this.$store.commit("setShowLoginPage", false)
       this.showRegisterPage = false;
       this.showForgetPage = false;
     },
-    changeLogin: function(id){
+    changeLogin: function(id, router){
       let userInfo = JSON.parse(localStorage.getItem("userInfo"))
       if(userInfo){
         if(id == 1){
@@ -144,6 +137,7 @@ export default {
         if(id == 1){
           this.$router.push({ path: '/' })
         }else {
+          this.$router.push({ path: '/' , query: {redirect: router}})
           this.$store.commit("setShowLoginPage", true)
         }
       }

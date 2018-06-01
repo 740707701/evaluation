@@ -73,6 +73,8 @@
         rTime: 60, // 发送验证码倒计时
         sendMsgDisabled: false, // 发送验证码按钮状态
         showReset: false,
+        forgetForm: {},
+        resetForm: {},
         forgetRules: {
           phone: [{validator: validatePhone, trigger: "blur"}],
           captcha: [{required: true, message: "验证码不能为空", trigger: "blur"}],
@@ -82,8 +84,7 @@
           pwd: [{validator: validatePwd, trigger: "blur"}],
           repwd: [{validator: validateRepwd, trigger: "blur"}]
         },
-        forgetForm: {},
-        resetForm: {}
+        
       }
     },
     created(){},
@@ -150,6 +151,7 @@
               code: this.forgetForm.captcha
             }
             this.$store.dispatch('FORGET', resetInfo).then(res => {
+              this.$emit("hideLogin")
               this.$message({
                   message: "修改成功",
                   type: "success"
@@ -214,6 +216,9 @@
         border-radius: 0 4px 4px 0;
         cursor: pointer;
         background-color: #eee;
+        .tip {
+          font-size: 12px;
+        }
       }
     }
     .next-btn {

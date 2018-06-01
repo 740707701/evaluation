@@ -15,7 +15,10 @@
         <el-input type="password" v-model="registerForm.pwd2" placeholder="确认密码" :maxlength="20"></el-input>
       </el-form-item>
       <el-form-item label="" prop="">
-        <p class="text">同意用户的<span @click="agreement">条款和条件</span></p>
+        <p class="text">同意用户的
+          <router-link target="_blank" to="/agreement">条款和条件</router-link>
+          <!-- <span @click="agreement"></span> -->
+        </p>
       </el-form-item>
       <el-form-item label="" prop="">
         <div class="register-btn" @click="register('registerForm')">注册</div>
@@ -160,7 +163,7 @@ export default {
     text-align: left;
     cursor: pointer;
     color: rgba(162, 169, 184, 1);
-    span {
+    span, a {
       color: @main-color-blue;
     }
   }

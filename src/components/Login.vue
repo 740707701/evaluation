@@ -59,7 +59,7 @@ export default {
           message: "请输入手机号或学号",
           trigger: "blur"
         }],
-        password: [{ required: true, validator: validatePwd, trigger: "blur" }]
+        pwd: [{ required: true, validator: validatePwd, trigger: "blur" }]
       }
     };
   },
