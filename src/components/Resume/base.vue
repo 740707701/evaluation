@@ -7,7 +7,7 @@
         <span>基本信息</span>
       </div>
       <div class="base-content">
-        <div class="avtar">
+        <div class="avatar">
           <img :src="base.avatar" alt="">
         </div>
         <div class="info-list">
@@ -19,7 +19,7 @@
             <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>
             <span v-if="baseInfo.workYear">{{baseInfo.workYear}}年工作经验</span>
             <span v-if="baseInfo.sex">{{baseInfo.sex==1?'男':'女'}}</span>
-            <span v-if="baseInfo.birth">00岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
+            <span v-if="baseInfo.birth">{{baseInfo.age}}岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
             <span>{{baseInfo.jobStatusName}}</span>
           </div>
           <div class="concat">
@@ -51,12 +51,13 @@
         <span>基本信息</span>
       </div>
       <div class="base-content">
-        <div class="avtar edit-avatar">
+        <upload :uploadType="`resume_head`"  @upload="getImgUrl"></upload>
+        <!-- <div class="avatar edit-avatar">
           <input type="file" class="input-file" name="avatar" ref="avatarInput"
           @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
           <img :src="avatar" alt="" >
           <div class="text" @click="upload" v-if="file">确定上传</div>
-        </div>
+        </div> -->
         <div class="edit-content baseinfo-content">
           <el-form :inline="true" :model="base" :rules="rules" ref="base" label-width="100px" class="form-box">
             <el-form-item label="姓名：" prop="name" class="input-box">
@@ -157,12 +158,13 @@
 </template>
 <script>
 import axios from 'axios'
+import upload from '../Upload'
 export default {
   name: "baseInfo",
   data() {
     return {
-      file: '',
-      avatar: require('../../assets/images/demo/05.jpg'),
+      // file: '',
+      // avatar: require('../../assets/images/demo/05.jpg'),
       phone: '',
       showNameMsg: false,
       showSexMsg: false,
@@ -273,6 +275,7 @@ export default {
     this.phone = userInfo.mobile
   },
   methods: {
+    /*
     changeImage: function(e){
       let file = e.target.files[0];
       this.file = file
@@ -310,6 +313,7 @@ export default {
         })
       }
     },
+    */
     changeNativePlace: function(e){
       this.base.nativePlaceList = e;
     },
@@ -364,9 +368,15 @@ export default {
     cancel: function(formName) {
       this.showBaseInfoEdit = false;
       this.$refs[formName].resetFields();
-    }
+    },
+    getImgUrl: function(url){
+      console.log('url',url)
+      this.base.avatar = url
+    },
   },
-  components: {}
+  components: {
+    upload
+  }
 };
 </script>
 <style lang="less" scope>

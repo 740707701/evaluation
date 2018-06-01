@@ -56,7 +56,7 @@ export default {
       })
     },
     [FINISHED]({ commit }, params) {
-      return api.get(config.url.finished.replace('{creator}', params)).then(res => {
+      return api.get(config.url.finished).then(res => {
         commit('EVALUATION_SET', {
           target: 'finished',
           data: res.data
@@ -65,7 +65,7 @@ export default {
       })
     },
     [UNFINISHED]({ commit }, params) {
-      return api.get(config.url.unfinished.replace('{creator}', params)).then(res => {
+      return api.get(config.url.unfinished, params).then(res => {
         commit('EVALUATION_SET', {
           target: 'unfinished',
           data: res.data

@@ -10,8 +10,8 @@ export default {
     treeItem: 'dict/treeitem',
 
     //测评
-    cepingList: 'ceping/cepinglist',
-    hotList: 'ceping/hotlist',
+    cepingList: 'index/cepinglist',
+    hotList: 'index/hotlist',
     cepingInfo: 'ceping/cepinginfo',
     finished: 'ceping/finished',
     unfinished: 'ceping/unfinished',
@@ -47,11 +47,11 @@ export default {
     deleteSkills: 'resume/skills/{id}',
 
     //提交简历
-    submitResume: 'resume/submit', //提交个人简历
+    submitResume: 'resume/submit/{resumeId}', //提交个人简历
     resumeInfo: 'resume/info', //查看个人简历
 
     //上传简历头像
-    headpic: 'resume/file/headpic',
+    headpic: 'file/headpic',
     //导出简历
     exportResume: 'resume/export/{resumeId}/{format}',
 

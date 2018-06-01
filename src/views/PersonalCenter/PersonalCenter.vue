@@ -3,16 +3,14 @@
     <headerNav></headerNav>
     <div class="container">
       <div class="personal-info">
-        <img class="avatar" src="../../assets/images/demo/04.jpg" alt="">
+        <img class="avatar" :src="userInfo.avatar?userInfo.avatar: '../../assets/images/demo/04.jpg'" alt="">
           <el-container>
             <el-aside width="150px">
               <div class="aside-box">
                 <ul class="info-text">
-                  <li><span>{{username}}</span>
+                  <li><span>{{userInfo.userName?userInfo.userName: userInfo.userNum}}</span>
                   <span class="split">|</span>
-                  <span>{{sex}}</span></li>
-                  <!-- <li>消费金额：<span class="value">¥ {{money}}</span></li>
-                  <li>学习时长：<span class="value">{{time}}</span> min</li> -->
+                  <span>{{userInfo.sex == '1'? '男': '女'}}</span></li>
                 </ul>
                 <ul class="tabs">
                   <li>
@@ -59,14 +57,13 @@ export default {
   name: "personalcenter",
   data() {
     return {
-      username: "菜鸟",
-      sex: "男",
-      time: "120",
-      money: "98.76",
-    };
+      userInfo: {}
+    }
   },
-  method: {
+  created(){
+    this.userInfo = this.$store.state.userInfo
   },
+  methods: {},
   components: {
     headerNav
   }
@@ -88,9 +85,10 @@ export default {
       // width: 100%;
       // height: 100%;
       .avatar {
-        width: 100px;
-        height: 100px;
+        width: 60px;
+        height: 60px;
         margin-left: 20px;
+        display: inline-block;
       }
       .aside-box {
         .info-text {

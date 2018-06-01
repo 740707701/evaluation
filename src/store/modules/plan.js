@@ -101,6 +101,7 @@ export default {
           target: 'additionalInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -112,6 +113,7 @@ export default {
           target: 'additionalInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -123,6 +125,7 @@ export default {
           target: 'additionalInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -135,6 +138,7 @@ export default {
           target: 'certificateList',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -146,6 +150,7 @@ export default {
           target: 'certificateInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -157,6 +162,7 @@ export default {
           target: 'certificateInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -168,6 +174,7 @@ export default {
           target: 'certificateInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -180,6 +187,7 @@ export default {
           target: 'internshipList',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -191,6 +199,7 @@ export default {
           target: 'internshipInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -202,6 +211,7 @@ export default {
           target: 'internshipInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -213,6 +223,7 @@ export default {
           target: 'internshipInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -225,6 +236,7 @@ export default {
           target: 'officeList',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -236,6 +248,7 @@ export default {
           target: 'officeInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -247,6 +260,7 @@ export default {
           target: 'officeInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -258,6 +272,7 @@ export default {
           target: 'officeInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -269,6 +284,7 @@ export default {
           target: 'optionalList',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -280,6 +296,7 @@ export default {
           target: 'optionalInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -291,6 +308,7 @@ export default {
           target: 'optionalInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -302,6 +320,7 @@ export default {
           target: 'optionalInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -314,6 +333,7 @@ export default {
           target: 'profList',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -325,6 +345,7 @@ export default {
           target: 'profInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -336,6 +357,7 @@ export default {
           target: 'profInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -347,6 +369,7 @@ export default {
           target: 'profInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -359,6 +382,7 @@ export default {
           target: 'requireList',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -370,6 +394,7 @@ export default {
           target: 'requireInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -381,6 +406,7 @@ export default {
           target: 'requireInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -392,6 +418,7 @@ export default {
           target: 'requireInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -404,6 +431,7 @@ export default {
           target: 'selfList',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -415,6 +443,7 @@ export default {
           target: 'selfInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -426,6 +455,7 @@ export default {
           target: 'selfInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -437,6 +467,7 @@ export default {
           target: 'selfInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -449,6 +480,7 @@ export default {
           target: 'vocationList',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -460,6 +492,7 @@ export default {
           target: 'vocationInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -471,6 +504,7 @@ export default {
           target: 'vocationInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -482,6 +516,7 @@ export default {
           target: 'vocationInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -494,6 +529,7 @@ export default {
           target: 'otherPlanList',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -506,6 +542,7 @@ export default {
           target: 'otherPlanInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })
@@ -517,6 +554,7 @@ export default {
           target: 'otherPlanInfo',
           data: res.data
         })
+        return res
       }).catch(err => {
         return err
       })

@@ -68,11 +68,12 @@ export default {
           target: 'resumeList',
           data: res
         })
+        return res
       })
     },
     //提交简历
     [SUBMIT_RESUME]({ commit }, params) {
-      return api.put(config.url.submitResume, params).then(res => {
+      return api.put(config.url.submitResume.replace('{resumeId}', params.resumeId)).then(res => {
         commit('RESUME_SET', {
           target: 'resumeInfo',
           data: res
@@ -85,8 +86,9 @@ export default {
       return api.post(config.url.headpic, data).then(res => {
         commit('RESUME_SET', {
           target: 'uploadFile',
-          dara: res
+          data: res
         })
+        return res
       })
     },
     //保存修改基本信息

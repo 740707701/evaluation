@@ -116,7 +116,7 @@
       <div class="post-box">
         <img src="../assets/images/resume_success.png" alt="" class="post-success">
         <div class="title">简历提交成功</div>
-        <div class="date">{{date}}</div>
+        <div class="date">{{submitDate}}</div>
         <el-button size="small" round class="back-btn">返回</el-button>
       </div>
     </div>
@@ -152,10 +152,10 @@ export default {
   data() {
     return {
       updator: "",
-      creator: "cc",
+      creator: "",
       resumeId: "",
+      submitDate: "",
       baseParams: {}, //调用接口基础参数
-      date: new Date().toLocaleString().slice(0, 20),
       showSuccessDialog: false,
       showPreview: false,
       tag: "",
@@ -244,6 +244,7 @@ export default {
       this.$store
         .dispatch("SUBMIT_RESUME", this.postInfo)
         .then(res => {
+          this.submitDate = res.data.data;
           this.showSuccessDialog = true;
         })
         .catch(err => {
@@ -563,15 +564,15 @@ export default {
           width: 100%;
           display: inline-block;
           padding: 10px 20px;
-          .avtar {
+          .avatar {
             float: left;
             width: 85px;
             height: 85px;
-            background-color: #ddd;
+            background-color: #eaeaea;
             img {
               width: 85px;
               height: 85px;
-              background-color: #ddd;
+              background-color: #eaeaea;
               border: none;
             }
             .text {

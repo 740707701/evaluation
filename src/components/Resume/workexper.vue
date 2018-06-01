@@ -71,7 +71,7 @@
               <el-form-item label="部门：" prop="department" class="input-box">
                 <el-input size="small" v-model="workExperInfo.department" placeholder="请输入部门" maxlenth="30"></el-input>
               </el-form-item>
-              <el-form-item label="职能：" prop="fun" class="input-box">
+              <el-form-item label="职能：" prop="funList" class="input-box" >
                 <!-- <el-select size="small" v-model="workExperInfo.fun" placeholder="请选择" class="select-box">
                   <el-option
                     v-for="item in workExperData.funType"
@@ -80,7 +80,7 @@
                     :value="item.code">
                   </el-option>
                 </el-select> -->
-                <el-cascader size="small" v-model="workExperInfo.fun"
+                <el-cascader size="small" v-model="workExperInfo.funList" @change="changeFun"
                   :options="workExperData.funType"
                   :show-all-levels="false"
                   :props="cascaderProp"
@@ -112,7 +112,6 @@
               <el-form-item label="工作类型：" prop="workType" class="input-box">
                 <el-radio-group size="small" v-model="workExperInfo.workType">
                   <el-radio-button v-for="item in workExperData.workType" :key="item.id" :label="item.name"></el-radio-button>
-                  <!-- <el-radio-button label="兼职"></el-radio-button> -->
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="公司性质：" prop="companyNature" class="input-box">
@@ -256,6 +255,9 @@ export default {
   },
   props: ["workExperList", "workExperData", "baseParams"],
   methods: {
+    changeFun: function(e){
+      this.workExperInfo.funList = e;
+    },
     addWorkExper: function() {
       this.workExperInfo = {
         updator: this.baseParams.updator,

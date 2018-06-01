@@ -3,21 +3,23 @@
     <el-tabs v-model="activeName" @tab-click="tabsClick">
       <el-tab-pane label="我的测评" name="first">
         <div class="completed">
-          <p class="tag">时至今日，{{username}}共测评了21份</p>
-          <div class="item-list">
+          <p class="tag">时至今日，{{userInfo.userName?userInfo.userName: userInfo.userNum}}共测评了21份</p>
+          <!-- <div class="item-list" v-for="(date, finish) in finishedList" :key="finish">
             <div class="date-box">
-              <div class="day">04</div>
+              <div class="day">{{date}}</div>
               <div class="year">2018</div>
             </div>
-            <ul class="item-row" v-if="finishedList.length">
-              <li v-for="course in finishedList.slice(0,5)" :key="course.id">
-                <img :src="course.img" alt="">
+            <ul class="item-row" v-if="finish.length">
+              <li v-for="course in finish.slice(0,5)" :key="course.cepingId">
+                <img :src="course.baseInfo.pic" alt="">
                 <div class="mask">
                   <div class="preview">
                     <div class="circle">
-                      <img :src="course.img" alt="">
+                      <img :src="course.baseInfo.pic" alt="">
                     </div>
-                    <div class="title">点击预览</div>
+                    <router-link target="_blank" :to="course.cepingReportPath">
+                      <div class="title">点击预览</div>
+                    </router-link>
                   </div>
                 </div>
               </li>
@@ -25,7 +27,7 @@
             <div class="page-box" @click="next()">
               <i class="el-icon-arrow-right"></i>
             </div>
-          </div>
+          </div> -->
         </div>
       </el-tab-pane>
       <el-tab-pane label="未完成测评" name="second">
@@ -41,24 +43,24 @@
           </el-dropdown>
           <div class="course-list">
             <el-row :gutter="20">
-              <el-col :span="6" v-for="course in courseList" :key="course.id" >
+              <el-col :span="6" v-for="course in unfinishedList" :key="course.cepingId" >
                 <div class="course-box">
-                  <img :src="course.img" alt="">
+                  <img :src="course.baseInfo.pic" alt="">
                   <div class="course-info">
-                    <div class="title">{{course.name}}</div>
+                    <div class="title">{{course.baseInfo.cepingName}}</div>
                     <div class="gray">
-                      <span>难度：{{course.difficulty}}</span>
+                      <span>难度：{{course.baseInfo.cepingLevel}}</span>
                       <el-rate v-model="course.rate" disabled class="rate"></el-rate>
                     </div>
                     <div class="gray">
-                      <div class="serial-number">序列号：{{course.serialNumber}}</div>
+                      <div class="serial-number">序列号：{{course.cepingSerialno}}</div>
                       <i class="el-icon-document copy-icon"
-                        v-clipboard:copy="course.serialNumber"
+                        v-clipboard:copy="course.cepingSerialno"
                         v-clipboard:success="onCopy"
                         v-clipboard:error="onError"></i>
                     </div>
                     <div class="test-box">
-                      <el-button class="test-btn" size="small" @click="toEvaluation(course.id)">进入测试</el-button>
+                      <el-button class="test-btn" size="small" @click="toEvaluation(course.cepingId)">进入测试</el-button>
                     </div>
                   </div>
                 </div>
@@ -78,10 +80,9 @@ export default {
   name: "myevaluation",
   data() {
     return {
-      creator: "cc",
+      creator: "",
       activeName: "first",
-      username: "菜鸟",
-      sex: "男",
+      userInfo: "",
       time: "120",
       money: "98.76",
       rateValue: 3.7,
@@ -104,83 +105,20 @@ export default {
           name: '岗位分类'
         }
       ],
-      courseList: [
-        {
-          id: "00",
-          name: "Swoole入门到实战打造高性能赛事直播平台",
-          difficulty: "中级",
-          rate: 2.5,
-          serialNumber: "WSE2463o545t54y6",
-          img: require("../../assets/images/demo/01.jpg")
-        },
-        {
-          id: "01",
-          name: "Swoole入门到实战打造高性能赛事直播平台",
-          difficulty: "中级",
-          rate: 3.7,
-          serialNumber: "WSE2463osdfdsgd8y",
-          img: require("../../assets/images/demo/02.jpg")
-        },
-        {
-          id: "02",
-          name: "Swoole入门到实战打造高性能赛事直播平台",
-          difficulty: "中级",
-          rate: 2.7,
-          serialNumber: "WSE2463o54ghdj",
-          img: require("../../assets/images/demo/03.jpg")
-        },
-        {
-          id: "03",
-          name: "Swoole入门到实战打造高性能赛事直播平台",
-          difficulty: "中级",
-          rate: 4.7,
-          serialNumber: "WSE2463o52343546",
-          img: require("../../assets/images/demo/04.jpg")
-        },
-        {
-          id: "04",
-          name: "Swoole入门到实战打造高性能赛事直播平台",
-          difficulty: "中级",
-          rate: 2.1,
-          serialNumber: "WSE2467886867rr",
-          img: require("../../assets/images/demo/05.jpg")
-        },
-        {
-          id: "05",
-          name: "Swoole入门到实战打造高性能赛事直播平台",
-          difficulty: "中级",
-          rate: 1.5,
-          serialNumber: "WSE24667876786",
-          img: require("../../assets/images/demo/01.jpg")
-        },
-        {
-          id: "06",
-          name: "Swoole入门到实战打造高性能赛事直播平台",
-          difficulty: "中级",
-          rate: 4.6,
-          serialNumber: "WSE2463o8674e5673",
-          img: require("../../assets/images/demo/03.jpg")
-        },
-        {
-          id: "07",
-          name: "Swoole入门到实战打造高性能赛事直播平台",
-          difficulty: "中级",
-          rate: 2.5,
-          serialNumber: "WSE3443546576",
-          img: require("../../assets/images/demo/06.jpg")
-        }
-      ],
       finishedList: [],
       unfinishedList: []
       
     };
   },
   created(){
+    this.userInfo = this.$store.state.userInfo;
     this.getFinished()
   },
   methods: {
     checkRange: function(range) {
+      let cepingItem = range.id;
       this.range = range.name;
+      this.getUnFinished(cepingItem)
     },
     tabsClick: function(tab, event){
       let tabIndex = tab.index
@@ -192,17 +130,40 @@ export default {
       }
     },
     getFinished: function(){
-      this.$store.dispatch('FINISHED', this.creator).then(res => {
+      this.$store.dispatch('FINISHED').then(res => {
         this.finishedList = res.data
       }).catch(err => {
-        console.log(err)
+        if (err.data.msg) {
+          this.$message({
+            message: err.data.msg,
+            type: "error"
+          });
+        } else {
+          this.$message({
+            message: "获取已完成测评列表失败",
+            type: "error"
+          });
+        }
       })
     },
-    getUnFinished: function(){
-      this.$store.dispatch('UNFINISHED', this.creator).then(res => {
+    getUnFinished: function(cepingItem){
+      let params = {
+        cepingItem: cepingItem
+      }
+      this.$store.dispatch('UNFINISHED', params ).then(res => {
         this.unfinishedList = res.data
       }).catch(err => {
-        console.log(err)
+        if (err.data.msg) {
+          this.$message({
+            message: err.data.msg,
+            type: "error"
+          });
+        } else {
+          this.$message({
+            message: "获取未完成测评列表失败",
+            type: "error"
+          });
+        }
       })
     },
     onCopy: function (e) {
@@ -349,7 +310,6 @@ export default {
       float: right;
     }
     .dropdown-btn {
-      width: 120px;
       height: 30px;
       padding: 0 10px;
       text-align: left;
@@ -370,6 +330,7 @@ export default {
           padding: 5px 10px;
           .title {
             line-height: 1.6;
+            font-size: 13px;
           }
           .gray {
             width: 100%;
