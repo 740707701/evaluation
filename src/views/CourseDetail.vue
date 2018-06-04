@@ -8,7 +8,7 @@
         </router-link>
       </div>
       <div class="content">
-        <img src="../assets/images/demo/05.jpg" alt="">
+        <img :src="detail.picAll" alt="">
         <div class="info-box">
           <p class="title">{{detail.cepingName}}</p>
           <p class="gray">适应人群：{{detail.peopleScope}}</p>

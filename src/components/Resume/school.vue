@@ -238,9 +238,14 @@ export default {
   props: ["schoolHonorList", "schoolWorkList", "baseParams"],
   methods: {
     addSchoolHonor: function() {
+       if(!this.baseParams.resumeId){
+        this.$message({
+          type: "error",
+          message: "请先完善简历基本信息！"
+        })
+        return
+      }
       this.honorInfo = {
-        updator: this.baseParams.updator,
-        creator: this.baseParams.creator,
         resumeId: this.baseParams.resumeId
       };
       this.showSchoolHonorEdit = true;
@@ -312,9 +317,14 @@ export default {
     },
 
     addSchoolWork: function() {
+       if(!this.baseParams.resumeId){
+        this.$message({
+          type: "error",
+          message: "请先完善个人基本信息！"
+        })
+        return
+      }
       this.workInfo = {
-        updator: this.baseParams.updator,
-        creator: this.baseParams.creator,
         resumeId: this.baseParams.resumeId
       };
       this.showSchoolWorkEdit = true;

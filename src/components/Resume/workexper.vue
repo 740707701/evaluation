@@ -86,15 +86,20 @@
                   :props="cascaderProp"
                   ></el-cascader>
               </el-form-item>
-              <el-form-item label="行业：" prop="industry" class="input-box">
-                <el-select size="small" v-model="workExperInfo.industry" placeholder="请选择" class="select-box">
+              <el-form-item label="行业：" prop="industryList" class="input-box">
+                <!-- <el-select size="small" v-model="workExperInfo.industryList" placeholder="请选择" class="select-box">
                     <el-option
                       v-for="item in workExperData.industryType"
                       :key="item.id"
                       :label="item.name"
                       :value="item.code">
                     </el-option>
-                  </el-select>
+                  </el-select> -->
+                  <el-cascader size="small" v-model="workExperInfo.industryList" @change="changeIndustry"
+                  :options="workExperData.industryType"
+                  :show-all-levels="false"
+                  :props="cascaderProp"
+                  ></el-cascader>
               </el-form-item>
               <el-form-item label="职位：" prop="position" class="input-box">
                 <el-input size="small" v-model="workExperInfo.position" placeholder="所在职位" maxlenth="30"></el-input>
@@ -258,10 +263,18 @@ export default {
     changeFun: function(e){
       this.workExperInfo.funList = e;
     },
+    changeIndustry: function(e){
+      this.workExperInfo.industryList = e;
+    },
     addWorkExper: function() {
+      if(!this.baseParams.resumeId){
+        this.$message({
+          type: "error",
+          message: "请先完善简历基本信息！"
+        })
+        return
+      }
       this.workExperInfo = {
-        updator: this.baseParams.updator,
-        creator: this.baseParams.creator,
         resumeId: this.baseParams.resumeId,
       };
       this.showWorkExperiencedEdit = true;

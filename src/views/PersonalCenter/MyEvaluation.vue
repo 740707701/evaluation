@@ -4,13 +4,20 @@
       <el-tab-pane label="我的测评" name="first">
         <div class="completed">
           <p class="tag">时至今日，{{userInfo.userName?userInfo.userName: userInfo.userNum}}共测评了21份</p>
-          <!-- <div class="item-list" v-for="(date, finish) in finishedList" :key="finish">
-            <div class="date-box">
-              <div class="day">{{date}}</div>
-              <div class="year">2018</div>
+          <!-- <div v-for="finish in finishedList" :key="finish.cepingId">
+            <div v-for="item in finish" :key="item.id">
+                <div>{{item}}<br><br><br><br><br><br><br><br></div>
             </div>
-            <ul class="item-row" v-if="finish.length">
-              <li v-for="course in finish.slice(0,5)" :key="course.cepingId">
+          </div> -->
+
+
+          <!-- <div class="item-list">
+            <div class="date-box">
+              <div class="day">{{item.cepingTime}}</div>
+              <div class="year">{{item.cepingTime}}</div>
+            </div>
+            <ul class="item-row">
+              <li v-for="course in finish[index]" :key="course.cepingId">
                 <img :src="course.baseInfo.pic" alt="">
                 <div class="mask">
                   <div class="preview">
@@ -132,6 +139,7 @@ export default {
     getFinished: function(){
       this.$store.dispatch('FINISHED').then(res => {
         this.finishedList = res.data
+        console.log(this.finishedList)
       }).catch(err => {
         if (err.data.msg) {
           this.$message({
@@ -152,6 +160,16 @@ export default {
       }
       this.$store.dispatch('UNFINISHED', params ).then(res => {
         this.unfinishedList = res.data
+        for(var item of this.unfinishedList){
+          if(item.cepingLevel == "初级"){
+            item.rate = 1
+          }else if(item.cepingLevel == "中级"){
+            item.rate = 2.5
+          }else {
+            item.rate = 5
+          }
+        }
+          console.log('item',this.unfinishedList)
       }).catch(err => {
         if (err.data.msg) {
           this.$message({

@@ -76,7 +76,7 @@
           
           <baseBox :baseInfo="baseInfo" :baseData="baseData" :baseParams="baseParams" @saved="updateInfo"></baseBox>
           <expectBox :expectInfo="expectInfo" :expectData="expectData" :baseParams="baseParams" @saved="updateInfo"></expectBox>
-          <evaluateBox :evaluateInfo="evaluateInfo"  @saved="updateInfo"></evaluateBox>
+          <evaluateBox :evaluateInfo="evaluateInfo"  @saved="updateInfo" :baseParams="baseParams"></evaluateBox>
           <workExperBox :workExperList="workExperList" :workExperData="workExperData" :baseParams="baseParams" @saved="updateInfo"></workExperBox>
           <eduBox :eduList="eduList" :eduData="eduData" :baseParams="baseParams" @saved="updateInfo"></eduBox>
           <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" :baseParams="baseParams" @saved="updateInfo"></schoolBox>
@@ -236,9 +236,14 @@ export default {
     },
     //提交简历
     postResume: function() {
+      if(!this.baseParams.resumeId){
+        this.$message({
+          type: "error",
+          message: "请先完善简历基本信息！"
+        })
+        return
+      }
       this.postInfo = {
-        updator: this.baseParams.updator,
-        creator: this.baseParams.creator,
         resumeId: this.baseParams.resumeId
       };
       this.$store
@@ -574,6 +579,7 @@ export default {
               height: 85px;
               background-color: #eaeaea;
               border: none;
+              display: inline-block;
             }
             .text {
               text-align: center;

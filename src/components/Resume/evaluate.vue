@@ -35,11 +35,19 @@ export default {
       showEvaluateEdit: false
     };
   },
-  props: ["evaluateInfo"],
+  props: ["evaluateInfo", "baseParams"],
   methods: {
     editEvaluate: function() {
-      this.eva.evaluate = this.evaluateInfo.evaluate;
-      this.showEvaluateEdit = true;
+      if(!this.baseParams.resumeId){
+        this.$message({
+          type: "error",
+          message: "请先完善简历基本信息！"
+        })
+        return
+      }else {
+        this.eva.evaluate = this.evaluateInfo.evaluate;
+        this.showEvaluateEdit = true;
+      }
     },
     saveEvaluate: function() {
       this.showEvaluateInfo = false;

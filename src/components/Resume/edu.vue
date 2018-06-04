@@ -197,9 +197,14 @@ export default {
   props: ["eduList", "eduData", "baseParams"],
   methods: {
     addEdu: function() {
+      if(!this.baseParams.resumeId){
+        this.$message({
+          type: "error",
+          message: "请先完善简历基本信息！"
+        })
+        return
+      }
       this.eduInfo = {
-        updator: this.baseParams.updator,
-        creator: this.baseParams.creator,
         resumeId: this.baseParams.resumeId
       };
       this.showEducationEdit = true;

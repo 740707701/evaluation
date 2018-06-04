@@ -8,8 +8,8 @@
               <span>基本信息</span>
             </div>
             <div class="base-content">
-              <div class="avtar">
-                <img src="../../assets/images/demo/05.jpg" alt="">
+              <div class="avatar">
+                <img :src="baseInfo.headPicAll" alt="">
               </div>
               <div class="info-list">
                 <div class="name">
@@ -17,9 +17,9 @@
                 </div>
                 <div class="status">
                   <span>现居住：{{baseInfo.address}}</span>
-                  <span>{{baseInfo.workYear}}年工作经验</span>
+                  <span v-if="baseInfo.workTime">{{baseInfo.workTime}}年工作经验</span>
                   <span>{{baseInfo.sex==1?'男':'女'}}</span>
-                  <span>11岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
+                  <span v-if="baseInfo.age">{{baseInfo.age}}岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
                   <span>{{baseInfo.jobStatusName}}</span>
                 </div>
                 <div class="concat">
@@ -32,9 +32,9 @@
                   
                 </div>
               </div>
-              <div class="more-info">
-                <span>户口/国籍：{{baseInfo.nativePlaceName}}</span>
-                <span>婚姻状态：{{baseInfo.marriageStatusName}}</span>
+              <div class="more-info" v-if="baseInfo.nativePlaceName || baseInfo.marriageStatusName">
+                <span v-if="baseInfo.nativePlaceName">户口/国籍：{{baseInfo.nativePlaceName}}</span>
+                <span v-if="baseInfo.marriageStatusName">婚姻状态：{{baseInfo.marriageStatusName}}</span>
               </div>
             </div>
           </div>

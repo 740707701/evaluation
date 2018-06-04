@@ -34,7 +34,7 @@
             </el-badge>
             <el-dropdown @command="dropdownEvent">
               <el-button class="avatar el-dropdown-link">
-                <img src="../assets/images/demo/02.jpg" alt="">
+                <img :src="userInfo.avatar" alt="">
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="personalcenter">我的测评
@@ -79,6 +79,7 @@ export default {
     // }, 等同于下面的写法
     ...mapState({
       isLogin: state => state.isLogin,
+      userInfo: state => state.userInfo,
       showLoginPage: state => state.showLoginPage
     })
   },
@@ -222,6 +223,7 @@ export default {
           height: 30px;
           border-radius: 30px;
           margin-top: 15px;
+          background-color: #eaeaea;
         }
       }
       .avatar:hover,

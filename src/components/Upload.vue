@@ -15,7 +15,11 @@ export default {
        file: '',
      }
    },
-   props: ["uploadType"],
+   props: ["uploadType", "imgUrl"],
+   created(){
+     console.log(this.imgUrl)
+     this.avatar = this.imgUrl
+   },
    methods: {
      changeImage: function(e){
       let file = e.target.files[0];
@@ -37,8 +41,12 @@ export default {
         .then(res => {
           console.log(res)
           this.file = '';
-          let url = res.data.data;
-          this.$emit("upload", url );
+          let data = res.data.data;
+          this.$emit("upload", data );
+           this.$message({
+              type: "success",
+              message: "上传成功！"
+            })
         }).catch(err => {
           console.log(err)
           if(err.data.msg){

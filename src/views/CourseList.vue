@@ -8,7 +8,7 @@
               <el-tab-pane label="专业选择" name="first">
                 <ul class="item">
                   <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
-                    <img :src="item.pic?item.pic:require('../assets/images/demo/06.jpg')" alt="">
+                    <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
                       <div class="gray">
@@ -26,7 +26,7 @@
               <el-tab-pane label="自我认知" name="second">
                 <ul class="item">
                   <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
-                    <img :src="item.pic?item.pic:require('../assets/images/demo/05.jpg')" alt="">
+                    <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
                       <div class="gray">
@@ -44,7 +44,7 @@
               <el-tab-pane label="职业形象与风格" name="third">
                 <ul class="item">
                   <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
-                    <img :src="item.pic?item.pic:require('../assets/images/demo/04.jpg')" alt="">
+                    <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
                       <div class="gray">
@@ -62,7 +62,7 @@
               <el-tab-pane label="岗位分类" name="fourth">
                 <ul class="item">
                   <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
-                    <img :src="item.pic?item.pic:require('../assets/images/demo/03.jpg')" alt="">
+                    <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
                       <div class="gray">
@@ -88,7 +88,7 @@
             <ul class="item-box">
               <li v-for="item of hotList" :key="item.id" @click="toDetail(item.id)">
                   <div class="item">
-                    <img :src="item.pic?item.pic:require('../assets/images/demo/03.jpg')" alt="">
+                    <img :src="item.picAll" alt="">
                     <div class="item-center">
                       <p class="item-title">{{item.cepingName}}</p>
                       <p class="gray">难度：{{item.cepingLevel}}</p>
@@ -160,7 +160,12 @@ export default {
       })
     },
     toDetail: function(id) {
-      this.$router.push({ name: `coursedetail`, params: { id: id } });
+      if(this.$store.state.isLogin){
+        this.$router.push({ name: `coursedetail`, params: { id: id } });
+      }else {
+        this.$store.commit("setShowLoginPage", true);
+        this.$router.push({ path: '/' , query: {redirect: '/coursedetail/' + id}})
+      }
     },
     tabsClick: function(tab, event) {
       this.tabIndex = Number(tab.index)

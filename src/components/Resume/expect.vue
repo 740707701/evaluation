@@ -18,7 +18,7 @@
           </li>
           <li>
             <span class="item">
-              <span class="name">职能/职位： </span>{{expectInfo.expectPositionNmae}}
+              <span class="name">职能/职位： </span>{{expectInfo.expectPositionName}}
             </span>
             <span class="item">
               <span class="name">工作类型：  </span>{{expectInfo.expectWorkTypeName}}
@@ -207,8 +207,16 @@ export default {
       this.expect.expectPlaceList = e;
     },
     editJobIntension: function() {
-      this.showJobIntensionEdit = true;
-      this.expect = this.expectInfo;
+      if(!this.baseParams.resumeId){
+        this.$message({
+          type: "error",
+          message: "请先完善简历基本信息！"
+        })
+        return
+      }else {
+        this.showJobIntensionEdit = true;
+        this.expect = this.expectInfo;
+      }
     },
     saveJobIntension: function(formName) {
       this.$refs[formName].validate(valid => {

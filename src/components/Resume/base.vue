@@ -7,8 +7,8 @@
         <span>基本信息</span>
       </div>
       <div class="base-content">
-        <div class="avatar">
-          <img :src="base.avatar" alt="">
+        <div class="avatar" >
+          <img :src="baseInfo.headPicAll" >
         </div>
         <div class="info-list">
           <div class="name">
@@ -17,7 +17,7 @@
           </div>
           <div class="status">
             <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>
-            <span v-if="baseInfo.workYear">{{baseInfo.workYear}}年工作经验</span>
+            <span v-if="baseInfo.workTime">{{baseInfo.workTime}}年工作经验</span>
             <span v-if="baseInfo.sex">{{baseInfo.sex==1?'男':'女'}}</span>
             <span v-if="baseInfo.birth">{{baseInfo.age}}岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
             <span>{{baseInfo.jobStatusName}}</span>
@@ -51,7 +51,7 @@
         <span>基本信息</span>
       </div>
       <div class="base-content">
-        <upload :uploadType="`resume_head`"  @upload="getImgUrl"></upload>
+        <upload :uploadType="`resume_head`" :imgUrl="imgUrl" @upload="getImgUrl"></upload>
         <!-- <div class="avatar edit-avatar">
           <input type="file" class="input-file" name="avatar" ref="avatarInput"
           @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
@@ -173,6 +173,7 @@ export default {
       showAddressMsg: false,
 
       base: {},
+      imgUrl: '',
       showMoreBase: false,
       showBaseInfoEdit: false,
       cascaderProp: {
@@ -274,6 +275,11 @@ export default {
     let userInfo = JSON.parse(localStorage.getItem("userInfo"))
     this.phone = userInfo.mobile
   },
+  updated(){
+    // console.log(this.baseInfo.headPicAll)
+    this.imgUrl = this.baseInfo.headPicAll
+
+  },
   methods: {
     /*
     changeImage: function(e){
@@ -369,9 +375,9 @@ export default {
       this.showBaseInfoEdit = false;
       this.$refs[formName].resetFields();
     },
-    getImgUrl: function(url){
-      console.log('url',url)
-      this.base.avatar = url
+    getImgUrl: function(data){
+      this.base.headPicAll = data.rootPath + data.headPic;
+      this.base.headPic = data.headPic;
     },
   },
   components: {

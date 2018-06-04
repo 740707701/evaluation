@@ -6,7 +6,7 @@
     </div>
     <div class="container">
       <div class="intro-box">
-        <img src="../assets/images/demo/06.jpg" alt="">
+        <img :src="detail.picAll" alt="">
         <div class="intro-top">
           <div class="intro-title">
             <p class="title">{{detail.cepingName}}</p>
@@ -74,8 +74,7 @@ export default {
     toCaichu: function(){
       let data = {
         cepingId: this.$route.params.id,
-        operator: 'cc',
-        serialno: this.detail.caichuCode || 'CEWFMIPT8O5ZW5GR5X'
+        serialno: this.detail.caichuCode
       }
       this.$store.dispatch('TOCAICHU', data).then(res => {
         console.log(res)
