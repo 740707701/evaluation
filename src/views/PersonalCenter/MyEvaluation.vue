@@ -3,38 +3,31 @@
     <el-tabs v-model="activeName" @tab-click="tabsClick">
       <el-tab-pane label="我的测评" name="first">
         <div class="completed">
-          <p class="tag">时至今日，{{userInfo.userName?userInfo.userName: userInfo.userNum}}共测评了21份</p>
-          <!-- <div v-for="finish in finishedList" :key="finish.cepingId">
-            <div v-for="item in finish" :key="item.id">
-                <div>{{item}}<br><br><br><br><br><br><br><br></div>
-            </div>
-          </div> -->
-
-
-          <!-- <div class="item-list">
+          <p class="tag">时至今日，{{userInfo.userName?userInfo.userName: userInfo.userNum}}共测评了{{finishCount || 0}}份</p>
+          <div class="item-list" v-for="finish in finishedList" :key="finish.keyTime">
             <div class="date-box">
-              <div class="day">{{item.cepingTime}}</div>
-              <div class="year">{{item.cepingTime}}</div>
+              <div class="day">{{finish.keyTime.slice(4,6)}}</div>
+              <div class="year">{{finish.keyTime.slice(0,4)}}</div>
             </div>
-            <ul class="item-row">
-              <li v-for="course in finish[index]" :key="course.cepingId">
-                <img :src="course.baseInfo.pic" alt="">
+            <div class="item-row">
+              <div class="item" v-for="item in finish.applyList" :key="item.cepingSerialno">
+                <img :src="item.baseInfo.pic" alt="">
                 <div class="mask">
                   <div class="preview">
                     <div class="circle">
-                      <img :src="course.baseInfo.pic" alt="">
+                      <img :src="item.baseInfo.pic" alt="">
                     </div>
-                    <router-link target="_blank" :to="course.cepingReportPath">
+                    <a class="preview-text" :href="item.cepingReportPath" target="_blank">
                       <div class="title">点击预览</div>
-                    </router-link>
+                    </a>
                   </div>
                 </div>
-              </li>
-            </ul>
+              </div>
+            </div>
             <div class="page-box" @click="next()">
               <i class="el-icon-arrow-right"></i>
             </div>
-          </div> -->
+          </div>
         </div>
       </el-tab-pane>
       <el-tab-pane label="未完成测评" name="second">
@@ -50,7 +43,7 @@
           </el-dropdown>
           <div class="course-list">
             <el-row :gutter="20">
-              <el-col :span="6" v-for="course in unfinishedList" :key="course.cepingId" >
+              <el-col :span="6" v-for="course in unfinishedList" :key="course.cepingSerialno" >
                 <div class="course-box">
                   <img :src="course.baseInfo.pic" alt="">
                   <div class="course-info">
@@ -112,6 +105,7 @@ export default {
           name: '岗位分类'
         }
       ],
+      finishCount: '',
       finishedList: [],
       unfinishedList: []
       
@@ -139,7 +133,13 @@ export default {
     getFinished: function(){
       this.$store.dispatch('FINISHED').then(res => {
         this.finishedList = res.data
-        console.log(this.finishedList)
+        let list = []
+        for(var item of this.finishedList){
+          for(var key of item.applyList){
+            list.push(key)
+          }
+        }
+        this.finishCount = list.length
       }).catch(err => {
         if (err.data.msg) {
           this.$message({
@@ -161,9 +161,9 @@ export default {
       this.$store.dispatch('UNFINISHED', params ).then(res => {
         this.unfinishedList = res.data
         for(var item of this.unfinishedList){
-          if(item.cepingLevel == "初级"){
+          if(item.baseInfo.cepingLevel == "初级"){
             item.rate = 1
-          }else if(item.cepingLevel == "中级"){
+          }else if(item.baseInfo.cepingLevel == "中级"){
             item.rate = 2.5
           }else {
             item.rate = 5
@@ -197,12 +197,12 @@ export default {
       });
     },
     toEvaluation: function(id) {
-      alert(id);
-      // this.router.push('/')
+      this.$router.push({
+        name: `evaluation`,
+        params: { id: id }
+      });
     },
-    next: function(){
-
-    }
+    next: function(){ }
   },
   components: {}
 };
@@ -220,6 +220,7 @@ export default {
     .item-list {
       width: 100%;
       height: 140px;
+      padding-top: 10px;
       border-bottom: 1px solid @main-color-border;
       .date-box {
         float: left;
@@ -236,14 +237,15 @@ export default {
         }
         .year {
           font-size: 14px;
-          line-height: 30px;
+          line-height: 40px;
         }
       }
       .item-row {
         width: 830px;
-        // overflow: hidden;
+        height: 120px;
+        overflow: hidden;
         display: inline-block;
-        li {
+        .item {
           float: left;
           width: 156px;
           margin-left: 10px;
@@ -288,10 +290,14 @@ export default {
                 padding-top: 25px;
                 text-align: center;
               }
+              .preview-text {
+                width: 100%;
+                display: inline-block;
+              }
             }
           }
         }
-        li:hover{
+        .item:hover{
           .mask {
             display: inline-block;
           }
@@ -304,7 +310,8 @@ export default {
         line-height: 105px;
         text-align: center;
         border-radius: 4px;
-        border: 1px solid red;
+        cursor: pointer;
+        border: 1px solid @main-color-border;
         margin-top: 7px;
         i {
           width: 30px;

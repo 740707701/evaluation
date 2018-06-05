@@ -18,6 +18,7 @@ export default {
 
     //立即购买
     cepingBuy: 'ceping/purchase',
+    cepingFree: 'ceping/freepurchase',
     //测评完成之后记录测评报告
     seeReport: 'ceping/recordreport',
     //进入测试

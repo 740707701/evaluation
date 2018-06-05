@@ -9,6 +9,7 @@ const FINISHED = 'FINISHED'
 const UNFINISHED = 'UNFINISHED'
 const TOCAICHU = 'TOCAICHU'
 const CEPINGBUY = 'CEPINGBUY'
+const CEPINGFREE = 'CEPINGFREE'
 const RECORDREPORT = 'RECORDREPORT'
 
 export default {
@@ -20,6 +21,7 @@ export default {
     unfinished: [],
     tocaichu: {},
     cepingbuy: {},
+    cepingfree: {},
     report: {}
   },
   mutations: {
@@ -79,6 +81,7 @@ export default {
           target: 'tocaichu',
           data: res.data
         })
+        return res
       })
     },
     [CEPINGBUY]({ commit }, data) {
@@ -87,6 +90,16 @@ export default {
           target: 'cepingbuy',
           data: res.data
         })
+        return res
+      })
+    },
+    [CEPINGFREE]({ commit }, data) {
+      return api.post(config.url.cepingFree, data).then(res => {
+        commit('EVALUATION_SET', {
+          target: 'cepingfree',
+          data: res.data
+        })
+        return res
       })
     },
     [RECORDREPORT]({ commit }, data) {
@@ -95,6 +108,7 @@ export default {
           target: 'report',
           data: res.data
         })
+        return res
       })
     }
   },

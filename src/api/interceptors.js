@@ -12,8 +12,8 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 //http request 拦截器
 axios.interceptors.request.use(config => {
   if (store.getters.getToken) {
-    // config.headers.Authorization = `${store.getters.getToken}`
-    config.headers.Authorization = `aaa`
+    config.headers.Authorization = `${store.getters.getToken}`
+      // config.headers.Authorization = `aaa`
   }
   return config
 }, err => {

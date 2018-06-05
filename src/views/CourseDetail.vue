@@ -8,24 +8,27 @@
         </router-link>
       </div>
       <div class="content">
-        <img :src="detail.picAll" alt="">
+        <img :src="detail.baseInfo.picAll" alt="">
         <div class="info-box">
-          <p class="title">{{detail.cepingName}}</p>
-          <p class="gray">适应人群：{{detail.peopleScope}}</p>
-          <p class="gray">难度：{{detail.cepingLevel}}</p>
-          <p class="gray">数量：{{detail.num}}题</p>
-          <!-- <p class="red" v-if="detail.price>0">价格： ¥{{detail.price}}</p> -->
-          <!-- <div class="btn-box" v-if="detail.price>0">
+          <p class="title">{{detail.baseInfo.cepingName}}</p>
+          <p class="gray">适应人群：{{detail.baseInfo.peopleScope}}</p>
+          <p class="gray">难度：{{detail.baseInfo.cepingLevel}}</p>
+          <p class="gray">数量：{{detail.baseInfo.num}}题</p>
+          <!-- <p class="red" v-if="detail.baseInfo.price>0">价格： ¥{{detail.baseInfo.price}}</p> -->
+          <!-- <div class="btn-box" v-if="detail.baseInfo.price>0">
             <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button>
-            <i class="iconfont icon-cart"></i>
+            <i class="iconfont icon-cart" @click="cart"></i>
           </div> -->
+          <div class="btn-box" v-if="!detail.showFree">
+            <el-button size="small" class="buy-btn eva-btn" @click="buy()">立即购买</el-button>
+          </div>
           <div class="btn-box">
-            <el-button size="small" class="buy-btn eva-btn" @click="toEvaluation()">进入测评</el-button>
+            <el-button size="small" class="buy-btn eva-btn" @click="getFreeSerialNo()">进入测评</el-button>
           </div>
         </div>
         <div class="intro">
           <p class="title">简介：</p>
-          <div class="intro-text">{{detail.remark}}</div>
+          <div class="intro-text">{{detail.baseInfo.remark}}</div>
         </div>
         <div class="hot">热门测评</div>
         <table class="table">
@@ -44,8 +47,13 @@
             <img src="../assets/images/buy_bg.png" alt="">
           </div>
           <div class="content">
-            <p class="title">付款成功</p>
-            <p class="gray">序列号：2375869784856869</p>
+            <!-- <p class="title">付款成功</p> -->
+            <div class="gray">序列号：{{serialNo}} 
+              <i class="el-icon-document copy-icon"
+                v-clipboard:copy="serialNo"
+                v-clipboard:success="onCopy"
+                v-clipboard:error="onError"></i>
+            </div>
             <el-button round size="small" class="evaluation-btn" @click="toEvaluation()">进入测评</el-button>
             <div class="home-btn">
               <router-link to="/">返回首页</router-link>
@@ -63,7 +71,8 @@ export default {
     return {
       showDialog: false,
       detail: {},
-      hotList: []
+      hotList: [],
+      serialNo: '',
     };
   },
   created: function() {
@@ -120,13 +129,17 @@ export default {
     },
     //立即购买
     buy: function(){
+      return;
       let data = {
-        cepingId: this.$route.params.id
+        cepingId: this.$route.params.id,
+        num: "1"
       }
       this.$store.dispatch('CEPINGBUY', data).then(res => {
         console.log(res)
-        this.showDialog = true
+        this.serialNo = res.data.data.serialNo;
+        this.showDialog = true;
       }).catch(err => {
+        console.log(err)
         if(err.data.msg){
             this.$message({
             type: "error",
@@ -135,11 +148,48 @@ export default {
           }else{
             this.$message({
               type: "error",
-              message: "获取测评详情失败"
+              message: "获取序列号失败，请稍后重试！"
             })
           }
       })
-    }
+    },
+    //获取免费序列号
+    getFreeSerialNo: function(){
+      let data = {
+        cepingId: this.$route.params.id,
+        num: "1"
+      }
+      this.$store.dispatch('CEPINGFREE', data).then(res => {
+        console.log(res)
+        this.serialNo = res.data.data.serialNo;
+        this.showDialog = true;
+      }).catch(err => {
+        console.log(err)
+        if(err.data.msg){
+            this.$message({
+            type: "error",
+            message: err.data.msg
+          })
+          }else{
+            this.$message({
+              type: "error",
+              message: "获取序列号失败，请稍后重试！"
+            })
+          }
+      })
+    },
+    onCopy: function (e) {
+      this.$message({
+        message: "复制序列号成功",
+        type: "success"
+      });
+    },
+    onError: function (e) {
+      this.$message({
+        message: "复制序列号失败",
+        type: "error"
+      });
+    },
   },
   components: {}
 };
@@ -168,6 +218,14 @@ export default {
     }
     .content {
       padding: 20px;
+      .copy-icon {
+        margin-left: 10px;
+        margin-top: 12px;
+        cursor: pointer;
+      }
+      .copy-icon:hover {
+        color: @main-color-blue;
+      }
       img {
         float: left;
         width: 300px;
@@ -198,7 +256,9 @@ export default {
             height: 30px;
             color: #fff;
             margin: 0;
-            background-color: #db3523;
+            // background-color: #db3523;
+            background-color: #ddd;
+            cursor: no-drop;
             border-radius: 4px 0 0 4px;
             box-shadow: 0 0 0;
             border: none;

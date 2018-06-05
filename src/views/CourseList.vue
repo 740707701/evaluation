@@ -15,7 +15,7 @@
                         <span>适应：{{item.peopleScope}}</span>
                         <span>难度： {{item.cepingLevel}}</span>
                       </div>
-                      <div class="price">¥ {{item.price}}</div>
+                      <div class="price" v-if="item.price">¥ {{item.price}}</div>
                     </div>
                     <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
@@ -33,7 +33,7 @@
                         <span>适应：{{item.peopleScope}}</span>
                         <span>难度： {{item.cepingLevel}}</span>
                       </div>
-                      <div class="price">¥ {{item.price}}</div>
+                      <div class="price" v-if="item.price">¥ {{item.price}}</div>
                     </div>
                     <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
@@ -51,7 +51,7 @@
                         <span>适应：{{item.peopleScope}}</span>
                         <span>难度： {{item.cepingLevel}}</span>
                       </div>
-                      <div class="price">¥ {{item.price}}</div>
+                      <div class="price" item.price>¥ {{item.price}}</div>
                     </div>
                     <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
@@ -69,7 +69,7 @@
                         <span>适应：{{item.peopleScope}}</span>
                         <span>难度： {{item.cepingLevel}}</span>
                       </div>
-                      <div class="price">¥ {{item.price}}</div>
+                      <div class="price" item.price>¥ {{item.price}}</div>
                     </div>
                     <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
@@ -93,7 +93,7 @@
                       <p class="item-title">{{item.cepingName}}</p>
                       <p class="gray">难度：{{item.cepingLevel}}</p>
                     </div>
-                    <el-button round size="small" class="price-btn">¥ {{item.price}}</el-button>
+                    <el-button round size="small" class="price-btn" item.price>¥ {{item.price}}</el-button>
                   </div>
               </li>
             </ul>

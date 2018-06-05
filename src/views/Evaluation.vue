@@ -6,26 +6,27 @@
     </div>
     <div class="container">
       <div class="intro-box">
-        <img :src="detail.picAll" alt="">
+        <img :src="detail.baseInfo.picAll" alt="">
         <div class="intro-top">
           <div class="intro-title">
-            <p class="title">{{detail.cepingName}}</p>
+            <p class="title">{{detail.baseInfo.cepingName}}</p>
             <ul class="tab">
-              <li><span class="name">难度：</span><span class="value">{{detail.cepingLevel}}</span></li>
-              <!-- <li><span class="name">时长：</span><span class="value">{{detail.timeLength}}</span></li> -->
-              <li><span class="name">学习人数：</span><span class="value">{{detail.browseCount || 0}}</span></li>
-              <li><span class="name">题目数量：</span><span class="value">{{detail.num || 0}}</span></li>
-              <li><span class="name">适应人群：</span><span class="value">{{detail.peopleScope}}</span></li>
+              <li><span class="name">难度：</span><span class="value">{{detail.baseInfo.cepingLevel}}</span></li>
+              <!-- <li><span class="name">时长：</span><span class="value">{{detail.baseInfo.timeLength}}</span></li> -->
+              <li><span class="name">学习人数：</span><span class="value">{{detail.baseInfo.browseCount || 0}}</span></li>
+              <li><span class="name">题目数量：</span><span class="value">{{detail.baseInfo.num || 0}}</span></li>
+              <li><span class="name">适应人群：</span><span class="value">{{detail.baseInfo.peopleScope}}</span></li>
             </ul>
           </div>
           <div class="intro-text">
             <p>简介：</p>
-            <div class="gray">{{detail.remark}}</div>
+            <div class="gray">{{detail.baseInfo.remark}}</div>
           </div>
         </div>
       </div>
       <div class="caichu-box">
-        <iframe width="100%" height="500" id="caichu" name="caichu" frameborder="0" scrolling="no" :src="`http://www.apesk.com/h/f.asp?u=5727234&l=${detail.caichuCode}`"></iframe>
+        <!-- <iframe width="100%" height="500" id="caichu" name="iframe" frameborder="0" scrolling="no" :src="`http://www.apesk.com/h/f.asp?u=5727234&l=${detail.baseInfo.caichuCode}`"></iframe> -->
+        <iframe width="100%" height="500" id="caichu" name="iframe" frameborder="0" scrolling="no" :src="`http://101.132.166.37:8080/cepingweb/toCaichuNotice`"></iframe>
       </div>
     </div>
   </div>
@@ -40,15 +41,9 @@ export default {
       detail: {}
     };
   },
-  computed: {
-    // ...mapState({
-    //   evaluationInfo: state => state.evaluationInfo
-    // })
-  },
+  computed: {},
   created: function(){
     this.evaluationDetail()
-    // console.log('evaluationInfo',this.evaluationInfo)
-    
   },
   methods: {
      evaluationDetail: function(){
@@ -74,7 +69,7 @@ export default {
     toCaichu: function(){
       let data = {
         cepingId: this.$route.params.id,
-        serialno: this.detail.caichuCode
+        serialno: this.detail.baseInfo.caichuCode
       }
       this.$store.dispatch('TOCAICHU', data).then(res => {
         console.log(res)
@@ -98,12 +93,11 @@ export default {
     headerNav
   },
   mounted(){
-    let btn = window.frames["caichu"]
-    console.log('fra',btn)
-    let id = document.getElementById('caichu').contentWindow
-    console.log('id', id)
-    let button =  document.getElementById('button')
-    console.log(button)
+   var iframe = document.getElementById("caichu"); //获取iframe标签
+    var iwindow = iframe.contentWindow; //获取iframe的window对象
+    var idoc = iwindow.document; //获取iframe的document对象
+    console.log(idoc.documentElement); //获取iframe的html
+    console.log("body",idoc.body);
   }
 }
 </script>
