@@ -8,7 +8,7 @@
       </div>
       <div class="base-content">
         <div class="avatar" >
-          <img :src="baseInfo.headPicAll" >
+          <img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" >
         </div>
         <div class="info-list">
           <div class="name">

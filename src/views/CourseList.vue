@@ -104,7 +104,7 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
   name: "courselist",
   data() {
@@ -112,64 +112,70 @@ export default {
       activeName: "first",
       tabIndex: 0,
       evaluationList: [],
-      hotList: [],
+      hotList: []
     };
   },
-  computed: { },
-  created: function(){
+  computed: {},
+  created: function() {
     let isLogin = decodeURIComponent(this.$route.query.isLogin);
-    console.log('isLogin', isLogin)
-    this.getEvaluationList(0)
-    this.getHotList ()
+    this.getEvaluationList(0);
+    this.getHotList();
   },
   methods: {
-    getEvaluationList: function(index){
-      this.$store.dispatch('EVALUATION_LIST', {cepingItem: index})
-      .then( res => {
-        this.evaluationList = res.data
-      })
-      .catch(err => {
-        if(err.data.msg){
-          this.$message({
-            type: "error",
-            message: err.data.msg
-          })
-        }else{
-          this.$message({
-            type: "error",
-            message: "获取数据失败"
-          })
-        }
-      })
-    },
-    getHotList: function(){
-      this.$store.dispatch('HOT_LIST', {size: 10}).then(res => {
-        this.hotList = res.data
-      }).catch( err => {
-        if(err.data.msg){
+    getEvaluationList: function(index) {
+      this.$store
+        .dispatch("EVALUATION_LIST", { cepingItem: index })
+        .then(res => {
+          this.evaluationList = res.data;
+        })
+        .catch(err => {
+          if (err.data.msg) {
             this.$message({
-            type: "error",
-            message: err.data.msg
-          })
-          }else{
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取数据失败"
+            });
+          }
+        });
+    },
+    getHotList: function() {
+      this.$store
+        .dispatch("HOT_LIST", { size: 10 })
+        .then(res => {
+          this.hotList = res.data;
+        })
+        .catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
             this.$message({
               type: "error",
               message: "获取热门测评失败"
-            })
+            });
           }
-      })
+        });
     },
     toDetail: function(id) {
-      if(this.$store.state.isLogin){
+      if (this.$store.state.isLogin) {
         this.$router.push({ name: `coursedetail`, params: { id: id } });
-      }else {
+      } else {
         this.$store.commit("setShowLoginPage", true);
-        this.$router.push({ path: '/' , query: {redirect: '/coursedetail/' + id}})
+        this.$router.push({
+          path: "/",
+          query: { redirect: "/coursedetail/" + id }
+        });
       }
     },
     tabsClick: function(tab, event) {
-      this.tabIndex = Number(tab.index)
-      this.getEvaluationList(this.tabIndex)
+      this.tabIndex = Number(tab.index);
+      this.getEvaluationList(this.tabIndex);
     }
   },
   components: {}
@@ -187,10 +193,11 @@ export default {
   }
   .container {
     height: calc(100% - 30px);
-    .el-row, .el-col {
+    .el-row,
+    .el-col {
       height: 100%;
     }
-    
+
     .left-list {
       background-color: #fff;
       height: calc(100% - 30px);
@@ -242,7 +249,6 @@ export default {
               display: -webkit-box;
               -webkit-box-orient: vertical;
               -webkit-line-clamp: 2;
-
             }
           }
         }

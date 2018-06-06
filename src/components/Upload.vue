@@ -1,8 +1,11 @@
 <template>
   <div class="avatar">
-    <input type="file" class="input-file" name="avatar" ref="avatarInput"
-    @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
-    <img :src="avatar" alt="" >
+    <div @mouseover="showBg=true" @mouseleave="showBg=false">
+      <div class="bg" v-if="showBg" >点击上传</div>
+      <input type="file" class="input-file" name="avatar" ref="avatarInput"
+      @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
+      <img :src="avatar?avatar:require('../assets/images/man.png')" alt="" >
+    </div>
     <div class="text" @click="upload" v-if="file">确定上传</div>
   </div>
 </template>
@@ -13,6 +16,7 @@ export default {
      return{
        avatar: '',
        file: '',
+       showBg: false
      }
    },
    props: ["uploadType", "imgUrl"],
@@ -83,6 +87,19 @@ export default {
       width: 80px;
       height: 80px;
       background-color: #eaeaea;
+    }
+    .bg {
+      width: 100%;
+      height: 100%;
+      line-height: 80px;
+      color: #fff;
+      background-color: rgba(0,0,0,0.3);
+      text-align: center;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+
     }
   }
 </style>

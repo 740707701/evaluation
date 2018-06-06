@@ -573,11 +573,11 @@ export default {
             float: left;
             width: 85px;
             height: 85px;
-            background-color: #eaeaea;
+            // background-color: #eaeaea;
             img {
               width: 85px;
               height: 85px;
-              background-color: #eaeaea;
+              // background-color: #eaeaea;
               border: none;
               display: inline-block;
             }

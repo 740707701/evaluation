@@ -7,9 +7,9 @@
         </div>
         <ul class="nav-center">
           <li @click="changeLogin(1, '/')" v-bind:class="{'active':$route.path=='/'}">职业测评</li>
-          <li @click="changeLogin(2, '/careerplan')" v-bind:class="{'active':$route.path=='/careerplan'}">大学规划与管理</li>
+          <!-- <li @click="changeLogin(2, '/careerplan')" v-bind:class="{'active':$route.path=='/careerplan'}">大学规划与管理</li> -->
           <li @click="changeLogin(3, '/resume')" v-bind:class="{'active':$route.path=='/resume'}">我的简历</li>
-          <li @click="changeLogin(4, '/industryintro')" v-bind:class="{'active':$route.path=='/industryintro'}">书籍库</li>
+          <!-- <li @click="changeLogin(4, '/industryintro')" v-bind:class="{'active':$route.path=='/industryintro'}">书籍库</li> -->
         </ul>
         <div class="nav-right">
           <!-- <router-link to="cartDetail" v-if="isLogin"> 

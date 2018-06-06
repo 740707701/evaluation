@@ -7,7 +7,7 @@
           <span>返回</span>
         </router-link>
       </div>
-      <div class="content">
+      <div class="content" v-if="detail.baseInfo">
         <img :src="detail.baseInfo.picAll" alt="">
         <div class="info-box">
           <p class="title">{{detail.baseInfo.cepingName}}</p>
@@ -20,9 +20,9 @@
             <i class="iconfont icon-cart" @click="cart"></i>
           </div> -->
           <div class="btn-box" v-if="!detail.showFree">
-            <el-button size="small" class="buy-btn eva-btn" @click="buy()">立即购买</el-button>
+            <el-button size="small" class="buy-btn eva-btn disabled" @click="buy()">立即购买</el-button>
           </div>
-          <div class="btn-box">
+          <div class="btn-box" v-if="detail.showFree">
             <el-button size="small" class="buy-btn eva-btn" @click="getFreeSerialNo()">进入测评</el-button>
           </div>
         </div>
@@ -161,7 +161,7 @@ export default {
       }
       this.$store.dispatch('CEPINGFREE', data).then(res => {
         console.log(res)
-        this.serialNo = res.data.data.serialNo;
+        this.serialNo = res.data.data;
         this.showDialog = true;
       }).catch(err => {
         console.log(err)
@@ -248,6 +248,10 @@ export default {
         .red {
           color: @main-color-red;
         }
+        .disabled {
+          background-color: #ddd!important;
+          cursor: no-drop!important;
+        }
         .btn-box {
           margin-top: 10px;
           display: inline-block;
@@ -256,9 +260,7 @@ export default {
             height: 30px;
             color: #fff;
             margin: 0;
-            // background-color: #db3523;
-            background-color: #ddd;
-            cursor: no-drop;
+            background-color: #db3523;
             border-radius: 4px 0 0 4px;
             box-shadow: 0 0 0;
             border: none;
