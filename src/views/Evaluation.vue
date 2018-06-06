@@ -4,7 +4,7 @@
     <div class="banner-bg">
       <img src="../assets/images/bg_01.png" alt="">
     </div>
-    <div class="container">
+    <div class="container" v-if="detail.baseInfo">
       <div class="intro-box">
         <img :src="detail.baseInfo.picAll" alt="">
         <div class="intro-top">
@@ -25,9 +25,20 @@
         </div>
       </div>
       <div class="caichu-box">
-        <!-- <iframe width="100%" height="500" id="caichu" name="iframe" frameborder="0" scrolling="no" :src="`http://www.apesk.com/h/f.asp?u=5727234&l=${detail.baseInfo.caichuCode}`"></iframe> -->
-        <iframe width="100%" height="500" id="caichu" name="iframe" frameborder="0" scrolling="no" :src="`http://101.132.166.37:8080/cepingweb/toCaichuNotice`"></iframe>
+        <router-view></router-view>
+        
       </div>
+
+      <!-- <div class="caichu-box">
+        <input type="text" placeholder="序列号">
+        <input type="text" placeholder="">
+        <a :href="`http://www.apesk.com/h/go_zy_dingzhi.asp?checkcode=&hruserid=&I=${detail.baseInfo.caichuCode}`">
+          <button >进入测试</button>
+        </a>
+      </div> -->
+      <!-- <div class="caichu-box" v-if="showIframe">
+        <iframe width="100%" height="500" id="caichu" name="iframe" frameborder="0" scrolling="no" :src="`http://www.apesk.com/h/f.asp?u=5727234&l=${detail.baseInfo.caichuCode}`"></iframe>
+      </div> -->
     </div>
   </div>
 </template>
@@ -38,7 +49,10 @@ export default {
   name: "evaluation",
   data() {
     return {
-      detail: {}
+      serialNumber: '',
+      detail: {},
+      caichu: {},
+      caichuRules: {}
     };
   },
   computed: {},
@@ -46,7 +60,7 @@ export default {
     this.evaluationDetail()
   },
   methods: {
-     evaluationDetail: function(){
+    evaluationDetail: function(){
       this.$store.dispatch('EVALUATION_DETAIL', {cepingId: this.$route.params.id})
       .then( res => {
         this.detail = res.data
@@ -66,6 +80,10 @@ export default {
         }
       })
     },
+    test: function(){
+      window.open('http://www.apesk.com/h/go_zy_dingzhi.asp?checkcode='+this.serialNumber+'&hruserid=18702192580&I='+detail.baseInfo.caichuCode)
+    },
+    /*
     toCaichu: function(){
       let data = {
         cepingId: this.$route.params.id,
@@ -88,17 +106,12 @@ export default {
         }
       })
     }
+    */
   },
   components: {
     headerNav
   },
-  mounted(){
-   var iframe = document.getElementById("caichu"); //获取iframe标签
-    var iwindow = iframe.contentWindow; //获取iframe的window对象
-    var idoc = iwindow.document; //获取iframe的document对象
-    console.log(idoc.documentElement); //获取iframe的html
-    console.log("body",idoc.body);
-  }
+  mounted(){}
 }
 </script>
 <style lang="less" scoped>
@@ -166,6 +179,7 @@ export default {
       background-color: #fff;
       border-radius: 10px;
       margin-top: 20px;
+      
     }
   }
 }
