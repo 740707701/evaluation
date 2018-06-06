@@ -1,6 +1,6 @@
 <template>
   <div class="forget">
-    <div class="forget-form" v-if="!showReset">
+    <div class="forget-form" v-show="!showReset">
       <h4>忘记密码</h4>
       <el-form :model="forgetForm" :rules="forgetRules" ref="forgetForm" label-width="0" class="demo-ruleForm">
         <el-form-item label="" prop="phone">
@@ -19,7 +19,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="reset-form" v-if="showReset">
+    <div class="reset-form" v-show="showReset">
       <h4>重置密码</h4>
       <el-form :model="resetForm" :rules="resetRules" ref="resetForm" label-width="0" class="demo-ruleForm">
         <el-form-item label="" prop="mobile">
