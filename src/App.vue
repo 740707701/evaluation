@@ -43,6 +43,8 @@ export default {
   //element-ui input边线
   .el-input__inner {
     border: 1px solid @main-color-border;
+    color: @main-color-text;
+    background-color: #fff;
   }
   .el-tabs__item.is-active,.el-tabs__item:hover {
     color: @main-color-blue;

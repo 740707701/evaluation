@@ -124,7 +124,13 @@ export default {
     toEvaluation: function() {
       this.$router.push({
         name: `evaluation`,
-        params: { id: this.$route.params.id }
+        params: {
+          id: this.$route.params.id, 
+          serialNo: this.serialNo
+        },
+        meta: {
+          
+        }
       });
     },
     //立即购买

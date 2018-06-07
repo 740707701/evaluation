@@ -19,8 +19,6 @@ import News from '../views/PersonalCenter/News.vue'
 import CareerPlan from '../views/CareerPlan.vue'
 import IndustryIntro from '../views/IndustryIntro.vue'
 import Agreement from '../views/Agreement.vue'
-import Caichu from '../views/Caichu.vue'
-import CaichuTest from '../views/CaichuTest.vue'
 
 Vue.use(VueRouter)
 
@@ -78,20 +76,9 @@ const routes = [{
     ]
   },
   {
-    path: '/evaluation/:id',
+    path: '/evaluation/:id/:serialNo',
     name: 'evaluation',
-    component: Evaluation,
-    children: [{
-        path: '/',
-        name: 'caichu',
-        component: Caichu
-      },
-      {
-        path: '/caichuTest/:caichuCode',
-        name: 'caichuTest',
-        component: CaichuTest
-      }
-    ]
+    component: Evaluation
   },
   {
     path: '/careerplan',

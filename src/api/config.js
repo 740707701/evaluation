@@ -22,7 +22,7 @@ export default {
     //测评完成之后记录测评报告
     seeReport: 'ceping/recordreport',
     //进入测试
-    tocaichu: 'ceping/tocaichu/{cepingId}/{operator}/{serialno}',
+    tocaichu: 'ceping/tocaichu/{cepingId}/{serialno}',
 
     //简历
     //基本信息
