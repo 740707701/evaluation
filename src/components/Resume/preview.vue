@@ -9,7 +9,7 @@
             </div>
             <div class="base-content">
               <div class="avatar">
-                <img :src="baseInfo.headPicAll" alt="">
+                <img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" alt="">
               </div>
               <div class="info-list">
                 <div class="name">

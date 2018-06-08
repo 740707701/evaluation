@@ -2,7 +2,7 @@
   <div class="industryintro-page">
     <headerNav></headerNav>
     <div class="container">
-      <p>行业与岗位介绍</p>
+      <p>书籍库</p>
 
     </div>
   </div>

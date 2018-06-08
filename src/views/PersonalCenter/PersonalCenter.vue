@@ -4,7 +4,7 @@
     <div class="container">
       <div class="personal-info">
         <img class="avatar" :src="userInfo.avatar?userInfo.avatar: '../../assets/images/demo/04.jpg'" alt="">
-          <el-container>
+          <el-container class="content">
             <el-aside width="150px">
               <div class="aside-box">
                 <ul class="info-text">
@@ -27,16 +27,24 @@
                     <router-link to="/news">消息通知</router-link>
                   </li>
                   <li>
+                    <span class="point" v-if="$route.name==`mycareerplan`"></span>
+                    <router-link to="/mycareerplan">职业规划</router-link>
+                  </li>
+                  <li>
+                    <span class="point" v-if="$route.name==`myindustryintro`"></span>
+                    <router-link to="/myindustryintro">书籍库</router-link>
+                  </li>
+                  <!-- <li>
                     <span class="point" v-if="$route.name==`order`"></span>
                     <router-link to="/order">我的订单</router-link>
                   </li>
                   <li>
                     <span class="point" v-if="$route.name==`statistics`"></span>
                     <router-link to="/statistics">我的统计</router-link>
-                  </li>
+                  </li> -->
                   <li>
                     <span class="point" v-if="$route.name==`setting`"></span>
-                    <router-link to="/setting">个人设置</router-link>
+                    <router-link to="/setting">个人资料</router-link>
                   </li>
                 </ul>
               </div>
@@ -73,6 +81,7 @@ export default {
 @import "../../assets/css/colors.less";
 .personalcenter-page {
   min-height: 100%;
+  height: 100%;
   background-color: @main-color-bg;
   padding-top: 60px;  
   padding-bottom: 25px;
@@ -82,11 +91,15 @@ export default {
     margin: 0 auto;
     padding-top: 10px;
     .personal-info {
-      // width: 100%;
-      // height: 100%;
+      width: 100%;
+      height: 100%;
+      .content {
+        height: calc(100% - 116px);
+      }
       .avatar {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
         margin-left: 20px;
         display: inline-block;
       }

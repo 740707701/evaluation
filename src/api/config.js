@@ -58,6 +58,8 @@ export default {
 
     //简历列表
     resumeList: 'resume/list',
+    //待修改简历列表
+    modifyList: 'resume/updatelist',
 
     //系统信息
     listMsg: '/message/list',

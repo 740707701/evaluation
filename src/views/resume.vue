@@ -24,7 +24,7 @@
                 <a href="#base">
                   <i class="iconfont icon-user"></i>
                   <span>基本信息</span>
-                  <i class="el-icon-check"></i>
+                  <i class="el-icon-check" v-if="baseInfo.address"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==1}" @click="tabIndex=1">
@@ -184,6 +184,7 @@ export default {
   computed: {},
   beforeCreate: function() {},
   created: function() {
+    this.resumeId = this.$route.params.resumeId
     this.getResumeInfo();
     this.getData();
   },
@@ -191,7 +192,6 @@ export default {
     //获取简历信息
     getResumeInfo: function() {
       let params = {
-        creator: this.creator,
         resumeId: this.resumeId
       };
       this.$store
@@ -269,8 +269,6 @@ export default {
     //预览
     preview: function() {
       this.showPreview = true;
-      //跳页面 预览
-      // this.$router.push('ResumePreview');
     },
     //HR小提示 前端搜索
     filterTag: function(value) {
@@ -572,11 +570,11 @@ export default {
           .avatar {
             float: left;
             width: 85px;
-            height: 85px;
+            height: 104px;
             // background-color: #eaeaea;
             img {
               width: 85px;
-              height: 85px;
+              height: 104px;
               // background-color: #eaeaea;
               border: none;
               display: inline-block;
@@ -593,7 +591,7 @@ export default {
             position: relative;
             .input-file {
               width: 85px;
-              height: 85px;
+              height: 104px;
               position: absolute;
               top: 0;
               left: 0;

@@ -3,7 +3,8 @@
     <el-tabs v-model="activeName" @tab-click="tabsClick">
       <el-tab-pane label="我的测评" name="first">
         <div class="completed">
-          <p class="tag">时至今日，{{userInfo.userName?userInfo.userName: userInfo.userNum}}共测评了{{finishCount || 0}}份</p>
+          <p class="nodata" v-if="!finishCount">还没有任何数据~</p>
+          <p class="tag" v-if="finishCount">时至今日，{{userInfo.userName?userInfo.userName: userInfo.userNum}}共测评了{{finishCount || 0}}份</p>
           <div class="item-list" v-for="finish in finishedList" :key="finish.keyTime">
             <div class="date-box">
               <div class="day">{{finish.keyTime.slice(4,6)}}</div>
@@ -32,8 +33,8 @@
       </el-tab-pane>
       <el-tab-pane label="未完成测评" name="second">
         <div class="unfinished">
-          <div class="range">范围选择：</div>
-          <el-dropdown>
+          <div class="range" v-if="unfinishedList.length">范围选择：</div>
+          <el-dropdown v-if="unfinishedList.length">
             <el-button type="default" class="dropdown-btn">{{range?range:'请选择'}}
               <i class="el-icon-arrow-down el-icon--right">
             </i></el-button>
@@ -41,7 +42,8 @@
               <el-dropdown-item v-for="range in rangeList" :key="range.id" @click.native="checkRange(range)">{{range.name}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <div class="course-list">
+          <p class="nodata" v-if="!unfinishedList.length">还没有任何数据~</p>
+          <div class="course-list" v-if="unfinishedList">
             <el-row :gutter="20">
               <el-col :span="6" v-for="course in unfinishedList" :key="course.cepingSerialno" >
                 <div class="course-box">
@@ -123,7 +125,7 @@ export default {
     },
     tabsClick: function(tab, event){
       let tabIndex = tab.index
-      console.log(tab)
+      // console.log(tab)
       if(tabIndex == 0){
         this.getFinished()
       }else if(tabIndex == 1){
@@ -169,7 +171,6 @@ export default {
             item.rate = 5
           }
         }
-          console.log('item',this.unfinishedList)
       }).catch(err => {
         if (err.data.msg) {
           this.$message({
@@ -213,7 +214,14 @@ export default {
   .el-tabs__nav {
     padding-left: 20px;
   }
+  .nodata {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+  }
   .completed {
+    padding: 10px;
     .tag {
       line-height: 30px;
     }

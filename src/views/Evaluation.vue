@@ -81,12 +81,12 @@ export default {
         if(err.data.msg){
           this.$message({
             type: 'error',
-            massage: err.data.msg
+            message: err.data.msg
           })
         }else {
           this.$message({
             type: 'error',
-            massage: '获取测评详情失败,请稍后重试。'
+            message: '获取测评详情失败,请稍后重试。'
           })
         }
       })
@@ -98,15 +98,16 @@ export default {
           serialno: this.serialNumber
         }
         this.$store.dispatch('TOCAICHU', data).then(res => {
+          this.test_name = res.data.data.test_name,
+          this.test_email = res.data.data.test_email
+          console.log('name',this.test_name, this.test_email)
           this.showCaichuBox = true;
-          this.test_name = res.data.test_name,
-          this.test_email = res.data.test_email
         }).catch(err => {
           console.log(err)
           if(err.data.msg){
             this.$message({
               type: 'error',
-              massage: err.data.msg
+              message: err.data.msg
             })
           }
         })

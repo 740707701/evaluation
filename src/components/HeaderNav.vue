@@ -3,7 +3,7 @@
     <el-header class="header">
       <nav class="navbar">
         <div class="nav-left">
-          <img src="../assets/images/demo/02.jpg" alt="" class="logo">
+          <img src="../assets/images/logo.svg" alt="" class="logo">
         </div>
         <ul class="nav-center">
           <li @click="changeLogin(1, '/')" v-bind:class="{'active':$route.path=='/'}">职业测评</li>
@@ -172,9 +172,8 @@ export default {
       float: left;
       margin-right: 30px;
       .logo {
-        width: 140px;
-        height: 48px;
-        margin-top: 6px;
+        width: 181px;
+        height: 60px;
       }
     }
     .nav-center {

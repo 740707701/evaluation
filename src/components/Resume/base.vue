@@ -18,7 +18,8 @@
           <div class="status">
             <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>
             <span v-if="baseInfo.workTime">{{baseInfo.workTime}}年工作经验</span>
-            <span v-if="baseInfo.sex">{{baseInfo.sex==1?'男':'女'}}</span>
+            <span v-if="baseInfo.sex==1">男</span>
+            <span v-if="baseInfo.sex==2">女</span>
             <span v-if="baseInfo.birth">{{baseInfo.age}}岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
             <span>{{baseInfo.jobStatusName}}</span>
           </div>

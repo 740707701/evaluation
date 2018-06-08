@@ -93,7 +93,7 @@ export default {
                 type: "success",
                 message: "注册成功"
               })
-              this.$emit("hideLogin");
+              this.$emit("showLogin")
             })
             .catch(err => {
               console.log(err);

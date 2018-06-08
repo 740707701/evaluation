@@ -51,7 +51,7 @@
                         <span>适应：{{item.peopleScope}}</span>
                         <span>难度： {{item.cepingLevel}}</span>
                       </div>
-                      <div class="price" item.price>¥ {{item.price}}</div>
+                      <div class="price" v-if="item.price">¥ {{item.price}}</div>
                     </div>
                     <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
@@ -69,7 +69,7 @@
                         <span>适应：{{item.peopleScope}}</span>
                         <span>难度： {{item.cepingLevel}}</span>
                       </div>
-                      <div class="price" item.price>¥ {{item.price}}</div>
+                      <div class="price" v-if="item.price">¥ {{item.price}}</div>
                     </div>
                     <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
@@ -211,9 +211,8 @@ export default {
           flex-wrap: wrap;
           justify-content: space-between;
           li {
-            order: 4;
             padding-bottom: 10px;
-            width: 160px;
+            width: 170px;
             img {
               width: 100%;
               height: 110px;

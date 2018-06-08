@@ -97,8 +97,8 @@ const routes = [{
     }
   },
   {
-    path: '/resume',
-    name: 'Resume',
+    path: '/resume/:resumeId?',
+    name: 'resume',
     component: Resume,
     meta: {
       requireAuth: true
@@ -106,12 +106,12 @@ const routes = [{
   },
   {
     path: '/cartdetail',
-    name: 'CartDetail',
+    name: 'cartDetail',
     component: CartDetail
   },
   {
     path: '/resumePreview',
-    name: 'ResumePreview',
+    name: 'resumePreview',
     component: ResumePreview,
     meta: {
       requireAuth: true
@@ -119,7 +119,7 @@ const routes = [{
   },
   {
     path: '/agreement',
-    name: 'Agreement',
+    name: 'agreement',
     component: Agreement
   }
 

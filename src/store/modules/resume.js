@@ -5,6 +5,7 @@ import axios from 'axios'
 const RESUME_SET = 'RESUME_SET'
 const RESUME_INFO = 'RESUME_INFO'
 const RESUME_LIST = 'RESUME_LIST'
+const MODIFY_LIST = 'MODIFY_LIST'
 const SUBMIT_RESUME = 'SUBMIT_RESUME'
 
 const SET_BASEINFO = 'SET_BASEINFO'
@@ -35,6 +36,7 @@ export default {
     baseInfo: [],
     evaluate: {}, //评价
     jobIntension: [], //求职意向
+    modifyList: [],
     workExper: [],
     education: [],
     schoolHonor: [],
@@ -66,6 +68,16 @@ export default {
       return api.get(config.url.resumeList, params).then(res => {
         commit('RESUME_SET', {
           target: 'resumeList',
+          data: res
+        })
+        return res
+      })
+    },
+    //获取待修改简历列表
+    [MODIFY_LIST]({ commit }, params) {
+      return api.get(config.url.modifyList, params).then(res => {
+        commit('RESUME_SET', {
+          target: 'modifyList',
           data: res
         })
         return res
