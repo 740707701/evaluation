@@ -1,10 +1,10 @@
 <template>
   <div class="avatar">
     <div @mouseover="showBg=true" @mouseleave="showBg=false">
-      <div class="bg" v-if="showBg" >点击上传</div>
-      <input type="file" class="input-file" name="avatar" ref="avatarInput"
+      <div class="bg" v-if="showBg" :style="`line-height:${imgHeight}`">点击上传</div>
+      <input type="file" class="input-file" :style="`width:${imgWidth};height:${imgHeight};border-radius:${radius}`" name="avatar" ref="avatarInput"
       @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
-      <img :src="avatar?avatar:require('../assets/images/man.png')" alt="" >
+      <img :src="avatar?avatar:require('../assets/images/man.png')" alt="" :style="`width:${imgWidth};height: ${imgHeight};border-radius:${radius}`" name="avatar">
     </div>
     <div class="text" @click="upload" v-if="file">确定上传</div>
   </div>
@@ -19,7 +19,7 @@ export default {
        showBg: false
      }
    },
-   props: ["uploadType", "imgUrl"],
+   props: ["uploadType", "imgUrl", "imgWidth", "imgHeight", "radius"],
    created(){
      console.log(this.imgUrl)
      this.avatar = this.imgUrl
@@ -71,27 +71,20 @@ export default {
 }
 </script>
 <style lang="less" scope>
+  @import "../assets/css/colors.less";
   .avatar {
     cursor: pointer;
     position: relative;
     .input-file {
-      width: 85px;
-      height: 104px;
       position: absolute;
       top: 0;
       left: 0;
       opacity: 0;
       cursor: pointer;
     }
-    img {
-      width: 80px;
-      height: 80px;
-      background-color: #eaeaea;
-    }
     .bg {
       width: 100%;
       height: 100%;
-      line-height: 80px;
       color: #fff;
       background-color: rgba(0,0,0,0.3);
       text-align: center;
@@ -100,6 +93,10 @@ export default {
       top: 0;
       left: 0;
 
+    }
+    .text {
+      padding-top: 10px;
+      color: @main-color-blue;
     }
   }
 </style>

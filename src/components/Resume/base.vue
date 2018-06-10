@@ -52,7 +52,7 @@
         <span>基本信息</span>
       </div>
       <div class="base-content">
-        <upload :uploadType="`resume_head`" :imgUrl="imgUrl" @upload="getImgUrl"></upload>
+        <upload :uploadType="`resume_head`" :imgWidth="`85px`" :imgHeight="`104px`" :imgUrl="imgUrl" @upload="getImgUrl"></upload>
         <!-- <div class="avatar edit-avatar">
           <input type="file" class="input-file" name="avatar" ref="avatarInput"
           @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">

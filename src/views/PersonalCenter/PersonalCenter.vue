@@ -3,15 +3,18 @@
     <headerNav></headerNav>
     <div class="container">
       <div class="personal-info">
-        <img class="avatar" :src="userInfo.avatar?userInfo.avatar: '../../assets/images/demo/04.jpg'" alt="">
           <el-container class="content">
             <el-aside width="150px">
               <div class="aside-box">
-                <ul class="info-text">
-                  <li><span>{{userInfo.userName?userInfo.userName: userInfo.userNum}}</span>
-                  <span class="split">|</span>
-                  <span>{{userInfo.sex == '1'? '男': '女'}}</span></li>
-                </ul>
+                <div class="user-info">
+                  <upload :uploadType="`person_head`" :imgWidth="`80px`" :imgHeight="`80px`" :radius="`40px`" :imgUrl="userInfo.avatar" @upload="getImgUrl"></upload>
+                  <!-- <img class="avatar" :src="userInfo.avatar?userInfo.avatar: '../../assets/images/demo/04.jpg'" alt=""> -->
+                  <div class="name">{{userInfo.userName?userInfo.userName: userInfo.userNum}}</div>
+                  <div class="school">内蒙古财经民族大学
+                    <div>2016级</div>
+                  </div>
+                  <div class="upload-btn" @click="upload">上传头像</div>
+                </div>
                 <ul class="tabs">
                   <li>
                       <span class="point" v-if="$route.name==`myevaluation`"></span>
@@ -61,6 +64,7 @@
 </template>
 <script>
 import headerNav from "../../components/HeaderNav";
+import upload from "../../components/Upload"
 export default {
   name: "personalcenter",
   data() {
@@ -71,9 +75,17 @@ export default {
   created(){
     this.userInfo = this.$store.state.userInfo
   },
-  methods: {},
+  methods: {
+    getImgUrl: function(data){
+      this.userInfo.avatar = data.rootPath + data.headPic;
+    },
+    upload: function(){
+      this.$emit("changeImage")
+    }
+  },
   components: {
-    headerNav
+    headerNav,
+    upload
   }
 };
 </script>
@@ -95,32 +107,55 @@ export default {
       .content {
         height: calc(100% - 116px);
       }
-      .avatar {
-        width: 80px;
-        height: 80px;
-        border-radius: 10px;
-        margin-left: 20px;
-        display: inline-block;
-      }
       .aside-box {
-        .info-text {
-          padding-left: 20px;
-          display: inline-block;
-          li {
-            line-height: 1.8;
+        margin-right: 20px;
+        .user-info {
+          background-color: #fff;
+          border-radius: 4px;
+          padding: 15px 0;
+          .avatar {
+            width: 80px;
+            height: 80px;
+            margin-left: 25px;
+            display: inline-block;
+            img {
+              border-radius: 40px;
+              
+            }
+          }
+          .name {
+            font-size: 16px;
+            text-align: center;
+            font-weight: 500;
+          }
+          .school,.class {
+            font-size: 12px;
+            padding: 0 5px;
+            line-height: 20px;
             color: @main-color-gray;
-            .split {
-              margin: 0 5px;
-            }
-            .value {
-              color: @main-color-text;
-            }
+            text-align: center;
+          }
+          .upload-btn {
+            width: 80px;
+            height: 26px;
+            line-height: 26px;
+            border-radius: 4px;
+            text-align: center;
+            margin-left: 25px;
+            margin-top: 5px;
+            font-size: 12px;
+            background-color: @main-color-blue;
+            color: #fff;
+            cursor: pointer;
           }
         }
         .tabs {
           width: 100%;
-          display: inline-block;
+          padding: 10px;
           margin-top: 20px;
+          background-color: #fff;
+          border-radius: 4px;
+          display: inline-block;
           .router-link-active {
             color: @main-color-blue;
           }
@@ -145,6 +180,7 @@ export default {
               left: 72px;
             }
             a {
+              width: 100%;
               line-height: 40px;
               padding-left: 20px;
               display: inline-block;
