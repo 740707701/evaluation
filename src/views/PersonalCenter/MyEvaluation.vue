@@ -211,9 +211,9 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/css/colors.less";
 .my-evaluation-page {
-  .el-tabs__nav {
-    padding-left: 20px;
-  }
+  // .el-tabs__nav {
+  //   padding-left: 20px;
+  // }
   .nodata {
     width: 100%;
     height: 50px;
@@ -221,7 +221,7 @@ export default {
     text-align: center;
   }
   .completed {
-    padding: 10px;
+    padding: 10px 20px;
     .tag {
       line-height: 30px;
     }

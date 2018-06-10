@@ -12,12 +12,14 @@ import Evaluation from '../views/Evaluation.vue'
 import PersonalCenter from '../views/PersonalCenter/PersonalCenter.vue'
 import MyEvaluation from '../views/PersonalCenter/MyEvaluation.vue'
 import MyResume from '../views/PersonalCenter/MyResume.vue'
+import MyPlan from '../views/PersonalCenter/MyPlan.vue'
+import MyBook from '../views/PersonalCenter/MyBook.vue'
 import Order from '../views/PersonalCenter/Order.vue'
 import Setting from '../views/PersonalCenter/Setting.vue'
 import Statistics from '../views/PersonalCenter/Statistics.vue'
 import News from '../views/PersonalCenter/News.vue'
 import CareerPlan from '../views/CareerPlan.vue'
-import IndustryIntro from '../views/IndustryIntro.vue'
+import BookLibrary from '../views/BookLibrary.vue'
 import Agreement from '../views/Agreement.vue'
 
 Vue.use(VueRouter)
@@ -52,6 +54,16 @@ const routes = [{
         path: '/myresume',
         name: 'myresume',
         component: MyResume
+      },
+      {
+        path: '/myplan',
+        name: 'myplan',
+        component: MyPlan
+      },
+      {
+        path: '/mybook',
+        name: 'mybook',
+        component: MyBook
       },
       {
         path: '/news',
@@ -89,9 +101,9 @@ const routes = [{
     }
   },
   {
-    path: '/industryintro',
-    name: 'industryintro',
-    component: IndustryIntro,
+    path: '/BookLibrary',
+    name: 'bookLibrary',
+    component: BookLibrary,
     meta: {
       requireAuth: true
     }

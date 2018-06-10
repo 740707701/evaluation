@@ -20,6 +20,9 @@ const MAJOR = 'MAJOR'
 const ARRIVE_TIME = 'ARRIVE_TIME'
 const WORK_TYPE = 'WORK_TYPE'
 
+const SCHOOL_LIST = 'SCHOOL_LIST'
+const CLASS_LIST = 'CLASS_LIST'
+
 export default {
   state: {
     cities: [],
@@ -36,7 +39,9 @@ export default {
     majorType: [],
     eduNatureType: [], //学业性质
     degreeType: [],
-    sex: []
+    sex: [],
+    schoolList: [],
+    classList: []
   },
   mutations: {
     [DATA_SET](state, data) {
@@ -183,6 +188,24 @@ export default {
       return api.get(config.url.dictItem, params).then(res => {
         commit('DATA_SET', {
           target: 'workType',
+          data: res
+        })
+        return res
+      })
+    },
+    [SCHOOL_LIST]({ commit }, params) {
+      return api.get(config.url.schoolList, params).then(res => {
+        commit('DATA_SET', {
+          target: 'schoolList',
+          data: res
+        })
+        return res
+      })
+    },
+    [CLASS_LIST]({ commit }, params) {
+      return api.get(config.url.classList, params).then(res => {
+        commit('DATA_SET', {
+          target: 'classList',
           data: res
         })
         return res

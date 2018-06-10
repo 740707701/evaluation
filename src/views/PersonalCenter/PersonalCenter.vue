@@ -23,16 +23,16 @@
                   </li>
                   <li>
                     <span class="point" v-if="$route.name==`news`"></span>
-                    <el-badge class="badge" is-dot></el-badge>
+                    <!-- <el-badge class="badge" is-dot></el-badge> -->
                     <router-link to="/news">消息通知</router-link>
                   </li>
                   <li>
-                    <span class="point" v-if="$route.name==`mycareerplan`"></span>
-                    <router-link to="/mycareerplan">职业规划</router-link>
+                    <span class="point" v-if="$route.name==`myplan`"></span>
+                    <router-link to="/myplan">职业规划</router-link>
                   </li>
                   <li>
-                    <span class="point" v-if="$route.name==`myindustryintro`"></span>
-                    <router-link to="/myindustryintro">书籍库</router-link>
+                    <span class="point" v-if="$route.name==`mybook`"></span>
+                    <router-link to="/mybook">书籍库</router-link>
                   </li>
                   <!-- <li>
                     <span class="point" v-if="$route.name==`order`"></span>
@@ -81,7 +81,6 @@ export default {
 @import "../../assets/css/colors.less";
 .personalcenter-page {
   min-height: 100%;
-  height: 100%;
   background-color: @main-color-bg;
   padding-top: 60px;  
   padding-bottom: 25px;
@@ -156,8 +155,6 @@ export default {
       }
       .main {
         width: 100%;
-        // height: 100%;
-        padding: 10px 20px;
         background-color: #fff;
         border-radius: 10px;
         box-shadow:8px 0px 10px rgba(56,127,246,0.15) ;

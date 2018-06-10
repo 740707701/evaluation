@@ -59,7 +59,6 @@ import time from '../../api/time.js'
     methods: {
       tabsClick: function(tab, event){
         let tabIndex = tab.index
-        // console.log(tab)
         if(tabIndex == 0){
           this.getResumeList()
         }else if(tabIndex == 1){
@@ -68,10 +67,8 @@ import time from '../../api/time.js'
       },
       getResumeList: function(){
         this.$store.dispatch('RESUME_LIST').then(res => {
-          // console.log(res)
           this.resumeList = res.data
           for(var resume of this.resumeList){
-            console.log(resume)
             resume.time_solt = time.getTime(resume.updateDate)
           }
           console.log(this.resumeList)
@@ -139,6 +136,7 @@ import time from '../../api/time.js'
   .resume-list {
     width: 100%;
     font-size: 13px;
+    padding:10px 20px;
     display: flex;
     -webkit-display: flex;
     flex-wrap: wrap;

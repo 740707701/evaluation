@@ -8,6 +8,8 @@ export default {
     //tree item
     //dictCode (行政区划AREA/职能FUNCTION/行业INDUSTRY数据)
     treeItem: 'dict/treeitem',
+    schoolList: 'user/schoolList',
+    classList: 'user/classList',
 
     //测评
     cepingList: 'index/cepinglist',

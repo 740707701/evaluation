@@ -2,7 +2,7 @@
   <div class="news-page">
     <el-tabs  v-model="activeName">
       <el-tab-pane label="消息通知" name="first">
-        <div class="notice" v-if="msgList">
+        <div class="notice" v-if="noticeList.length">
            <div class="item" v-for="msg in noticeList" :key="msg.id" v-if="msg.type==1" @click="updateStatus(msg.id)">
             <div class="logo">
               <img :src="msg.user.avatar" alt="">
@@ -120,8 +120,9 @@ export default {
     border-bottom: 1px solid @main-color-border;
   }
   .notice, .share , .system {
+    padding: 10px 20px;
     .item {
-      padding-top: 10px;
+      // padding-top: 10px;
       .logo {
         float: left;
         width: 40px;

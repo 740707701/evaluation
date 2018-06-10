@@ -52,6 +52,9 @@ export default {
   .el-tabs__active-bar {
     background-color: @main-color-blue;
   }
+  .el-tabs__nav-wrap {
+    padding-left: 15px;
+  }
   //checkbox label字体大小
   .el-checkbox__label {
     font-size: 12px;

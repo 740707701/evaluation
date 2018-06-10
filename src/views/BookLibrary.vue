@@ -2,7 +2,7 @@
   <div class="industryintro-page">
     <headerNav></headerNav>
     <div class="container">
-      <p>书籍库</p>
+      <p>功能正在开发中~</p>
 
     </div>
   </div>

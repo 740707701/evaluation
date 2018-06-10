@@ -126,7 +126,7 @@ export default {
   border-radius: 4px;
   box-shadow: 6px 0px 10px rgba(255, 255, 255, 0.3);
   position: absolute;
-  top: 50px;
+  top: 25%;
   left: 50%;
   margin-left: -210px;
   h4 {

@@ -37,12 +37,9 @@
                 <img :src="userInfo.avatar" alt="">
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="personalcenter">我的测评
-                </el-dropdown-item>
-                <el-dropdown-item command="order">订单中心
-                  </el-dropdown-item>
-                <el-dropdown-item command="setting">个人设置
-                  </el-dropdown-item>
+                <el-dropdown-item command="personalcenter">我的测评</el-dropdown-item>
+                <!-- <el-dropdown-item command="order">订单中心</el-dropdown-item> -->
+                <el-dropdown-item command="setting">个人设置</el-dropdown-item>
                 <el-dropdown-item command="logout">退出账号</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -67,7 +64,6 @@ export default {
   props: {},
   data() {
     return { 
-      // showLoginPage: false,
       showRegisterPage: false,
       showForgetPage: false
     };
