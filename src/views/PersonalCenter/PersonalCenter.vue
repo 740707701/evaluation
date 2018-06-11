@@ -7,13 +7,19 @@
             <el-aside width="150px">
               <div class="aside-box">
                 <div class="user-info">
-                  <upload :uploadType="`person_head`" :imgWidth="`80px`" :imgHeight="`80px`" :radius="`40px`" :imgUrl="userInfo.avatar" @upload="getImgUrl"></upload>
-                  <!-- <img class="avatar" :src="userInfo.avatar?userInfo.avatar: '../../assets/images/demo/04.jpg'" alt=""> -->
+                  <img class="avatar" :src="avatar" alt="">
+                  
                   <div class="name">{{userInfo.userName?userInfo.userName: userInfo.userNum}}</div>
-                  <div class="school">内蒙古财经民族大学
-                    <div>2016级</div>
+                  <div class="school">{{userInfo.school}}
+                    <div>{{userInfo.classes}}</div>
                   </div>
-                  <div class="upload-btn" @click="upload">上传头像</div>
+                  <div class="upload-box" v-show="!file">
+                    <input type="file" class="input-file" name="avatar" ref="avatarInput" @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
+                    <div class="upload-btn">上传头像</div>
+                  </div>
+                  <div class="upload-box" v-if="file">
+                    <div class="upload-btn" @click="upload">确定上传</div>
+                  </div>
                 </div>
                 <ul class="tabs">
                   <li>
@@ -63,29 +69,88 @@
   </div>
 </template>
 <script>
-import headerNav from "../../components/HeaderNav";
-import upload from "../../components/Upload"
+import headerNav from "../../components/HeaderNav"
 export default {
   name: "personalcenter",
   data() {
     return {
-      userInfo: {}
+      userInfo: {},
+      file: '',
+      avatar: '',
+      uploadType: "person-head"
     }
   },
   created(){
     this.userInfo = this.$store.state.userInfo
+    this.avatar = this.userInfo.avatar
   },
   methods: {
-    getImgUrl: function(data){
-      this.userInfo.avatar = data.rootPath + data.headPic;
+    changeImage: function(e){
+      let file = e.target.files[0];
+      this.file = file
+      console.log(this.file)
+      let reader = new FileReader()
+      let that = this
+      reader.readAsDataURL(file)
+      reader.onload= function(e){
+        that.avatar = this.result
+      }
     },
     upload: function(){
-      this.$emit("changeImage")
+      if(this.$refs.avatarInput.files[0].length !== 0){
+        let data = new FormData()
+        data.append('multfile', this.$refs.avatarInput.files[0])
+        data.append('operaType', this.uploadType)
+        this.$store.dispatch('UPLOAD_HEAD', data)
+        .then(res => {
+          console.log(res)
+          this.file = '';
+          let data = res.data.data;
+          this.userInfo.avatar = data.rootPath + data.headPic;
+          this.$store.dispatch("USERINFO", this.userInfo).then(res => {
+            localStorage.setItem("userInfo", JSON.stringify(res.data.data))
+            this.$store.state.userInfo = res.data.data
+            this.$message({
+                type: "success",
+                message: "保存个人头像成功"
+              })
+          }).catch(err => {
+            if(err.data.msg){
+              this.$message({
+                type: "error",
+                message: err.data.msg
+              })
+            }else {
+              this.$message({
+                type: "error",
+                message: "保存个人头像失败"
+              })
+            }
+          })
+          console.log(this.userInfo)
+           this.$message({
+              type: "success",
+              message: "上传成功！"
+            })
+        }).catch(err => {
+          console.log(err)
+          if(err.data.msg){
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            })
+          }else {
+            this.$message({
+              type: "error",
+              message: "上传失败"
+            })
+          }
+        })
+      }
     }
   },
   components: {
-    headerNav,
-    upload
+    headerNav
   }
 };
 </script>
@@ -116,12 +181,22 @@ export default {
           .avatar {
             width: 80px;
             height: 80px;
+            border-radius: 40px;
             margin-left: 25px;
+            background-color: #eaeaea;
             display: inline-block;
             img {
+              width: 80px;
+              height: 80px;
               border-radius: 40px;
-              
+              display: inline-block;
             }
+          }
+          .text {
+            text-align: center;
+            line-height: 30px;
+            color: @main-color-blue;
+            cursor: pointer;
           }
           .name {
             font-size: 16px;
@@ -135,18 +210,28 @@ export default {
             color: @main-color-gray;
             text-align: center;
           }
-          .upload-btn {
-            width: 80px;
-            height: 26px;
-            line-height: 26px;
-            border-radius: 4px;
-            text-align: center;
+          .upload-box {
+            position: relative;
             margin-left: 25px;
             margin-top: 5px;
-            font-size: 12px;
-            background-color: @main-color-blue;
-            color: #fff;
-            cursor: pointer;
+            .input-file {
+              width: 80px;
+              opacity: 0;
+              position: absolute;
+              top: 0;
+              left: 0;
+            }
+            .upload-btn {
+              width: 80px;
+              height: 26px;
+              line-height: 26px;
+              border-radius: 4px;
+              text-align: center;
+              font-size: 12px;
+              background-color: @main-color-blue;
+              color: #fff;
+              cursor: pointer;
+            }
           }
         }
         .tabs {

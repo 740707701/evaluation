@@ -34,12 +34,12 @@
             </el-badge>
             <el-dropdown @command="dropdownEvent">
               <el-button class="avatar el-dropdown-link">
-                <img :src="userInfo.avatar" alt="">
+                <img class="avatar-img" :src="userInfo.avatar" alt="">
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="personalcenter">我的测评</el-dropdown-item>
                 <!-- <el-dropdown-item command="order">订单中心</el-dropdown-item> -->
-                <el-dropdown-item command="setting">个人设置</el-dropdown-item>
+                <el-dropdown-item command="setting">个人资料</el-dropdown-item>
                 <el-dropdown-item command="logout">退出账号</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -213,12 +213,13 @@ export default {
         padding: 0;
         border: none;
         background-color: #fff;
-        img {
+        img,.avatar-img {
           width: 30px;
           height: 30px;
           border-radius: 30px;
           margin-top: 15px;
           background-color: #eaeaea;
+          display: inline-block;
         }
       }
       .avatar:hover,
