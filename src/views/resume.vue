@@ -24,49 +24,49 @@
                 <a href="#base">
                   <i class="iconfont icon-user"></i>
                   <span>基本信息</span>
-                  <i class="el-icon-check" v-if="baseInfo.address"></i>
+                  <i class="el-icon-check" v-if="baseInfo.jobStatus"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==1}" @click="tabIndex=1">
                 <a href="#job">
                   <i class="iconfont icon-job"></i>
                   <span>求职意向</span>
-                  <i class="el-icon-check"></i>
+                  <i class="el-icon-check" v-if="baseInfo.expectSalary"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==2}" @click="tabIndex=2">
                 <a href="#work">
                   <i class="iconfont icon-work"></i>
                   <span>工作经验</span>
-                  <i class="el-icon-check"></i>
+                  <i class="el-icon-check" v-if="workExperList.length"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==3}" @click="tabIndex=3">
                 <a href="#education">
                   <i class="iconfont icon-edu"></i>
                   <span>教育经历</span>
-                  <i class="el-icon-check"></i>
+                  <i class="el-icon-check" v-if="eduList.length"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==4}" @click="tabIndex=4">
                 <a href="#school">
                   <i class="iconfont icon-school"></i>
                   <span>在校情况</span>
-                  <i class="el-icon-check"></i>
+                  <i class="el-icon-check" v-if="schoolHonorList.length&&schoolWorkList.length"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==5}" @click="tabIndex=5">
                 <a href="#skill">
                   <i class="iconfont icon-skill"></i>
                   <span>技能证书</span>
-                  <i class="el-icon-check"></i>
+                  <i class="el-icon-check" v-if="skillList.length"></i>
                 </a>
               </li>
               <li :class="{'active':tabIndex==6}" @click="tabIndex=6">
                 <a href="#evaluate">
                   <i class="iconfont icon-evaluate"></i>
                   <span>自我评价</span>
-                  <i class="el-icon-check"></i>
+                  <i class="el-icon-check" v-if="baseInfo.evaluate"></i>
                 </a>
               </li>
             </ul>
@@ -117,7 +117,7 @@
         <img src="../assets/images/resume_success.png" alt="" class="post-success">
         <div class="title">简历提交成功</div>
         <div class="date">{{submitDate}}</div>
-        <el-button size="small" round class="back-btn">返回</el-button>
+        <el-button size="small" round class="back-btn" @click="back">返回</el-button>
       </div>
     </div>
     <!-- 简历预览弹框 -->
@@ -198,15 +198,15 @@ export default {
         .dispatch("RESUME_INFO", params)
         .then(res => {
           this.resume = res.data;
-          this.baseInfo = res.data.resumeBaseInfo;
+          this.baseInfo = res.data.resumeBaseInfo || {};
           this.resumeId = res.data.resumeBaseInfo.id;
-          this.evaluateInfo = res.data.resumeBaseInfo;
-          this.expectInfo = res.data.resumeBaseInfo;
-          this.workExperList = res.data.jobexpList;
-          this.eduList = res.data.educationList;
-          this.schoolHonorList = res.data.schoolHonorList;
-          this.schoolWorkList = res.data.schoolPostList;
-          this.skillList = res.data.skillsList;
+          this.evaluateInfo = res.data.resumeBaseInfo ||{};
+          this.expectInfo = res.data.resumeBaseInfo || {};
+          this.workExperList = res.data.jobexpList || [];
+          this.eduList = res.data.educationList || [];
+          this.schoolHonorList = res.data.schoolHonorList || [];
+          this.schoolWorkList = res.data.schoolPostList || [];
+          this.skillList = res.data.skillsList || [];
 
           //基础参数赋值
           this.baseParams.creator = res.data.resumeBaseInfo.creator
@@ -265,6 +265,11 @@ export default {
             });
           }
         });
+    },
+    //返回
+    back: function(){
+      this.showSuccessDialog=false;
+      this.getResumeInfo()
     },
     //预览
     preview: function() {

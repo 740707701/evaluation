@@ -5,7 +5,7 @@
         <div class="title">
           <i class="iconfont icon-edu"></i>
           <span>教育经历</span>
-            <div class="add-job" @click="addEdu" v-if="eduList">
+            <div class="add-job" @click="addEdu" v-if="eduList.length">
             <i class="iconfont icon-add"></i>新增教育
           </div>
         </div>
@@ -36,7 +36,7 @@
             </div>
           </div>
         </div>
-        <div class="imperfect" v-if="!showEducationEdit&&!eduList">
+        <div class="imperfect" v-if="!showEducationEdit&&!eduList.length">
           <p class="perfect-text">完善教育经历，展现专业能力，让HR更了解你！</p>
           <el-button size="small" class="perfect-btn" @click="addEdu">开始完善</el-button>
         </div>

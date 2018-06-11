@@ -5,7 +5,7 @@
         <div class="title">
           <i class="iconfont icon-work"></i>
           <span>工作经验</span>
-          <div class="add-job" @click="addWorkExper" v-if="workExperList">
+          <div class="add-job" @click="addWorkExper" v-if="workExperList.length">
             <i class="iconfont icon-add"></i>新增工作
           </div>
         </div>
@@ -34,7 +34,7 @@
             </div>
           </div>
         </div>
-        <div class="imperfect" v-if="!showWorkExperiencedEdit&&!workExperList">
+        <div class="imperfect" v-if="!showWorkExperiencedEdit&&!workExperList.length">
           <p class="perfect-text">完善工作经验，展现工作内容及能力，让HR更了解你！</p>
           <el-button size="small" class="perfect-btn" @click="addWorkExper">开始完善</el-button>
         </div>

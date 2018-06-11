@@ -15,9 +15,9 @@
               <div class="time">
                 <span v-if="resume.time_solt.year">{{resume.time_solt.year}}年</span>
                 <span v-if="resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.month}}个月</span>
-                <span v-if="resume.time_solt.day&&!resume.time_solt.month">{{resume.time_solt.day}}天</span>
-                <span v-if="resume.time_solt.hour&&!resume.time_solt.day">{{resume.time_solt.hour}}小时</span>
-                <span v-if="resume.time_solt.minute&&!resume.time_solt.hour">{{resume.time_solt.minute}}分钟</span>
+                <span v-if="resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.day}}天</span>
+                <span v-if="resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.hour}}小时</span>
+                <span v-if="resume.time_solt.minute&&!resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.minute}}分钟</span>
                 前
               </div>
               <div class="operation-btn" @click="view(resume.id)">查看</div>
@@ -68,8 +68,8 @@ import time from '../../api/time.js'
       getResumeList: function(){
         this.$store.dispatch('RESUME_LIST').then(res => {
           this.resumeList = res.data
-          for(var resume of this.resumeList){
-            resume.time_solt = time.getTime(resume.updateDate)
+          for(var item of this.resumeList){
+            item.time_solt = time.getTime(item.updateDate)
           }
           console.log(this.resumeList)
         }).catch(err => {

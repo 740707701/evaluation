@@ -4,7 +4,8 @@ export default {
     if (!separator) {
       separator = '-'
     }
-    let dateArr = dateStr.split(separator)
+    let dateArr = dateStr.slice(0, 10).split(separator)
+    let timeArr = dateStr.slice(11).split(":")
     let year = dateArr[0]
     let month;
     if (dateArr[1].indexOf('0') == '0') { //月份<10
@@ -13,13 +14,16 @@ export default {
       month = parseInt(dateArr[1])
     }
     let day = parseInt(dateArr[2])
-    var date = new Date(year, month - 1, day)
+
+    let hour = parseInt(timeArr[0])
+    let minute = parseInt(timeArr[1])
+    let second = parseInt(timeArr[2])
+    var date = new Date(year, month - 1, day, hour, minute, second)
     return date
   },
   //获取距离当前时间的时间段
   getTime: function(timeStr) {
-    timeStr = '2018-06-01 13:00:00'
-      //获取当前时间的 年,月,日
+    //获取当前时间的 年,月,日
     let date = new Date()
     let curYear = date.getFullYear()
     let curMonth = date.getMonth()

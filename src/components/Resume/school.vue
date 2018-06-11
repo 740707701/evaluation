@@ -85,11 +85,11 @@
           <div class="honor" v-if="!showSchoolHonorEdit">
             <div class="school-type">
               <span>校内荣誉</span>
-              <div class="add-job" @click="addSchoolHonor" v-if="schoolHonorList">
+              <div class="add-job" @click="addSchoolHonor" v-if="schoolHonorList.length">
                 <i class="iconfont icon-add" ></i>新增荣誉
               </div>
             </div>
-            <ul class="honor-list job-item" v-if="schoolHonorList">
+            <ul class="honor-list job-item" v-if="schoolHonorList.length">
               <li v-for="honor in schoolHonorList" :key="honor.id">
                 <div class="job-time">
                   <span class="gray">{{honor.honorTime.slice(0, 10)}}</span>
@@ -102,7 +102,7 @@
                 </div>
               </li>
             </ul>
-            <div class="imperfect" v-if="!showSchoolHonorEdit&&!schoolHonorList">
+            <div class="imperfect" v-if="!showSchoolHonorEdit&&!schoolHonorList.length">
               <p class="perfect-text">完善校内荣誉，展现学习能力，让HR更了解你！</p>
               <el-button size="small" class="perfect-btn" @click="addSchoolHonor">开始完善</el-button>
             </div>
@@ -110,11 +110,11 @@
           <div class="post" v-if="!showSchoolWorkEdit">
             <div class="school-type">
               <span>校内职务</span>
-              <div class="add-job" @click="addSchoolWork" v-if="schoolWorkList">
+              <div class="add-job" @click="addSchoolWork" v-if="schoolWorkList.length">
                 <i class="iconfont icon-add"></i>新增职务
               </div>
             </div>
-            <ul class="post-list" v-if="schoolWorkList">
+            <ul class="post-list" v-if="schoolWorkList.length">
               <li class="job-item" v-for="work in schoolWorkList" :key="work.id">
                 <div class="job-time">
                   <span class="gray">{{work.startTime.slice(0, 10)}} - {{work.endTime.slice(0, 10)}}</span>
@@ -135,7 +135,7 @@
                 </div>
               </li>
             </ul>
-            <div class="imperfect" v-if="!showSchoolWorkEdit&&!schoolWorkList">
+            <div class="imperfect" v-if="!showSchoolWorkEdit&&!schoolWorkList.length">
               <p class="perfect-text">完善校内职务，展现校园活动经验，让HR更了解你！</p>
               <el-button size="small" class="perfect-btn" @click="addSchoolWork">开始完善</el-button>
             </div>
