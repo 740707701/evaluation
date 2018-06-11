@@ -3,7 +3,7 @@
     <el-tabs>
       <el-tab-pane label="实名认证">
         <div class="setting-content">
-          <el-form v-if="!userInfo.email" :model="userInfo" :rules="infoRules" ref="userInfo" label-width="100px" class="info-form">
+          <el-form v-if="!isComplete" :model="userInfo" :rules="infoRules" ref="userInfo" label-width="100px" class="info-form">
             <div class="title">基本资料</div>
             <el-form-item label="姓名：" prop="userName">
               <el-input size="small" v-model="userInfo.userName" placeholder="请输入真实姓名" :maxlength="20"></el-input>
@@ -47,7 +47,7 @@
             </el-form-item>
             <div class="post-btn" @click="post('userInfo')">保存</div>
           </el-form>
-          <el-form v-if="userInfo.email" :model="userInfo" :rules="infoRules"  label-width="100px" class="info-form">
+          <el-form v-if="isComplete" :model="userInfo" :rules="infoRules"  label-width="100px" class="info-form">
             <div class="title">基本资料</div>
             <el-form-item label="姓名：" prop="userName">
               <div>{{userInfo.userName}}</div>
@@ -88,172 +88,200 @@
   </div>
 </template>
 <script>
-  import forget from '../../components/Forget.vue'
-  export default {
-    name: 'setting',
-    data(){
-      const validatePhone = (rule, value, callback) => {
-        if (!value) {
-          callback(new Error("手机号码不能为空"));
-        } else if (
-          value.length == 11 &&
-          /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/.test(value)
-        ) {
-          callback();
-        } else {
-          callback(new Error("请输入正确的手机号"));
-        }
-      };
-      const validateEmail = (rule, value, callback) => {
-        if(!value){
-          callback(new Error("邮箱不能为空"));
-        }else if(/^[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(value)){
-          callback()
-        }else {
-          callback(new Error("请输入正确的真实邮箱"))
-        }
-      };
-      return {
-        userInfo: {},
-        showForgetPage: false,
-        schoolList: [],
-        classList: [],
-        school: '',
-        classes: '',
-        school_id: '',
-        class_id: '',
-        userInfo: {},
-        infoRules: {
-          userName: [{
+import forget from "../../components/Forget.vue";
+export default {
+  name: "setting",
+  data() {
+    const validatePhone = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("手机号码不能为空"));
+      } else if (
+        value.length == 11 &&
+        /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/.test(value)
+      ) {
+        callback();
+      } else {
+        callback(new Error("请输入正确的手机号"));
+      }
+    };
+    const validateEmail = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("邮箱不能为空"));
+      } else if (
+        /^([a-zA-Z0-9]+[\-|_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[\-|_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(value)
+      ) {
+        callback();
+      } else {
+        callback(new Error("请输入正确的真实邮箱"));
+      }
+    };
+    return {
+      userInfo: {},
+      showForgetPage: false,
+      schoolList: [],
+      classList: [],
+      school: "",
+      classes: "",
+      school_id: "",
+      class_id: "",
+      userInfo: {},
+      isComplete: false,
+      infoRules: {
+        userName: [
+          {
             required: true,
             message: "请输入真实姓名",
             trigger: "blur"
-          }],
-          sex: [{
+          }
+        ],
+        sex: [
+          {
             required: true,
             message: "请选择性别",
             trigger: "blur"
-          }],
-          email: [{
+          }
+        ],
+        email: [
+          {
             required: true,
             validator: validateEmail,
             trigger: "blur"
-          }],
-          mobile: [{
+          }
+        ],
+        mobile: [
+          {
             required: true,
             validator: validatePhone,
             trigger: "blur"
-          }],
-          userNum: [{
-            required: true,
-          }],
-          school: [{
+          }
+        ],
+        userNum: [
+          {
+            required: true
+          }
+        ],
+        school: [
+          {
             required: true,
             message: "请选择所在学校",
             trigger: "blur"
-          }],
-          classes: [{
+          }
+        ],
+        classes: [
+          {
             required: true,
             message: "请选择所在年级",
             trigger: "blur"
-          }]
-        },
+          }
+        ]
       }
-    },
-    created(){
-      this.userInfo = this.$store.state.userInfo;
-      this.getSchoolList()
-    },
-    methods: {
-      getSchoolList(){
-        this.$store.dispatch('SCHOOL_LIST').then(res => {
-          this.schoolList = res.data
-        }).catch(err => {
-          if(err.data.msg){
+    };
+  },
+  created() {
+    this.userInfo = this.$store.state.userInfo;
+    if(this.userInfo.email){
+      this.isComplete = true
+    }
+    this.getSchoolList();
+  },
+  methods: {
+    getSchoolList() {
+      this.$store
+        .dispatch("SCHOOL_LIST")
+        .then(res => {
+          this.schoolList = res.data;
+        })
+        .catch(err => {
+          if (err.data.msg) {
             this.$message({
               type: "error",
               message: err.data.message
-            })
-          }else {
+            });
+          } else {
             this.$message({
               type: "error",
               message: "获取个人资料信息失败,请稍后重试"
-            })
+            });
           }
-        })
-      },
-      chooseSchool(e){
-        console.log(e)
-        this.school = e;
-        let schoolArr = this.schoolList.filter(item => {
-          return item.schoolName == e
         });
-        this.school_id = schoolArr[0].id
-        console.log(this.school_id)
-        this.getClassList()
-      },
-      chooseClass(e){
-        this.class_id = e.id;
-        this.class = e.className;
-      },
-      getClassList(){
-        let params = {
-          id: this.school_id
-        }
-        this.$store.dispatch('CLASS_LIST', params).then(res => {
-          this.classList = res.data
-        }).catch(err => {
-          if(err.data.msg){
+    },
+    chooseSchool(e) {
+      console.log(e);
+      this.school = e;
+      let schoolArr = this.schoolList.filter(item => {
+        return item.schoolName == e;
+      });
+      this.school_id = schoolArr[0].id;
+      console.log(this.school_id);
+      this.getClassList();
+    },
+    chooseClass(e) {
+      this.class_id = e.id;
+      this.class = e.className;
+    },
+    getClassList() {
+      let params = {
+        id: this.school_id
+      };
+      this.$store
+        .dispatch("CLASS_LIST", params)
+        .then(res => {
+          this.classList = res.data;
+        })
+        .catch(err => {
+          if (err.data.msg) {
             this.$message({
               type: "error",
               message: err.data.message
-            })
-          }else {
+            });
+          } else {
             this.$message({
               type: "error",
               message: "获取个人资料信息失败,请稍后重试"
-            })
+            });
           }
-        })
-
-      },
-      post(formName){
-        this.$refs[formName].validate(valid => {
-          if(valid){
-            this.$store.dispatch('USERINFO', this.userInfo).then(res => {
-              localStorage.setItem("userInfo", JSON.stringify(res.data.data))
-              this.$store.state.userInfo = res.data.data
+        });
+    },
+    post(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$store
+            .dispatch("USERINFO", this.userInfo)
+            .then(res => {
+              localStorage.setItem("userInfo", JSON.stringify(res.data.data));
+              this.$store.state.userInfo = res.data.data;
               this.$message({
                 type: "success",
                 message: "个人资料信息保存成功!"
-              })
-            }).catch(err => {
-              console.log(err)
-              if(err.data.msg){
+              });
+            })
+            .catch(err => {
+              console.log(err);
+              if (err.data.msg) {
                 this.$message({
                   type: "error",
                   message: err.data.message
-                })
-              }else {
+                });
+              } else {
                 this.$message({
                   type: "error",
                   message: "提交个人资料信息失败,请稍后重试"
-                })
+                });
               }
-            })
-          }else {
-            return false
-          }
-        })
-      },
-      showForget(){
-        this.showForgetPage = true;
-      }
+            });
+        } else {
+          return false;
+        }
+      });
     },
-    components: {
-      forget
+    showForget() {
+      this.showForgetPage = true;
     }
+  },
+  components: {
+    forget
   }
+};
 </script>
 <style lang="less" scoped>
 @import "../../assets/css/colors.less";
@@ -263,7 +291,7 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
     top: 0;
     left: 0;
     z-index: 2;
@@ -301,7 +329,7 @@
       }
     }
     .post-btn {
-      width:70px;
+      width: 70px;
       height: 30px;
       line-height: 30px;
       text-align: center;
@@ -325,7 +353,6 @@
       }
     }
   }
-  
 }
 </style>
 

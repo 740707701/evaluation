@@ -2,8 +2,8 @@
   <div class="myresume-page">
     <el-tabs v-model="activeName" @tab-click="tabsClick">
       <el-tab-pane label="简历记录" name="first">
-        <div class="nodata" v-if="!resumeList.length">还没有任何数据~</div>
         <div class="resume-list">
+          <div class="nodata" v-if="!resumeList.length">还没有任何数据~</div>
           <div class="item resume-item" v-for="resume in resumeList" :key="resume.id">
             <img src="../../assets/images/resume_icon.svg" alt="">
             <div class="item-content">
@@ -131,6 +131,7 @@ import time from '../../api/time.js'
     width: 100%;
     height: 50px;
     line-height: 50px;
+    font-size: 14px;
     text-align: center;
   }
   .resume-list {
