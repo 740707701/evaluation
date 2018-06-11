@@ -15,10 +15,10 @@
                 <img :src="item.baseInfo.pic" alt="">
                 <div class="mask">
                   <div class="preview">
-                    <div class="circle">
-                      <img :src="item.baseInfo.pic" alt="">
-                    </div>
                     <a class="preview-text" :href="item.cepingReportPath" target="_blank">
+                      <div class="circle">
+                        <img :src="item.baseInfo.pic" alt="">
+                      </div>
                       <div class="title">点击预览</div>
                     </a>
                   </div>
