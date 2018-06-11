@@ -3,32 +3,32 @@
     <el-tabs>
       <el-tab-pane label="实名认证">
         <div class="setting-content">
-          <el-form v-if="!isComplete" :model="userInfo" :rules="infoRules" ref="userInfo" label-width="100px" class="info-form">
+          <el-form v-if="!isComplete" :model="personInfo" :rules="infoRules" ref="personInfo" label-width="100px" class="info-form">
             <div class="title">基本资料</div>
             <el-form-item label="姓名：" prop="userName">
-              <el-input size="small" v-model="userInfo.userName" placeholder="请输入真实姓名" :maxlength="20"></el-input>
+              <el-input size="small" v-model="personInfo.userName" placeholder="请输入真实姓名" :maxlength="20"></el-input>
             </el-form-item>
             <el-form-item label="性别：" prop="sex">
               <div class="el-input sex-box" >
-                  <input type="radio" name="sex" :checked="userInfo.sex==1" value="1" @click="userInfo.sex=1"/>
+                  <input type="radio" name="sex" :checked="personInfo.sex==1" value="1" @click="personInfo.sex=1"/>
                   <label>男</label>  
-                  <input type="radio" name="sex" :checked="userInfo.sex==2" value="2" @click="userInfo.sex=2"/>
+                  <input type="radio" name="sex" :checked="personInfo.sex==2" value="2" @click="personInfo.sex=2"/>
                   <label>女</label> 
               </div>
             </el-form-item>
             <el-form-item label="手机号：" prop="mobile">
-              <el-input size="small" v-model="userInfo.mobile" placeholder="请输入手机号" :maxlength="20"></el-input>
+              <el-input size="small" v-model="personInfo.mobile" placeholder="请输入手机号" :maxlength="20"></el-input>
             </el-form-item>
             <el-form-item label="邮箱：" prop="email">
-              <el-input size="small" v-model="userInfo.email" placeholder="请输入真实邮箱" :maxlength="20"></el-input>
+              <el-input size="small" v-model="personInfo.email" placeholder="请输入真实邮箱" :maxlength="20"></el-input>
               <div class="tag">请保证邮箱真实有效,以便接收测评报告。</div>
             </el-form-item>
             <el-form-item label="学号：" prop="userNum">
-              <div>{{userInfo.userNum}}</div>
+              <div>{{personInfo.userNum}}</div>
             </el-form-item>
             <div class="title">教育背景</div>
             <el-form-item label="学校名称：" prop="school" class="inline-box">
-              <el-select size="small" v-model="userInfo.school" @change="chooseSchool" placeholder="请选择学校名称" >
+              <el-select size="small" v-model="personInfo.school" @change="chooseSchool" placeholder="请选择学校名称" >
                 <el-option 
                 v-for="item in schoolList"
                 :key="item.id"
@@ -37,7 +37,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="专业名称：" prop="classes" class="inline-box">
-              <el-select size="small" v-model="userInfo.classes" @change="chooseClass" placeholder="请选择所在班级">
+              <el-select size="small" v-model="personInfo.classes" @change="chooseClass" placeholder="请选择所在班级">
                 <el-option 
                   v-for="item in classList"
                   :key="item.id"
@@ -47,32 +47,32 @@
             </el-form-item>
             <div class="post-btn" @click="post('userInfo')">保存</div>
           </el-form>
-          <el-form v-if="isComplete" :model="userInfo" :rules="infoRules"  label-width="100px" class="info-form">
+          <el-form v-if="isComplete" :model="personInfo" :rules="infoRules"  ref="personInfo" label-width="100px" class="info-form">
             <div class="title">基本资料</div>
             <el-form-item label="姓名：" prop="userName">
-              <div>{{userInfo.userName}}</div>
+              <div>{{personInfo.userName}}</div>
             </el-form-item>
             <el-form-item label="性别：" prop="sex">
               <div class="el-input sex-box" >
-                  <label v-if="userInfo.sex==1">男</label>  
-                  <label v-if="userInfo.sex==2">女</label> 
+                  <label v-if="personInfo.sex==1">男</label>  
+                  <label v-if="personInfo.sex==2">女</label> 
               </div>
             </el-form-item>
             <el-form-item label="手机号：" prop="mobile">
-              <div>{{userInfo.mobile}}</div>
+              <div>{{personInfo.mobile}}</div>
             </el-form-item>
             <el-form-item label="邮箱：" prop="email">
-              <div>{{userInfo.email}}</div>
+              <div>{{personInfo.email}}</div>
             </el-form-item>
             <el-form-item label="学号：" prop="userNum">
-              <div>{{userInfo.userNum}}</div>
+              <div>{{personInfo.userNum}}</div>
             </el-form-item>
             <div class="title">教育背景</div>
             <el-form-item label="学校名称：" prop="school">
-              {{userInfo.school}}
+              {{personInfo.school}}
             </el-form-item>
             <el-form-item label="专业名称：" prop="classes">
-              {{userInfo.classes}}
+              {{personInfo.classes}}
             </el-form-item>
           </el-form>
           <div class="account-form">
@@ -116,7 +116,7 @@ export default {
       }
     };
     return {
-      userInfo: {},
+      personInfo: {},
       showForgetPage: false,
       schoolList: [],
       classList: [],
@@ -124,7 +124,6 @@ export default {
       classes: "",
       school_id: "",
       class_id: "",
-      userInfo: {},
       isComplete: false,
       infoRules: {
         userName: [
@@ -178,8 +177,20 @@ export default {
     };
   },
   created() {
-    this.userInfo = this.$store.state.userInfo;
-    if(this.userInfo.email){
+    let userInfo = this.$store.state.userInfo;
+    this.personInfo = {
+      userName: userInfo.userName,
+      sex: userInfo.sex,
+      mobile: userInfo.mobile,
+      email: userInfo.email,
+      userNum: userInfo.userNum,
+      school: userInfo.school,
+      classes: userInfo.classes,
+      id: userInfo.id,
+      type: userInfo.type,
+      registerType: userInfo.registerType
+    };
+    if(this.personInfo.email){
       this.isComplete = true
     }
     this.getSchoolList();
@@ -246,7 +257,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$store
-            .dispatch("USERINFO", this.userInfo)
+            .dispatch("USERINFO", this.personInfo)
             .then(res => {
               localStorage.setItem("userInfo", JSON.stringify(res.data.data));
               this.$store.state.userInfo = res.data.data;
