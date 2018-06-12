@@ -13,7 +13,7 @@
           <div class="job-time">
             <span class="gray">{{edu.startTime.slice(0,10)}} - {{edu.endTime.slice(0,10)}}</span>
             <span>{{edu.schoolName}}</span>
-            <span>{{edu.eduMajorName}}（{{edu.degreeName}}）</span>
+            <span>{{edu.eduMajor}}（{{edu.degreeName}}）</span>
             <span class="icon-box">
               <i class="iconfont icon-edit" @click="editEdu(edu.id)"></i>
               <i class="iconfont icon-delete" @click="deleteEdu(edu.id)"></i>
@@ -81,14 +81,15 @@
                   </el-select>
               </el-form-item>
               <el-form-item label="专业：" prop="eduMajor" class="input-box">
-                <el-select size="small" v-model="eduInfo.eduMajor" placeholder="请选择" class="select-box">
+                <el-input size="small" v-model="eduInfo.eduMajor" placeholder="请输入专业" maxlength="30"></el-input>
+                <!-- <el-select size="small" v-model="eduInfo.eduMajor" placeholder="请选择" class="select-box">
                   <el-option
                     v-for="item in eduData.majorType"
                     :key="item.id"
                     :label="item.name"
                     :value="item.code">
                   </el-option>
-                </el-select>
+                </el-select> -->
               </el-form-item>
               <el-form-item label="学业性质：" prop="eduNature" class="input-box">
                 <el-select size="small" v-model="eduInfo.eduNature" placeholder="请选择" class="select-box">

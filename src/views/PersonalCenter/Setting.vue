@@ -27,23 +27,28 @@
               <div>{{personInfo.userNum}}</div>
             </el-form-item>
             <div class="title">教育背景</div>
-            <el-form-item label="学校名称：" prop="school" class="inline-box">
-              <el-select size="small" v-model="personInfo.school" @change="chooseSchool" placeholder="请选择学校名称" >
+            <el-form-item label="学校名称：" prop="school" >
+              <el-input size="small" v-model="personInfo.school" placeholder="请输入学校名称" :maxlength="30"></el-input>
+              <!-- <el-select size="small" v-model="personInfo.school" @change="chooseSchool" placeholder="请选择学校名称" >
                 <el-option 
                 v-for="item in schoolList"
                 :key="item.id"
                 :label="item.schoolName"
                 :value="item.schoolName"></el-option>
-              </el-select>
+              </el-select> -->
             </el-form-item>
-            <el-form-item label="专业名称：" prop="classes" class="inline-box">
-              <el-select size="small" v-model="personInfo.classes" @change="chooseClass" placeholder="请选择所在班级">
+            <el-form-item label="专业名称：" prop="classes">
+              <el-input size="small" v-model="personInfo.classes" placeholder="请输入专业名称" :maxlength="30"></el-input>
+              <!-- <el-select size="small" v-model="personInfo.classes" @change="chooseClass" placeholder="请选择所在班级">
                 <el-option 
                   v-for="item in classList"
                   :key="item.id"
                   :label="item.className"
                   :value="item.className"></el-option>
-              </el-select>
+              </el-select> -->
+            </el-form-item>
+            <el-form-item label="年级：" prop="grade">
+              <el-input size="small" v-model="personInfo.grade" placeholder="请输入年级 如:2015级" :maxlength="30"></el-input>
             </el-form-item>
             <div class="post-btn" @click="post('personInfo')">保存</div>
           </el-form>
@@ -73,6 +78,9 @@
             </el-form-item>
             <el-form-item label="专业名称：" prop="classes">
               {{personInfo.classes}}
+            </el-form-item>
+            <el-form-item label="年级：" prop="grade">
+              {{personInfo.grade}}
             </el-form-item>
           </el-form>
           <div class="account-form">
@@ -162,14 +170,21 @@ export default {
         school: [
           {
             required: true,
-            message: "请选择所在学校",
+            message: "请输入学校",
             trigger: "blur"
           }
         ],
         classes: [
           {
             required: true,
-            message: "请选择所在年级",
+            message: "请输入专业",
+            trigger: "blur"
+          }
+        ],
+        grade: [
+          {
+            required: true,
+            message: "请输入年级",
             trigger: "blur"
           }
         ]
@@ -193,9 +208,10 @@ export default {
     if(this.personInfo.email){
       this.isComplete = true
     }
-    this.getSchoolList();
+    // this.getSchoolList();
   },
   methods: {
+    /*
     getSchoolList() {
       this.$store
         .dispatch("SCHOOL_LIST")
@@ -253,6 +269,7 @@ export default {
           }
         });
     },
+    */
     post: function(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
