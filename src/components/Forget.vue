@@ -99,23 +99,22 @@
           return
         }
         if(reg.test(this.forgetForm.phone)){
-          let that = this;
-          that.sendMsgDisabled = true;
-          let rTime = that.rTime;
-          // 倒计时
-          let interval = window.setInterval(() => {
-            if (--that.rTime <= 0) {
-              that.rTime = rTime;
-              that.sendMsgDisabled = false;
-              that.reGet = true; // 重新获取按钮
-              window.clearInterval(interval);
-            }
-          }, 1000);
           let data = {
             mobile: this.forgetForm.phone
           }
-          
           this.$store.dispatch('CAPTCHA', data).then(res => {
+             // 倒计时
+            let that = this;
+            that.sendMsgDisabled = true;
+            let rTime = that.rTime;
+            let interval = window.setInterval(() => {
+              if (--that.rTime <= 0) {
+                that.rTime = rTime;
+                that.sendMsgDisabled = false;
+                that.reGet = true; // 重新获取按钮
+                window.clearInterval(interval);
+              }
+            }, 1000);
             this.$message({
               message: "获取验证码成功",
               type: "success"

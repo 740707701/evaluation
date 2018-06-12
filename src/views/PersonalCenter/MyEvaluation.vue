@@ -25,9 +25,9 @@
                 </div>
               </div>
             </div>
-            <div class="page-box" @click="next()">
+            <!-- <div class="page-box" @click="next()">
               <i class="el-icon-arrow-right"></i>
-            </div>
+            </div> -->
           </div>
         </div>
       </el-tab-pane>
@@ -227,7 +227,6 @@ export default {
     }
     .item-list {
       width: 100%;
-      height: 140px;
       padding-top: 10px;
       border-bottom: 1px solid @main-color-border;
       .date-box {
@@ -239,8 +238,7 @@ export default {
         color: #fff;
         border-radius: 4px;
         .day {
-          font-size: 30px;
-          line-height: 30px;
+          font-size: 40px;
           padding-top: 25px;
         }
         .year {
@@ -249,14 +247,13 @@ export default {
         }
       }
       .item-row {
-        width: 830px;
-        height: 120px;
-        overflow: hidden;
+        width: 820px;
         display: inline-block;
         .item {
           float: left;
-          width: 156px;
+          width: 154px;
           margin-left: 10px;
+          margin-bottom: 10px;
           position: relative;
           img {
             width: 100%;
@@ -331,6 +328,9 @@ export default {
           text-align: center;
         }
       }
+    }
+    .item-list:last-child {
+      border: none;
     }
   }
   .unfinished {

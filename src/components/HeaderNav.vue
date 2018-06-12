@@ -27,7 +27,7 @@
             </li>
           </ul>
           <div class="login" v-if="isLogin">
-            <el-badge is-dot class="badge">
+            <el-badge class="badge">
               <router-link to="/news">
                 <i class="el-icon-bell"></i>
               </router-link>
@@ -38,6 +38,7 @@
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="personalcenter">我的测评</el-dropdown-item>
+                <el-dropdown-item command="myresume">我的简历</el-dropdown-item>
                 <!-- <el-dropdown-item command="order">订单中心</el-dropdown-item> -->
                 <el-dropdown-item command="setting">个人资料</el-dropdown-item>
                 <el-dropdown-item command="logout">退出账号</el-dropdown-item>
@@ -107,6 +108,8 @@ export default {
         this.$router.push({path: '/'})
       }else if(command == 'personalcenter'){
         this.$router.push({ path: '/personalcenter'})
+      }else if(command == 'myresume'){
+        this.$router.push({path: '/myresume'})
       }else if(command == 'order'){
         this.$router.push({ path: '/order' })
       }else if(command == 'setting'){

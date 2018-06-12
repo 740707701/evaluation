@@ -4,7 +4,7 @@
     <div class="container">
       <div class="personal-info">
           <el-container class="content">
-            <el-aside width="150px">
+            <el-aside width="230px">
               <div class="aside-box">
                 <div class="user-info">
                   <img class="avatar" :src="avatar" alt="">
@@ -178,11 +178,12 @@ export default {
           background-color: #fff;
           border-radius: 4px;
           padding: 15px 0;
+          text-align: center;
           .avatar {
             width: 80px;
             height: 80px;
             border-radius: 40px;
-            margin-left: 25px;
+            // margin-left: 25px;
             background-color: #eaeaea;
             display: inline-block;
             img {
@@ -212,14 +213,15 @@ export default {
           }
           .upload-box {
             position: relative;
-            margin-left: 25px;
+            text-align: center;
             margin-top: 5px;
             .input-file {
               width: 80px;
               opacity: 0;
               position: absolute;
               top: 0;
-              left: 0;
+              left: 50%;
+              margin-left: -40px;
             }
             .upload-btn {
               width: 80px;
@@ -229,7 +231,9 @@ export default {
               text-align: center;
               font-size: 12px;
               background-color: @main-color-blue;
+              display: inline-block;
               color: #fff;
+              margin: 0 auto;
               cursor: pointer;
             }
           }

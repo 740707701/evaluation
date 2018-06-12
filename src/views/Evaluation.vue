@@ -35,12 +35,12 @@
               <el-input size="small" v-model="serialNumber" placeholder="请输入序列号"></el-input>
             </el-form-item>
             <el-form-item label="" prop="">
-                <div class="test-btn" @click="test()">立即测试</div>
+                <div class="test-btn" :class="{disabled: !caichuCode}" @click="test()">立即测试</div>
             </el-form-item>
           </el-form>
         </div>
         <div class="iframe" v-if="showCaichuBox">
-          <iframe width="100%" height="500"  frameborder="0" scrolling="no" 
+          <iframe width="100%" height="500"  frameborder="0" scrolling="yes" 
           :src="`http://www.apesk.com/h/go_zy_dingzhi.asp?checkcode=${serialNumber}&hruserid=18702192580&l=${detail.baseInfo.caichuCode}&test_name=${test_name}&test_email=${test_email}`"></iframe>
         </div>
       </div>
@@ -74,7 +74,8 @@ export default {
       this.$store.dispatch('EVALUATION_DETAIL', {cepingId: this.$route.params.id})
       .then( res => {
         this.detail = res.data;
-        this.caichuCode = String(this.detail.baseInfo.caichuCode) + '测试' ;
+        // this.caichuCode = String(this.detail.baseInfo.caichuCode) + '测试' ;
+        this.caichuCode =this.detail.baseInfo.caichuCode;
       })
       .catch( err => {
         console.log(err)
@@ -92,6 +93,13 @@ export default {
       })
     },
     test: function(){
+      if(!this.caichuCode){
+        this.$message({
+          type: 'error',
+          message: "未查找到量表版本，请稍后重试"
+        })
+        return
+      }
       if(this.serialNumber){
         let data = {
           cepingId: this.$route.params.id,
@@ -129,6 +137,7 @@ export default {
 <style lang="less" scoped>
 @import '../assets/css/colors.less';
 .evaluation-page {
+  // height: 100%;
   min-height: 100%;
   background-color: @main-color-bg;
   padding-top: 60px;
@@ -150,7 +159,12 @@ export default {
     width: 1200px;
     margin: 0 auto;
     margin-top: 70px;
+    height: calc(100% - 70px);
+    .disabled {
+      cursor: no-drop!important;
+    }
     .intro-box {
+      min-height: 160px;
       img {
         float: left;
         width: 300px;
@@ -192,6 +206,7 @@ export default {
       background-color: #fff;
       border-radius: 10px;
       margin-top: 20px;
+      height: calc(100% - 180px);
       .warn {
         line-height: 30px;
         text-align: center;

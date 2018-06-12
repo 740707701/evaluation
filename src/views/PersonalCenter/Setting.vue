@@ -45,7 +45,7 @@
                   :value="item.className"></el-option>
               </el-select>
             </el-form-item>
-            <div class="post-btn" @click="post('userInfo')">保存</div>
+            <div class="post-btn" @click="post('personInfo')">保存</div>
           </el-form>
           <el-form v-if="isComplete" :model="personInfo" :rules="infoRules"  ref="personInfo" label-width="100px" class="info-form">
             <div class="title">基本资料</div>
@@ -253,7 +253,7 @@ export default {
           }
         });
     },
-    post(formName) {
+    post: function(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$store
@@ -261,6 +261,7 @@ export default {
             .then(res => {
               localStorage.setItem("userInfo", JSON.stringify(res.data.data));
               this.$store.state.userInfo = res.data.data;
+              this.isComplete = true;
               this.$message({
                 type: "success",
                 message: "个人资料信息保存成功!"
