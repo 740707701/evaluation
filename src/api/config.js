@@ -56,7 +56,7 @@ export default {
     //上传简历头像
     headpic: 'file/headpic',
     //导出简历
-    exportResume: 'resume/export/{resumeId}/{format}',
+    exportResume: 'resume/export/{resumeId}/{format}', //format: pdf/word
 
     //简历列表
     resumeList: 'resume/list',

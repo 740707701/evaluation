@@ -7,6 +7,7 @@ const RESUME_INFO = 'RESUME_INFO'
 const RESUME_LIST = 'RESUME_LIST'
 const MODIFY_LIST = 'MODIFY_LIST'
 const SUBMIT_RESUME = 'SUBMIT_RESUME'
+const EXPORT_RESUME = 'EXPORT_RESUME'
 
 const SET_BASEINFO = 'SET_BASEINFO'
 const SET_JOBINTENSION = 'SET_JOBINTENSION'
@@ -93,7 +94,17 @@ export default {
         return res
       })
     },
-    //上传简历
+    //导出简历
+    [EXPORT_RESUME]({ commit }, params) {
+      return api.get(config.url.exportResume.replace('{resumeId}', params.resumeId).replace('{format}', params.format)).then(res => {
+        commit('RESUME_SET', {
+          target: 'resumeInfo',
+          data: res
+        })
+        return res
+      })
+    },
+    //上传简历头像
     [UPLOAD_HEAD]({ commit }, data) {
       return api.post(config.url.headpic, data).then(res => {
         commit('RESUME_SET', {

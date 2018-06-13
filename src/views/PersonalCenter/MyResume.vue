@@ -20,7 +20,9 @@
                 <span v-if="resume.time_solt.minute&&!resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.minute}}分钟</span>
                 前
               </div>
-              <div class="operation-btn" @click="view(resume.id)">查看</div>
+              <div class="operation-btn">
+                <router-link target="_blank" :to="`/viewResume/${resume.id}`">查看</router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -190,7 +192,10 @@ import time from '../../api/time.js'
           color: #A2A9B8
         }
         .operation-btn {
-          padding: 3px 10px;
+          width: 50px;
+          height: 26px;
+          line-height: 26px;
+          text-align: center;
           border-radius: 4px;
           background-color: @main-color-blue;
           color: #fff;
@@ -198,6 +203,12 @@ import time from '../../api/time.js'
           position: absolute;
           bottom: 0px;
           right: 0px;
+          a {
+            width: 100%;
+            line-height: 26px;
+            display: inline-block;
+            color: #fff;
+          }
         }
       }
     }

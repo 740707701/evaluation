@@ -15,7 +15,9 @@
                 </div>
                 <div class="icon-box preview" @click="preview">
                   <i class="iconfont icon-yulan"></i>
-                  <div class="icon-text">预览</div>
+                  <div class="icon-text">预览
+                    <!-- <router-link target="_blank" :to="`/viewResume/${resumeId}`">预览</router-link> -->
+                  </div>
                 </div>
               </div>
             </div>
@@ -485,6 +487,7 @@ export default {
             cursor: pointer;
             .icon-text {
               padding-top: 6px;
+              display: inline-block;
             }
             .icon-refresh {
               color: #6bd7b0;

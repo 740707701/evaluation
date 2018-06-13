@@ -21,37 +21,40 @@ export default {
     var date = new Date(year, month - 1, day, hour, minute, second)
     return date
   },
-  //获取距离当前时间的时间段
-  getTime: function(timeStr) {
-    //获取当前时间的 年,月,日
-    let date = new Date()
-    let curYear = date.getFullYear()
-    let curMonth = date.getMonth()
-    let curDay = date.getDate()
-    let curHour = date.getHours()
-    let curMinute = date.getMinutes()
-    let curSecond = date.getSeconds()
+  //获取两个时间之间的时间段
+  getTime: function(startTime, endTime) {
+    let end
+    if (endTime) {
+      end = this.stringToDate(endTime)
+    } else {
+      end = new Date()
+    }
+    let endYear = end.getFullYear()
+    let endMonth = end.getMonth()
+    let endDay = end.getDate()
+    let endHour = end.getHours()
+    let endMinute = end.getMinutes()
+    let endSecond = end.getSeconds()
 
-    let time = this.stringToDate(timeStr)
+    let start = this.stringToDate(startTime)
       // 获取某一时间的年月日
-    let timeYear = time.getFullYear()
-    let timeMonth = time.getMonth()
-    let timeDay = time.getDate()
-    let timeHour = time.getHours()
-    let timeMinute = time.getMinutes()
-    let timeSecond = time.getSeconds()
+    let startYear = start.getFullYear()
+    let startMonth = start.getMonth()
+    let startDay = start.getDate()
+    let startHour = start.getHours()
+    let startMinute = start.getMinutes()
+    let startSecond = start.getSeconds()
 
     let year, month, day, hour, minute, second
 
     //计算
-    year = (curYear - timeYear) > 0 ? (curYear - timeYear) : ''
-    month = (curMonth - timeMonth) > 0 ? (curMonth - timeMonth) : ''
-    day = (curDay - timeDay) > 0 ? (curDay - timeDay) : ''
-    hour = (curHour - timeHour) > 0 ? (curHour - timeHour) : ''
-    minute = (curMinute - timeMinute) > 0 ? (curMinute - timeMinute) : ''
-    second = (curSecond - timeSecond) > 0 ? (curSecond - timeSecond) : ''
+    year = (endYear - startYear) > 0 ? (endYear - startYear) : ''
+    month = (endMonth - startMonth) > 0 ? (endMonth - startMonth) : ''
+    day = (endDay - startDay) > 0 ? (endDay - startDay) : ''
+    hour = (endHour - startHour) > 0 ? (endHour - startHour) : ''
+    minute = (endMinute - startMinute) > 0 ? (endMinute - startMinute) : ''
+    second = (endSecond - startSecond) > 0 ? (endSecond - startSecond) : ''
 
-    // return year, month, day, hour, minute, second
     return {
       year: year,
       month: month,
@@ -60,6 +63,5 @@ export default {
       minute: minute,
       second: second
     }
-
   }
 }

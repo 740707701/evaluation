@@ -5,6 +5,7 @@ import store from '../store'
 import Home from '../views/Home.vue'
 import Resume from '../views/Resume.vue'
 import ResumePreview from '../views/ResumePreview.vue'
+import ViewResume from '../views/ViewResume'
 import CartDetail from '../views/CartDetail.vue'
 import CourseList from '../views/CourseList.vue'
 import CourseDetail from '../views/CourseDetail.vue'
@@ -112,6 +113,14 @@ const routes = [{
     path: '/resume/:resumeId?',
     name: 'resume',
     component: Resume,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/viewResume/:resumeId?',
+    name: 'viewResume',
+    component: ViewResume,
     meta: {
       requireAuth: true
     }

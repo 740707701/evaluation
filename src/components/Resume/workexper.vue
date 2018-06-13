@@ -13,7 +13,7 @@
           <div class="job-time">
             <span class="gray">{{exper.startTime.slice(0,10)}} - {{exper.endTime.slice(0,10)}}</span>
             <span>{{exper.companyName}}</span>
-            <span>{{exper.deparment}}</span>
+            <span>{{exper.position}}</span>
             <span class="icon-box">
               <i class="iconfont icon-edit" @click="editWorkExper(exper.id)"></i>
               <i class="iconfont icon-delete" @click="deleteWorkExper(exper.id)"></i>
