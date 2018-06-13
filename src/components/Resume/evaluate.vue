@@ -11,7 +11,7 @@
           <div class="evaluate-text">{{evaluateInfo.evaluate}}</div>
         </div>
         <div class="evaluate-box edit-content" v-if="showEvaluateEdit==true && evaluateInfo">
-          <textarea class="textarea edit-border" v-model="eva.evaluate" placeholder="良好的自我评价，可以展现自身优势，让HR更了解你！"> 
+          <textarea class="textarea edit-border" v-model="eva.evaluate" :maxlength="120" placeholder="良好的自我评价，可以展现自身优势，让HR更了解你！"> 
           </textarea>
           <div class="edit-btn-box">
             <div class="edit-btn save-btn" @click="saveEvaluate">保存</div>

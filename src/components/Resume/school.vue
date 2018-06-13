@@ -24,10 +24,10 @@
                       </el-date-picker>
                   </el-form-item>
                   <el-form-item label="奖项：" prop="honorPrize" class="input-box">
-                    <el-input size="small" v-model="honorInfo.honorPrize" placeholder="请输入奖项"></el-input>
+                    <el-input size="small" v-model="honorInfo.honorPrize" placeholder="请输入奖项" :maxlength="10"></el-input>
                   </el-form-item>
                   <el-form-item label="级别：" prop="honorLevel" class="input-box">
-                    <el-input size="small" v-model="honorInfo.honorLevel" placeholder="请输入级别"></el-input>
+                    <el-input size="small" v-model="honorInfo.honorLevel" placeholder="请输入级别" :maxlength="10"></el-input>
                   </el-form-item>
                   <el-form-item label="" prop="" class="input-box"></el-form-item>
                   <el-form-item size="small" class="edit-btn-box">
@@ -65,11 +65,11 @@
                       </el-date-picker>
                   </el-form-item>
                   <el-form-item label="职务：" prop="schoolWorkName" class="input-box">
-                    <el-input size="small" v-model="workInfo.schoolWorkName" placeholder="请输入职务"></el-input>
+                    <el-input size="small" v-model="workInfo.schoolWorkName" placeholder="请输入职务" :maxlength="30"></el-input>
                   </el-form-item>
                   <el-form-item label="职务描述：" prop="schoolWorkDesc" class="input-box desc-box">
                     <div class="work-desc">
-                        <textarea v-model="workInfo.schoolWorkDesc" maxlength="300" class="textarea" name="" id="" placeholder="描述你的职责范围、工作任务以及取得成绩"></textarea>
+                        <textarea v-model="workInfo.schoolWorkDesc" :maxlength="200" class="textarea" name="" id="" placeholder="描述你的职责范围、工作任务以及取得成绩"></textarea>
                       </div>
                   </el-form-item>
                   <el-form-item size="small" class="edit-btn-box">
@@ -227,7 +227,7 @@ export default {
           },
           {
             min: 2,
-            max: 100,
+            max: 300,
             message: "请确认此职务对求职有帮助",
             trigger: "blur"
           }

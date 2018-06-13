@@ -44,10 +44,10 @@
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="证书名称：" prop="name" class="input-box">
-                <el-input size="small" v-model="skillInfo.name" placeholder="请输入证书名称" maxlength="30"></el-input>
+                <el-input size="small" v-model="skillInfo.name" placeholder="请输入证书名称" :maxlength="30"></el-input>
               </el-form-item>
               <el-form-item label="成绩：" prop="score" class="input-box">
-                <el-input size="small" v-model="skillInfo.score" placeholder="请输入成绩" maxlength="30" ></el-input>
+                <el-input size="small" v-model="skillInfo.score" placeholder="请输入成绩" :maxlength="30" ></el-input>
               </el-form-item>
               <el-form-item size="small" class="edit-btn-box">
                 <el-button class="save-btn" @click="saveSkillInfo('skillInfo')">保存</el-button>

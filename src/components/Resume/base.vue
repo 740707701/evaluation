@@ -62,7 +62,7 @@
         <div class="edit-content baseinfo-content">
           <el-form :inline="true" :model="base" :rules="rules" ref="base" label-width="100px" class="form-box">
             <el-form-item label="姓名：" prop="name" class="input-box">
-              <el-input size="small" v-model="base.name" placeholder="请输入姓名" maxlength="30" @focus="showNameMsg=true" @blur="showNameMsg=false" @input="showNameMsg=false"></el-input>
+              <el-input size="small" v-model="base.name" placeholder="请输入姓名" :maxlength="10" @focus="showNameMsg=true" @blur="showNameMsg=false" @input="showNameMsg=false"></el-input>
               <div class="msg" v-if="showNameMsg">请确认姓名与身份证保持信息一致。</div>
             </el-form-item>
             <el-form-item label="性别：" prop="sex" class="input-box">
@@ -83,11 +83,11 @@
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="手机：" prop="phone" class="input-box">
-              <el-input size="small" v-model="base.phone" placeholder="请输入手机号码" maxlength="11"></el-input>
+              <el-input size="small" v-model="base.phone" placeholder="请输入手机号码" :maxlength="11"></el-input>
               <div class="msg" v-if="showPhoneMsg">请确认电话号码保持畅通，尽量让电话号码归属为求职所在地。</div>
             </el-form-item>
             <el-form-item label="邮箱：" prop="email" class="input-box">
-              <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" maxlength="20"></el-input>
+              <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" :maxlength="50"></el-input>
             </el-form-item>
             <el-form-item label="籍贯：" prop="nativePlaceList" class="input-box">
               <!-- <el-select size="small"  v-model="base.nativePlace" placeholder="请选择" class="select-box">
@@ -144,7 +144,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="现居住：" prop="address" class="input-box">
-              <el-input size="small" v-model="base.address" placeholder="请输入现居住地址" maxlength="30"></el-input>
+              <el-input size="small" v-model="base.address" placeholder="请输入现居住地址" :maxlength="40"></el-input>
             </el-form-item>
             <el-form-item size="small" class="edit-btn-box">
               <el-button class="save-btn" @click="saveBaseInfo('base')">保存</el-button>
@@ -163,9 +163,30 @@ import upload from '../Upload'
 export default {
   name: "baseInfo",
   data() {
+    const validatePhone = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("手机号码不能为空"));
+      } else if (
+        value.length == 11 &&
+        /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/.test(value)
+      ) {
+        callback();
+      } else {
+        callback(new Error("请输入正确的手机号"));
+      }
+    };
+    const validateEmail = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("邮箱不能为空"));
+      } else if (
+        /^([a-zA-Z0-9]+[\-|_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[\-|_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(value)
+      ) {
+        callback();
+      } else {
+        callback(new Error("请输入正确的真实邮箱"));
+      }
+    };
     return {
-      // file: '',
-      // avatar: require('../../assets/images/demo/05.jpg'),
       phone: '',
       showNameMsg: false,
       showSexMsg: false,
@@ -190,8 +211,8 @@ export default {
             trigger: "blur"
           },
           {
-            min: 2,
-            max: 20,
+            min: 1,
+            max: 10,
             message: "请确认姓名与身份证保持信息一致",
             trigger: "blur"
           }
@@ -222,8 +243,8 @@ export default {
         email: [
           { required: true, message: "请输入联系邮箱", trigger: "blur" },
           {
-            min: 0,
-            max: 30,
+            min: 1,
+            max: 50,
             message: "请确认邮箱地址可正常收发邮件，且未设置陌生邮箱黑名单等。",
             trigger: "blur"
           }
@@ -263,7 +284,7 @@ export default {
           {
             required: true,
             min: 0,
-            max: 10,
+            max: 40,
             message: "请确认居住地与求职所在城市一致",
             trigger: "blur"
           }

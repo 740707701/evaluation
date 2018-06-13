@@ -66,10 +66,10 @@
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="公司：" prop="companyName" class="input-box">
-                <el-input size="small" v-model="workExperInfo.companyName" placeholder="请输入公司" maxlength="30"></el-input>
+                <el-input size="small" v-model="workExperInfo.companyName" placeholder="请输入公司" :maxlength="30"></el-input>
               </el-form-item>
               <el-form-item label="部门：" prop="department" class="input-box">
-                <el-input size="small" v-model="workExperInfo.department" placeholder="请输入部门" maxlenth="30"></el-input>
+                <el-input size="small" v-model="workExperInfo.department" placeholder="请输入部门" :maxlength="30"></el-input>
               </el-form-item>
               <el-form-item label="职能：" prop="funList" class="input-box" >
                 <!-- <el-select size="small" v-model="workExperInfo.fun" placeholder="请选择" class="select-box">
@@ -102,7 +102,7 @@
                   ></el-cascader>
               </el-form-item>
               <el-form-item label="职位：" prop="position" class="input-box">
-                <el-input size="small" v-model="workExperInfo.position" placeholder="所在职位" maxlenth="30"></el-input>
+                <el-input size="small" v-model="workExperInfo.position" placeholder="所在职位" :maxlength="30"></el-input>
               </el-form-item>
               <el-form-item label="公司规模：" prop="companySize" class="input-box">
                 <el-select size="small" v-model="workExperInfo.companySize" placeholder="请选择" class="select-box">
@@ -131,7 +131,7 @@
               </el-form-item>
               <el-form-item label="工作描述：" prop="workDesc" class="input-box desc-box">
                 <div class="work-desc">
-                    <textarea v-model="workExperInfo.workDesc" maxlength="300" class="textarea" name="" id="" placeholder="描述你的职责范围、工作任务以及取得成绩"></textarea>
+                    <textarea v-model="workExperInfo.workDesc" :maxlength="200" class="textarea" name="" id="" placeholder="描述你的职责范围、工作任务以及取得成绩"></textarea>
                   </div>
               </el-form-item>
               <el-form-item size="small" class="edit-btn-box">

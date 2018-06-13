@@ -68,7 +68,7 @@
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="学校：" prop="schoolName" class="input-box">
-                <el-input size="small" v-model="eduInfo.schoolName" placeholder="请输入学校" maxlength="30"></el-input>
+                <el-input size="small" v-model="eduInfo.schoolName" placeholder="请输入学校" :maxlength="30"></el-input>
               </el-form-item>
               <el-form-item label="学历/学位：" prop="degree" class="input-box">
                 <el-select size="small" v-model="eduInfo.degree" placeholder="请选择" class="select-box">
@@ -81,7 +81,7 @@
                   </el-select>
               </el-form-item>
               <el-form-item label="专业：" prop="eduMajor" class="input-box">
-                <el-input size="small" v-model="eduInfo.eduMajor" placeholder="请输入专业" maxlength="30"></el-input>
+                <el-input size="small" v-model="eduInfo.eduMajor" placeholder="请输入专业" :maxlength="30"></el-input>
                 <!-- <el-select size="small" v-model="eduInfo.eduMajor" placeholder="请选择" class="select-box">
                   <el-option
                     v-for="item in eduData.majorType"
@@ -103,12 +103,12 @@
               </el-form-item>
               <el-form-item label="专业描述：" prop="eduDesc" class="input-box desc-box">
                 <div class="work-desc">
-                    <textarea v-model="eduInfo.majorDesc" maxlength="300" class="textarea" name="" id="" placeholder="简单描述下所学专业"></textarea>
+                    <textarea v-model="eduInfo.majorDesc" :maxlength="300" class="textarea" name="" id="" placeholder="简单描述下所学专业"></textarea>
                   </div>
               </el-form-item>
               <el-form-item label="主修课程：" prop="eduDesc" class="input-box desc-box">
                 <div class="work-desc">
-                    <textarea v-model="eduInfo.eduDesc" maxlength="300" class="textarea" name="" id="" placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等"></textarea>
+                    <textarea v-model="eduInfo.eduDesc" :maxlength="300" class="textarea" name="" id="" placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等"></textarea>
                   </div>
               </el-form-item>
               <el-form-item size="small" class="edit-btn-box">
