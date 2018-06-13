@@ -263,7 +263,7 @@ export default {
           this.$store
             .dispatch("SET_SCHOOLHONOR", this.honorInfo)
             .then(res => {
-              this.$emit("saved", this.base);
+              this.$emit("saved", this.baseParams.resumeId);
               this.showSchoolHonorEdit = false;
             })
             .catch(err => {
@@ -294,7 +294,7 @@ export default {
           this.$store
             .dispatch("DELETE_SCHOOLHONOR", id)
             .then(response => {
-              this.$emit("saved", this.base);
+              this.$emit("saved", this.baseParams.resumeId);
               console.log("删除成功", response);
             })
             .catch(err => {
@@ -342,7 +342,7 @@ export default {
           this.$store
             .dispatch("SET_SCHOOLWORK", this.workInfo)
             .then(res => {
-              this.$emit("saved", this.base);
+              this.$emit("saved", this.baseParams.resumeId);
               this.showSchoolWorkEdit = false;
             })
             .catch(err => {

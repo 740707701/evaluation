@@ -269,6 +269,7 @@ export default {
     //返回
     back: function(){
       this.showSuccessDialog=false;
+      this.resumeId = ''
       this.getResumeInfo()
     },
     //预览

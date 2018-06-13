@@ -292,7 +292,7 @@ export default {
           this.$store
             .dispatch("SET_WORKEXPER", this.workExperInfo)
             .then(res => {
-              this.$emit('saved');
+              this.$emit('saved', this.baseParams.resumeId);
               this.showWorkExperiencedEdit = false;
             })
             .catch(err => {
@@ -323,7 +323,7 @@ export default {
           this.$store
             .dispatch("DELETE_WORKEXPER", id)
             .then(res => {
-              this.$emit('saved');
+              this.$emit('saved', this.baseParams.resumeId);
               console.log("删除成功", res);
             })
             .catch(err=> {

@@ -55,7 +55,7 @@ export default {
       this.$store
         .dispatch("SET_EVALUATE", this.evaluateInfo)
         .then(res => {
-          this.$emit("saved");
+          this.$emit("saved", this.baseParams.resumeId);
           this.showEvaluateEdit = false;
         })
         .catch(err => {

@@ -136,7 +136,7 @@ export default {
             .dispatch("SET_SKILL", this.skillInfo)
             .then(res => {
               this.showSkillEdit = false;
-              this.$emit("saved");
+              this.$emit("saved", this.baseParams.resumeId);
             })
             .catch(err => {
               if(err.data.msg){
@@ -166,7 +166,7 @@ export default {
           this.$store
             .dispatch("DELETE_SKILL", id)
             .then(res => {
-              this.$emit("saved", this.base);
+              this.$emit("saved", this.baseParams.resumeId);
               console.log("删除成功", res);
             })
             .catch(err => {

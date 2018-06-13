@@ -224,7 +224,7 @@ export default {
           this.$store
             .dispatch("SET_JOBINTENSION", this.expect)
             .then(res => {
-              this.$emit("saved");
+              this.$emit("saved", this.baseParams.resumeId);
               this.showJobIntensionEdit = false;
             })
             .catch(err => {

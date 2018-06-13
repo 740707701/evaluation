@@ -223,7 +223,7 @@ export default {
           this.$store
             .dispatch("SET_EDU", this.eduInfo)
             .then(resporesnse => {
-              this.$emit('saved');
+              this.$emit('saved', this.baseParams.resumeId);
               this.showEducationEdit = false;
             })
             .catch(err => {
@@ -254,7 +254,7 @@ export default {
           this.$store
             .dispatch("DELETE_EDU", id)
             .then(res => {
-              this.$emit('saved');
+              this.$emit('saved', this.baseParams.resumeId);
               console.log("删除成功", res);
             })
             .catch(err => {
