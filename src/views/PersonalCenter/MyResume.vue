@@ -189,10 +189,10 @@ import time from '../../api/time.js'
         }
         .comment {
           line-height: 20px;
-          color: #A2A9B8
+          color: #A2A9B8;
         }
         .operation-btn {
-          width: 50px;
+          padding: 0 10px;
           height: 26px;
           line-height: 26px;
           text-align: center;

@@ -26,7 +26,7 @@ axios.interceptors.response.use(function(response) {
     // console.log('------', response)
     if (response.data.code == 1) {
       return Promise.resolve(response)
-    } else if (response.data.code == 401) {
+    } else if (response.data.code == 401 || response.data.code == 402) {
       store.commit('logout')
       router.replace({
         path: '/',
