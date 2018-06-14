@@ -118,7 +118,7 @@ const routes = [{
     }
   },
   {
-    path: '/viewResume/:resumeId?',
+    path: '/viewResume/:resumeId/:org?',
     name: 'viewResume',
     component: ViewResume,
     meta: {

@@ -3,7 +3,7 @@
     <div class="container">
       <div class="header">
         <img src="../assets/images/logo.svg" alt="" class="logo">
-        <div class="output" @click="showExport=true">
+        <div class="output" v-if="!isPreview" @click="showExport=true">
           <i class="icon-cart"></i>导出
         </div>
       </div>
@@ -122,7 +122,7 @@
             <span class="name">自我评价：</span> <div class="evaluate">{{baseInfo.evaluate}}</div>
           </div>
         </div>
-        <div class="work-exper item-content">
+        <div class="work-exper item-content" v-if="workExperList.length">
           <div class="item-title">工作经验</div>
           <div class="job-item" v-for="exper in workExperList" :key="exper.id">
             <div class="job-time">
@@ -176,13 +176,13 @@
             </div>
           </div>
         </div>
-        <div class="school">
+        <div class="school" v-if="schoolHonorList.length || schoolWorkList.length">
           <div class="item-title">在校情况</div>
-          <div class="honor">
+          <div class="honor" v-if="schoolHonorList.length">
             <div class="school-type">
               <span>校内荣誉</span>
             </div>
-            <ul class="honor-list" v-if="schoolHonorList.length">
+            <ul class="honor-list">
               <li class="honor-item" v-for="honor in schoolHonorList" :key="honor.id">
                 <span class="gray">{{honor.honorTime.slice(0, 10)}}</span>
                 <span>{{honor.honorPrize}}</span>
@@ -190,11 +190,11 @@
               </li>
             </ul>
           </div>
-          <div class="post">
+          <div class="post" v-if="schoolWorkList.length">
             <div class="school-type">
               <span>校内职务</span>
             </div>
-            <ul class="post-list" v-if="schoolWorkList.length">
+            <ul class="post-list">
               <li class="job-item" v-for="work in schoolWorkList" :key="work.id">
                 <div class="job-time">
                   <span class="gray">{{work.startTime.slice(0, 10)}} - {{work.endTime.slice(0, 10)}}</span>
@@ -213,9 +213,9 @@
             </ul>
           </div>
         </div>
-        <div class="skill item-content">
+        <div class="skill item-content" v-if="skillList.length">
           <div class="item-title">技能证书</div>
-            <ul v-if="skillList.length">
+            <ul>
               <li v-for="skill in skillList" :key="skill.id">
                 <span class="gray">{{skill.skillTime.slice(0,10)}}</span>
                 <span>{{skill.name}}</span>
@@ -229,7 +229,7 @@
       <div class="export-box">
         <div class="top">
           <div class="title">导出简历</div>
-          <div class="close" @click="showExport=false">x</div>
+          <div class="close" @click="showExport=false">×</div>
         </div>
         <div class="export-content">
           <div class="export-title">请选择导出格式</div>
@@ -263,11 +263,17 @@
         schoolWorkList: [],
         skillList: [],
         exportType: '',
-        showExport: false
+        showExport: false,
+        isPreview: false
       }
     },
     created(){
+      console.log(this.$route.params)
       this.resumeId = this.$route.params.resumeId
+      this.org = this.$route.params.org
+      if(this.org == 'preview'){
+        this.isPreview = true
+      }
       this.getResumeInfo();
       console.log(time.getTime('2015-06-01 15:20:04', '2018-03-01 12:40:03'))
     },
@@ -281,7 +287,7 @@
           .dispatch("RESUME_INFO", params)
           .then(res => {
             this.resume = res.data;
-            this.baseInfo = res.data.resumeBaseInfo || {};
+            this.baseInfo = res.data.resumeBaseInfo  || {};
             this.resumeId = res.data.resumeBaseInfo.id;
             this.evaluateInfo = res.data.resumeBaseInfo ||{};
             this.expectInfo = res.data.resumeBaseInfo || {};

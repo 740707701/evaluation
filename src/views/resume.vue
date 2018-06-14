@@ -13,12 +13,12 @@
                   <i class="iconfont icon-refresh"></i>
                   <div class="icon-text">刷新</div>
                 </div>
-                <div class="icon-box preview" @click="preview">
-                  <i class="iconfont icon-yulan"></i>
-                  <div class="icon-text">预览
-                    <!-- <router-link target="_blank" :to="`/viewResume/${resumeId}`">预览</router-link> -->
+                <router-link target="_blank" :to="`/viewResume/${resumeId}/preview`">
+                  <div class="icon-box preview">
+                    <i class="iconfont icon-yulan"></i>
+                    <div class="icon-text">预览</div>
                   </div>
-                </div>
+                </router-link>
               </div>
             </div>
             <ul class="tabs">
@@ -123,7 +123,7 @@
       </div>
     </div>
     <!-- 简历预览弹框 -->
-    <div class="dialog" v-if="showPreview" @click.self="showPreview=false">
+    <!-- <div class="dialog" v-if="showPreview" @click.self="showPreview=false">
       <div class="resume-preview">
         <div class="preview-container">
           <el-row :gutter="10" class="el-content">
@@ -133,7 +133,7 @@
           </el-row>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
