@@ -53,12 +53,6 @@
       </div>
       <div class="base-content">
         <upload :uploadType="`resume_head`" :imgWidth="`85px`" :imgHeight="`104px`" :imgUrl="imgUrl" @upload="getImgUrl"></upload>
-        <!-- <div class="avatar edit-avatar">
-          <input type="file" class="input-file" name="avatar" ref="avatarInput"
-          @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
-          <img :src="avatar" alt="" >
-          <div class="text" @click="upload" v-if="file">确定上传</div>
-        </div> -->
         <div class="edit-content baseinfo-content">
           <el-form :inline="true" :model="base" :rules="rules" ref="base" label-width="100px" class="form-box">
             <el-form-item label="姓名：" prop="name" class="input-box">
@@ -83,11 +77,12 @@
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="手机：" prop="phone" class="input-box">
-              <el-input size="small" v-model="base.phone" placeholder="请输入手机号码" :maxlength="11"></el-input>
+              <el-input size="small" v-model="base.phone" placeholder="请输入手机号码" :maxlength="11" @focus="showPhoneMsg=true" @blur="showPhoneMsg=false" @input="showPhoneMsg=false"></el-input>
               <div class="msg" v-if="showPhoneMsg">请确认电话号码保持畅通，尽量让电话号码归属为求职所在地。</div>
             </el-form-item>
             <el-form-item label="邮箱：" prop="email" class="input-box">
-              <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" :maxlength="50"></el-input>
+              <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" :maxlength="50" @focus="showEmailMsg=true" @blur="showEmailMsg=false"></el-input>
+              <div class="msg" v-if="showEmailMsg">请确认邮箱地址可正常收发邮件，且未设置陌生邮箱黑名单等。</div>
             </el-form-item>
             <el-form-item label="籍贯：" prop="nativePlaceList" class="input-box">
               <!-- <el-select size="small"  v-model="base.nativePlace" placeholder="请选择" class="select-box">
@@ -144,7 +139,8 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="现居住：" prop="address" class="input-box">
-              <el-input size="small" v-model="base.address" placeholder="请输入现居住地址" :maxlength="40"></el-input>
+              <el-input size="small" v-model="base.address" placeholder="请输入现居住地址" :maxlength="40" @focus="showAddressMsg=true" @blur="showAddressMsg=false"></el-input>
+              <div class="msg" v-if="showAddressMsg">请确认与求职所在城市一致</div>
             </el-form-item>
             <el-form-item size="small" class="edit-btn-box">
               <el-button class="save-btn" @click="saveBaseInfo('base')">保存</el-button>
@@ -303,45 +299,6 @@ export default {
 
   },
   methods: {
-    /*
-    changeImage: function(e){
-      let file = e.target.files[0];
-      this.file = file
-      console.log(this.file)
-      let reader = new FileReader()
-      let that = this
-      reader.readAsDataURL(file)
-      reader.onload= function(e){
-        that.avatar = this.result
-      }
-    },
-    upload: function(){
-      if(this.$refs.avatarInput.files[0].length !== 0){
-        let data = new FormData()
-        data.append('multfile', this.$refs.avatarInput.files[0])
-        data.append('operaType', 'resume_head')
-        data.append('resumeId', this.baseParams.resumeId)
-        this.$store.dispatch('UPLOAD_HEAD', data)
-        .then(res => {
-          console.log(res)
-          this.file = '';
-        }).catch(err => {
-          console.log(err)
-          if(err.data.msg){
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            })
-          }else {
-            this.$message({
-              type: "error",
-              message: "上传失败"
-            })
-          }
-        })
-      }
-    },
-    */
     changeNativePlace: function(e){
       this.base.nativePlaceList = e;
     },
@@ -400,7 +357,7 @@ export default {
     getImgUrl: function(data){
       this.base.headPicAll = data.rootPath + data.headPic;
       this.base.headPic = data.headPic;
-    },
+    }
   },
   components: {
     upload

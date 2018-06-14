@@ -147,7 +147,12 @@ export default {
         children: "childrens"
       },
       rules: {
-        expectInfo: [
+        expectSalary: [
+          {
+            required: true,
+            message: "请选择期望薪资",
+            trigger: "blur"
+          },
           {
             required: true,
             message: "请确认你所填写的期望薪资符合市场规律，没有过高/过低",
@@ -156,7 +161,12 @@ export default {
         ],
         expectPlaceList: [
           {
-            require: true,
+            required: true,
+            message: "请选择工作地点",
+            trigger: "blur"
+          },
+          {
+            required: true,
             type: "array",
             message: "请确认该期望地为单一城市",
             trigger: "blur"
@@ -164,7 +174,12 @@ export default {
         ],
         expectPositionList: [
           {
-            require: true,
+            required: true,
+            message: "请选择职能/职位",
+            trigger: "blur"
+          },
+          {
+            required: true,
             type: "array",
             message: "请确认你的期望职位符合你的工作年限及实习经历",
             trigger: "blur"
@@ -172,7 +187,7 @@ export default {
         ],
         expectIndustryList: [
           {
-            require: true,
+            required: true,
             type: "array",
             message: "请选择行业",
             trigger: "blur"
@@ -180,16 +195,21 @@ export default {
         ],
         expectWorkType: [
           {
-            require: true,
+            required: true,
             message: "请选择工作类型",
             trigger: "blur"
           }
         ],
         arriveTime: [
           {
-            require: true,
-            message: "请确认你的到岗时间是否在1周内。",
+            required: true,
+            message: "请选择到岗时间",
             trigger: "blur"
+          },
+          {
+            required: true,
+            message: "请确认你的到岗时间是否在1周内。",
+            trigger: "change"
           }
         ]
       }

@@ -66,7 +66,8 @@
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="公司：" prop="companyName" class="input-box">
-                <el-input size="small" v-model="workExperInfo.companyName" placeholder="请输入公司" :maxlength="30"></el-input>
+                <el-input size="small" v-model="workExperInfo.companyName" placeholder="请输入公司" :maxlength="30" @focus="showCompanyMsg=true" @blur="showCompanyMsg=false"></el-input>
+                <div class="msg" v-if="showCompanyMsg">请确认为公司全称，或为知名商标（如“招商证券”）</div>
               </el-form-item>
               <el-form-item label="部门：" prop="department" class="input-box">
                 <el-input size="small" v-model="workExperInfo.department" placeholder="请输入部门" :maxlength="30"></el-input>
@@ -102,7 +103,8 @@
                   ></el-cascader>
               </el-form-item>
               <el-form-item label="职位：" prop="position" class="input-box">
-                <el-input size="small" v-model="workExperInfo.position" placeholder="所在职位" :maxlength="30"></el-input>
+                <el-input size="small" v-model="workExperInfo.position" placeholder="所在职位" :maxlength="30" @focus="showPositionMsg=true" @blur="showPositionMsg=false"></el-input>
+                <div class="msg" v-if="showPositionMsg">请确认清晰罗列职位，且属实</div>
               </el-form-item>
               <el-form-item label="公司规模：" prop="companySize" class="input-box">
                 <el-select size="small" v-model="workExperInfo.companySize" placeholder="请选择" class="select-box">
@@ -131,8 +133,9 @@
               </el-form-item>
               <el-form-item label="工作描述：" prop="workDesc" class="input-box desc-box">
                 <div class="work-desc">
-                    <textarea v-model="workExperInfo.workDesc" :maxlength="200" class="textarea" name="" id="" placeholder="描述你的职责范围、工作任务以及取得成绩"></textarea>
-                  </div>
+                  <el-input type="textarea" v-model="workExperInfo.workDesc" :maxlength="200" placeholder="描述你的职责范围、工作任务以及取得成绩" @focus="showWorkDescMsg=true" @blur="showWorkDescMsg=false"></el-input>
+                  <div class="msg" v-if="showWorkDescMsg">请确认按工作职责的条款，描述自己的工作职责范围、工作成果与经验。</div>
+                </div>
               </el-form-item>
               <el-form-item size="small" class="edit-btn-box">
                 <el-button class="save-btn" @click="saveWorkExper('workExperInfo')">保存</el-button>
@@ -150,6 +153,9 @@ export default {
   name: "workExper",
   data() {
     return {
+      showCompanyMsg: false,
+      showPositionMsg: false,
+      showWorkDescMsg: false,
       showWorkExperiencedEdit: false,
       cascaderProp: {
         label: "name",
@@ -178,12 +184,6 @@ export default {
             required: true,
             message: "请输入公司名称",
             trigger: "blur"
-          },
-          {
-            min: 2,
-            max: 30,
-            message: "请确认为公司全称，或为知名商标（如“招商证券”）",
-            trigger: "blur"
           }
         ],
         department: [
@@ -193,14 +193,14 @@ export default {
             trigger: "blur"
           }
         ],
-        fun: [
+        funList: [
           {
             required: true,
             message: "请选择职能",
             trigger: "change"
           }
         ],
-        industry: [
+        industryList: [
           {
             required: true,
             message: "请选择行业",
@@ -211,12 +211,6 @@ export default {
           {
             required: true,
             message: "请填写所在职位",
-            trigger: "blur"
-          },
-          {
-            min: 2,
-            max: 30,
-            message: "请确认你的期望职位符合你的工作年限及实习经历",
             trigger: "blur"
           }
         ],
@@ -245,13 +239,6 @@ export default {
           {
             required: true,
             message: "请输入工作描述",
-            trigger: "blur"
-          },
-          {
-            min: 2,
-            max: 300,
-            message:
-              "请确认整个工作经验、实习经验描述部分，整体段落排版清楚，表达逻辑清晰、重点突出，张弛有度。",
             trigger: "blur"
           }
         ]

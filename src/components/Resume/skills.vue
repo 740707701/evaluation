@@ -44,7 +44,8 @@
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="证书名称：" prop="name" class="input-box">
-                <el-input size="small" v-model="skillInfo.name" placeholder="请输入证书名称" :maxlength="30"></el-input>
+                <el-input size="small" v-model="skillInfo.name" placeholder="请输入证书名称" :maxlength="30" @focus="showSkillName=true" @blur="showSkillName=false"></el-input>
+                <div class="msg" v-if="showSkillName">请确认你的技能证书均有官网可查</div>
               </el-form-item>
               <el-form-item label="成绩：" prop="score" class="input-box">
                 <el-input size="small" v-model="skillInfo.score" placeholder="请输入成绩" :maxlength="30" ></el-input>
@@ -65,6 +66,7 @@ export default {
   name: "skill",
   data() {
     return {
+      showSkillName: false,
       skillInfo: {},
       currentSkill: [],
       showSkillEdit: false,

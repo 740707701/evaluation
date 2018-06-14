@@ -42,7 +42,7 @@ export default {
   }
   //element-ui input边线
   .el-input__inner {
-    border: 1px solid @main-color-border;
+    // border: 1px solid @main-color-border;
     color: @main-color-text;
     background-color: #fff;
   }

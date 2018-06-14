@@ -11,8 +11,10 @@
           <div class="evaluate-text">{{evaluateInfo.evaluate}}</div>
         </div>
         <div class="evaluate-box edit-content" v-if="showEvaluateEdit==true && evaluateInfo">
-          <textarea class="textarea edit-border" v-model="eva.evaluate" :maxlength="120" placeholder="良好的自我评价，可以展现自身优势，让HR更了解你！"> 
-          </textarea>
+          <div class="textarea-box">
+            <el-input type="textarea" v-model="eva.evaluate" :maxlength="120" placeholder="请确认自我评价语言洗练、内容与应聘岗位有内在关联性、支撑性。"></el-input>
+            <div class="msg" v-if="showEvaluateMsg">请输入自我评价</div>
+          </div>
           <div class="edit-btn-box">
             <div class="edit-btn save-btn" @click="saveEvaluate">保存</div>
             <div class="edit-btn cancel-btn" @click="showEvaluateEdit=false">取消</div>
@@ -32,12 +34,14 @@ export default {
   data() {
     return {
       eva: {},
-      showEvaluateEdit: false
+      showEvaluateEdit: false,
+      showEvaluateMsg: false
     };
   },
   props: ["evaluateInfo", "baseParams"],
   methods: {
     editEvaluate: function() {
+      this.showEvaluateMsg = false;
       if(!this.baseParams.resumeId){
         this.$message({
           type: "error",
@@ -50,6 +54,10 @@ export default {
       }
     },
     saveEvaluate: function() {
+      if(!this.eva.evaluate){
+        this.showEvaluateMsg = true
+        return
+      }
       this.showEvaluateInfo = false;
       this.evaluateInfo.evaluate = this.eva.evaluate;
       this.$store

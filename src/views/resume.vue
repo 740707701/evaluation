@@ -845,6 +845,16 @@ export default {
             // box-sizing: border-box;
           }
         }
+        .textarea-box {
+          position: relative;
+          .msg {
+            margin-top: 5px;
+          }
+          textarea {
+            border-radius: 5px;
+            border-color: @main-color-yellow;
+          }
+        }
         .evaluate-box {
           width: 100%;
           display: inline-block;

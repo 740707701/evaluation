@@ -68,7 +68,8 @@
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="学校：" prop="schoolName" class="input-box">
-                <el-input size="small" v-model="eduInfo.schoolName" placeholder="请输入学校" :maxlength="30"></el-input>
+                <el-input size="small" v-model="eduInfo.schoolName" placeholder="请输入学校" :maxlength="30" @focus="showSchoolNameMsg=true" @blur="showSchoolNameMsg=false"></el-input>
+                <div class="msg" v-if="showSchoolNameMsg">请确认你的学校名称为该学校的全称</div>
               </el-form-item>
               <el-form-item label="学历/学位：" prop="degree" class="input-box">
                 <el-select size="small" v-model="eduInfo.degree" placeholder="请选择" class="select-box">
@@ -81,7 +82,8 @@
                   </el-select>
               </el-form-item>
               <el-form-item label="专业：" prop="eduMajor" class="input-box">
-                <el-input size="small" v-model="eduInfo.eduMajor" placeholder="请输入专业" :maxlength="30"></el-input>
+                <el-input size="small" v-model="eduInfo.eduMajor" placeholder="请输入专业" :maxlength="30" @focus="showMajorMsg=true" @blur="showMajorMsg=false"></el-input>
+                <div class="msg" v-if="showMajorMsg">请确认专业名称为全称</div>
                 <!-- <el-select size="small" v-model="eduInfo.eduMajor" placeholder="请选择" class="select-box">
                   <el-option
                     v-for="item in eduData.majorType"
@@ -101,15 +103,16 @@
                     </el-option>
                   </el-select>
               </el-form-item>
-              <el-form-item label="专业描述：" prop="eduDesc" class="input-box desc-box">
+              <el-form-item label="专业描述：" prop="majorDesc" class="input-box desc-box">
                 <div class="work-desc">
-                    <textarea v-model="eduInfo.majorDesc" :maxlength="300" class="textarea" name="" id="" placeholder="简单描述下所学专业"></textarea>
-                  </div>
+                  <el-input type="textarea" v-model="eduInfo.majorDesc" :maxlength="300" placeholder="简单描述下所学专业"></el-input>
+                </div>
               </el-form-item>
               <el-form-item label="主修课程：" prop="eduDesc" class="input-box desc-box">
                 <div class="work-desc">
-                    <textarea v-model="eduInfo.eduDesc" :maxlength="300" class="textarea" name="" id="" placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等"></textarea>
-                  </div>
+                  <el-input type="textarea" v-model="eduInfo.eduDesc" :maxlength="300" placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等" @focus="showEduDescMsg=true" @blur="showEduDescMsg=false"></el-input>
+                  <div class="msg" v-if="showEduDescMsg">请确认主修课程罗列与意向岗位的匹配度</div>
+                </div>
               </el-form-item>
               <el-form-item size="small" class="edit-btn-box">
                 <el-button class="save-btn" @click="saveEdu('eduInfo')">保存</el-button>
@@ -127,6 +130,9 @@ export default {
   name: "edu",
   data() {
     return {
+      showSchoolNameMsg: false,
+      showMajorMsg: false,
+      showEduDescMsg: false,
       showEducationEdit: false,
       eduInfo: {},
       currentEdu: [],
@@ -150,12 +156,6 @@ export default {
             required: true,
             message: "请输入学校名称",
             trigger: "blur"
-          },
-          {
-            min: 2,
-            max: 50,
-            message: "请确认你的学校名称为该学校的全称",
-            trigger: "blur"
           }
         ],
         degree: [
@@ -168,8 +168,8 @@ export default {
         eduMajor: [
           {
             required: true,
-            message: "请选择专业",
-            trigger: "change"
+            message: "请输入所在专业",
+            trigger: "blur"
           }
         ],
         eduNature: [
@@ -179,16 +179,17 @@ export default {
             trigger: "change"
           }
         ],
+        majorDesc: [
+          {
+            required: true,
+            message: "请填写专业描述",
+            trigger: "blur"
+          }
+        ],
         eduDesc: [
           {
             required: true,
             message: "请填写主修课程",
-            trigger: "blur"
-          },
-          {
-            min: 2,
-            max: 300,
-            message: "请确认主修课程罗列与意向岗位的匹配度",
             trigger: "blur"
           }
         ]
