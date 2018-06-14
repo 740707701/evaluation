@@ -4,7 +4,8 @@
       <div class="header">
         <img src="../assets/images/logo.svg" alt="" class="logo">
         <div class="output" v-if="!isPreview" @click="showExport=true">
-          <i class="icon-cart"></i>导出
+          <i class="iconfont icon-daochu"></i>
+          <span>导出</span>
         </div>
       </div>
       <div class="base-content">
@@ -373,8 +374,14 @@ export default {
       }
       .output {
         float: right;
+        height: 60px;
         line-height: 60px;
         cursor: pointer;
+        .iconfont {
+          float: left;
+          font-size: 26px;
+          margin-right: 20px;
+        }
       }
     }
     .item-content {
@@ -619,7 +626,7 @@ export default {
         padding: 20px;
         .export-title {
           color: @main-color-gray;
-          line-height: 50px;
+          line-height: 30px;
         }
         .export-type {
           height: 50px;
