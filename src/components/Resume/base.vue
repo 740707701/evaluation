@@ -283,7 +283,7 @@ export default {
         address: [
           {
             required: true,
-            min: 0,
+            min: 1,
             max: 40,
             message: "请确认居住地与求职所在城市一致",
             trigger: "blur"
