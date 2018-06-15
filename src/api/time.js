@@ -6,7 +6,7 @@ export default {
     }
     let dateArr = dateStr.slice(0, 10).split(separator)
     let timeArr = dateStr.slice(11).split(":")
-    let year = dateArr[0]
+    let year = parseInt(dateArr[0])
     let month;
     if (dateArr[1].indexOf('0') == '0') { //月份<10
       month = parseInt(dateArr[1].substring(1))
@@ -15,9 +15,9 @@ export default {
     }
     let day = parseInt(dateArr[2])
 
-    let hour = parseInt(timeArr[0])
-    let minute = parseInt(timeArr[1])
-    let second = parseInt(timeArr[2])
+    let hour = parseInt(timeArr[0]) || ''
+    let minute = parseInt(timeArr[1]) || ''
+    let second = parseInt(timeArr[2]) || ''
     var date = new Date(year, month - 1, day, hour, minute, second)
     return date
   },
@@ -30,7 +30,7 @@ export default {
       end = new Date()
     }
     let endYear = end.getFullYear()
-    let endMonth = end.getMonth()
+    let endMonth = end.getMonth() + 1
     let endDay = end.getDate()
     let endHour = end.getHours()
     let endMinute = end.getMinutes()
@@ -39,7 +39,7 @@ export default {
     let start = this.stringToDate(startTime)
       // 获取某一时间的年月日
     let startYear = start.getFullYear()
-    let startMonth = start.getMonth()
+    let startMonth = start.getMonth() + 1
     let startDay = start.getDate()
     let startHour = start.getHours()
     let startMinute = start.getMinutes()
@@ -48,12 +48,72 @@ export default {
     let year, month, day, hour, minute, second
 
     //计算
-    year = (endYear - startYear) > 0 ? (endYear - startYear) : ''
-    month = (endMonth - startMonth) > 0 ? (endMonth - startMonth) : ''
-    day = (endDay - startDay) > 0 ? (endDay - startDay) : ''
-    hour = (endHour - startHour) > 0 ? (endHour - startHour) : ''
-    minute = (endMinute - startMinute) > 0 ? (endMinute - startMinute) : ''
-    second = (endSecond - startSecond) > 0 ? (endSecond - startSecond) : ''
+    year = (endYear - startYear) > 0 ? (endYear - startYear) : 0
+
+    if (endMonth > startMonth) {
+      month = endMonth - startMonth
+    } else if (endMonth == startMonth) {
+      month = 0
+    } else {
+      if (year > 0) {
+        year = year - 1
+      }
+      month = 12 - startMonth + endMonth
+    }
+
+    if (endDay > startDay) {
+      day = endDay - startDay
+    } else if (endDay == startDay) {
+      day = 0
+    } else {
+      if (startMonth == 1 || startMonth == 3 || startMonth == 5 || startMonth == 7 || startMonth == 8 || startMonth == 10 || startMonth == 12) {
+        day = 31 - startDay + endDay
+      } else if (startMonth == 2) {
+        if (startYear / 4 % 1 === 0) { //能被4整除 2月份是28天，不能就是29天
+          day = 28 - startDay + endDay
+        } else {
+          day = 29 - startDay + endDay
+        }
+      } else {
+        day = 30 - startDay + endDay
+      }
+      if (month > 0) {
+        month = month - 1
+      }
+    }
+
+    if (endHour > startHour) {
+      hour = endHour - startHour
+    } else if (endHour == startHour) {
+      hour = 0
+    } else {
+      hour = 24 - startHour + endHour
+      if (day > 0) {
+        day = day - 1
+      }
+    }
+
+    if (endMinute > startMinute) {
+      minute = endMinute - startMinute
+    } else if (endMinute == startMinute) {
+      minute = 0
+    } else {
+      minute = 60 - startMinute + endMinute
+      if (hour > 0) {
+        hour = hour - 1
+      }
+    }
+
+    if (endSecond > startSecond) {
+      second = endSecond - startSecond
+    } else if (endSecond == startSecond) {
+      second = 0
+    } else {
+      second = 60 - startSecond + endSecond
+      if (minute > 0) {
+        minute = minute - 1
+      }
+    }
 
     return {
       year: year,
