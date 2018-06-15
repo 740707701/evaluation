@@ -133,8 +133,7 @@
             </div>
             <div class="job-time">
               <span>{{exper.companyName}}</span>
-              <span v-if="exper.time_solt.year&&exper.time_solt.month">[{{exper.time_solt.year}}年{{exper.time_solt.month}}个月]</span>
-              <span v-if="!exper.time_solt.year&&exper.time_solt.month">[{{exper.time_solt.month}}个月]</span>
+              <span class="gray">[{{exper.jobexpTime}}]</span>
             </div>
             <div class="job-type">
               <span>{{exper.industryName}}</span>&nbsp;|&nbsp;

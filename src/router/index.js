@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import store from '../store'
 
 import Home from '../views/Home.vue'
+import ResumeBg from '../views/ResumeBg.vue'
 import Resume from '../views/Resume.vue'
 import ResumePreview from '../views/ResumePreview.vue'
 import ViewResume from '../views/ViewResume'
@@ -108,6 +109,11 @@ const routes = [{
     meta: {
       requireAuth: true
     }
+  },
+  {
+    path: '/resumeBg',
+    name: 'resumeBg',
+    component: ResumeBg
   },
   {
     path: '/resume/:resumeId?',

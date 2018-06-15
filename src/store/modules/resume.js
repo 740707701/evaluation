@@ -8,6 +8,7 @@ const RESUME_LIST = 'RESUME_LIST'
 const MODIFY_LIST = 'MODIFY_LIST'
 const SUBMIT_RESUME = 'SUBMIT_RESUME'
 const EXPORT_RESUME = 'EXPORT_RESUME'
+const CHECK_RESUME = 'CHECK_RESUME'
 
 const SET_BASEINFO = 'SET_BASEINFO'
 const SET_JOBINTENSION = 'SET_JOBINTENSION'
@@ -54,6 +55,16 @@ export default {
     }
   },
   actions: {
+    //检查是否提交过简历
+    [CHECK_RESUME]({ commit }, params) {
+      return api.get(config.url.checkResume, params).then(res => {
+        commit('RESUME_SET', {
+          target: 'resumeInfo',
+          data: res
+        })
+        return res
+      })
+    },
     //获取简历信息
     [RESUME_INFO]({ commit }, params) {
       return api.get(config.url.resumeInfo, { resumeId: params.resumeId }).then(res => {

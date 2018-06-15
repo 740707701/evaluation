@@ -57,7 +57,8 @@ export default {
     headpic: 'file/headpic',
     //导出简历
     exportResume: 'resume/export/{resumeId}/{format}', //format: pdf/word
-
+    //检查是否制作过简历
+    checkResume: 'resume/checkresume',
     //简历列表
     resumeList: 'resume/list',
     //待修改简历列表

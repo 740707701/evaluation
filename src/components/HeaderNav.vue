@@ -129,7 +129,25 @@ export default {
         }else if(id == 2){
           this.$router.push({ path: '/careerplan' })
         }else if (id == 3){
-          this.$router.push({ path: '/resume' })
+          this.$store.dispatch('CHECK_RESUME').then(res => {
+            if(res.data == 0){
+              this.$router.push({ path: '/resumeBg'})
+            }else {
+              this.$router.push({ path: '/resume' })
+            }
+          }).catch(err => {
+            if(err.data.msg){
+              this.$message({
+                type: "error",
+                message: err.data.msg
+              })
+            }else {
+              this.$message({
+                type: "error",
+                message: "检查是否制作简历失败，请稍后重试"
+              })
+            }
+          })
         }else if(id == 4){
           this.$router.push({ path: '/industryintro' })
         }
