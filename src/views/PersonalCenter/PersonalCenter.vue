@@ -105,8 +105,8 @@ export default {
         .then(res => {
           console.log(res)
           this.file = '';
-          // let data = res.data.data;
-          // this.userInfo.avatar = data.rootPath + data.headPic;
+          let data = res.data.data;
+          this.userInfo.avatar = data.rootPath + data.headPic;
           this.$store.dispatch("UPDATEHEAD", this.userInfo).then(res => {
             localStorage.setItem("userInfo", JSON.stringify(res.data.data))
             this.$store.state.userInfo = res.data.data
