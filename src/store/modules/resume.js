@@ -24,6 +24,7 @@ const DELETE_SCHOOLWORK = 'DELETE_SCHOOLWORK'
 const SET_SKILL = 'SET_SKILL'
 const DELETE_SKILL = 'DELETE_SKILL'
 const UPLOAD_HEAD = 'UPLOAD_HEAD'
+const UPDATEHEAD = 'UPDATEHEAD'
 
 //metadata
 const DICTITEM = 'DICTITEM'
@@ -55,6 +56,15 @@ export default {
     }
   },
   actions: {
+    [UPDATEHEAD]({ commit }, data) {
+      return api.put(config.url.updateHead, data).then(res => {
+        commit('USER_SET', {
+          target: 'userInfo',
+          data: res
+        })
+        return res
+      })
+    },
     //检查是否提交过简历
     [CHECK_RESUME]({ commit }, params) {
       return api.get(config.url.checkResume, params).then(res => {

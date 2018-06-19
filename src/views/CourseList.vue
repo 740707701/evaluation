@@ -239,6 +239,7 @@ export default {
             }
             .desc {
               font-size: 12px;
+              height: 32px;
               line-height: 18px;
               padding: 0 5px;
               color: #a2a9b8;

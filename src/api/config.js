@@ -55,6 +55,7 @@ export default {
 
     //上传简历头像
     headpic: 'file/headpic',
+    updateHead: 'user/updateHead',
     //导出简历
     exportResume: 'resume/export/{resumeId}/{format}', //format: pdf/word
     //检查是否制作过简历

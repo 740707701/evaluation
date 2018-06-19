@@ -69,7 +69,8 @@ export default {
       if (startMonth == 1 || startMonth == 3 || startMonth == 5 || startMonth == 7 || startMonth == 8 || startMonth == 10 || startMonth == 12) {
         day = 31 - startDay + endDay
       } else if (startMonth == 2) {
-        if (startYear % 4 == 0 && startYear % 100 != 0 || startYear % 400 == 0) { //能被4整除 2月份是29天，不能就是28天
+        //闰年 能被4整除 2月份是29天，不能就是28天
+        if (startYear % 4 == 0 && startYear % 100 != 0 || startYear % 400 == 0) {
           day = 29 - startDay + endDay
         } else {
           day = 28 - startDay + endDay
