@@ -18,6 +18,8 @@ export default {
     finished: 'ceping/finished',
     unfinished: 'ceping/unfinished',
 
+    bannerList: 'banner/bannerList',
+
     //立即购买
     cepingBuy: 'ceping/purchase',
     cepingFree: 'ceping/freepurchase',

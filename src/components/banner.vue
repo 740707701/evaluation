@@ -1,14 +1,12 @@
 <template>
   <div class="banner">
-    <div class="container">
-      <el-carousel :interval="4000" type="card" height="300px">
-        <el-carousel-item v-for="item in bannerList" :key="item.id">
-          <a :href="item.url">
-            <img class="carousel-img" :src="item.img">
-          </a>
-        </el-carousel-item>
-      </el-carousel>
-    </div>
+    <el-carousel :interval="4000" height="450px">
+      <el-carousel-item v-for="item in bannerList" :key="item.id">
+        <div class="img-box">
+          <img :src="item.pictureUrl" class="img">
+        </div>
+      </el-carousel-item>
+    </el-carousel>
   </div>
 </template>
 <script>
@@ -16,54 +14,59 @@ export default {
   name: "banner",
   data() {
     return {
-      bannerList: [
-        {
-          url: "#",
-          id: 0,
-          img: require("../assets/images/demo/01.jpg")
-        },
-        {
-          url: "#",
-          id: 1,
-          img: require("../assets/images/demo/02.jpg")
-        },
-        {
-          url: "#",
-          id: 2,
-          img: require("../assets/images/demo/03.jpg")
-        },
-        {
-          url: "#",
-          id: 3,
-          img: require("../assets/images/demo/04.jpg")
-        },
-        {
-          url: "#",
-          id: 4,
-          img: require("../assets/images/demo/05.jpg")
-        },
-        {
-          url: "#",
-          id: 5,
-          img: require("../assets/images/demo/06.jpg")
+      bannerList: []
+    }
+  },
+  created(){
+    this.getBannerList()
+  },
+  methods: {
+    getBannerList(){
+      let params = {}
+      this.$store.dispatch("BANNERLIST", params).then(res => {
+        this.bannerList = res.data
+      }).catch(err => {
+        if(err.data.msg){
+          this.$message({
+            type: "error",
+            message: errdata.msg
+          })
+        }else {
+          this.$message({
+            type: "error",
+            message: "获取banner失败"
+          })
         }
-      ]
-    };
+      })
+    }
   }
 };
 </script>
 <style lang="less">
 .banner {
-  margin-top: 12px;
-  .container {
-    width: 1200px;
-    margin: 0 auto;
-    .carousel-img {
-      width: 600px;
-      height: 300px;
-      border-radius: 15px;
-    }
-  }
+  .img-box{  
+    width: 100%;  
+    // position:relative;  
+    z-index:1;  
+    img{  
+        position:absolute;  
+        top:0;  
+        bottom:0;  
+        left:0;  
+        right:0;  
+        width:100%;
+        height: 100%;  
+        margin: 0;  
+    }  
+  }  
+  .img-box:before {  
+      content: "";  
+      display: inline-block;  
+      padding-bottom: 100%;  
+      width: 0.1px;   //必须要有数值，否则无法把高度撑起来 
+      vertical-align: top;  
+  } 
+  
 }
 </style>
 

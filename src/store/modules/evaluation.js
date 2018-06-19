@@ -11,9 +11,11 @@ const TOCAICHU = 'TOCAICHU'
 const CEPINGBUY = 'CEPINGBUY'
 const CEPINGFREE = 'CEPINGFREE'
 const RECORDREPORT = 'RECORDREPORT'
+const BANNERLIST = 'BANNERLIST'
 
 export default {
   state: {
+    bannerList: [],
     evaluationList: [],
     hotList: [],
     evaluationInfo: {},
@@ -30,6 +32,15 @@ export default {
     }
   },
   actions: {
+    [BANNERLIST]({ commit }, params) {
+      return api.get(config.url.bannerList, params).then(res => {
+        commit('EVALUATION_SET', {
+          target: 'bannerList',
+          data: res.data
+        })
+        return res
+      })
+    },
     [EVALUATION_LIST]({ commit }, params) {
       return api.get(config.url.cepingList, params).then(res => {
         commit('EVALUATION_SET', {

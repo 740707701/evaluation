@@ -65,5 +65,36 @@ export default {
     right: 5px; //右侧有关闭按钮
   }
   */
+  .el-carousel {
+    overflow-y: hidden;
+  }
+  .el-carousel__indicators {
+    bottom: 20px;
+  }
+  .el-carousel__indicator {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    margin-right: 20px;
+  }
+   .el-carousel__indicator.is-active {
+    border: 2px solid #fff;
+    padding: 2px;
+    background-color: transparent;
+    border-radius: 10px;
+   }
+
+  .el-carousel__button {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+  }
 }
 </style>

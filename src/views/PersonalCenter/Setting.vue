@@ -201,6 +201,7 @@ export default {
       userNum: userInfo.userNum,
       school: userInfo.school,
       classes: userInfo.classes,
+      grade: userInfo.grade,
       id: userInfo.id,
       type: userInfo.type,
       registerType: userInfo.registerType

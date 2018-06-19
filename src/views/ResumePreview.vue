@@ -12,7 +12,7 @@
                 </div>
                 <div class="base-content">
                   <div class="avtar">
-                    <img src="../assets/images/demo/05.jpg" alt="">
+                    <img src="../assets/images/man.png" alt="">
                   </div>
                   <div class="info-list">
                     <div class="name">
