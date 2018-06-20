@@ -239,14 +239,15 @@ export default {
             }
             .desc {
               font-size: 12px;
-              height: 32px;
+              // height: 32px;
               line-height: 18px;
               padding: 0 5px;
               color: #a2a9b8;
               overflow: hidden;
               text-overflow: ellipsis;
-              // white-space: nowrap; //强制不换行
-              display: -webkit-box;
+              white-space: nowrap; //强制不换行
+              // display: -webkit-box;
+              //  display: -webkit-inline-box;
               -webkit-box-orient: vertical;
               -webkit-line-clamp: 2;
             }

@@ -7,8 +7,10 @@
             <el-aside width="230px">
               <div class="aside-box">
                 <div class="user-info">
-                  <img class="avatar" :src="avatar" alt="">
-                  
+                  <div class="img-box">
+                    <img class="avatar" :src="avatar" alt="">
+                    <input type="file" class="img-input-file" name="avatar" ref="avatarInput" @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
+                  </div>
                   <div class="name">{{userInfo.userName?userInfo.userName: userInfo.userNum}}</div>
                   <div class="school">{{userInfo.school}}
                     <div>{{userInfo.classes}}</div>
@@ -179,6 +181,18 @@ export default {
           border-radius: 4px;
           padding: 15px 0;
           text-align: center;
+          .img-box {
+            position: relative;
+            display: inline-block;
+            .img-input-file {
+              width: 80px;
+              height: 80px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              opacity: 0;
+            }
+          }
           .avatar {
             width: 80px;
             height: 80px;
