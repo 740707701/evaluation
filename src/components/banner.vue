@@ -1,6 +1,9 @@
 <template>
   <div class="banner">
-    <el-carousel :interval="4000" height="450px">
+    <div class="default-box">
+      <img src="../assets/images/default_banner.jpg" alt="" ref="defaultImg" class="default-img img">
+    </div>
+    <el-carousel :interval="4000" :height="defaultImgHeight">
       <el-carousel-item v-for="item in bannerList" :key="item.id">
         <div class="img-box">
           <img :src="item.pictureUrl" class="img">
@@ -14,7 +17,8 @@ export default {
   name: "banner",
   data() {
     return {
-      bannerList: []
+      bannerList: [],
+      defaultImgHeight: ''
     }
   },
   created(){
@@ -24,7 +28,8 @@ export default {
     getBannerList(){
       let params = {}
       this.$store.dispatch("BANNERLIST", params).then(res => {
-        this.bannerList = res.data
+        this.bannerList = res.data;
+        this.defaultImgHeight = this.$refs.defaultImg.height + 'px';
       }).catch(err => {
         if(err.data.msg){
           this.$message({
@@ -44,11 +49,11 @@ export default {
 </script>
 <style lang="less">
 .banner {
+  position: relative;
   .img-box{  
     width: 100%;  
-    // position:relative;  
-    z-index:1;  
-    img{  
+    z-index: 1;  
+    .img{  
         position:absolute;  
         top:0;  
         bottom:0;  
@@ -65,8 +70,18 @@ export default {
       padding-bottom: 100%;  
       width: 0.1px;   //必须要有数值，否则无法把高度撑起来 
       vertical-align: top;  
-  } 
-  
+  }
+  .default-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    img {
+      width: 100%;
+      height: auto;
+      border: none;
+    }
+  }
 }
 </style>
 
