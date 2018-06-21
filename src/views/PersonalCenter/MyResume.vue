@@ -13,12 +13,13 @@
                 <span class="green" v-if="resume.state == 20">审核通过</span>
               </div>
               <div class="time">
-                <span v-if="resume.time_solt.year">{{resume.time_solt.year}}年</span>
-                <span v-if="resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.month}}个月</span>
-                <span v-if="resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.day}}天</span>
-                <span v-if="resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.hour}}小时</span>
-                <span v-if="resume.time_solt.minute&&!resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.minute}}分钟</span>
-                前
+                <span v-if="resume.time_solt.year">{{resume.time_solt.year}}年前</span>
+                <span v-if="resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.month}}个月前</span>
+                <span v-if="resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.day}}天前</span>
+                <span v-if="resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.hour}}小时前</span>
+                <span v-if="resume.time_solt.minute&&!resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.minute}}分钟前</span>
+                <span v-if="resume.time_solt.second&&!resume.time_solt.minute&&!resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.second}}秒前</span>
+                
               </div>
               <div class="operation-btn">
                 <router-link target="_blank" :to="`/viewResume/${resume.id}`">查看</router-link>

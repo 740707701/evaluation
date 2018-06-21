@@ -79,7 +79,7 @@ export default {
           },
           {
             min: 2,
-            max: 20,
+            max: 30,
             message: "请确认你的技能证书均有官网可查",
             trigger: "blur"
           }
@@ -99,7 +99,7 @@ export default {
           },
           {
             min: 2,
-            max: 8,
+            max: 30,
             message: "请确认你的技能证书均有官网可查",
             trigger: "blur"
           }
