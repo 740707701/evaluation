@@ -11,16 +11,17 @@
                     <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
-                      <div class="gray">
+                      <!-- <div class="gray">
                         <span>适应：{{item.peopleScope}}</span>
                         <span>难度： {{item.cepingLevel}}</span>
-                      </div>
+                      </div> -->
                       <div class="price" v-if="item.price">¥ {{item.price}}</div>
                     </div>
                     <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
                     </div>
                   </li>
+                  <div class="clear"></div>
                 </ul>
               </el-tab-pane>
               <el-tab-pane label="自我认知" name="second">
@@ -29,10 +30,10 @@
                     <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
-                      <div class="gray">
+                      <!-- <div class="gray">
                         <span>适应：{{item.peopleScope}}</span>
                         <span>难度： {{item.cepingLevel}}</span>
-                      </div>
+                      </div> -->
                       <div class="price" v-if="item.price">¥ {{item.price}}</div>
                     </div>
                     <div class="desc" :title="item.simpleRemark">
@@ -47,10 +48,10 @@
                     <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
-                      <div class="gray">
+                      <!-- <div class="gray">
                         <span>适应：{{item.peopleScope}}</span>
                         <span>难度： {{item.cepingLevel}}</span>
-                      </div>
+                      </div> -->
                       <div class="price" v-if="item.price">¥ {{item.price}}</div>
                     </div>
                     <div class="desc" :title="item.simpleRemark">
@@ -65,10 +66,10 @@
                     <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
-                      <div class="gray">
+                      <!-- <div class="gray">
                         <span>适应：{{item.peopleScope}}</span>
                         <span>难度： {{item.cepingLevel}}</span>
-                      </div>
+                      </div> -->
                       <div class="price" v-if="item.price">¥ {{item.price}}</div>
                     </div>
                     <div class="desc" :title="item.simpleRemark">
@@ -185,6 +186,12 @@ export default {
 @import "../assets/css/colors.less";
 .courselist-page {
   height: 100%;
+  .clear {
+    clear: both;
+    height: 0; 
+    line-height: 0; 
+    font-size: 0;
+  }
   .nodata {
     width: 100%;
     height: 50px;
@@ -206,13 +213,15 @@ export default {
       .tabs-box {
         width: 100%;
         .item {
-          display: flex;
-          display: -webkit-flex;
-          flex-wrap: wrap;
-          justify-content: space-between;
+          font-size: 0;
           li {
-            padding-bottom: 10px;
-            width: 170px;
+            float: left;
+            width: 168px;
+            height: 225px;
+            overflow: hidden;
+            font-size: 14px;
+            margin-bottom: 10px;
+            margin-right: 18px;
             img {
               width: 100%;
               height: 110px;
@@ -221,35 +230,31 @@ export default {
               display: inline-block;
             }
             .info {
-              padding: 0 5px;
-              .gray {
-                color: #a2a9b8;
-                font-size: 12px;
-                line-height: 1.5;
-                display: flex;
-                display: -webkit-flex;
-                justify-content: space-between;
-              }
-              .price {
-                line-height: 1.5;
-              }
+              padding: 5px;
               .title {
-                // font-weight: bold;
+                line-height: 1.2;
+                font-size: 14px;
+              }
+              // .gray {
+              //   color: #a2a9b8;
+              //   font-size: 12px;
+              //   line-height: 1.5;
+              //   display: flex;
+              //   display: -webkit-flex;
+              //   justify-content: space-between;
+              // }
+              .price {
+                font-size: 14px;
+                line-height: 1.5;
               }
             }
             .desc {
               font-size: 12px;
-              // height: 32px;
-              line-height: 18px;
+              height: 45px;
+              overflow: hidden;
+              line-height: 1.3;
               padding: 0 5px;
               color: #a2a9b8;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap; //强制不换行
-              // display: -webkit-box;
-              //  display: -webkit-inline-box;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 2;
             }
           }
         }
@@ -274,9 +279,10 @@ export default {
           display: flex;
           display: -webkit-flex;
           justify-content: space-between;
+          cursor: pointer;
+          margin-bottom: 11px;
           .item {
             width: 100%;
-            margin-bottom: 11px;
             img {
               float: left;
               width: 50px;

@@ -237,6 +237,7 @@ export default {
         width: 300px;
         height: 160px;
         border-radius: 10px;
+        background-color: #fafafa;
       }
       .info-box {
         margin-left: 330px;

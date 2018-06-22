@@ -7,9 +7,6 @@
 <script>
 export default {
   name: "App",
-  crested() {
-    // this.$store.dispatch('')
-  },
   components: {}
 };
 </script>
@@ -18,7 +15,7 @@ export default {
 @import "./assets/css/colors.less";
 @import "./assets/icon/iconfont.css";
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Arial", "Hiragino Sans GB", "Helvetica", "sans-serif";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #333;

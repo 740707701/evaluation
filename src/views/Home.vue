@@ -43,6 +43,7 @@ export default {
     .category {
       .title {
         line-height: 2;
+        margin-bottom: 6px;
         i {
           color: @main-color-blue;
           margin-right: 10px;
