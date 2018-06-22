@@ -9,14 +9,14 @@
                 <div class="user-info">
                   <div class="img-box">
                     <img class="avatar" :src="avatar" alt="">
-                    <input type="file" class="img-input-file" name="avatar" ref="avatarInput" @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
+                    <input type="file" class="img-input-file" name="avatar" ref="imgInput" @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
                   </div>
                   <div class="name">{{userInfo.userName?userInfo.userName: userInfo.userNum}}</div>
                   <div class="school">{{userInfo.school}}
                     <div>{{userInfo.classes}}</div>
                   </div>
                   <div class="upload-box" v-show="!file">
-                    <input type="file" class="input-file" name="avatar" ref="avatarInput" @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
+                    <input type="file" class="input-file" name="avatar" ref="btnInput" @change="changeImage($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
                     <div class="upload-btn">上传头像</div>
                   </div>
                   <div class="upload-box" v-if="file">
@@ -99,9 +99,15 @@ export default {
       }
     },
     upload: function(){
-      if(this.$refs.avatarInput.files[0].length !== 0){
+      let inputFile = []
+      if(this.$refs.imgInput.files&&this.$refs.imgInput.files.length){
+        inputFile.push(this.$refs.imgInput.files[0])
+      }else if(this.$refs.btnInput.files&&this.$refs.btnInput.files.length){
+        inputFile.push(this.$refs.btnInput.files[0])
+      }
+      if(inputFile.length !== 0){
         let data = new FormData()
-        data.append('multfile', this.$refs.avatarInput.files[0])
+        data.append('multfile', inputFile[0])
         data.append('operaType', this.uploadType)
         this.$store.dispatch('UPLOAD_HEAD', data)
         .then(res => {
