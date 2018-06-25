@@ -12,12 +12,12 @@
           <!-- <li @click="changeLogin(4, '/industryintro')" v-bind:class="{'active':$route.path=='/industryintro'}">书籍库</li> -->
         </ul>
         <div class="nav-right">
-          <!-- <router-link to="cartDetail" v-if="isLogin"> 
+          <router-link to="cartDetail" v-if="isLogin"> 
             <el-button class="cart-btn" round size="small">
               <i class="el-icon-setting"></i>
               购物车
             </el-button>
-          </router-link> -->
+          </router-link>
           <ul class="logout" v-if="!isLogin">
             <li>
               <div class="name" @click="login">登录</div>
