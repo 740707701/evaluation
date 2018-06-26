@@ -14,13 +14,13 @@
           <p class="gray">适应人群：{{detail.baseInfo.peopleScope}}</p>
           <p class="gray">难度：{{detail.baseInfo.cepingLevel}}</p>
           <p class="gray">数量：{{detail.baseInfo.num}}题</p>
-          <!-- <p class="red" v-if="detail.baseInfo.price>0">价格： ¥{{detail.baseInfo.price}}</p> -->
-          <!-- <div class="btn-box" v-if="detail.baseInfo.price>0">
-            <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button>
-            <i class="iconfont icon-cart" @click="cart"></i>
-          </div> -->
+          <p class="red" v-if="detail.baseInfo.price>0">价格： ¥{{detail.baseInfo.price}}</p>
+          <div class="btn-box" v-if="detail.baseInfo.price>0">
+            <!-- <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button> -->
+            <!-- <i class="iconfont icon-cart" @click="cart"></i> -->
+          </div>
           <div class="btn-box" v-if="!detail.showFree">
-            <el-button size="small" class="buy-btn eva-btn disabled" @click="buy()">立即购买</el-button>
+            <el-button size="small" class="buy-btn eva-btn" @click="buy()">立即购买</el-button>
           </div>
           <div class="btn-box" v-if="detail.showFree">
             <el-button size="small" class="buy-btn eva-btn" @click="getFreeSerialNo()">进入测评</el-button>
@@ -65,6 +65,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "coursedetail",
   data() {
@@ -127,25 +128,29 @@ export default {
         params: {
           id: this.$route.params.id, 
           serialNo: this.serialNo
-        },
-        meta: {
-          
         }
       });
     },
     //立即购买
     buy: function(){
-      return;
+      // return;
       let data = {
         cepingId: this.$route.params.id,
         num: "1"
       }
-      this.$store.dispatch('CEPINGBUY', data).then(res => {
+      axios.defaults.headers.post["Content-Type"] = "text/html;charest=utf-8"
+      axios.post(`ceping/purchase`, data)
+      .then(res => {
         console.log(res)
-        this.serialNo = res.data.data.serialNo;
-        this.showDialog = true;
+        const a = document.createElement('a');
+        a.id = 'alipay-form'
+        a.innerHTML = res.data.data;
+        document.body.appendChild(a);
+        let form = document.getElementById("alipay-form").childNodes[0]
+        form.target = '_blank'
+        form.submit()
+        document.body.removeChild(a)
       }).catch(err => {
-        console.log(err)
         if(err.data.msg){
             this.$message({
             type: "error",
@@ -154,7 +159,7 @@ export default {
           }else{
             this.$message({
               type: "error",
-              message: "获取序列号失败，请稍后重试！"
+              message: "生成订单失败，请稍后重试！"
             })
           }
       })

@@ -44,7 +44,9 @@
             总计金额:
             <div class="red">¥{{totalPrice}}</div>
           </div>
-          <div class="settle-btn">去结算</div>
+          <router-link to="settlement">
+            <div class="settle-btn">去结算</div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -71,7 +73,7 @@ export default {
       this.$store
         .dispatch("EVALUATION_LIST", { cepingItem: index })
         .then(res => {
-          this.cepingList = res.data;
+          this.cepingList = res.data.slice(5);
         })
         .catch(err => {
           if (err.data.msg) {
@@ -135,7 +137,6 @@ export default {
       // console.log("cepingList", this.cepingList);
       // console.log("checkIdList", this.checkedIdList);
     },
-
     del(id) {
       console.log(id);
     }
@@ -188,9 +189,10 @@ export default {
     }
     .intro-box {
       width: 1200px;
-      height: calc(100% - 200px);
+      // height: calc(100% - 200px);
       margin: 0 auto;
       margin-top: 40px;
+      margin-bottom: 20px;
       padding: 20px;
       background-color: #fff;
       border-radius: 8px;
@@ -237,25 +239,22 @@ export default {
           .icon-delete {
             cursor: pointer;
           }
-          /*
-            input[type="checkbox"] {
-              width: 20px;
-              height: 20px;
-              background-color: #fff;
-              border: 1px solid @main-color-border;
-              margin: 0;
-              -webkit-appearance: none;  //清除复选框默认样式
-              // background: #fff url(i/blue.png);  //复选框的背景图，就是上图
-              vertical-align: middle;
-            }
-            input[type="checkbox"]:checked {
-              background-position: -48px 0;
-              border: 1px solid red;
-            }
-            input[type="checkbox"].active {
-              border: none;
-            }
-            */
+          input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border: 1px solid @main-color-border;
+            margin: 0;
+            -webkit-appearance: none;  //清除复选框默认样式
+            background: #fff url(../assets/images/checkbox.png);  //复选框的背景图，就是上图
+            vertical-align: middle;
+          }
+          input[type="checkbox"]:checked {
+            background-position: 42px -23px;
+          }
+          input[type="checkbox"].active {
+            border: none;
+          }
         }
         tr:hover {
           background-color: #fafafa;
@@ -278,8 +277,8 @@ export default {
         .settle-btn {
           float: right;
           width: 112px;
-          height: 54px;
-          line-height: 54px;
+          height: 44px;
+          line-height: 44px;
           text-align: center;
           background: rgba(219, 53, 41, 1);
           border-radius: 4px;
