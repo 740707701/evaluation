@@ -61,6 +61,15 @@
           </div>
         </div>
       </div>
+      <!-- <div class="dialog">
+        <div class="success-box">
+          <div class="header">提示</div>
+          <div class="content">
+            <div class="back-btn success">支付成功</div>
+            <div class="back-btn fail">支付遇到问题</div>
+          </div>
+        </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -96,7 +105,7 @@ export default {
           }else{
             this.$message({
               type: "error",
-              message: "获取测评详情失败"
+              message: "获取测评详情失败，请稍后重试"
             })
           }
         });
@@ -116,7 +125,7 @@ export default {
           }else{
             this.$message({
               type: "error",
-              message: "获取热门测评失败"
+              message: "获取热门测评失败，请稍后重试"
             })
           }
         });

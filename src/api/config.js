@@ -20,13 +20,23 @@ export default {
 
     bannerList: 'banner/bannerList',
 
-    //立即购买
-    cepingBuy: 'ceping/purchase',
-    cepingFree: 'ceping/freepurchase',
     //测评完成之后记录测评报告
+    cepingFree: 'ceping/freepurchase',
     seeReport: 'ceping/recordreport',
     //进入测试
     tocaichu: 'ceping/tocaichu/{cepingId}/{serialno}',
+    
+    //立即购买
+    buy: 'ceping/purchase',
+    //订单
+    //订单列表
+    orderList: '',
+    //生成订单
+    createOrder: '',
+    //购物车列表
+    cartList: '',
+    //购物车删除
+    deleteCart: '',
 
     //简历
     //基本信息

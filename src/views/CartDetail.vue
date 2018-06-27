@@ -8,7 +8,9 @@
       <div class="top">
         <div class="title">我的购物车</div>
         <div class="sub-title">共{{cepingList.length}}门，已选择{{checkedIdList.length}}门</div>
-        <div class="right">我的订单中心</div>
+        <router-link to="/order">
+          <div class="right">我的订单中心</div>
+        </router-link>
       </div>
       <div class="intro-box">
         <table class="table">
@@ -44,9 +46,7 @@
             总计金额:
             <div class="red">¥{{totalPrice}}</div>
           </div>
-          <router-link to="settlement">
-            <div class="settle-btn">去结算</div>
-          </router-link>
+          <div class="settle-btn" :class="{'disabled': !checkedItemList.length}" @click="settlement">去结算</div>
         </div>
       </div>
     </div>
@@ -62,7 +62,8 @@ export default {
       totalPrice: 0,
       isCheckAll: false,
       isChecked: false,
-      checkedIdList: []
+      checkedIdList: [],
+      checkedItemList: []
     };
   },
   created() {
@@ -89,14 +90,37 @@ export default {
           }
         });
     },
+    getCartList(){
+      let params = {}
+      this.$store
+        .dispatch("CARTLIST", params)
+        .then(res => {
+          this.cepingList = res.data.data;
+        })
+        .catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取购物车失败，请稍后重试"
+            });
+          }
+        });
+    },
     //全选
     checkAll(e) {
       var checkAllItem = e.target;
       this.checkedIdList = [];
+      this.checkedItemList = [];
       if (checkAllItem.checked) {
         for (let item of this.cepingList) {
           item.isChecked = true;
           this.checkedIdList.push(item.id);
+          this.checkedItemList.push(item);
           this.totalPrice += Number(item.price);
         }
         this.isCheckAll = true;
@@ -107,9 +131,11 @@ export default {
         this.totalPrice = 0;
         this.isCheckAll = false;
         this.checkedIdList = [];
+        this.checkedItemList = [];
       }
       // console.log("cepingList", this.cepingList);
       // console.log("checkIdList", this.checkedIdList);
+      // console.log("checkedItemList", this.checkedItemList);
     },
     //单选
     checkOne(e, id){
@@ -118,6 +144,7 @@ export default {
         for(var item of this.cepingList){
           if(item.id == id){
             this.checkedIdList.push(item.id)
+            this.checkedItemList.push(item)
             item.isChecked = true
           }
         }
@@ -130,15 +157,41 @@ export default {
             item.isChecked = false;
             let index = this.checkedIdList.indexOf(id)
             this.checkedIdList.splice(index, 1)
+            this.checkedItemList.splice(index, 1)
           }
         }
         this.isCheckAll = false
       }
       // console.log("cepingList", this.cepingList);
       // console.log("checkIdList", this.checkedIdList);
+      // console.log("checkedItemList", this.checkedItemList);
     },
     del(id) {
-      console.log(id);
+      let params = {}
+      this.$store.dispatch('DELETECART', params).then(res => {
+        this.$message({
+          type: "success",
+          message: "删除成功"
+        });
+      }).catch(err => {
+        if (err.data.msg) {
+          this.$message({
+            type: "error",
+            message: err.data.msg
+          });
+        } else {
+          this.$message({
+            type: "error",
+            message: "删除失败，请稍后重试"
+          });
+        }
+      })
+    },
+    //结算
+    settlement(){
+      if(!this.checkedItemList.length){ return; }
+      localStorage.setItem("cartList", JSON.stringify(this.checkedItemList))
+      this.$router.push({name: 'settlement'})
     }
   },
   components: {
@@ -156,6 +209,10 @@ export default {
   padding-bottom: 25px;
   position: relative;
   z-index: 1;
+  .disabled {
+    background-color: #eaeaea!important;
+    cursor: no-drop!important;
+  }
   .banner-bg {
     width: 100%;
     height: 150px;

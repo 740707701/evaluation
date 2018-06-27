@@ -45,11 +45,11 @@
                     <span class="point" v-if="$route.name==`mybook`"></span>
                     <router-link to="/mybook">书籍库</router-link>
                   </li>
-                  <!-- <li>
-                    <span class="point" v-if="$route.name==`order`"></span>
-                    <router-link to="/order">我的订单</router-link>
-                  </li>
                   <li>
+                    <span class="point" v-if="$route.name==`order`"></span>
+                    <router-link to="/order">订单中心</router-link>
+                  </li>
+                  <!-- <li>
                     <span class="point" v-if="$route.name==`statistics`"></span>
                     <router-link to="/statistics">我的统计</router-link>
                   </li> -->

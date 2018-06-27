@@ -29,10 +29,10 @@
 					</div>
 				</div>
         <div class="total-box">
-          <p class="total-money">共2件商品，商品总金额: ¥ {{totalPrice}}</p>
+          <p class="total-money">共{{cepingList.length}}件商品，商品总金额: ¥ {{totalPrice}}</p>
           <p class="settlement">应付：<span class="red">¥{{totalPrice}}</span></p>
-          <p class="username">购买账号：{{username}}</p>
-          <div class="settle-btn" @click="pay">去支付</div>
+          <p class="username">购买账号：{{userInfo.userName}}</p>
+          <div class="settle-btn" @click="pay">提交订单</div>
         </div>
       </div>
     </div>
@@ -46,40 +46,25 @@ export default {
   data() {
     return {
       cepingList: [],
+      cepingIdList: [],
       totalPrice: 0, //商品总额
       payPrice: 0 ,//应付金额
-      username: 'cc',
-      payType: ''
+      userInfo: "",
+      payType: ""
     };
   },
   created() {
-    this.getEvaluationList(2);
+    this.cepingList = JSON.parse(localStorage.getItem("cartList"));
+    this.userInfo = this.$store.state.userInfo;
+    for(let item of this.cepingList){
+      this.cepingIdList.push(item.id)
+    }
   },
   methods: {
-    getEvaluationList(index) {
-      this.$store
-        .dispatch("EVALUATION_LIST", { cepingItem: index })
-        .then(res => {
-          this.cepingList = res.data.slice(5);
-        })
-        .catch(err => {
-          if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
-          } else {
-            this.$message({
-              type: "error",
-              message: "获取数据失败"
-            });
-          }
-        });
-    },
     pay: function(){
       let data = {
-        cepingId: this.$route.params.id,
-        num: "1"
+        cepingId: this.cepingIdList,
+        num: this.cepingList.length
       }
       if(!this.payType){
         this.$message({
