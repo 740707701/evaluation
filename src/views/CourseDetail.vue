@@ -61,15 +61,18 @@
           </div>
         </div>
       </div>
-      <!-- <div class="dialog">
-        <div class="success-box">
-          <div class="header">提示</div>
-          <div class="content">
-            <div class="back-btn success">支付成功</div>
-            <div class="back-btn fail">支付遇到问题</div>
+      <div class="dialog" v-if="showPayDialog">
+        <div class="back-box">
+          <div class="header">
+            <div class="title">提示</div>
+            <div class="close" @click="toOrder()">×</div>
+          </div>
+          <div class="back-content">
+            <div class="back-btn success-btn"  @click="toOrder()">支付成功</div>
+            <div class="back-btn fail-btn"  @click="toOrder()">支付遇到问题</div>
           </div>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -83,6 +86,7 @@ export default {
       detail: {},
       hotList: [],
       serialNo: '',
+      showPayDialog: false,
     };
   },
   created: function() {
@@ -151,6 +155,7 @@ export default {
       axios.post(`ceping/purchase`, data)
       .then(res => {
         console.log(res)
+        this.showPayDialog = true;
         const a = document.createElement('a');
         a.id = 'alipay-form'
         a.innerHTML = res.data.data;
@@ -171,6 +176,11 @@ export default {
               message: "生成订单失败，请稍后重试！"
             })
           }
+      })
+    },
+    toOrder(){
+      this.$router.push({
+        name: 'order'
       })
     },
     //获取免费序列号
@@ -380,6 +390,46 @@ export default {
               color: @main-color-gray;
               line-height: 4;
             }
+          }
+        }
+      }
+      .back-box {
+        width: 300px;
+        height: 135px;
+        background-color: #fff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -67px;
+        margin-left: -150px;
+        text-align: center;
+        .header {
+          height: 40px;
+          line-height: 40px;
+          border-bottom: 1px solid @main-color-border;
+          .title {
+            float: left;
+            padding-left: 20px;
+          }
+          .close {
+            font-size: 20px;
+            color: @main-color-gray;
+            float: right;
+            margin-right: 10px;
+            cursor: pointer;
+          }
+        }
+        .back-content {
+          padding: 30px;
+          .back-btn {
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid @main-color-border;
+            border-radius: 4px;
+            display: inline-block;
+          }
+          .success-btn {
+            margin-right: 20px;
           }
         }
       }

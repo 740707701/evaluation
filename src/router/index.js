@@ -18,6 +18,7 @@ import MyResume from '../views/PersonalCenter/MyResume.vue'
 import MyPlan from '../views/PersonalCenter/MyPlan.vue'
 import MyBook from '../views/PersonalCenter/MyBook.vue'
 import Order from '../views/PersonalCenter/Order.vue'
+import PaySuccess from '../views/PaySuccess.vue'
 import Setting from '../views/PersonalCenter/Setting.vue'
 import Statistics from '../views/PersonalCenter/Statistics.vue'
 import News from '../views/PersonalCenter/News.vue'
@@ -141,6 +142,11 @@ const routes = [{
         path: '/settlement',
         name: 'settlement',
         component: Settlement
+    },
+    {
+        path: '/paysuccess/:orderNo/:money',
+        name: 'paysuccess',
+        component: PaySuccess
     },
     {
         path: '/resumePreview',
