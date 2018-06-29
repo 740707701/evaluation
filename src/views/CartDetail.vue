@@ -13,7 +13,8 @@
         </router-link>
       </div>
       <div class="intro-box">
-        <table class="table">
+        <div class="nodata" v-if="!cepingList.length">还没有加入任何商品到购物车~</div>
+        <table class="table" v-if="cepingList.length">
           <thead>
             <tr>
               <td style="width:80px">
@@ -28,23 +29,23 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in cepingList" :key="item.id">
+            <tr v-for="item in cepingList" :key="item.cepingId">
               <td style="width:80px">
-                <input :checked="item.isChecked" type="checkbox" @click="checkOne($event, item.id)">
+                <input :checked="item.isChecked" type="checkbox" @click="checkOne($event, item.cepingId)">
               </td>
               <td>
-                <img :src="item.picAll" alt="">
+                <img :src="rootPath+item.pic" alt="">
                 <div class="name">{{item.cepingName}}</div>
               </td>
               <td class="red">¥ {{item.price}}</td>
-              <td class="red"><i class="iconfont icon-delete" @click="del(item.id)"></i></td>
+              <td class="red"><i class="iconfont icon-delete" @click="del(item.cartId)"></i></td>
             </tr>
           </tbody>
         </table>
-        <div class="total-box">
+        <div class="total-box" v-if="cepingList.length">
           <div class="total-money">
             总计金额:
-            <div class="red">¥{{totalPrice}}</div>
+            <div class="red">¥&nbsp;&nbsp;{{totalPrice}}</div>
           </div>
           <div class="settle-btn" :class="{'disabled': !checkedItemList.length}" @click="settlement">去结算</div>
         </div>
@@ -58,6 +59,7 @@ export default {
   name: "cart",
   data() {
     return {
+      rootPath: "",
       cepingList: [],
       totalPrice: 0,
       isCheckAll: false,
@@ -67,35 +69,15 @@ export default {
     };
   },
   created() {
-    this.getEvaluationList(2);
+    this.getCartList();
   },
   methods: {
-    getEvaluationList: function(index) {
+    getCartList() {
       this.$store
-        .dispatch("EVALUATION_LIST", { cepingItem: index })
+        .dispatch("CARTLIST")
         .then(res => {
-          this.cepingList = res.data.slice(5);
-        })
-        .catch(err => {
-          if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
-          } else {
-            this.$message({
-              type: "error",
-              message: "获取数据失败"
-            });
-          }
-        });
-    },
-    getCartList(){
-      let params = {}
-      this.$store
-        .dispatch("CARTLIST", params)
-        .then(res => {
-          this.cepingList = res.data.data;
+          this.rootPath = res.data.rootPath;
+          this.cepingList = res.data.cartListNormal;
         })
         .catch(err => {
           if (err.data.msg) {
@@ -119,7 +101,8 @@ export default {
       if (checkAllItem.checked) {
         for (let item of this.cepingList) {
           item.isChecked = true;
-          this.checkedIdList.push(item.id);
+          item.purchaseNum = 1; //购买的数量 目前默认为1
+          this.checkedIdList.push(item.cepingId);
           this.checkedItemList.push(item);
           this.totalPrice += Number(item.price);
         }
@@ -127,6 +110,7 @@ export default {
       } else {
         for (let item of this.cepingList) {
           item.isChecked = false;
+          item.purchaseNum = 0; //购买的数量 目前默认为1 
         }
         this.totalPrice = 0;
         this.isCheckAll = false;
@@ -138,60 +122,77 @@ export default {
       // console.log("checkedItemList", this.checkedItemList);
     },
     //单选
-    checkOne(e, id){
+    checkOne(e, id) {
       let checkOneItem = e.target;
-      if(checkOneItem.checked == true){
-        for(var item of this.cepingList){
-          if(item.id == id){
-            this.checkedIdList.push(item.id)
-            this.checkedItemList.push(item)
-            item.isChecked = true
+      if (checkOneItem.checked == true) {
+        for (var item of this.cepingList) {
+          if (item.cepingId == id) {
+            this.checkedIdList.push(item.cepingId);
+            this.checkedItemList.push(item);
+            item.isChecked = true;
+            item.purchaseNum = 1; //购买的数量 目前默认为1
+            this.totalPrice += Number(item.price);
           }
         }
-        if(this.cepingList.length == this.checkedIdList.length){
+        if (this.cepingList.length == this.checkedIdList.length) {
           this.isCheckAll = true;
         }
-      }else {
-        for(var item of this.cepingList){
-          if(item.id == id){
+      } else {
+        for (var item of this.cepingList) {
+          if (item.cepingId == id) {
             item.isChecked = false;
-            let index = this.checkedIdList.indexOf(id)
-            this.checkedIdList.splice(index, 1)
-            this.checkedItemList.splice(index, 1)
+            item.purchaseNum = 0; //购买的数量 目前默认为1
+            let index = this.checkedIdList.indexOf(id);
+            this.checkedIdList.splice(index, 1);
+            this.checkedItemList.splice(index, 1);
+            this.totalPrice -= Number(item.price);
           }
         }
-        this.isCheckAll = false
+        this.isCheckAll = false;
       }
-      // console.log("cepingList", this.cepingList);
-      // console.log("checkIdList", this.checkedIdList);
-      // console.log("checkedItemList", this.checkedItemList);
+      console.log("cepingList", this.cepingList);
+      console.log("checkIdList", this.checkedIdList);
+      console.log("checkedItemList", this.checkedItemList);
     },
-    del(id) {
-      let params = {}
-      this.$store.dispatch('DELETECART', params).then(res => {
-        this.$message({
-          type: "success",
-          message: "删除成功"
+    del(cartId) {
+      let params = {
+        cartId: cartId
+      };
+      this.$store
+        .dispatch("DELETECART", params)
+        .then(res => {
+          this.getCartList();
+          this.$message({
+            type: "success",
+            message: "删除成功"
+          });
+        })
+        .catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "删除失败，请稍后重试"
+            });
+          }
         });
-      }).catch(err => {
-        if (err.data.msg) {
-          this.$message({
-            type: "error",
-            message: err.data.msg
-          });
-        } else {
-          this.$message({
-            type: "error",
-            message: "删除失败，请稍后重试"
-          });
-        }
-      })
     },
     //结算
-    settlement(){
-      if(!this.checkedItemList.length){ return; }
-      localStorage.setItem("cartList", JSON.stringify(this.checkedItemList))
-      this.$router.push({name: 'settlement'})
+    settlement() {
+      if (!this.checkedItemList.length) {
+        return;
+      }
+      let cartData = {
+        rootPath: this.rootPath,
+        totalPrice: this.totalPrice
+      };
+      localStorage.setItem("cartList", JSON.stringify(this.checkedItemList));
+      localStorage.setItem("cartData", JSON.stringify(cartData));
+      this.$router.push({ name: "settlement" });
     }
   },
   components: {
@@ -209,9 +210,16 @@ export default {
   padding-bottom: 25px;
   position: relative;
   z-index: 1;
+  .nodata {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
+    text-align: center;
+  }
   .disabled {
-    background-color: #eaeaea!important;
-    cursor: no-drop!important;
+    background-color: #eaeaea !important;
+    cursor: no-drop !important;
   }
   .banner-bg {
     width: 100%;
@@ -246,7 +254,7 @@ export default {
     }
     .intro-box {
       width: 1200px;
-      // height: calc(100% - 200px);
+      min-height: calc(100% - 200px);
       margin: 0 auto;
       margin-top: 40px;
       margin-bottom: 20px;
@@ -302,8 +310,8 @@ export default {
             background-color: #fff;
             border: 1px solid @main-color-border;
             margin: 0;
-            -webkit-appearance: none;  //清除复选框默认样式
-            background: #fff url(../assets/images/checkbox.png);  //复选框的背景图，就是上图
+            -webkit-appearance: none; //清除复选框默认样式
+            background: #fff url(../assets/images/checkbox.png); //复选框的背景图，就是上图
             vertical-align: middle;
           }
           input[type="checkbox"]:checked {
@@ -323,7 +331,7 @@ export default {
         margin-bottom: 30px;
         .total-money {
           float: left;
-          margin-right: 100px;
+          margin-right: 60px;
           padding-top: 10px;
           .red {
             color: red;

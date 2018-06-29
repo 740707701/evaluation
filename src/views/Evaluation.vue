@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     evaluationDetail: function(){
-      this.$store.dispatch('EVALUATION_DETAIL', {cepingId: this.$route.params.id})
+      this.$store.dispatch('EVALUATION_DETAIL', {cepingId: this.$route.params.cepingId})
       .then( res => {
         this.detail = res.data;
         // this.caichuCode = String(this.detail.baseInfo.caichuCode) + '测试' ;
@@ -102,7 +102,7 @@ export default {
       }
       if(this.serialNumber){
         let data = {
-          cepingId: this.$route.params.id,
+          cepingId: this.$route.params.cepingId,
           serialno: this.serialNumber
         }
         this.$store.dispatch('TOCAICHU', data).then(res => {

@@ -30,13 +30,18 @@ export default {
     buy: 'ceping/purchase',
     //订单
     //订单列表
-    orderList: '',
+    //全部
+    orderList: 'ceping/paylist',
+    //待付款
+    nopayOrder: 'ceping/nopaylist',
     //生成订单
-    createOrder: '',
+    createOrder: 'ceping/addpurchase',
     //购物车列表
-    cartList: '',
+    cartList: 'ceping/shopcart',
+    //加入购物车
+    addCart: 'ceping/shopcart',
     //购物车删除
-    deleteCart: '',
+    deleteCart: 'ceping/shopcart',
 
     //简历
     //基本信息

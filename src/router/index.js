@@ -37,7 +37,7 @@ const routes = [{
                 component: CourseList
             },
             {
-                path: '/coursedetail/:id',
+                path: '/coursedetail/:cepingId',
                 name: 'coursedetail',
                 component: CourseDetail
             }
@@ -92,7 +92,7 @@ const routes = [{
         ]
     },
     {
-        path: '/evaluation/:id/:serialNo',
+        path: '/evaluation/:cepingId/:serialNo',
         name: 'evaluation',
         component: Evaluation
     },

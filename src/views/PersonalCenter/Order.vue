@@ -4,7 +4,7 @@
       <el-tab-pane label="所有订单" name="first">
         <div class="order-list">
           <div class="nodata" v-if="!allOrderList.length">还没有任何订单哦~</div>
-          <table class="table">
+          <table class="table" v-if="allOrderList.length">
             <thead>
               <tr>
                 <td>
@@ -18,35 +18,36 @@
                 <td>交易操作</td>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-for="order in allOrderList" :key="order.orderNo">
               <tr class="tr-split"></tr>
               <tr class="tr-head">
                 <td colspan="7">
-                  <span class="date">2018-06-27</span>
-                  <span>订单号：18149736446474484847488</span>
+                  <span class="date">{{order.orderTime.slice(0, 10)}}</span>
+                  <span>订单号：{{order.orderNo}}</span>
                   <i class="iconfont icon-delete"></i>
                 </td>
               </tr>
-              <tr>
+              <tr v-for="item in order.applyList" :key="item.id">
                 <td>
                   <div class="item">
-                    <img src="" alt="">
-                    <div class="name">APP界面UI网页手机iPhone展示样机MOCKUP智能贴图PSD设计模板素材</div>
+                    <img :src="item.pic" alt="">
+                    <div class="name">{{item.cepingName}}</div>
                   </div>
                 </td>
-                <td>¥20.00</td>
-                <td> ×1</td>
-                <td class="border-right">¥20.00</td>
+                <td>¥{{item.purchasePrice}}</td>
+                <td> ×{{item.purchaseNum}}</td>
+                <td class="border-right">¥{{item.purchaseSumPrice}}</td>
                 <td class="border-right">
-                  <div>交易成功</div>
-                  <div class="refund">退款</div>
+                  <div v-if="item.state==3">交易成功</div>
+                  <div v-if="item.state==0">待付款</div>
+                  <div class="refund" v-if="item.state==3" @click="refund">退款</div>
                 </td>
-                <td class="border-right">张三三</td>
+                <td class="border-right">{{item.creator}}</td>
                 <td>
                   <div>序列号</div>
-                  <p>426MRWHQ457359</p>
+                  <p>{{item.serialNo}}</p>
                   <div class="operation-btn copy-btn" 
-                    v-clipboard:copy="serialNo"
+                    v-clipboard:copy="item.serialNo"
                     v-clipboard:success="onCopy"
                     v-clipboard:error="onError">复制
                   </div>
@@ -58,8 +59,8 @@
       </el-tab-pane>
       <el-tab-pane label="待付款" name="second">
         <div class="order-list">
-          <div class="nodata" v-if="!payOrderList.length">还有相关订单哦~</div>
-          <table class="table">
+          <div class="nodata" v-if="!noPayOrder.length">还有相关订单哦~</div>
+          <table class="table" v-if="noPayOrder.length">
             <thead>
               <tr>
                 <td>
@@ -73,32 +74,32 @@
                 <td>交易操作</td>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-for="order in noPayOrder" :key="order.orderNo">
               <tr class="tr-split"></tr>
               <tr class="tr-head">
                 <td colspan="7">
-                  <span class="date">2018-06-27</span>
-                  <span>订单号：18149736446474484847488</span>
+                  <span class="date">{{order.orderTime.slice(0, 10)}}</span>
+                  <span>订单号：{{order.orderNo}}</span>
                   <i class="iconfont icon-delete"></i>
                 </td>
               </tr>
-              <tr>
+              <tr v-for="item in order.applyList" :key="item.id">
                 <td>
                   <div class="item">
-                    <img src="" alt="">
-                    <div class="name">APP界面UI网页手机iPhone展示样机MOCKUP智能贴图PSD设计模板素材</div>
+                    <img :src="item.pic" alt="">
+                    <div class="name">{{item.cepingName}}</div>
                   </div>
                 </td>
-                <td>¥20.00</td>
-                <td> ×1</td>
-                <td class="border-right">¥20.00</td>
+                <td>¥{{item.purchasePrice}}</td>
+                <td> ×{{item.purchaseNum}}</td>
+                <td class="border-right">¥{{item.purchasePrice}}</td>
                 <td class="border-right">
-                  <div>等待买家付款</div>
+                  <div>{{item.state}}</div>
                 </td>
-                <td class="border-right">张三三</td>
+                <td class="border-right">{{item.creator}}</td>
                 <td>
-                  <div>待付款</div>
-                  <div class="operation-btn pay-btn">立即付款</div>                  
+                  <p>待付款</p>
+                  <div class="operation-btn pay-btn" @click="pay">立即付款</div>                  
                 </td>
               </tr>
             </tbody>
@@ -115,68 +116,80 @@ export default {
     return {
       activeName: "first",
       allOrderList: [],
-      payOrderList: [],
-      serialNo: '123',
+      noPayOrder: [],
+      serialNo: ""
     };
   },
-  created(){},
+  created() {
+    this.getAllOrder();
+  },
   methods: {
-    tabsClick: function(tab, event){
-      let tabIndex = tab.index
-      if(tabIndex == 0){
-        // this.getAllOrder()
-      }else if(tabIndex == 1){
-        // this.getPayOrder()
+    tabsClick(tab, event) {
+      let tabIndex = tab.index;
+      if (tabIndex == 0) {
+        this.getAllOrder();
+      } else if (tabIndex == 1) {
+        this.getNopayOrder();
       }
     },
-    getAllOrder(){
-      let data = {}
-      this.$store.dispatch('ORDERLIST', data).then(res => {
-        this.allOrderList = res.data.data
-      }).catch(err => {
-        if(err.data.msg){
+    getAllOrder() {
+      let data = {};
+      this.$store
+        .dispatch("ORDERLIST", data)
+        .then(res => {
+          this.allOrderList = res.data || [];
+        })
+        .catch(err => {
+          if (err.data.msg) {
             this.$message({
-            type: "error",
-            message: err.data.msg
-          })
-          }else{
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
             this.$message({
               type: "error",
               message: "获取订单信息失败，请稍后重试"
-            })
+            });
           }
-      })
+        });
     },
-    getPayOrder(){
-      let data = {}
-      this.$store.dispatch('ORDERLIST', data).then(res => {
-        this.payOrderList = res.data.data
-      }).catch(err => {
-        if(err.data.msg){
+    getNopayOrder() {
+      let data = {};
+      this.$store
+        .dispatch("NOPAYORDER", data)
+        .then(res => {
+          this.noPayOrder = res.data || [];
+        })
+        .catch(err => {
+          if (err.data.msg) {
             this.$message({
-            type: "error",
-            message: err.data.msg
-          })
-          }else{
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
             this.$message({
               type: "error",
               message: "获取订单信息失败，请稍后重试"
-            })
+            });
           }
-      })
+        });
     },
-    onCopy: function (e) {
+    onCopy(e) {
       this.$message({
         message: "复制序列号成功",
         type: "success"
       });
     },
-    onError: function (e) {
+    onError(e) {
       this.$message({
         message: "复制序列号失败",
         type: "error"
       });
     },
+    //去付款
+    pay() {},
+    //退款
+    refund() {}
   }
 };
 </script>
@@ -191,7 +204,7 @@ export default {
     text-align: center;
   }
   .gray {
-    color: #aaa!important;
+    color: #aaa !important;
   }
   .order-list {
     padding-bottom: 20px;
@@ -200,12 +213,12 @@ export default {
       margin: 0 auto;
       border-collapse: collapse;
       .border-right {
-        border-right: 1px solid #CBEAF9;
+        border-right: 1px solid #cbeaf9;
       }
       thead {
         height: 40px;
         line-height: 40px;
-        background-color: #FAFAFA;
+        background-color: #fafafa;
         border: 1px solid @main-color-border;
         margin-bottom: 20px;
         td {
@@ -219,8 +232,8 @@ export default {
       .tr-head {
         height: 40px;
         line-height: 40px;
-        background-color: #CBEAF9;
-        color: #A2A9B8;
+        background-color: #cbeaf9;
+        color: #a2a9b8;
         td {
           text-align: left;
           padding: 0 0 0 20px;
@@ -243,7 +256,7 @@ export default {
           height: 20px;
         }
         tr {
-          border: 1px solid #CBEAF9;
+          border: 1px solid #cbeaf9;
           td {
             padding: 15px;
             text-align: center;
@@ -262,17 +275,20 @@ export default {
                 margin-left: 115px;
                 line-height: 1.2;
                 text-align: left;
+                //英文强制换行
+                white-space: normal;
+                word-break: break-all;
               }
             }
             .operation-btn {
               width: 60px;
-              height: 30px;
-              line-height: 30px;
+              height: 28px;
+              line-height: 28px;
               font-size: 12px;
               text-align: center;
               border-radius: 4px;
               cursor: pointer;
-              margin-top: 6px;
+              margin-top: 10px;
               display: inline-block;
             }
             .copy-btn {
@@ -288,10 +304,8 @@ export default {
               cursor: pointer;
               margin-top: 10px;
             }
-            
           }
         }
-
       }
     }
   }

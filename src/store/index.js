@@ -7,6 +7,7 @@ import plan from './modules/plan'
 import user from './modules/user'
 import metadata from './modules/metadata'
 import person from './modules/person'
+import order from './modules/order'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -47,6 +48,7 @@ export default new Vuex.Store({
     plan,
     user,
     metadata,
-    person
+    person,
+    order
   }
 })

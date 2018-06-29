@@ -17,10 +17,10 @@
           <p class="red" v-if="detail.baseInfo.price>0">价格： ¥{{detail.baseInfo.price}}</p>
           <div class="btn-box" v-if="detail.baseInfo.price>0">
             <!-- <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button> -->
-            <!-- <i class="iconfont icon-cart" @click="cart"></i> -->
           </div>
           <div class="btn-box" v-if="!detail.showFree">
-            <el-button size="small" class="buy-btn eva-btn" @click="buy()">立即购买</el-button>
+            <el-button size="small" class="buy-btn " @click="buy()">立即购买</el-button>
+            <i class="iconfont icon-cart" @click="addCart"></i>
           </div>
           <div class="btn-box" v-if="detail.showFree">
             <el-button size="small" class="buy-btn eva-btn" @click="getFreeSerialNo()">进入测评</el-button>
@@ -32,7 +32,7 @@
         </div>
         <div class="hot">热门测评</div>
         <table class="table">
-          <tr v-for="(item, index) in hotList" :key="item.id">
+          <tr v-for="(item, index) in hotList" :key="item.cepingId">
             <td class="name">{{index+1}}</td>
             <td class="name">{{item.cepingName}}</td>
             <td>{{item.num||0}}题</td>
@@ -96,7 +96,7 @@ export default {
   methods: {
     evaluationDetail: function() {
       this.$store
-        .dispatch("EVALUATION_DETAIL", { cepingId: this.$route.params.id })
+        .dispatch("EVALUATION_DETAIL", { cepingId: this.$route.params.cepingId })
         .then(res => {
           this.detail = res.data;
         })
@@ -134,21 +134,58 @@ export default {
           }
         });
     },
+    //加入购物车
+    addCart: function(){
+      let data = {
+        cepingId: this.detail.baseInfo.cepingId
+      }
+      this.$store.dispatch('ADDCART', data).then(res => {
+        this.$message({
+          type: "success",
+          message: "加入成功"
+        })
+      }).catch(err => {
+        if(err.data.msg){
+          this.$message({
+            type: "error",
+            message: err.data.msg
+          })
+        }else {
+          this.$message({
+            type: "error",
+            message: "加入购物车失败，请稍后重试"
+          })
+        }
+      })
+    },
     //进入测评
     toEvaluation: function() {
       this.$router.push({
         name: `evaluation`,
         params: {
-          id: this.$route.params.id, 
+          id: this.$route.params.cepingId, 
           serialNo: this.serialNo
         }
       });
     },
     //立即购买
-    buy: function(){
+    buy(){
+      let cartData = {
+        rootPath: '',
+        totalPrice: this.detail.baseInfo.price
+      };
+      let cartList = []
+      this.detail.baseInfo.purchaseNum = 1; //购物车默认数量为1
+      cartList.push(this.detail.baseInfo)
+      localStorage.setItem("cartList", JSON.stringify(cartList));
+      localStorage.setItem("cartData", JSON.stringify(cartData));
+      this.$router.push({ name: "settlement" });
+    },
+    //付款
+    pay: function(){
       // return;
       let data = {
-        cepingId: this.$route.params.id,
+        cepingId: this.$route.params.cepingId,
         num: "1"
       }
       axios.defaults.headers.post["Content-Type"] = "text/html;charest=utf-8"
@@ -186,7 +223,7 @@ export default {
     //获取免费序列号
     getFreeSerialNo: function(){
       let data = {
-        cepingId: this.$route.params.id,
+        cepingId: this.$route.params.cepingId,
         num: "1"
       }
       this.$store.dispatch('CEPINGFREE', data).then(res => {
@@ -291,7 +328,7 @@ export default {
             height: 30px;
             color: #fff;
             margin: 0;
-            background-color: #db3523;
+            background-color: #DB3523;
             border-radius: 4px 0 0 4px;
             box-shadow: 0 0 0;
             border: none;
@@ -346,7 +383,7 @@ export default {
       height: 100%;
       background-color: rgba(0, 0, 0, 0.3);
       border-radius: 10px;
-      z-index: 11;
+      z-index: 21;
       position: absolute;
       top: 0;
       left: 0;

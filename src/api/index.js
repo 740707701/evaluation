@@ -51,9 +51,9 @@ class Api {
     })
   }
 
-  delete(url, data = {}) {
+  delete(url, params = {}) {
     return new Promise((resolve, reject) => {
-      axios.delete(url, data)
+      axios.delete(url, {params: params})
         .then(res => {
           if (res.data.code == 1) {
             resolve(res)

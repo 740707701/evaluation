@@ -7,7 +7,7 @@
             <el-tabs v-model="activeName" @tab-click="tabsClick" class="tabs-box">
               <el-tab-pane label="专业选择" name="first">
                 <ul class="item">
-                  <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
+                  <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                     <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
@@ -26,7 +26,7 @@
               </el-tab-pane>
               <el-tab-pane label="自我认知" name="second">
                 <ul class="item">
-                  <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
+                  <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                     <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
@@ -44,7 +44,7 @@
               </el-tab-pane>
               <el-tab-pane label="职业形象与风格" name="third">
                 <ul class="item">
-                  <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
+                  <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                     <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
@@ -62,7 +62,7 @@
               </el-tab-pane>
               <el-tab-pane label="岗位分类" name="fourth">
                 <ul class="item">
-                  <li v-for="item in evaluationList" :key="item.id" @click="toDetail(item.id)">
+                  <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                     <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
@@ -87,7 +87,7 @@
             <p class="title">热门课程</p>
             <div class="nodata" v-if="!evaluationList.length">还没有热门课程哦~</div>
             <ul class="item-box">
-              <li v-for="item of hotList" :key="item.id" @click="toDetail(item.id)">
+              <li v-for="item of hotList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                   <div class="item">
                     <img :src="item.picAll" alt="">
                     <div class="item-center">
@@ -163,14 +163,14 @@ export default {
           }
         });
     },
-    toDetail: function(id) {
+    toDetail: function(cepingId) {
       if (this.$store.state.isLogin) {
-        this.$router.push({ name: `coursedetail`, params: { id: id } });
+        this.$router.push({ name: `coursedetail`, params: { cepingId: cepingId } });
       } else {
         this.$store.commit("setShowLoginPage", true);
         this.$router.push({
           path: "/",
-          query: { redirect: "/coursedetail/" + id }
+          query: { redirect: "/coursedetail/" + cepingId }
         });
       }
     },

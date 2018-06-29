@@ -5,6 +5,7 @@ const ORDER_SET = "ORDER_SET"
 
 const CREATEORDER = 'CREATEORDER'
 const ORDERLIST = "ORDERLIST"
+const NOPAYORDER = 'NOPAYORDER'
 const ORDERINFO = "ORDERINFO"
 const ADDCART = 'ADDCART'
 const DELETECART = 'DELETECART'
@@ -13,7 +14,8 @@ const BUY = 'BUY'
 
 export default {
   state: {
-    orderList: [],
+		orderList: [],
+		nopayOrder: [],
 		orderInfo: {},
 		cartList: [],
 		cartInfo: {},
@@ -26,8 +28,8 @@ export default {
   },
   actions: {
 		//创建订单
-		[CREATEORDER]({ commit }, params){
-			return api.get(config.url.createOrder, params).then(res => {
+		[CREATEORDER]({ commit }, data){
+			return api.post(config.url.createOrder, data).then(res => {
 				commit('ORDER_SET', {
 					target: 'orderInfo',
 					data: res.data
@@ -36,6 +38,7 @@ export default {
 			})
 		},
 		//订单列表
+		//全部
 		[ORDERLIST]({ commit }, params){
 			return api.get(config.url.orderList, params).then(res => {
 				commit('ORDER_SET', {
@@ -45,8 +48,19 @@ export default {
 				return res
 			})
 		},
+		//待付款
+		[NOPAYORDER]({ commit }, params){
+			return api.get(config.url.nopayOrder, params).then(res => {
+				commit('ORDER_SET', {
+					target: 'nopayOrder',
+					data: res.data
+				})
+				return res
+			})
+		},
 		//加入购物车
 		[ADDCART]({ commit }, data){
+			data = new URLSearchParams(data)
 			return api.post(config.url.addCart, data).then(res => {
 				commit('ORDER_SET', {
 					target: 'cartInfo',
@@ -57,7 +71,7 @@ export default {
 		},
 		//购物车删除
 		[DELETECART]({commit}, params){
-			return api.delete(api.url.deleteCart, params).then(res => {
+			return api.delete(config.url.deleteCart, params).then(res => {
 				commit('ORDER_SET', {
 					target: 'cartInfo',
 					data: res.data
@@ -67,7 +81,7 @@ export default {
 		},
 		//购物车列表
 		[CARTLIST]({ commit }, params){
-			return api.get(api.url.cartList, params).then(res => {
+			return api.get(config.url.cartList, params).then(res => {
 				commit('ORDER_SET', {
 					target: 'cartList',
 					data: res.data
