@@ -24,10 +24,10 @@
                 <td colspan="7">
                   <span class="date">{{order.orderTime.slice(0, 10)}}</span>
                   <span>订单号：{{order.orderNo}}</span>
-                  <i class="iconfont icon-delete"></i>
+                  <!-- <i class="iconfont icon-delete"></i> -->
                 </td>
               </tr>
-              <tr v-for="item in order.applyList" :key="item.id">
+              <tr v-for="item in order.applyList.slice(0,1)" :key="item.id">
                 <td>
                   <div class="item">
                     <img :src="item.pic" alt="">
@@ -37,16 +37,37 @@
                 <td>¥{{item.purchasePrice}}</td>
                 <td> ×{{item.purchaseNum}}</td>
                 <td class="border-right">¥{{item.purchaseSumPrice}}</td>
-                <td class="border-right">
+                <td class="border-right" :rowspan="order.applyList.length">
                   <div v-if="item.state==3">交易成功</div>
                   <div v-if="item.state==0">待付款</div>
                   <div class="refund" v-if="item.state==3" @click="refund">退款</div>
                 </td>
-                <td class="border-right">{{item.creator}}</td>
+                <td class="border-right" :rowspan="order.applyList.length">{{item.realName}}</td>
                 <td>
                   <div>序列号</div>
                   <p>{{item.serialNo}}</p>
-                  <div class="operation-btn copy-btn" 
+                  <div class="operation-btn copy-btn" v-if="item.serialNo"
+                    v-clipboard:copy="item.serialNo"
+                    v-clipboard:success="onCopy"
+                    v-clipboard:error="onError">复制
+                  </div>
+                </td>
+              </tr>
+              <tr v-for="item in order.applyList.slice(1)" :key="item.id">
+                <td>
+                  <div class="item">
+                    <img :src="item.pic" alt="">
+                    <div class="name">{{item.cepingName}}</div>
+                  </div>
+                </td>
+                <td>¥{{item.purchasePrice}}</td>
+                <td> ×{{item.purchaseNum}}</td>
+                <td class="border-right">¥{{item.purchaseSumPrice}}</td>
+
+                <td>
+                  <div>序列号</div>
+                  <p>{{item.serialNo}}</p>
+                  <div class="operation-btn copy-btn" v-if="item.serialNo"
                     v-clipboard:copy="item.serialNo"
                     v-clipboard:success="onCopy"
                     v-clipboard:error="onError">复制
@@ -80,10 +101,10 @@
                 <td colspan="7">
                   <span class="date">{{order.orderTime.slice(0, 10)}}</span>
                   <span>订单号：{{order.orderNo}}</span>
-                  <i class="iconfont icon-delete"></i>
+                  <!-- <i class="iconfont icon-delete"></i> -->
                 </td>
               </tr>
-              <tr v-for="item in order.applyList" :key="item.id">
+              <tr v-for="item in order.applyList.slice(0,1)" :key="item.id">
                 <td>
                   <div class="item">
                     <img :src="item.pic" alt="">
@@ -93,14 +114,26 @@
                 <td>¥{{item.purchasePrice}}</td>
                 <td> ×{{item.purchaseNum}}</td>
                 <td class="border-right">¥{{item.purchasePrice}}</td>
-                <td class="border-right">
-                  <div>{{item.state}}</div>
+                <td class="border-right" :rowspan="order.applyList.length">
+                  <div v-if="item.state==3">交易成功</div>
+                  <div v-if="item.state==0">待付款</div>
                 </td>
-                <td class="border-right">{{item.creator}}</td>
+                <td :rowspan="order.applyList.length" class="border-right">{{item.realName}}</td>
+                <td :rowspan="order.applyList.length">
+                  <div class="operation-btn pay-btn" @click="pay(order)">立即付款</div>                  
+                </td>
+              </tr>
+              <tr v-for="item in order.applyList.slice(1)" :key="item.id">
                 <td>
-                  <p>待付款</p>
-                  <div class="operation-btn pay-btn" @click="pay">立即付款</div>                  
+                  <div class="item">
+                    <img :src="item.pic" alt="">
+                    <div class="name">{{item.cepingName}}</div>
+                  </div>
                 </td>
+                <td>¥{{item.purchasePrice}}</td>
+                <td> ×{{item.purchaseNum}}</td>
+                <td class="border-right">¥{{item.purchasePrice}}</td>
+                
               </tr>
             </tbody>
           </table>
@@ -110,6 +143,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
   name: "order",
   data() {
@@ -187,7 +221,47 @@ export default {
       });
     },
     //去付款
-    pay() {},
+    pay(order) {
+      let payTitle = [];
+      let totalPrice = 0;
+      for (let item of order.applyList) {
+        payTitle.push(item.cepingName);
+        totalPrice += Number(item.purchaseSumPrice);
+      }
+      let data = {
+        orderNo: order.orderNo,
+        sumPrice: totalPrice,
+        title: payTitle.join(",")
+      };
+      axios.defaults.headers.post["Content-Type"] = "text/html;charest=utf-8";
+      axios
+        .post(`ceping/purchase`, data)
+        .then(res => {
+          console.log(res);
+          this.showPayDialog = true;
+          const a = document.createElement("a");
+          a.id = "alipay-form";
+          a.innerHTML = res.data.data;
+          document.body.appendChild(a);
+          let form = document.getElementById("alipay-form").childNodes[0];
+          form.target = "_blank";
+          form.submit();
+          document.body.removeChild(a);
+        })
+        .catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "生成订单失败，请稍后重试！"
+            });
+          }
+        });
+    },
     //退款
     refund() {}
   }
@@ -288,7 +362,7 @@ export default {
               text-align: center;
               border-radius: 4px;
               cursor: pointer;
-              margin-top: 10px;
+              // margin-top: 10px;
               display: inline-block;
             }
             .copy-btn {
