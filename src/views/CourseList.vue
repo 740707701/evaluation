@@ -250,11 +250,16 @@ export default {
             }
             .desc {
               font-size: 12px;
-              height: 45px;
+              // height: 45px;
               overflow: hidden;
               line-height: 1.3;
               padding: 0 5px;
               color: #a2a9b8;
+              text-overflow: ellipsis;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+              word-break: break-all;
+              display: -webkit-box;
             }
           }
         }
