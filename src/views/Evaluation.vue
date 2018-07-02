@@ -66,7 +66,6 @@ export default {
   computed: {},
   created: function(){
     this.serialNumber = this.$route.params.serialNo
-    console.log('serialNumber',this.serialNumber)
     this.evaluationDetail()
   },
   methods: {

@@ -40,6 +40,7 @@
                 <td class="border-right" :rowspan="order.applyList.length">
                   <div v-if="item.state==3">交易成功</div>
                   <div v-if="item.state==0">待付款</div>
+                  <div v-if="item.state==4">已关闭</div>
                   <div class="refund" v-if="item.state==3" @click="refund">退款</div>
                 </td>
                 <td class="border-right" :rowspan="order.applyList.length">{{item.realName}}</td>

@@ -62,7 +62,7 @@
                         v-clipboard:error="onError"></i>
                     </div>
                     <div class="test-box">
-                      <el-button class="test-btn" size="small" @click="toEvaluation(course.cepingId)">进入测试</el-button>
+                      <el-button class="test-btn" size="small" @click="toEvaluation(course.cepingId,course.cepingSerialno)">进入测试</el-button>
                     </div>
                   </div>
                 </div>
@@ -197,10 +197,10 @@ export default {
         type: "error"
       });
     },
-    toEvaluation: function(id) {
+    toEvaluation: function(cepingId, serialNo) {
       this.$router.push({
         name: `evaluation`,
-        params: { id: id }
+        params: { cepingId: cepingId, serialNo: serialNo }
       });
     },
     next: function(){ }
