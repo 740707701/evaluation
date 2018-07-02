@@ -12,9 +12,9 @@
           <!-- <li @click="changeLogin(4, '/industryintro')" v-bind:class="{'active':$route.path=='/industryintro'}">书籍库</li> -->
         </ul>
         <div class="nav-right">
-          <router-link to="/cartDetail" v-if="isLogin"> 
+          <router-link to="/cartDetail" v-if="isLogin" class="cart"> 
             <el-button class="cart-btn" round size="small">
-              <i class="el-icon-setting"></i>
+              <i class="iconfont icon-cart"></i>
               购物车
             </el-button>
           </router-link>
@@ -27,17 +27,21 @@
             </li>
           </ul>
           <div class="login" v-if="isLogin">
-            <el-badge class="badge">
-              <router-link to="/news">
+            <router-link to="/news" class="news">
+              <el-badge :is-dot="isNews">
                 <i class="el-icon-bell"></i>
-              </router-link>
-            </el-badge>
+              </el-badge>
+            </router-link>
             <el-dropdown @command="dropdownEvent">
               <el-button class="avatar el-dropdown-link">
-                <img class="avatar-img" :src="userInfo.avatar" alt="">
+                <el-badge :is-dot="isBuyed" >
+                  <img class="avatar-img" :src="userInfo.avatar" alt="">
+                </el-badge>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="personalcenter">我的测评</el-dropdown-item>
+                <el-dropdown-item command="personalcenter" class="dropdown-badge">
+                  <el-badge :is-dot="isBuyed" >我的测评</el-badge>
+                </el-dropdown-item>
                 <el-dropdown-item command="myresume">我的简历</el-dropdown-item>
                 <el-dropdown-item command="order">订单中心</el-dropdown-item>
                 <el-dropdown-item command="setting">个人资料</el-dropdown-item>
@@ -66,10 +70,16 @@ export default {
   data() {
     return { 
       showRegisterPage: false,
-      showForgetPage: false
+      showForgetPage: false,
+      isBuyed: false,
+      isNews: false
     };
   },
-  created() {},
+  props: ["updateBuyed", "updateNews"],
+  created() {
+    this.isBuyed =this.updateBuyed || false;
+    this.isNews =this.updateNews || false;
+  },
   computed: {
     // isLogin (){
     //   return this.$store.state.isLogin
@@ -180,6 +190,7 @@ export default {
   z-index: 20;
   a {
     color: @main-color-text;
+    display: inline-block;
   }
   .navbar {
     width: 1200px;
@@ -215,17 +226,17 @@ export default {
     }
     .nav-right {
       float: right;
-      .cart-btn {
+      height: 60px;
+      .cart {
         float: left;
-        margin-top: 15px;
+        margin-top: 12px;
         margin-right: 10px;
-      }
-      .badge {
-        margin: -18px 20px 0 20px;
       }
       .el-icon-bell {
         font-size: 20px;
-        margin-top: -2px;
+      }
+      .news {
+        margin: 0 20px;
       }
       .avatar {
         width: 30px;
@@ -238,7 +249,6 @@ export default {
           width: 30px;
           height: 30px;
           border-radius: 30px;
-          margin-top: 15px;
           background-color: #eaeaea;
           display: inline-block;
         }
@@ -249,11 +259,13 @@ export default {
         background-color: transparent;
         font-weight: bold;
       }
-      .login,
-      .logout {
-        float: left;
+      .login {
+        height: 60px;
+        padding-top: 14px;
+        display: inline-block;
       }
       .logout {
+        height: 60px;
         li {
           float: left;
           .name {

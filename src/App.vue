@@ -93,5 +93,11 @@ export default {
     margin: 0;
     background-color: transparent;
   }
+  .dropdown-badge {
+    .el-badge__content.is-fixed.is-dot {
+      right: 0px!important;
+      top: 8px!important;
+    }
+  }
 }
 </style>

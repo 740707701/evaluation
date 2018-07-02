@@ -3,7 +3,7 @@
     <h4>登录</h4>
     <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="0" class="demo-ruleForm">
       <el-form-item label="" prop="number">
-        <el-input v-model="loginForm.number" placeholder="学号/手机号" :maxlength="11"></el-input>
+        <el-input v-model="loginForm.number" placeholder="用户名/手机号" :maxlength="11"></el-input>
       </el-form-item>
     
       <el-form-item label="" prop="pwd">

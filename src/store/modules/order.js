@@ -11,6 +11,7 @@ const ADDCART = 'ADDCART'
 const DELETECART = 'DELETECART'
 const CARTLIST = 'CARTLIST'
 const BUY = 'BUY'
+const REFUND = 'REFUND'
 
 export default {
   state: {
@@ -19,7 +20,8 @@ export default {
 		orderInfo: {},
 		cartList: [],
 		cartInfo: {},
-		buyInfo: {}
+		buyInfo: {},
+		refundInfo: {}
   },
   mutations: {
     [ORDER_SET](state, data) {
@@ -98,6 +100,15 @@ export default {
         })
         return res
       })
-    },
+		},
+		[REFUND]({ commit }, data){
+			return api.post(config.url.refund, data).then(res => {
+				commit('REFUND', {
+					target: 'refundInfo',
+					data: res.data
+				})
+				return res
+			})
+		}
 	}
 };

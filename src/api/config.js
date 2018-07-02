@@ -28,6 +28,8 @@ export default {
     
     //立即购买
     buy: 'ceping/purchase',
+    //退款
+    refund: 'ceping/refund',
     //订单
     //订单列表
     //全部

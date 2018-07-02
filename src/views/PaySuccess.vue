@@ -1,5 +1,6 @@
 <template>
 	<div class="pay-success">
+		<headerNav :updateBuyed="buyed"></headerNav>
 		<div class="success-box">
 			<i class="iconfont icon-success"></i>
 			<div class="title">
@@ -19,19 +20,25 @@
 	</div>
 </template>
 <script>
+import headerNav from '../components/HeaderNav'
 export default {
 	name: 'paysuccess',
 	data(){
 		return {
 			orderNo: '',
-			money: ''
+			money: '',
+			buyed: false,
 		}
 	},
 	created(){
 		this.orderNo = this.$route.params.orderNo;
 		this.money = this.$route.params.money;
+		this.buyed = true; //代表已购买，向头部emit事件显示红点
 	},
-	methods: {}
+	methods: {},
+	components: {
+		headerNav
+	}
 }
 </script>
 <style lang="less" scoped>

@@ -41,7 +41,8 @@
                   <div v-if="item.state==3">交易成功</div>
                   <div v-if="item.state==0">待付款</div>
                   <div v-if="item.state==4">已关闭</div>
-                  <div class="refund" v-if="item.state==3" @click="refund">退款</div>
+                  <div v-if="item.state==5">退款成功</div>
+                  <div class="refund" v-if="item.state==3" @click="refund(order)">退款</div>
                 </td>
                 <td class="border-right" :rowspan="order.applyList.length">{{item.realName}}</td>
                 <td>
@@ -264,7 +265,35 @@ export default {
         });
     },
     //退款
-    refund() {}
+    refund(order) {
+      let payTitle = [];
+      let totalPrice = 0;
+      for (let item of order.applyList) {
+        payTitle.push(item.cepingName);
+        totalPrice += Number(item.purchaseSumPrice);
+      }
+      let data = {
+        orderNo: order.orderNo,
+        sumPrice: totalPrice,
+        title: payTitle.join(",")
+      };
+      this.$store.dispatch('REFUND', data).then(res => {
+        console.log('退款成功！');
+        this.getAllOrder()
+      }).catch(err => {
+        if (err.data.msg) {
+          this.$message({
+            type: "error",
+            message: err.data.msg
+          });
+        } else {
+          this.$message({
+            type: "error",
+            message: "退款失败，请稍后重试！"
+          });
+        }
+      })
+    }
   }
 };
 </script>
