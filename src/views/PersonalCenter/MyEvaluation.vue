@@ -33,8 +33,8 @@
       </el-tab-pane>
       <el-tab-pane label="未完成测评" name="second">
         <div class="unfinished">
-          <div class="range" v-if="unfinishedList.length">范围选择：</div>
-          <el-dropdown v-if="unfinishedList.length">
+          <div class="range">范围选择：</div>
+          <el-dropdown>
             <el-button type="default" class="dropdown-btn">{{range?range:'请选择'}}
               <i class="el-icon-arrow-down el-icon--right">
             </i></el-button>
@@ -198,10 +198,28 @@ export default {
       });
     },
     toEvaluation: function(cepingId, serialNo) {
-      this.$router.push({
-        name: `evaluation`,
-        params: { cepingId: cepingId, serialNo: serialNo }
-      });
+      let data = {
+        serialno: serialNo
+      }
+      this.$store.dispatch('VALIDCEPING', data).then(res => {
+        this.$router.push({
+          name: `evaluation`,
+          params: { cepingId: cepingId, serialNo: serialNo }
+        });
+      }).catch(err => {
+        if (err.data.msg) {
+          this.$message({
+            message: err.data.msg,
+            type: "error"
+          });
+        } else {
+          this.$message({
+            message: "序列号验证失败",
+            type: "error"
+          });
+        }
+      })
+      
     },
     next: function(){ }
   },

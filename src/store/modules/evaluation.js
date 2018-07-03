@@ -11,6 +11,7 @@ const TOCAICHU = 'TOCAICHU'
 const CEPINGFREE = 'CEPINGFREE'
 const RECORDREPORT = 'RECORDREPORT'
 const BANNERLIST = 'BANNERLIST'
+const VALIDCEPING = 'VALIDCEPING'
 
 export default {
   state: {
@@ -22,7 +23,8 @@ export default {
     unfinished: [],
     tocaichu: {},
     cepingfree: {},
-    report: {}
+    report: {},
+    validCepingInfo: {}
   },
   mutations: {
     [EVALUATION_SET](state, data) {
@@ -93,7 +95,15 @@ export default {
         return res
       })
     },
-    
+    [VALIDCEPING]({ commit }, data){
+      return api.post(config.url.validCeping, data).then(res => {
+        commit('EVALUATION_SET', {
+          target: 'validCepingInfo',
+          data: res.data
+        })
+        return res
+      })
+    },
     [CEPINGFREE]({ commit }, data) {
       return api.post(config.url.cepingFree, data).then(res => {
         commit('EVALUATION_SET', {

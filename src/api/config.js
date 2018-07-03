@@ -23,9 +23,10 @@ export default {
     //测评完成之后记录测评报告
     cepingFree: 'ceping/freepurchase',
     seeReport: 'ceping/recordreport',
-    //进入测试
+    //立即测试
     tocaichu: 'ceping/tocaichu/{cepingId}/{serialno}',
-    
+    // 未完成 进入测试 验证
+    validCeping: 'ceping/validceping',
     //立即购买
     buy: 'ceping/purchase',
     //退款
