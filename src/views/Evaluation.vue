@@ -41,7 +41,7 @@
         </div>
         <div class="iframe" v-if="showCaichuBox">
           <iframe width="100%" height="500"  frameborder="0" scrolling="yes" 
-          :src="`http://www.apesk.com/h/go_zy_dingzhi.asp?checkcode=${serialNumber}&hruserid=18702192580&l=${detail.baseInfo.caichuCode}&test_name=${test_name}&test_email=${test_email}`"></iframe>
+          :src="`http://www.apesk.com/h/go_zy_dingzhi.asp?checkcode=${serialNumber}&hruserid=18702192580&l=${detail.baseInfo.caichuCode}&test_email=${test_email}`"></iframe>
         </div>
       </div>
     </div>
