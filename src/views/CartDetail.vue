@@ -38,19 +38,30 @@
                 <div class="name">{{item.cepingName}}</div>
               </td>
               <td class="red">¥ {{item.price}}</td>
-              <td class="red"><i class="iconfont icon-delete" @click="del(item.cartId)"></i></td>
+              <td class="red"><i class="iconfont icon-delete" @click="deleteCart(item)"></i></td>
             </tr>
           </tbody>
         </table>
         <div class="total-box" v-if="cepingList.length">
           <div class="total-money">
             总计金额:
-            <div class="red">¥&nbsp;&nbsp;{{totalPrice}}</div>
+            <div class="red">¥&nbsp;&nbsp;{{totalPrice.toFixed(2)}}</div>
           </div>
           <div class="settle-btn" :class="{'disabled': !checkedItemList.length}" @click="settlement">去结算</div>
         </div>
       </div>
     </div>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span>是否确认删除？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="dialogVisible = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="confirmDeleteCart">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -65,7 +76,9 @@ export default {
       isCheckAll: false,
       isChecked: false,
       checkedIdList: [],
-      checkedItemList: []
+      checkedItemList: [],
+      dialogVisible: false,
+      currentCart: ''
     };
   },
   created() {
@@ -150,18 +163,33 @@ export default {
         }
         this.isCheckAll = false;
       }
-      console.log("cepingList", this.cepingList);
-      console.log("checkIdList", this.checkedIdList);
-      console.log("checkedItemList", this.checkedItemList);
+      // console.log("cepingList", this.cepingList);
+      // console.log("checkIdList", this.checkedIdList);
+      // console.log("checkedItemList", this.checkedItemList);
     },
-    del(cartId) {
+    deleteCart(currentCart){
+      this.dialogVisible = true;
+      this.currentCart = currentCart;
+    },
+    confirmDeleteCart() {
       let params = {
-        cartId: cartId
+        cartId: this.currentCart.cartId
       };
       this.$store
         .dispatch("DELETECART", params)
         .then(res => {
-          this.getCartList();
+          this.dialogVisible = false;
+          this.currentCart.isChecked = false;
+          this.currentCart.purchaseNum = 0; //购买的数量 目前默认为1
+          let index = this.checkedIdList.indexOf(this.currentCart.cepingId);
+          this.checkedIdList.splice(index, 1);
+          this.checkedItemList.splice(index, 1);
+          this.totalPrice -= Number(this.currentCart.price);
+          this.cepingList.forEach((item, index) => {
+            if(item.cartId == this.currentCart.cartId){
+              this.cepingList.splice(index, 1)
+            }
+          })
           this.$message({
             type: "success",
             message: "删除成功"
@@ -188,11 +216,18 @@ export default {
       }
       let cartData = {
         rootPath: this.rootPath,
-        totalPrice: this.totalPrice
+        totalPrice: this.totalPrice.toFixed(2)
       };
       localStorage.setItem("cartList", JSON.stringify(this.checkedItemList));
       localStorage.setItem("cartData", JSON.stringify(cartData));
       this.$router.push({ name: "settlement" });
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     }
   },
   components: {
@@ -209,7 +244,6 @@ export default {
   padding-top: 60px;
   padding-bottom: 25px;
   position: relative;
-  z-index: 1;
   .nodata {
     width: 100%;
     height: 50px;
@@ -226,7 +260,6 @@ export default {
     height: 150px;
     margin-top: 0;
     position: absolute;
-    z-index: -1;
     img {
       width: 100%;
       height: 150px;
@@ -237,6 +270,9 @@ export default {
     margin: 0 auto;
     margin-top: 45px;
     height: calc(100% - 45px);
+    position: absolute;
+    left: 50%;
+    margin-left: -600px;
     .top {
       height: 30px;
       line-height: 30px;

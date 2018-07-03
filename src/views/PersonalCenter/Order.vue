@@ -142,6 +142,17 @@
         </div>
       </el-tab-pane>
     </el-tabs>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span>是否确定退款？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="dialogVisible = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="confirmRefund()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -153,7 +164,9 @@ export default {
       activeName: "first",
       allOrderList: [],
       noPayOrder: [],
-      serialNo: ""
+      serialNo: "",
+      dialogVisible: false,
+      currentOrder: {}
     };
   },
   created() {
@@ -232,7 +245,7 @@ export default {
       }
       let data = {
         orderNo: order.orderNo,
-        sumPrice: totalPrice,
+        sumPrice: totalPrice.toFixed(2),
         title: payTitle.join(",")
       };
       axios.defaults.headers.post["Content-Type"] = "text/html;charest=utf-8";
@@ -264,8 +277,14 @@ export default {
           }
         });
     },
+    refund(order){
+      this.currentOrder = order;
+      this.dialogVisible = true;
+    },
     //退款
-    refund(order) {
+    confirmRefund() {
+      this.dialogVisible = false;
+      let order = this.currentOrder;
       let payTitle = [];
       let totalPrice = 0;
       for (let item of order.applyList) {
@@ -274,7 +293,7 @@ export default {
       }
       let data = {
         orderNo: order.orderNo,
-        sumPrice: totalPrice,
+        sumPrice: totalPrice.toFixed(2),
         title: payTitle.join(",")
       };
       this.$store.dispatch('REFUND', data).then(res => {
@@ -293,6 +312,13 @@ export default {
           });
         }
       })
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     }
   }
 };

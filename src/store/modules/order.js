@@ -103,7 +103,7 @@ export default {
 		},
 		[REFUND]({ commit }, data){
 			return api.post(config.url.refund, data).then(res => {
-				commit('REFUND', {
+				commit('ORDER_SET', {
 					target: 'refundInfo',
 					data: res.data
 				})

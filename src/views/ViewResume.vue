@@ -3,7 +3,7 @@
     <div class="container">
       <div class="header">
         <img src="../assets/images/logo.svg" alt="" class="logo">
-        <div class="output" v-if="!isPreview" @click="showExport=true">
+        <div class="output" v-if="!isPreview" @click="dialogVisible=true">
           <i class="iconfont icon-daochu"></i>
           <span>导出</span>
         </div>
@@ -227,7 +227,28 @@
         </div>
       </div>
     </div>
-    <div class="bg" v-if="showExport" @click.self="showExport=false">
+    <el-dialog
+      title="导出简历"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <div class="export-content">
+          <div class="export-title">请选择导出格式</div>
+          <div class="export-type">
+            <div class="type" @click="exportType='word'">
+              <input type="radio" :checked="exportType=='word'">Word文档
+            </div>
+            <div class="type" @click="exportType='pdf'">
+              <input type="radio" :checked="exportType=='pdf'">PDF文档
+            </div>
+          </div>
+        </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="dialogVisible = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="output">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- <div class="bg" v-if="showExport" @click.self="showExport=false">
       <div class="export-box">
         <div class="top">
           <div class="title">导出简历</div>
@@ -246,7 +267,7 @@
           <div class="confirm" @click="output">确定</div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -265,10 +286,10 @@ export default {
       schoolHonorList: [],
       schoolWorkList: [],
       skillList: [],
-      exportType: "",
-      showExport: false,
+      exportType: "pdf", //默认pdf
       isPreview: false,
-      applicationType: ""
+      applicationType: "",
+      dialogVisible: false
     };
   },
   created() {
@@ -346,7 +367,7 @@ export default {
             link.setAttribute("download", fname);
             document.body.appendChild(link);
             link.click();
-            this.showExport = false;
+            this.dialogVisible = false;
           }else {
             this.$message({
               type: "error",
@@ -354,6 +375,13 @@ export default {
             })
           }
         });
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     }
   }
 };
@@ -595,6 +623,39 @@ export default {
       }
     }
   }
+  .export-content {
+    .export-title {
+      color: @main-color-gray;
+      line-height: 30px;
+    }
+    .export-type {
+      height: 50px;
+      line-height: 50px;
+      .type {
+        width: 120px;
+        padding: 0 10px;
+        display: inline-block;
+        cursor: pointer;
+        input[type="radio"] {
+          margin-right: 10px;
+          margin-top: -3px;
+          display: inline-block;
+        }
+      }
+    }
+    .confirm {
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      margin: 20px auto 0 auto;
+      cursor: pointer;
+      color: #fff;
+      border-radius: 4px;
+      background-color: @main-color-blue;
+    }
+  }
+  /*
   .bg {
     width: 100%;
     height: 100%;
@@ -623,41 +684,10 @@ export default {
           cursor: pointer;
         }
       }
-      .export-content {
-        padding: 20px;
-        .export-title {
-          color: @main-color-gray;
-          line-height: 30px;
-        }
-        .export-type {
-          height: 50px;
-          line-height: 50px;
-          .type {
-            width: 120px;
-            padding: 0 10px;
-            display: inline-block;
-            cursor: pointer;
-            input[type="radio"] {
-              margin-right: 10px;
-              margin-top: -3px;
-              display: inline-block;
-            }
-          }
-        }
-        .confirm {
-          width: 100px;
-          height: 30px;
-          line-height: 30px;
-          text-align: center;
-          margin: 20px auto 0 auto;
-          cursor: pointer;
-          color: #fff;
-          border-radius: 4px;
-          background-color: @main-color-blue;
-        }
-      }
+      
     }
   }
+  */
 }
 </style>
 

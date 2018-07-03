@@ -91,19 +91,19 @@ export default {
       range: "",
       rangeList: [
         {
-          id: 1,
+          id: 0,
           name: "专业选择"
         },
         {
-          id: 2,
+          id: 1,
           name: "自我认知"
         },
         {
-          id: 3,
+          id: 2,
           name: "职业形象与风格"
         },
         {
-          id: 4,
+          id: 3,
           name: '岗位分类'
         }
       ],
@@ -351,9 +351,11 @@ export default {
       padding: 10px 0;
       .course-box {
         width: 210px;
+        height: 250px;
         box-shadow: 4px 0px 8px rgba(56, 127, 246, 0.15);
         border-radius: 8px;
         margin-bottom: 15px;
+        position: relative;
         img {
           width: 210px;
           height: 120px;
@@ -405,12 +407,14 @@ export default {
             height: 30px;
             display: inline-block;
             .test-btn {
-              float: right;
               width: 80px;
               height: 30px;
               line-height: 0.9;
               background-color: @main-color-blue;
               color: #fff;
+              position: absolute;
+              bottom: 10px;
+              right: 10px;
               display: none;
             }
           }
