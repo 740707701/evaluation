@@ -29,8 +29,8 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="待修改" name="second">
-        <div class="nodata" v-if="!modifyList.length">还没有任何数据~</div>
         <div class="resume-list">
+          <div class="nodata" v-if="!modifyList.length">还没有任何数据~</div>
           <div class="item modify-item" v-for="item in modifyList" :key="item.id">
             <img src="../../assets/images/resume_icon.svg" alt="">
             <div class="item-content">

@@ -290,7 +290,7 @@ export default {
               if (err.data.msg) {
                 this.$message({
                   type: "error",
-                  message: err.data.message
+                  message: err.data.msg
                 });
               } else {
                 this.$message({

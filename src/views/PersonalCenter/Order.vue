@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName" @tab-click="tabsClick">
       <el-tab-pane label="所有订单" name="first">
         <div class="order-list">
-          <div class="nodata" v-if="!allOrderList.length">还没有任何订单哦~</div>
+          <div class="nodata" v-if="!allOrderList.length">还没有相关订单哦~</div>
           <table class="table" v-if="allOrderList.length">
             <thead>
               <tr>
@@ -82,7 +82,7 @@
       </el-tab-pane>
       <el-tab-pane label="待付款" name="second">
         <div class="order-list">
-          <div class="nodata" v-if="!noPayOrder.length">还有相关订单哦~</div>
+          <div class="nodata" v-if="!noPayOrder.length">还没有相关订单哦~</div>
           <table class="table" v-if="noPayOrder.length">
             <thead>
               <tr>
@@ -337,7 +337,7 @@ export default {
     color: #aaa !important;
   }
   .order-list {
-    padding-bottom: 20px;
+    padding: 10px 0;
     .table {
       width: calc(100% - 30px);
       margin: 0 auto;

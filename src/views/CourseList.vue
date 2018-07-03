@@ -85,7 +85,7 @@
         <el-col :span="8">
           <div class="right-list">
             <p class="title">热门课程</p>
-            <div class="nodata" v-if="!evaluationList.length">还没有热门课程哦~</div>
+            <div class="nodata" v-if="!hotList.length">还没有热门课程哦~</div>
             <ul class="item-box">
               <li v-for="item of hotList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                   <div class="item">
