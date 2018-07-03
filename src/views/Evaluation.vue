@@ -26,6 +26,7 @@
       </div>
       <div class="caichu-box">
         <p class="warn" v-if="!showCaichuBox">请注意：若你现在不打算完成测试请不要使用序列号登陆，一旦登陆就会消耗掉序列号使用限额。	序列号只有一次使用机会。</p>
+        <p class="warn warn-sub">***&nbsp;&nbsp;请不要修改测评页面里已填入的邮箱账号，以免丢失测试报告。***</p>
         <div class="caichu-form" v-if="!showCaichuBox">
           <el-form label-width="100px">
             <el-form-item label="量表版本：" prop="">
@@ -212,6 +213,9 @@ export default {
         color: red;
         padding-top: 30px;
         font-weight: bold;
+      }
+      .warn-sub {
+        padding-top: 0px;
       }
       .caichu-form {
         width: 500px;
