@@ -25,6 +25,10 @@ import News from '../views/PersonalCenter/News.vue'
 import CareerPlan from '../views/CareerPlan.vue'
 import BookLibrary from '../views/BookLibrary.vue'
 import Agreement from '../views/Agreement.vue'
+import TemplateList from '../views/ResumeTemplate/TemplateList.vue'
+import Template1 from '../views/ResumeTemplate/template1.vue'
+import Template2 from '../views/ResumeTemplate/template2.vue'
+import Template3 from '../views/ResumeTemplate/template3.vue'
 
 Vue.use(VueRouter)
 
@@ -160,7 +164,27 @@ const routes = [{
         path: '/agreement',
         name: 'agreement',
         component: Agreement
-    }
+    },
+    {
+        path: '/TemplateList',
+        name: 'templateList',
+        component: TemplateList
+    },
+    {
+        path: '/Template1',
+        name: 'template1',
+        component: Template1
+    },
+    {
+        path: '/Template2',
+        name: 'template2',
+        component: Template2
+    },
+    {
+        path: '/Template3',
+        name: 'template3',
+        component: Template3
+    },
 
 ]
 

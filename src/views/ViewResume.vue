@@ -5,7 +5,7 @@
         <img src="../assets/images/logo.svg" alt="" class="logo">
         <div class="output" v-if="!isPreview" @click="dialogVisible=true">
           <i class="iconfont icon-daochu"></i>
-          <span>导出</span>
+          <span>在线导出</span>
         </div>
       </div>
       <div class="base-content">
@@ -248,26 +248,6 @@
         <el-button size="small" type="primary" @click="output">确 定</el-button>
       </span>
     </el-dialog>
-    <!-- <div class="bg" v-if="showExport" @click.self="showExport=false">
-      <div class="export-box">
-        <div class="top">
-          <div class="title">导出简历</div>
-          <div class="close" @click="showExport=false">×</div>
-        </div>
-        <div class="export-content">
-          <div class="export-title">请选择导出格式</div>
-          <div class="export-type">
-            <div class="type" @click="exportType='word'">
-              <input type="radio" :checked="exportType=='word'">Word文档
-            </div>
-            <div class="type" @click="exportType='pdf'">
-              <input type="radio" :checked="exportType=='pdf'">PDF文档
-            </div>
-          </div>
-          <div class="confirm" @click="output">确定</div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 <script>
@@ -409,7 +389,7 @@ export default {
         .iconfont {
           float: left;
           font-size: 26px;
-          margin-right: 20px;
+          margin-right: 10px;
         }
       }
     }
@@ -655,39 +635,6 @@ export default {
       background-color: @main-color-blue;
     }
   }
-  /*
-  .bg {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-    .export-box {
-      width: 500px;
-      margin: 100px auto 0 auto;
-      background-color: #fff;
-      .top {
-        height: 40px;
-        line-height: 40px;
-        padding: 0 20px;
-        border-bottom: 1px solid @main-color-border;
-        .title {
-          font-size: 18px;
-          font-weight: 500;
-          display: inline-block;
-        }
-        .close {
-          float: right;
-          font-size: 20px;
-          color: @main-color-gray;
-          cursor: pointer;
-        }
-      }
-      
-    }
-  }
-  */
 }
 </style>
 
