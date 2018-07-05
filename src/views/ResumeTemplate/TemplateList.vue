@@ -4,10 +4,6 @@
 			<div class="header">
         <img src="../../assets/images/logo.svg" alt="" class="logo">
 				<div class="template">模板商城</div>
-        <div class="output">
-          <i class="iconfont icon-daochu"></i>
-          <span>在线导出</span>
-        </div>
       </div>
 			<div class="template-list">
 				<div class="item">
@@ -17,7 +13,7 @@
 								<span>简历模板</span>
 								<span class="price">¥ 9.9</span>
 							</div>
-							<div class="buy-btn">购买模板</div>
+							<div class="buy-btn" @click="buy()">购买模板</div>
 						</div>
 				</div>
 				<div class="item">
@@ -48,9 +44,13 @@
 export default {
 	name: 'templatelist',
 	data(){
-		return {}
+		return {
+			resumeId: ''
+		}
 	},
-	created(){},
+	created(){
+		this.resumeId = this.$route.params.resumeId
+	},
 	methods: {}
 }
 </script>

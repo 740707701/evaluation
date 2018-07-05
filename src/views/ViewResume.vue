@@ -3,6 +3,7 @@
     <div class="container">
       <div class="header">
         <img src="../assets/images/logo.svg" alt="" class="logo">
+        <router-link class="template" :to="`/templateList/${resumeId}`">模板商城</router-link>
         <div class="output" v-if="!isPreview" @click="dialogVisible=true">
           <i class="iconfont icon-daochu"></i>
           <span>在线导出</span>
@@ -152,7 +153,7 @@
             </div>
           </div>
         </div>
-        <div class="edu item-content">
+        <div class="edu item-content" v-if="eduList.length">
           <div class="item-title">教育背景</div>
           <div class="job-item" v-for="edu in eduList" :key="edu.id">
             <div class="job-time">
@@ -380,6 +381,13 @@ export default {
         width: 181px;
         height: 60px;
         margin-right: 10px;
+      }
+      .template {
+        float: right;
+        line-height: 60px;
+        color: @main-color-blue;
+        margin-left: 10px;
+        cursor: pointer;
       }
       .output {
         float: right;

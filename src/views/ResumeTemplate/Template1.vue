@@ -3,10 +3,10 @@
 		<div class="container">
 			<div class="aside">
 				<div class="img-box">
-					<img src="../../assets/images/man.png" alt="" class="avatar">
+					<img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" alt="" class="avatar">
 				</div>
 				<div class="xuedianba">
-					<p class="title">学点吧</p>
+					<p class="title">{{baseInfo.name}}</p>
 					<p class="sub-title">XUEDIANBA</p>
 				</div>
 				<div class="personal">
@@ -16,11 +16,12 @@
 					<ul class="base-info">
 						<li>
 							<span class="key">生日：</span>
-							<span class="value">1989/09/09</span>
+							<span class="value">{{baseInfo.birth?baseInfo.birth.slice(0,10): ''}}</span>
 						</li>
 						<li>
 							<span class="key">性别：</span>
-							<span class="value">女</span>
+							<span v-if="baseInfo.sex==1">男</span>
+							<span v-if="baseInfo.sex==2">女</span>
 						</li>
 						<li>
 							<span class="key">民族：</span>
@@ -28,7 +29,7 @@
 						</li>
 						<li>
 							<span class="key">籍贯：</span>
-							<span class="value">上海市</span>
+							<span class="value">{{baseInfo.nativePlaceName}}</span>
 						</li>
 						<li>
 							<span class="key">政治面貌：</span>
@@ -43,15 +44,15 @@
 					<ul class="base-info">
 						<li>
 							<span class="key">手机：</span>
-							<span class="value">15898987878</span>
+							<span class="value">{{baseInfo.phone}}</span>
 						</li>
 						<li>
 							<span class="key">邮箱：</span>
-							<span class="value">123456789@qq.com</span>
+							<span class="value">{{baseInfo.email}}</span>
 						</li>
 						<li>
 							<span class="key">现居住：</span>
-							<span class="value">上海</span>
+							<span class="value">{{baseInfo.address}}</span>
 						</li>
 					</ul>
 				</div>
@@ -59,9 +60,7 @@
 					<div class="title">自我评价
 						<span class="en">SELF-EVALUATION</span>
 					</div>
-					<div class="evaluation">在生活中，我尊敬他人,能够和别人友好相处，我擅长快速学习新知识，希望您给我这个机会，我有充足的信心在短时间内胜任工作，谢谢。
-						我性格开朗、思维活跃；拥有年轻人的朝气蓬勃，做事有责任心。
-					</div>
+					<div class="evaluation">{{baseInfo.evaluate}}</div>
 				</div>
 			</div>
 			<div class="right-content">
@@ -75,63 +74,44 @@
 					<ul class="expect-list">
 						<li>
 							<span class="name">岗位：</span>
-							<span>投资理财</span>
+							<span>{{expectInfo.expectPositionName}}</span>
 						</li>
 						<li>
 							<span class="name">城市：</span>
-							<span>广东</span>
+							<span>{{expectInfo.expectPlaceName}}</span>
 						</li>
 						<li>
 							<span class="name">薪资：</span>
-							<span>2500-3900月</span>
+							<span>{{expectInfo.expectSalaryName}}元/月</span>
 						</li>
 					</ul>
 					<ul class="expect-list">
 						<li>
 							<span class="name">工作类型：</span>
-							<span>全职</span>
+							<span>{{expectInfo.expectWorkTypeName}}</span>
 						</li>
 						<li>
 							<span class="name">到岗时间：</span>
-							<span>一周以内</span>
+							<span>{{expectInfo.arriveTimeName}}</span>
 						</li>
 					</ul>
 				</div>
-				<div class="module work">
+				<div class="module work" v-if="workExperList.length">
 					<div class="top">
 						<div class="icon-box">
 							<i class="iconfont icon-phone"></i>
 						</div>
 						<div class="title">工作经验</div>
 					</div>
-					<div class="work-item">
+					<div class="work-item"  v-for="exper in workExperList" :key="exper.id">
 						<div class="title">
-							<span>2015-08-09 - 2017-09-08</span>
-							<span>福成金融信息技术有限公司</span>
-							<span>投资理财互联网金融</span>
+							<span>{{exper.startTime.slice(0,10)}} - {{exper.endTime.slice(0,10)}}</span>
+							<span>{{exper.companyName}}</span>
+							<span>{{exper.position}}</span>
 						</div>
 						<div class="content">
 							<div class="title">工作内容：</div>
-							<div class="work-content">深入了解客户需求,熟悉公司各类产品及业务，根据客户风险特征和投资目标为客户制订合适的资    产配置方案，根据资产配置方案给客户匹配相应的投资建议以及理财产品； 
-								向客户介绍证券投资的基本知识及开户、交易、资金存取等业务流程； 
-								向客户介绍公司和证券市场的基本情况，通过各类渠道开发新客户，并做好渠道及客户维护； 
-								定期与客户进行沟通，建立良好的服务关系，向客户传递由公司统一提供的证券类金融产品宣传推介材料及有关信息。
-							</div>
-						</div>
-					</div>
-					<div class="work-item">
-						<div class="title">
-							<span>2015-08-09 - 2017-09-08</span>
-							<span>福成金融信息技术有限公司</span>
-							<span>投资理财互联网金融</span>
-						</div>
-						<div class="content">
-							<div class="title">工作内容：</div>
-							<div class="work-content">深入了解客户需求,熟悉公司各类产品及业务，根据客户风险特征和投资目标为客户制订合适的资    产配置方案，根据资产配置方案给客户匹配相应的投资建议以及理财产品； 
-								向客户介绍证券投资的基本知识及开户、交易、资金存取等业务流程； 
-								向客户介绍公司和证券市场的基本情况，通过各类渠道开发新客户，并做好渠道及客户维护； 
-								定期与客户进行沟通，建立良好的服务关系，向客户传递由公司统一提供的证券类金融产品宣传推介材料及有关信息。
-							</div>
+							<div class="work-content">{{exper.workDesc}}</div>
 						</div>
 					</div>
 				</div>
@@ -142,86 +122,48 @@
 						</div>
 						<div class="title">教育背景</div>
 					</div>
-					<div class="work-item">
+					<div class="work-item" v-for="edu in eduList" :key="edu.id">
 						<div class="title">
-							<span>2015-08-09 - 2017-09-08</span>
-							<span>魔都大学</span>
-							<span>国际经济贸易</span>
+							<span>{{edu.startTime.slice(0,10)}} - {{edu.endTime.slice(0,10)}}</span>
+							<span>{{edu.schoolName}}</span>
+							<span>{{edu.eduMajor}}</span>
 						</div>
 						<div class="content">
 							<div class="title">主修课程：</div>
-							<div class="work-content">深入了解客户需求,熟悉公司各类产品及业务，根据客户风险特征和投资目标为客户制订合适的资    产配置方案，根据资产配置方案给客户匹配相应的投资建议以及理财产品； 
-								向客户介绍证券投资的基本知识及开户、交易、资金存取等业务流程； 
-								向客户介绍公司和证券市场的基本情况，通过各类渠道开发新客户，并做好渠道及客户维护； 
-								定期与客户进行沟通，建立良好的服务关系，向客户传递由公司统一提供的证券类金融产品宣传推介材料及有关信息。
-							</div>
-						</div>
-					</div>
-					<div class="work-item">
-						<div class="title">
-							<span>2015-08-09 - 2017-09-08</span>
-							<span>魔都大学</span>
-							<span>国际经济贸易</span>
-						</div>
-						<div class="content">
-							<div class="title">主修课程：</div>
-							<div class="work-content">深入了解客户需求,熟悉公司各类产品及业务，根据客户风险特征和投资目标为客户制订合适的资    产配置方案，根据资产配置方案给客户匹配相应的投资建议以及理财产品； 
-								向客户介绍证券投资的基本知识及开户、交易、资金存取等业务流程； 
-								向客户介绍公司和证券市场的基本情况，通过各类渠道开发新客户，并做好渠道及客户维护； 
-								定期与客户进行沟通，建立良好的服务关系，向客户传递由公司统一提供的证券类金融产品宣传推介材料及有关信息。
-							</div>
+							<div class="work-content">{{edu.eduDesc}}</div>
 						</div>
 					</div>
 				</div>
-				<div class="module school">
+				<div class="module school" v-if="schoolHonorList.length || schoolWorkList.length">
 					<div class="top">
 						<div class="icon-box">
 							<i class="iconfont icon-phone"></i>
 						</div>
 						<div class="title">在校情况</div>
 					</div>
-					<div class="honor">
+					<div class="honor" v-if="schoolHonorList.length">
 						<div class="title">校内荣誉</div>
-						<div class="honor-item item">
-							<span>2015-03-02</span>
-							<span>微视频比赛</span>
-							<span>省第二名</span>
-						</div>
-						<div class="honor-item item">
-							<span>2015-03-02</span>
-							<span>微视频比赛</span>
-							<span>省第二名</span>
+						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">
+							<span>{{honor.honorTime.slice(0, 10)}}</span>
+							<span>{{honor.honorPrize}}</span>
+							<span>{{honor.honorLevel}}</span>
 						</div>
 					</div>
-					<div class="schoolwork">
+					<div class="schoolwork" v-if="schoolWorkList.length">
 						<div class="title">校内职务</div>
-						<div class="schoolwork-item item">
+						<div class="schoolwork-item item" v-for="work in schoolWorkList" :key="work.id">
 							<div class="">
-								<span>2015-02-01 - 2018-06-01</span>
-								<span>学生会主席</span>
+								<span>{{work.startTime.slice(0, 10)}} - {{work.endTime.slice(0, 10)}}</span>
+								<span>{{work.schoolWorkName}}</span>
 							</div>
 							<div class="work-desc">
 								<div class="desc-title">工作描述：</div>
-								<div class="desc-content">巴拉不断放大省发DVD大刀阔斧打飞机股份的价格法规和德国发啥节日放得开股份世界观的非官方大哥都没了考虑国家公祭日大家回复热fgsd
-									发股份控股梵蒂冈发放股份公告梵蒂冈个发给反馈结果法规和看风景的风格
-								</div>
-							</div>
-						</div>
-						<div class="schoolwork-item item">
-							<div class="">
-								<span>2015-02-01 - 2018-06-01</span>
-								<span>学生会主席</span>
-							</div>
-							<div class="work-desc">
-								<div class="desc-title">工作描述：</div>
-								<div class="desc-content">巴拉不断放大省发DVD大刀阔斧打飞机股份的价格法规和德国发啥节日放得开股份世界观的非官方大哥都没了考虑国家公祭日大家回复热fgsd
-									发股份控股梵蒂冈发放股份公告梵蒂冈个发给反馈结果法规和看风景的风格
-								</div>
+								<div class="desc-content">{{work.schoolWorkDesc}}</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="module skill">
+				<div class="module skill" v-if="skillList.length">
 					<div class="top">
 						<div class="icon-box">
 							<i class="iconfont icon-phone"></i>
@@ -229,13 +171,9 @@
 						<div class="title">技能证书</div>
 					</div>
 					<div class="skill-list">
-						<div class="item">
-							<span class="date">2013/09/01</span>
-							<span>全国计算机等级一级 （合格）</span>
-						</div>
-						<div class="item">
-							<span class="date">2013/09/01</span>
-							<span>全国计算机等级一级 （合格）</span>
+						<div class="item" v-for="skill in skillList" :key="skill.id">
+							<span class="date">{{skill.skillTime.slice(0,10)}}</span>
+							<span>{{skill.name}} （{{skill.score}}）</span>
 						</div>
 					</div>
 				</div>
@@ -247,10 +185,57 @@
 export default {
 	name: 'template1',
 	data(){
-		return {}
+		return {
+      resume: {},
+      baseInfo: {},
+      expectInfo: {},
+      evaluateInfo: {},
+      workExperList: [],
+      eduList: [],
+      schoolHonorList: [],
+      schoolWorkList: [],
+      skillList: []
+    };
 	},
-	created(){},
-	methods: {}
+	created(){
+		this.resumeId = this.$route.params.resumeId;
+		this.getResumeInfo();
+	},
+	methods: {
+		//获取简历信息
+    getResumeInfo: function() {
+      let params = {
+        resumeId: this.resumeId
+      };
+      this.$store
+        .dispatch("RESUME_INFO", params)
+        .then(res => {
+          this.resume = res.data;
+          this.baseInfo = res.data.resumeBaseInfo || {};
+          this.resumeId = res.data.resumeBaseInfo.id;
+          this.evaluateInfo = res.data.resumeBaseInfo || {};
+          this.expectInfo = res.data.resumeBaseInfo || {};
+          this.workExperList = res.data.jobexpList || [];
+          this.eduList = res.data.educationList || [];
+          this.schoolHonorList = res.data.schoolHonorList || [];
+          this.schoolWorkList = res.data.schoolPostList || [];
+          this.skillList = res.data.skillsList || [];
+        })
+        .catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取简历失败"
+            });
+          }
+        });
+    },
+	}
 }
 </script>
 <style lang="less" scoped>
