@@ -16,7 +16,7 @@
 							<span>{{baseInfo.email}}</span>
 						</div>
 						<div class="info">
-							<span>{{baseInfo.age}}岁&nbsp;&nbsp;({{baseInfo.birth.slice(0,10)}})</span>
+							<span>{{baseInfo.age}}岁&nbsp;&nbsp;({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
 							<span class="split">|</span>
 							<span v-if="baseInfo.sex==1">男</span>
 							<span v-if="baseInfo.sex==2">女</span>
@@ -34,7 +34,7 @@
 					<div class="top">
 						<div class="title">求职意向</div>
 						<div class="icon-box">
-							<i class="iconfont icon-edu"></i>
+							<i class="iconfont icon-menu"></i>
 						</div>
 					</div>
 					<ul class="expect-list">
@@ -49,7 +49,7 @@
 					<div class="top">
 						<div class="title">工作经验</div>
 						<div class="icon-box">
-							<i class="iconfont icon-edu"></i>
+							<i class="iconfont icon-menu"></i>
 						</div>
 					</div>
 					<div class="work-item" v-for="exper in workExperList" :key="exper.id">
@@ -68,7 +68,7 @@
 					<div class="top">
 						<div class="title">教育背景</div>
 						<div class="icon-box">
-							<i class="iconfont icon-edu"></i>
+							<i class="iconfont icon-menu"></i>
 						</div>
 					</div>
 					<div class="work-item" v-for="edu in eduList" :key="edu.id">
@@ -87,7 +87,7 @@
 					<div class="top">
 						<div class="title">在校情况</div>
 						<div class="icon-box">
-							<i class="iconfont icon-edu"></i>
+							<i class="iconfont icon-menu"></i>
 						</div>
 					</div>
 					<div class="honor">
@@ -116,7 +116,7 @@
 					<div class="top">
 						<div class="title">技能证书</div>
 						<div class="icon-box">
-							<i class="iconfont icon-edu"></i>
+							<i class="iconfont icon-menu"></i>
 						</div>
 					</div>
 					<div class="skill-list">
@@ -148,7 +148,8 @@ export default {
   },
   created() {
 		this.resumeId = this.$route.params.resumeId;
-		this.getResumeInfo();
+		this.templateId = this.$route.params.templateId;
+		this.validBuy();
 	},
   methods: {
 		//获取简历信息
@@ -184,6 +185,28 @@ export default {
           }
         });
     },
+    //验证是否支付
+		validBuy(){
+			let params = {
+				resumeId: this.resumeId,
+				templateId: this.templateId
+			}
+			this.$store.dispatch('VALIDPURCHASE', params).then(res => {
+				this.getResumeInfo();
+			}).catch(err => {
+				if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "验证未通过，获取简历信息失败"
+            });
+          }
+			})
+		}
 	}
 };
 </script>

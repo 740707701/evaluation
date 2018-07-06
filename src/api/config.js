@@ -17,7 +17,7 @@ export default {
     cepingInfo: 'ceping/cepinginfo',
     finished: 'ceping/finished',
     unfinished: 'ceping/unfinished',
-
+    //首页banner列表
     bannerList: 'banner/bannerList',
 
     //测评完成之后记录测评报告
@@ -28,7 +28,10 @@ export default {
     // 未完成 进入测试 验证
     validCeping: 'ceping/validceping',
     //立即购买
-    buy: 'ceping/purchase',
+    //支付宝
+    alipay: 'ceping/purchase',
+    //微信支付
+    WeChatPay: 'ceping/purchasewx',
     //退款
     refund: 'ceping/refund',
     //订单
@@ -45,6 +48,11 @@ export default {
     addCart: 'ceping/shopcart',
     //购物车删除
     deleteCart: 'ceping/shopcart',
+
+    //简历模板
+    templateList: 'resume/template',
+    //验证是否购买模板
+    validPurchase: 'resume/validpurchase/{resumeId}-{templateId}',
 
     //简历
     //基本信息

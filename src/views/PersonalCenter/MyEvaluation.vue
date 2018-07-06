@@ -199,7 +199,7 @@ export default {
     },
     toEvaluation: function(cepingId, serialNo) {
       let data = {
-        serialno: serialNo
+        serialNo: serialNo
       }
       this.$store.dispatch('VALIDCEPING', data).then(res => {
         this.$router.push({

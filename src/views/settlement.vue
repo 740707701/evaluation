@@ -136,7 +136,7 @@ export default {
             a.innerHTML = res.data.data;
             document.body.appendChild(a);
             let form = document.getElementById("alipay-form").childNodes[0];
-            form.target = "_blank";
+            form.target = "_blank"; //新打开窗口
             form.submit();
             document.body.removeChild(a);
           })
@@ -153,6 +153,22 @@ export default {
               });
             }
           });
+      }else if(this.payType == 'wechatpay'){
+        this.$store.dispatch('WECHATPAY', data).then(res => {
+          //生成微信支付二维码
+        }).catch(err => {
+          if (err.data.msg) {
+              this.$message({
+                type: "error",
+                message: err.data.msg
+              });
+            } else {
+              this.$message({
+                type: "error",
+                message: "生成订单失败，请稍后重试！"
+              });
+            }
+        })
       }
     },
     toOrder() {

@@ -1,177 +1,51 @@
 <template>
 	<div class="template3-page">
 		<div class="container">
-			<div class="head">
-				<div class="head-img">
-					<img src="../../assets/images/resume_head.png" alt="">
+			<img class="title-img" src="../../assets/images/resume_head.png" alt="">
+			<div class="bg">
+				<div class="img-box">
+					<img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" alt="">
 				</div>
-				<div class="head-content">
-					<div class="title">细心从每一个小细节开始</div>
-					<div class="en">Carefully start width every little detail</div>
-				</div>
-				<div class="head-icon">
-					<div class="icon-box">
-						<i class="iconfont icon-edu"></i>
-					</div>
-					<div class="icon-box">
-						<i class="iconfont icon-edu"></i>
-					</div>
-				</div>
-				<img class="bottom_bg" src="../../assets/images/resume_head_bot.png" alt="">
-			</div>
-			<div class="module-content">
-				<div class="module">
-					<div class="top">
-						<div class="title">基本信息</div>
-					</div>
-					<ul class="base-list">
-						<li>
-							<div class="item">
-								<span class="name">姓名：</span><span>{{baseInfo.name}}</span>
-							</div>
-							<div class="item">
-								<span class="name">出生年月：</span><span>{{baseInfo.birth.slice(0,10)}}</span>
-							</div>
-						</li>
-						<li>
-							<div class="item">
-								<span class="name">性别：</span>
-								<span v-if="baseInfo.sex==1">男</span>
-            		<span v-if="baseInfo.sex==2">女</span>
-							</div>
-							<div class="item">
-								<span class="name">籍贯：</span><span>{{baseInfo.nativePlaceName}}</span>
-							</div>
-						</li>
-						<li>
-							<div class="item">
-								<span class="name">民族：</span><span>汉</span>
-							</div>
-							<div class="item">
-								<span class="name">政治面貌：</span><span>党员</span>
-							</div>
-						</li>
-						<li>
-							<div class="item">
-								<span class="name">电话：</span><span>{{baseInfo.phone}}</span>
-							</div>
-							<div class="item">
-								<span class="name">学历：</span><span>{{eduList[0].degreeName}}</span>
-							</div>
-						</li>
-						<li>
-							<div class="item">
-								<span class="name">现居住：</span><span>{{baseInfo.address}}</span>
-							</div>
-							<div class="item">
-								<span class="name">毕业院校：</span><span>{{eduList[0].schoolName}}</span>
-							</div>
-						</li>
-					</ul>
-					<div class="avatar">
-						<img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" alt="">
-					</div>
-				</div>
-				<div class="module work">
-					<div class="top">
-						<div class="title">工作经验</div>
-					</div>
-					<div class="work-item" v-for="exper in workExperList" :key="exper.id">
-						<div class="title">
-							<span>{{exper.startTime.slice(0,10)}} - {{exper.endTime.slice(0,10)}}</span>
-							<span>{{exper.companyName}}</span>
-							<span>{{exper.position}}</span>
-						</div>
-						<div class="content">
-							<div class="title">工作内容：</div>
-							<div class="work-content">{{exper.workDesc}}</div>
-						</div>
-					</div>
-				</div>
-				<div class="module school" v-if="schoolHonorList.length || schoolWorkList.length">
-					<div class="top">
-						<div class="title">在校情况</div>
-					</div>
-					<div class="honor">
-						<div class="title">校内荣誉</div>
-						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">
-							<span>{{honor.honorTime.slice(0, 10)}}</span>
-                <span>{{honor.honorPrize}}</span>
-                <span>{{honor.honorLevel}}</span>
-						</div>
-					</div>
-					<div class="schoolwork" v-if="schoolWorkList.length">
-						<div class="title">校内职务</div>
-						<div class="schoolwork-item item" v-for="work in schoolWorkList" :key="work.id">
-							<div class="">
-								<span>{{work.startTime.slice(0, 10)}} - {{work.endTime.slice(0, 10)}}</span>
-								<span>{{work.schoolWorkName}}</span>
-							</div>
-							<div class="work-desc">
-								<div class="desc-title">工作描述：</div>
-								<div class="desc-content">{{work.schoolWorkDesc}}</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="module skill" v-if="skillList.length">
-					<div class="top">
-						<div class="title">技能证书</div>
-					</div>
-					<div class="skill-list">
-						<div class="item" v-for="skill in skillList" :key="skill.id">
-							<span class="date">{{skill.skillTime.slice(0,10)}}</span>
-							<span>{{skill.name}} （{{skill.score}}）</span>
-						</div>
-					</div>
-				</div>
-				<div class="module edu">
-					<div class="top">
-						<div class="title">教育背景</div>
-					</div>
-					<div class="work-item" v-for="edu in eduList" :key="edu.id">
-						<div class="title">
-							<span>{{edu.startTime.slice(0,10)}} - {{edu.endTime.slice(0,10)}}</span>
-							<span>{{edu.schoolName}}</span>
-							<span>{{edu.eduMajor}}</span>
-						</div>
-						<div class="content">
-							<div class="title">主修课程：</div>
-							<div class="work-content">{{edu.eduDesc}}</div>
-						</div>
-					</div>
-				</div>
-				<div class="module eva">
-					<div class="top">
-						<div class="title">自我评价</div>
-					</div>
-					<div class="item ">{{baseInfo.evaluate}}</div>
+				<div class="text-content">
+					<div class="title">{{baseInfo.name}}</div>
+					<div class="expect">求职意向：{{baseInfo.expectPositionName}}</div>
 				</div>
 			</div>
+			<div class="bottom">
+				<div class="info">
+					<i class="iconfont icon-tel"></i>{{baseInfo.phone}}
+				</div>
+				<div class="info">
+					<i class="iconfont icon-youxiang"></i>{{baseInfo.email}}
+				</div><div class="info">
+					<i class="iconfont icon-location"></i>{{baseInfo.nativePlaceName}}
+				</div>
+			</div>
+		</div>
+		<div class="pager" >
+			<router-link :to="`/template31/${resumeId}-${templateId}`">
+				<i class="iconfont icon-arrow-right-line"></i>
+			</router-link>
 		</div>
 	</div>
 </template>
 <script>
 export default {
 	name: 'template3',
-	data() {
-    return {
+	data(){
+		return {
+			resumeId: '',
+			templateId: '',
       resume: {},
-      baseInfo: {},
-      expectInfo: {},
-      evaluateInfo: {},
-      workExperList: [],
-      eduList: [],
-      schoolHonorList: [],
-      schoolWorkList: [],
-      skillList: []
+			baseInfo: {}
     };
-  },
-  created() {
-		this.resumeId = this.$route.params.resumeId;
-		this.getResumeInfo();
 	},
-  methods: {
+	created(){
+		this.resumeId = this.$route.params.resumeId;
+		this.templateId = this.$route.params.templateId;
+		this.validBuy();
+	},
+	methods: {
 		//获取简历信息
     getResumeInfo: function() {
       let params = {
@@ -182,14 +56,6 @@ export default {
         .then(res => {
           this.resume = res.data;
           this.baseInfo = res.data.resumeBaseInfo || {};
-          this.resumeId = res.data.resumeBaseInfo.id;
-          this.evaluateInfo = res.data.resumeBaseInfo || {};
-          this.expectInfo = res.data.resumeBaseInfo || {};
-          this.workExperList = res.data.jobexpList || [];
-          this.eduList = res.data.educationList || [];
-          this.schoolHonorList = res.data.schoolHonorList || [];
-          this.schoolWorkList = res.data.schoolPostList || [];
-          this.skillList = res.data.skillsList || [];
         })
         .catch(err => {
           if (err.data.msg) {
@@ -204,174 +70,119 @@ export default {
             });
           }
         });
-    },
+		},
+		//验证是否支付
+		validBuy(){
+			let params = {
+				resumeId: this.resumeId,
+				templateId: this.templateId
+			}
+			this.$store.dispatch('VALIDPURCHASE', params).then(res => {
+				this.getResumeInfo();
+			}).catch(err => {
+				if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "验证未通过，获取简历信息失败"
+            });
+          }
+			})
+		}
 	}
 }
 </script>
 <style lang="less" scoped>
-	@import url("../../assets/css/colors.less");
 	.template3-page {
+		width: 100%;
+		height: 100%;
+		padding: 30px 0;
+		position: relative;
 		.container {
-			width: 1020px;
-			margin: 20px auto;
-			.head {
+			height: calc(100% - 60px);
+			.title-img {
+				width: 350px;
+				margin: 0 auto;
+				margin-bottom: 120px;
+				display: block;
+			}
+			.bg {
 				width: 100%;
-				height: 100px;
-				padding-top: 10px;
-				position: relative;
-				.head-img {
-					float: left;
-					width: 200px;
+				height: 220px;
+				padding-top: 100px;
+				background-color: #4D7281;
+				position: absolute;
+				.img-box {
+					width: 180px;
+					height: 180px;
+					border-radius: 90px;
+					border: 2px solid #4D7281;
+					background-color: #fff;
+					text-align: center;
+					position: absolute;
+					top: 0;
+					left: 50%;
+					margin-top: -90px;
+					margin-left: -90px;
 					img {
-						width: 184px;
+						width: 140px;
+						height: 140px;
+						border-radius: 70px;
+						display: inline-block;
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						margin-left: -70px;
+						margin-top: -70px;
 					}
 				}
-				.head-content {
-					color: #4D7181;
-					margin-left: 20px;
-					padding-left: 30px;
-					border-left: 2px solid #506E7F;
-					display: inline-block;
+				.text-content {
+					text-align: center;
 					.title {
-						font-size: 20px;
+						font-size: 30px;
+						color: #fff;
 						line-height: 40px;
 					}
-					.en {
-						font-size: 16px;
+					.expect {
+						font-size: 20px;
+						color: #000;
+						line-height: 40px;
 					}
-				}
-				.head-icon {
-					float: right;
-					line-height: 70px;
-					.icon-box {
-						width: 30px;
-						height: 30px;
-						line-height: 30px;
-						border-radius: 15px;
-						text-align: center;
-						color: #fff;
-						background-color: #B8955F;
-						margin-right: 20px;
-						display: inline-block;
-						i {
-							font-size: 20px;
-						}
-					}
-				}
-				.bottom_bg {
-					width: 100%;
-					height: 11px;
-					position: absolute;
-					bottom: 0;
-					left: 0;
 				}
 			}
-			.module-content {
-				margin: 0 20px;
-				padding: 20px 0;
-				height: 100%;
-				border-left: 2px solid #4D7181;
-				.module {
-					.top {
-						width: 100%;
-						height: 30px;
-						border-bottom: 2px solid #4D7181;
-						margin-bottom: 12px;
-						.title {
-							width: 130px;
-							height: 45px;
-							line-height: 30px;
-							background: url("../../assets/images/module_title.png") no-repeat;
-							background-size: 100% 100%;
-							color: #fff;
-							padding-left: 20px;
-							margin-left: -10px;
-						}
-					}
-					.base-list {
-						width: 80%;
-						display: inline-block;
-						padding-left: 20px;
-						li {
-							width: 100%;
-							display: inline-block;
-							.item {
-								float: left;
-								width: 50%;
-								line-height: 30px;
-							}
-							.name {
-								width: 100px;
-								display: inline-block;
-							}
-						}
-					}
-					.avatar {
-						float: right;
-						img {
-							width: 150px;
-							height: 170px;
-							display: inline-block;
-						}
-					}
+			.bottom {
+				width: 100%;
+				position: absolute;
+				bottom: 20px;
+				left: 0;
+				color: #4D7281;
+				.info {
+					width: 33%;
+					line-height: 50px;
+					text-align: center;
+					display: inline-block;
 				}
-				.work, .edu {
-					.work-item {
-						padding: 0 20px;
-						margin-bottom: 20px;
-						.title {
-							span {
-								margin-right: 20px;
-								line-height: 30px;
-								display: inline-block;
-							}
-						}
-						.content {
-							color: #666;
-							.title {
-								line-height: 30px;
-							}
-							.work-content {
-								line-height: 22px;
-							}
-						}
-					}
-				}
-				.school, .skill {
-					.item {
-						padding: 0 20px;
-						span {
-							width: 30%;
-							line-height: 30px;
-							display: inline-block;
-						}
-					}
-					.honor, .schoolwork {
-						.title {
-							width: 100%;
-							height: 30px;
-							line-height: 30px;
-							padding-left: 20px;
-							background-color: #F1F5FB;
-						}
-						.schoolwork-item {
-							color: #666;
-							margin-bottom: 20px;
-							.desc-title {
-								line-height: 30px;
-							}
-							.desc-content {
-								line-height: 22px;
-							}
-						}
-					}
-				}
-				.eva {
-					.item {
-						padding: 0 20px;
-						line-height: 24px;
-					}
-				}
+			}
+		}
+		.pager {
+			width: 50px;
+			height: 50px;
+			line-height: 50px;
+			border-radius: 25px;
+			text-align: center;
+			background-color: rgba(0,0,0,0.3);
+			cursor: pointer;
+			position: fixed;
+			top: 50%;
+			right: 10px;
+			margin-top: -25px;
+			i {
+				font-size: 30px;
+				color: #fff;
 			}
 		}
 	}

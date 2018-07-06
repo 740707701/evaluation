@@ -25,6 +25,8 @@ const SET_SKILL = 'SET_SKILL'
 const DELETE_SKILL = 'DELETE_SKILL'
 const UPLOAD_HEAD = 'UPLOAD_HEAD'
 const UPDATEHEAD = 'UPDATEHEAD'
+const TEMPLATELIST = 'TEMPLATELIST'
+const VALIDPURCHASE = 'VALIDPURCHASE'
 
 //metadata
 const DICTITEM = 'DICTITEM'
@@ -48,7 +50,9 @@ export default {
     treeItem: [],
     dictItem: [],
     allList: [],
-    uploadFile: ''
+    uploadFile: '',
+    templateList: [],
+    validInfo: {}
   },
   mutations: {
     [RESUME_SET](state, data) {
@@ -257,7 +261,6 @@ export default {
     },
     //删除技能证书
     [DELETE_SKILL]({ commit }, params) {
-      console.log(config.url.deleteSkills)
       return api.delete(config.url.deleteSkills.replace('{id}', params)).then(res => {
         commit('RESUME_SET', {
           target: 'skills',
@@ -265,8 +268,27 @@ export default {
         })
         return res
       })
+    },
+    //模板列表
+    [TEMPLATELIST]({ commit }, params){
+      return api.get(config.url.templateList, params).then(res => {
+        commit('RESUME_SET', {
+          target: 'templateList',
+          data: res
+        })
+        return res
+      })
+    },
+    //验证是否购买简历模板
+    [VALIDPURCHASE]({ commit }, params){
+      return api.get(config.url.validPurchase.replace('{resumeId}', params.resumeId).replace('{templateId}', params.templateId)).then(res => {
+        commit('RESUME_SET', {
+          target: 'validInfo',
+          data: res
+        })
+        return res
+      })
     }
-
   },
   getters: {},
   modules: {}

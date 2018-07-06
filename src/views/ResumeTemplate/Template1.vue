@@ -67,7 +67,7 @@
 				<div class="module expect">
 					<div class="top">
 						<div class="icon-box">
-							<i class="iconfont icon-phone"></i>
+							<i class="iconfont icon-lingdai"></i>
 						</div>
 						<div class="title">求职意向</div>
 					</div>
@@ -99,7 +99,7 @@
 				<div class="module work" v-if="workExperList.length">
 					<div class="top">
 						<div class="icon-box">
-							<i class="iconfont icon-phone"></i>
+							<i class="iconfont icon-work"></i>
 						</div>
 						<div class="title">工作经验</div>
 					</div>
@@ -115,10 +115,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="module edu">
+				<div class="module edu" v-if="eduList.length">
 					<div class="top">
 						<div class="icon-box">
-							<i class="iconfont icon-phone"></i>
+							<i class="iconfont icon-edu"></i>
 						</div>
 						<div class="title">教育背景</div>
 					</div>
@@ -137,7 +137,7 @@
 				<div class="module school" v-if="schoolHonorList.length || schoolWorkList.length">
 					<div class="top">
 						<div class="icon-box">
-							<i class="iconfont icon-phone"></i>
+							<i class="iconfont icon-book"></i>
 						</div>
 						<div class="title">在校情况</div>
 					</div>
@@ -166,7 +166,7 @@
 				<div class="module skill" v-if="skillList.length">
 					<div class="top">
 						<div class="icon-box">
-							<i class="iconfont icon-phone"></i>
+							<i class="iconfont icon-skill1"></i>
 						</div>
 						<div class="title">技能证书</div>
 					</div>
@@ -186,6 +186,8 @@ export default {
 	name: 'template1',
 	data(){
 		return {
+			resumeId: '',
+			templateId: '',
       resume: {},
       baseInfo: {},
       expectInfo: {},
@@ -199,7 +201,8 @@ export default {
 	},
 	created(){
 		this.resumeId = this.$route.params.resumeId;
-		this.getResumeInfo();
+		this.templateId = this.$route.params.templateId;
+		this.validBuy();
 	},
 	methods: {
 		//获取简历信息
@@ -234,7 +237,29 @@ export default {
             });
           }
         });
-    },
+		},
+		//验证是否支付
+		validBuy(){
+			let params = {
+				resumeId: this.resumeId,
+				templateId: this.templateId
+			}
+			this.$store.dispatch('VALIDPURCHASE', params).then(res => {
+				this.getResumeInfo();
+			}).catch(err => {
+				if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "验证未通过，获取简历信息失败"
+            });
+          }
+			})
+		}
 	}
 }
 </script>
@@ -333,6 +358,9 @@ export default {
 							color: #fff;
 							border-radius: 20px;
 							background-color: #2D4662;
+							i {
+								font-size: 20px;
+							}
 						}
 						.title {
 							font-size: 20px;

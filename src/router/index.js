@@ -29,7 +29,7 @@ import TemplateList from "../views/ResumeTemplate/TemplateList.vue";
 import Template1 from "../views/ResumeTemplate/template1.vue";
 import Template2 from "../views/ResumeTemplate/template2.vue";
 import Template3 from "../views/ResumeTemplate/template3.vue";
-import TemplateCover3 from "../views/ResumeTemplate/TemplateCover3.vue";
+import Template31 from "../views/ResumeTemplate/Template31.vue";
 
 Vue.use(VueRouter);
 
@@ -170,29 +170,29 @@ const routes = [
     component: Agreement
   },
   {
-    path: "/TemplateList/:resumeId",
+    path: "/templateList/:resumeId",
     name: "templateList",
     component: TemplateList
   },
   {
-    path: "/Template1/:resumeId",
+    path: "/template1/:resumeId-:templateId",
     name: "template1",
     component: Template1
   },
   {
-    path: "/Template2/:resumeId",
+    path: "/template2/:resumeId-:templateId",
     name: "template2",
     component: Template2
   },
   {
-    path: "/Template3/:resumeId",
+    path: "/template3/:resumeId-:templateId",
     name: "template3",
     component: Template3
   },
   {
-    path: "/templateCover3/:resumeId",
-    name: "templateCover3",
-    component: TemplateCover3
+    path: "/template31/:resumeId-:templateId",
+    name: "template31",
+    component: Template31
   }
 ];
 

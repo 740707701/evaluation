@@ -6,34 +6,15 @@
 				<div class="template">模板商城</div>
       </div>
 			<div class="template-list">
-				<div class="item">
-						<img src="../../assets/images/thumbnail_01.png" alt="">
+				<div class="item" v-for="template in templateList" :key="template.templateId">
+						<img :src="template.picAll" alt="">
 						<div class="title-box">
 							<div class="title">
-								<span>简历模板</span>
-								<span class="price">¥ 9.9</span>
+								<span>{{template.templateName}}</span>
+								<span class="price">¥ {{template.price}}</span>
 							</div>
-							<div class="buy-btn" @click="buy()">购买模板</div>
-						</div>
-				</div>
-				<div class="item">
-						<img src="../../assets/images/thumbnail_02.png" alt="">
-						<div class="title-box">
-							<div class="title">
-								<span>简历模板</span>
-								<span class="price">¥ 9.9</span>
-							</div>
-							<div class="buy-btn">购买模板</div>
-						</div>
-				</div>
-				<div class="item">
-						<img src="../../assets/images/thumbnail_03.png" alt="">
-						<div class="title-box">
-							<div class="title">
-								<span>简历模板</span>
-								<span class="price">¥ 9.9</span>
-							</div>
-							<div class="buy-btn">购买模板</div>
+							<div class="buy-btn" v-if="!template.ispurchase" @click="buy(template)">购买模板</div>
+							<div class="buy-btn" v-if="template.ispurchase" @click="toTemplate(template)">立即制作</div>
 						</div>
 				</div>
 			</div>
@@ -45,13 +26,53 @@ export default {
 	name: 'templatelist',
 	data(){
 		return {
-			resumeId: ''
+			resumeId: '',
+			templateList: []
 		}
 	},
 	created(){
-		this.resumeId = this.$route.params.resumeId
+		this.resumeId = this.$route.params.resumeId;
+		this.getTemplateList()
 	},
-	methods: {}
+	methods: {
+		getTemplateList(){
+			let params = {}
+			this.$store.dispatch('TEMPLATELIST', params).then(res =>{
+				this.templateList = res.data || [];
+			}).catch(err => {
+				if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取模板失败，请稍后重试"
+            });
+          }
+			})
+		},
+		buy(template){
+			let cartData = {
+				totalPrice: template.price
+			}
+			let list = [];
+			template.id = template.templateId
+			template.cepingName = template.templateName
+			template.resumeId = this.resumeId
+			template.purchaseNum = 1
+			list.push(template)
+      localStorage.setItem("cartList", JSON.stringify(list));
+      localStorage.setItem("cartData", JSON.stringify(cartData));
+      this.$router.push({ name: "settlement" });
+		},
+		toTemplate(template){
+			this.$router.push({
+				path: '/template' + template.templateId + '/' + this.resumeId + '-' + template.templateId
+			})
+		}
+	}
 }
 </script>
 <style lang="less" scoped>
@@ -101,6 +122,7 @@ export default {
 					box-shadow:2px 5px 6px rgba(17,17,17,0.12);
 					display: inline-block;
 					margin-right: 20px;
+					margin-bottom: 20px;
 					img {
 						width: 210px;
 						height: 300px;

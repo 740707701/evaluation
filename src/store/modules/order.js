@@ -10,7 +10,8 @@ const ORDERINFO = "ORDERINFO"
 const ADDCART = 'ADDCART'
 const DELETECART = 'DELETECART'
 const CARTLIST = 'CARTLIST'
-const BUY = 'BUY'
+const ALIPAY = 'ALIPAY'
+const WECHATPAY = 'WECHATPAY'
 const REFUND = 'REFUND'
 
 export default {
@@ -92,8 +93,17 @@ export default {
 			})
 		},
 		//购买
-		[BUY]({ commit }, data) {
-      return api.post(config.url.buy, data).then(res => {
+		[ALIPAY]({ commit }, data) {
+      return api.post(config.url.alipay, data).then(res => {
+        commit('ORDER_SET', {
+          target: 'buyInfo',
+          data: res.data
+        })
+        return res
+      })
+		},
+		[WECHATPAY]({ commit }, data) {
+      return api.post(config.url.WeChatpay, data).then(res => {
         commit('ORDER_SET', {
           target: 'buyInfo',
           data: res.data
