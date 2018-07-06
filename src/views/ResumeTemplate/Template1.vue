@@ -99,7 +99,7 @@
 				<div class="module work" v-if="workExperList.length">
 					<div class="top">
 						<div class="icon-box">
-							<i class="iconfont icon-work"></i>
+							<i class="iconfont icon-work-exper"></i>
 						</div>
 						<div class="title">工作经验</div>
 					</div>
@@ -118,7 +118,7 @@
 				<div class="module edu" v-if="eduList.length">
 					<div class="top">
 						<div class="icon-box">
-							<i class="iconfont icon-edu"></i>
+							<i class="iconfont icon-edu1"></i>
 						</div>
 						<div class="title">教育背景</div>
 					</div>
