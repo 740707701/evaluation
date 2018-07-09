@@ -19,6 +19,7 @@ const SEX = 'SEX'
 const MAJOR = 'MAJOR'
 const ARRIVE_TIME = 'ARRIVE_TIME'
 const WORK_TYPE = 'WORK_TYPE'
+const POLITICAL_OUTLOOK = 'POLITICAL_OUTLOOK'
 
 const SCHOOL_LIST = 'SCHOOL_LIST'
 const CLASS_LIST = 'CLASS_LIST'
@@ -41,7 +42,8 @@ export default {
     degreeType: [],
     sex: [],
     schoolList: [],
-    classList: []
+    classList: [],
+    politicalOutlook: []
   },
   mutations: {
     [DATA_SET](state, data) {
@@ -49,6 +51,16 @@ export default {
     }
   },
   actions: {
+    //政治面貌
+    [POLITICAL_OUTLOOK]({commit}, params){
+      return api.get(config.url.dictItem, params).then(res => {
+        commit('DATA_SET', {
+          target: 'politicalOutlook',
+          data: res
+        })
+        return res
+      })
+    },
     [AREA]({ commit }, params) {
       return api.get(config.url.treeItem, params).then(res => {
         commit('DATA_SET', {

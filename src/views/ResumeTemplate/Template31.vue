@@ -43,12 +43,13 @@
 								<span class="name">籍贯：</span><span>{{baseInfo.nativePlaceName}}</span>
 							</div>
 						</li>
-						<li>
+						<li v-if="baseInfo.politicalOutlookName || baseInfo.nation">
 							<div class="item">
-								<span class="name">民族：</span><span>汉</span>
+								<span class="name">民族：</span><span>{{baseInfo.nation}}</span>
 							</div>
-							<div class="item">
-								<span class="name">政治面貌：</span><span>党员</span>
+							<div class="item" v-if="baseInfo.politicalOutlookName">
+								<span class="name">政治面貌：</span>
+								<span>{{baseInfo.politicalOutlookName}}</span>
 							</div>
 						</li>
 						<li>

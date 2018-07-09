@@ -23,17 +23,17 @@
 							<span v-if="baseInfo.sex==1">男</span>
 							<span v-if="baseInfo.sex==2">女</span>
 						</li>
-						<li>
+						<li v-if="baseInfo.nation">
 							<span class="key">民族：</span>
-							<span class="value">汉族</span>
+							<span class="value">{{baseInfo.nation}}</span>
 						</li>
 						<li>
 							<span class="key">籍贯：</span>
 							<span class="value">{{baseInfo.nativePlaceName}}</span>
 						</li>
-						<li>
+						<li v-if="baseInfo.politicalOutlookName">
 							<span class="key">政治面貌：</span>
-							<span class="value">党员</span>
+							<span  class="value">{{baseInfo.politicalOutlookName}}</span>
 						</li>
 					</ul>
 				</div>

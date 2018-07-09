@@ -23,6 +23,10 @@
             <span v-if="baseInfo.birth">{{baseInfo.age}}岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
             <span>{{baseInfo.jobStatusName}}</span>
           </div>
+          <div class="status">
+            <span v-if="baseInfo.nation">{{baseInfo.nation}}</span>
+            <span v-if="baseInfo.politicalOutlookName">{{baseInfo.politicalOutlookName}}</span>
+          </div>
           <div class="concat">
             <span v-if="baseInfo.email">
               <i class="iconfont icon-email"></i>{{baseInfo.email}}
@@ -30,6 +34,7 @@
             <span >
               <i class="iconfont icon-phone"></i>{{baseInfo.phone?baseInfo.phone:phone}}
             </span>
+            
             <span class="more" @click="showMoreBase=!showMoreBase" v-if="baseInfo.nativePlaceName">
               {{showMoreBase?'收起':'更多'}}
               <i v-if="showMoreBase==false" class="el-icon-arrow-down"></i>
@@ -138,6 +143,20 @@
                   </el-option>
                 </el-select>
             </el-form-item>
+             <el-form-item label="政治面貌：" prop="politicalOutlook" class="input-box">
+              <el-select size="small" v-model="base.politicalOutlook" placeholder="请选择政治面貌" class="select-box">
+                <el-option
+                  v-for="item in baseData.politicalOutlook"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="民族：" prop="nation" class="input-box">
+              <el-input size="small" v-model="base.nation" placeholder="请输入民族" :maxlength="40" @focus="showNationMsg=true" @blur="showNationMsg=false"></el-input>
+              <div class="msg" v-if="showNationMsg">请确认与民族与身份证一致</div>
+            </el-form-item>
             <el-form-item label="现居住：" prop="address" class="input-box">
               <el-input size="small" v-model="base.address" placeholder="请输入现居住地址" :maxlength="40" @focus="showAddressMsg=true" @blur="showAddressMsg=false"></el-input>
               <div class="msg" v-if="showAddressMsg">请确认与求职所在城市一致</div>
@@ -189,6 +208,7 @@ export default {
       showPhoneMsg: false,
       showEmailMsg: false,
       showAddressMsg: false,
+      showNationMsg: false,
 
       base: {},
       imgUrl: '',
@@ -276,6 +296,20 @@ export default {
             trigger: "change"
           }
         ],
+        politicalOutlook: [
+          {
+            required: true,
+            message: "请选择政治面貌",
+            trigger: "change"
+          }
+        ],
+        nation: [
+          {
+            required: true,
+            message: "请输入民族",
+            trigger: "blur"
+          }
+        ],
         address: [
           {
             required: true,
@@ -316,6 +350,8 @@ export default {
         jobStatus: this.baseInfo.jobStatus,
         careerType: this.baseInfo.careerType,
         marriageStatus: this.baseInfo.marriageStatus,
+        politicalOutlook: this.baseInfo.politicalOutlook,
+        nation: this.baseInfo.nation,
         address: this.baseInfo.address,
         creator: this.baseInfo.creator,
         updator: this.baseInfo.updator,

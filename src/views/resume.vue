@@ -309,7 +309,8 @@ export default {
         this.$store.dispatch("FUNCTION", { dictCode: "FUNCTION" }), //职能
         this.$store.dispatch("INDUSTRY", { dictCode: "INDUSTRY" }), //行业类别
         this.$store.dispatch("COMPANY_SIZE", { dictCode: "COMPANY_SIZE" }), //公司规模
-        this.$store.dispatch("COMPANY_NATURE", { dictCode: "COMPANY_NATURE" }) //公司性质
+        this.$store.dispatch("COMPANY_NATURE", { dictCode: "COMPANY_NATURE" }), //公司性质
+        this.$store.dispatch('POLITICAL_OUTLOOK', { dictCode: "POLITICAL_OUTLOOK" }) //政治面貌
       ])
         .then(res => {
           this.baseData.sex = res[0].data;
@@ -317,6 +318,7 @@ export default {
           this.baseData.careerType = res[2].data;
           this.baseData.jobStatus = res[3].data;
           this.baseData.marriageStatus = res[4].data;
+          this.baseData.politicalOutlook = res[15].data;
 
           this.eduData.majorType = res[5].data;
           this.eduData.degreeType = res[6].data;
