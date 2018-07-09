@@ -1,10 +1,7 @@
 <template>
 	<div class="templatelist-page">
 		<div class="container">
-			<div class="header">
-        <img src="../../assets/images/logo.svg" alt="" class="logo">
-				<div class="template">模板商城</div>
-      </div>
+			<output-header :resumeId="resumeId" :templateId="null" :resumeName="null" :org="'preview'"></output-header>
 			<div class="template-list">
 				<div class="item" v-for="template in templateList" :key="template.templateId">
 						<img :src="template.picAll" alt="">
@@ -22,6 +19,7 @@
 	</div>
 </template>
 <script>
+import outputHeader from '../../components/OutputHeader.vue'
 export default {
 	name: 'templatelist',
 	data(){
@@ -72,6 +70,9 @@ export default {
 				path: '/template' + template.templateId + '/' + this.resumeId + '-' + template.templateId
 			})
 		}
+	},
+	components: {
+		outputHeader
 	}
 }
 </script>
@@ -83,33 +84,6 @@ export default {
 		.container {
 			width: 1020px;
 			margin: 0 auto;
-			.header {
-				height: 60px;
-				.logo {
-					float: left;
-					width: 181px;
-					height: 60px;
-					margin-right: 10px;
-				}
-				.output {
-					float: right;
-					height: 60px;
-					line-height: 60px;
-					cursor: pointer;
-					.iconfont {
-						float: left;
-						font-size: 26px;
-						margin-right: 10px;
-					}
-				}
-				.template {
-					float: right;
-					margin-left: 50px;
-					color: @main-color-blue;
-					height: 60px;
-					line-height: 60px;
-				}
-			}
 			.template-list {
 				width: 100%;
 				height: 100%;

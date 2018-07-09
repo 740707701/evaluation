@@ -1,6 +1,7 @@
 <template>
 	<div class="template2-page">
 		<div class="container">
+      <output-header :resumeId="resumeId" :templateId="templateId" :resumeName="baseInfo.name" :org="null"></output-header>
 			<div class="base-content">
 				<div class="base">
 					<div class="avatar">
@@ -131,6 +132,7 @@
 	</div>
 </template>
 <script>
+import outputHeader from '../../components/OutputHeader.vue'
 export default {
   name: "template2",
   data() {
@@ -207,6 +209,9 @@ export default {
           }
 			})
 		}
+  },
+  components: {
+		outputHeader
 	}
 };
 </script>

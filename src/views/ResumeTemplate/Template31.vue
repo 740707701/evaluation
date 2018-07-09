@@ -1,5 +1,6 @@
 <template>
 	<div class="template31-page">
+		<output-header :resumeId="resumeId" :templateId="templateId" :resumeName="baseInfo.name" :org="null"></output-header>
 		<div class="container">
 			<div class="head">
 				<div class="head-img">
@@ -153,6 +154,7 @@
 	</div>
 </template>
 <script>
+import outputHeader from '../../components/OutputHeader.vue'
 export default {
 	name: 'template31',
 	data() {
@@ -231,6 +233,9 @@ export default {
           }
 			})
 		}
+	},
+	components: {
+		outputHeader
 	}
 }
 </script>
@@ -336,7 +341,7 @@ export default {
 						float: right;
 						img {
 							width: 150px;
-							height: 170px;
+							height: 145px;
 							display: inline-block;
 						}
 					}
