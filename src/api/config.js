@@ -52,7 +52,7 @@ export default {
     //简历模板
     templateList: 'resume/template',
     //验证是否购买模板
-    validPurchase: 'resume/validpurchase/{resumeId}-{templateId}',
+    validPurchase: 'resume/validpurchase/{templateId}',
 
     //简历
     //基本信息

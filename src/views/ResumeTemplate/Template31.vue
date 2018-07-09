@@ -214,7 +214,6 @@ export default {
 		//验证是否支付
 		validBuy(){
 			let params = {
-				resumeId: this.resumeId,
 				templateId: this.templateId
 			}
 			this.$store.dispatch('VALIDPURCHASE', params).then(res => {

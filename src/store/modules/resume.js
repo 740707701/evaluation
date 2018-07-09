@@ -281,7 +281,7 @@ export default {
     },
     //验证是否购买简历模板
     [VALIDPURCHASE]({ commit }, params){
-      return api.get(config.url.validPurchase.replace('{resumeId}', params.resumeId).replace('{templateId}', params.templateId)).then(res => {
+      return api.get(config.url.validPurchase.replace('{templateId}', params.templateId)).then(res => {
         commit('RESUME_SET', {
           target: 'validInfo',
           data: res
