@@ -95,7 +95,7 @@ export default {
                 });
               } else {
                 this.$message({
-                  message: "登录失败,请稍后重试",
+                  message: "登录失败，请稍后重试。",
                   type: "error"
                 });
               }

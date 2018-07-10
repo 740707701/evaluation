@@ -401,6 +401,7 @@ export default {
       .back-content {
         padding: 30px;
         text-align: center;
+        background-color: #fff;
         .text {
           line-height: 50px;
         }

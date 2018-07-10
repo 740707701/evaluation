@@ -154,6 +154,17 @@
         <el-button size="small" type="primary" @click="confirmRefund()">确 定</el-button>
       </span>
     </el-dialog>
+    <div class="dialog" v-if="showPayDialog">
+      <div class="back-box">
+        <div class="header">
+          <div class="title">提示</div>
+          <!-- <div class="close">×</div> -->
+        </div>
+        <div class="back-content">
+          <p class="text">正在跳转支付，请稍等</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -167,6 +178,7 @@ export default {
       noPayOrder: [],
       serialNo: "",
       dialogVisible: false,
+      showPayDialog: false,
       currentOrder: {}
     };
   },
@@ -241,7 +253,7 @@ export default {
       let payTitle = [];
       let totalPrice = 0;
       for (let item of order.applyList) {
-        payTitle.push(item.cepingName);
+        payTitle.push(item.productName);
         totalPrice += Number(item.purchaseSumPrice);
       }
       let data = {
@@ -436,6 +448,61 @@ export default {
               margin-top: 10px;
             }
           }
+        }
+      }
+    }
+  }
+  .dialog {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 21;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    .back-box {
+      width: 300px;
+      height: 135px;
+      background-color: #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -67px;
+      margin-left: -150px;
+      text-align: center;
+      .header {
+        height: 40px;
+        line-height: 40px;
+        border-bottom: 1px solid @main-color-border;
+        .title {
+          float: left;
+          padding-left: 20px;
+        }
+        .close {
+          font-size: 20px;
+          color: @main-color-gray;
+          float: right;
+          margin-right: 10px;
+          cursor: pointer;
+        }
+      }
+      .back-content {
+        padding: 30px;
+        text-align: center;
+        background-color: #fff;
+        .text {
+          line-height: 50px;
+        }
+        .back-btn {
+          padding: 10px;
+          cursor: pointer;
+          border: 1px solid @main-color-border;
+          border-radius: 4px;
+          display: inline-block;
+        }
+        .success-btn {
+          margin-right: 20px;
         }
       }
     }
