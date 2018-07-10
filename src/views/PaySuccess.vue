@@ -10,7 +10,7 @@
 			<p class="order-no">订单编号： {{orderNo}}</p>
 			<p class="money">在线支付： {{money}}元</p>
 			<div class="link">
-				<router-link to="/">查看订单详情</router-link>
+				<router-link to="/personalcenter/second">去测评</router-link>
 				<router-link to="/">继续逛逛</router-link>
 			</div>
 			<div class="tips">

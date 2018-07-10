@@ -114,8 +114,10 @@ export default {
     };
   },
   created(){
+    this.activeName = this.$route.params.activeName || "first";
     this.userInfo = this.$store.state.userInfo;
     this.getFinished()
+    this.getUnFinished()
   },
   methods: {
     checkRange: function(range) {
@@ -433,15 +435,7 @@ export default {
               position: absolute;
               bottom: 10px;
               right: 10px;
-              display: none;
             }
-          }
-        }
-      }
-      .course-box:hover {
-        .test-box {
-          .test-btn {
-            display: inline-block;
           }
         }
       }

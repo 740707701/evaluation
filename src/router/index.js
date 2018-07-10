@@ -51,7 +51,7 @@ const routes = [
     ]
   },
   {
-    path: "/personalcenter",
+    path: "/personalcenter/:activeName?",
     component: PersonalCenter,
     meta: {
       requireAuth: true

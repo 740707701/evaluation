@@ -3,7 +3,7 @@
     <h4>注册</h4>
     <el-form :model="registerForm" :rules="rules" ref="registerForm" label-width="0" class="demo-ruleForm">
       <el-form-item label="" prop="number">
-        <el-input v-model="registerForm.number" placeholder="用户名（示例：学校名称+年级）" :maxlength="11"></el-input>
+        <el-input v-model="registerForm.number" placeholder="用户名（示例：扶诚学院15级王磊）" :maxlength="11"></el-input>
       </el-form-item>
       <el-form-item label="" prop="phone">
         <el-input v-model="registerForm.phone" placeholder="手机号" :maxlength="11"></el-input>

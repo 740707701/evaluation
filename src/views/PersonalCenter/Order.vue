@@ -46,7 +46,8 @@
                 </td>
                 <td class="border-right" :rowspan="order.applyList.length">{{item.realName}}</td>
                 <td>
-                  <div>序列号</div>
+                  <div v-if="item.state==0" class="operation-btn pay-btn" @click="pay(order)">立即付款</div>
+                  <div v-if="item.serialNo">序列号</div>
                   <p>{{item.serialNo}}</p>
                   <div class="operation-btn copy-btn" v-if="item.serialNo"
                     v-clipboard:copy="item.serialNo"
@@ -65,9 +66,9 @@
                 <td>¥{{item.purchasePrice}}</td>
                 <td> ×{{item.purchaseNum}}</td>
                 <td class="border-right">¥{{item.purchaseSumPrice}}</td>
-
                 <td>
-                  <div>序列号</div>
+                  <div v-if="item.state==0" class="operation-btn pay-btn" @click="pay(order)">立即付款</div>
+                  <div v-if="item.serialNo">序列号</div>
                   <p>{{item.serialNo}}</p>
                   <div class="operation-btn copy-btn" v-if="item.serialNo"
                     v-clipboard:copy="item.serialNo"
@@ -259,7 +260,7 @@ export default {
           a.innerHTML = res.data.data;
           document.body.appendChild(a);
           let form = document.getElementById("alipay-form").childNodes[0];
-          form.target = "_blank";
+          // form.target = "_blank"; //新打开窗口
           form.submit();
           document.body.removeChild(a);
         })

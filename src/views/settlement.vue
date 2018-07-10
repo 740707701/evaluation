@@ -43,8 +43,9 @@
           <div class="close" @click="toOrder()">×</div>
         </div>
         <div class="back-content">
-          <div class="back-btn success-btn"  @click="toOrder()">支付成功</div>
-          <div class="back-btn fail-btn"  @click="toOrder()">支付遇到问题</div>
+          <p class="text">正在跳转支付，请稍等</p>
+          <!-- <div class="back-btn success-btn"  @click="toOrder()">支付成功</div>
+          <div class="back-btn fail-btn"  @click="toOrder()">支付遇到问题</div> -->
         </div>
       </div>
     </div>
@@ -53,6 +54,7 @@
 <script>
 import headerNav from "../components/HeaderNav";
 import axios from "axios";
+import QRCode from 'qrcode';
 export default {
   name: "settlement",
   data() {
@@ -136,7 +138,7 @@ export default {
             a.innerHTML = res.data.data;
             document.body.appendChild(a);
             let form = document.getElementById("alipay-form").childNodes[0];
-            form.target = "_blank"; //新打开窗口
+            // form.target = "_blank"; //新打开窗口
             form.submit();
             document.body.removeChild(a);
           })
@@ -155,7 +157,16 @@ export default {
           });
       }else if(this.payType == 'wechatpay'){
         this.$store.dispatch('WECHATPAY', data).then(res => {
+          console.log('res',res)
+          let weixinUrl = res.data.data;
           //生成微信支付二维码
+          let qrCode = new QRCode('qrcode',{
+            text: weixinUrl,
+            width: 256,
+            height: 256,
+            colorDark: '#000',
+            colorLight: '#fff'
+          })
         }).catch(err => {
           if (err.data.msg) {
               this.$message({
@@ -389,6 +400,10 @@ export default {
       }
       .back-content {
         padding: 30px;
+        text-align: center;
+        .text {
+          line-height: 50px;
+        }
         .back-btn {
           padding: 10px;
           cursor: pointer;

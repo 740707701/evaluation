@@ -103,7 +103,7 @@ export default {
       })
 		},
 		[WECHATPAY]({ commit }, data) {
-      return api.post(config.url.WeChatpay, data).then(res => {
+      return api.post(config.url.WeChatPay, data).then(res => {
         commit('ORDER_SET', {
           target: 'buyInfo',
           data: res.data

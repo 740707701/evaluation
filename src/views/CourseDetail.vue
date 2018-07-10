@@ -68,8 +68,9 @@
             <div class="close" @click="toOrder()">×</div>
           </div>
           <div class="back-content">
-            <div class="back-btn success-btn"  @click="toOrder()">支付成功</div>
-            <div class="back-btn fail-btn"  @click="toOrder()">支付遇到问题</div>
+            <p class="text">正在跳转支付，请稍等</p>
+            <!-- <div class="back-btn success-btn"  @click="toOrder()">支付成功</div>
+            <div class="back-btn fail-btn"  @click="toOrder()">支付遇到问题</div> -->
           </div>
         </div>
       </div>
@@ -183,7 +184,6 @@ export default {
     },
     //付款
     pay: function(){
-      // return;
       let data = {
         cepingId: this.$route.params.cepingId,
         num: "1"
@@ -198,7 +198,7 @@ export default {
         a.innerHTML = res.data.data;
         document.body.appendChild(a);
         let form = document.getElementById("alipay-form").childNodes[0]
-        form.target = '_blank'
+        // form.target = '_blank'
         form.submit()
         document.body.removeChild(a)
       }).catch(err => {
@@ -458,6 +458,9 @@ export default {
         }
         .back-content {
           padding: 30px;
+          .text {
+            line-height: 50px;
+          }
           .back-btn {
             padding: 10px;
             cursor: pointer;
