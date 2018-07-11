@@ -61,19 +61,6 @@
           </div>
         </div>
       </div>
-      <div class="dialog" v-if="showPayDialog">
-        <div class="back-box">
-          <div class="header">
-            <div class="title">提示</div>
-            <div class="close" @click="toOrder()">×</div>
-          </div>
-          <div class="back-content">
-            <p class="text">正在跳转支付，请稍等</p>
-            <!-- <div class="back-btn success-btn"  @click="toOrder()">支付成功</div>
-            <div class="back-btn fail-btn"  @click="toOrder()">支付遇到问题</div> -->
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -86,8 +73,7 @@ export default {
       showDialog: false,
       detail: {},
       hotList: [],
-      serialNo: '',
-      showPayDialog: false,
+      serialNo: ''
     };
   },
   created: function() {
@@ -181,44 +167,6 @@ export default {
       localStorage.setItem("cartList", JSON.stringify(cartList));
       localStorage.setItem("cartData", JSON.stringify(cartData));
       this.$router.push({ name: "settlement" });
-    },
-    //付款
-    pay: function(){
-      let data = {
-        cepingId: this.$route.params.cepingId,
-        num: "1"
-      }
-      axios.defaults.headers.post["Content-Type"] = "text/html;charest=utf-8"
-      axios.post(`ceping/purchase`, data)
-      .then(res => {
-        console.log(res)
-        this.showPayDialog = true;
-        const a = document.createElement('a');
-        a.id = 'alipay-form'
-        a.innerHTML = res.data.data;
-        document.body.appendChild(a);
-        let form = document.getElementById("alipay-form").childNodes[0]
-        // form.target = '_blank'
-        form.submit()
-        document.body.removeChild(a)
-      }).catch(err => {
-        if(err.data.msg){
-            this.$message({
-            type: "error",
-            message: err.data.msg
-          })
-          }else{
-            this.$message({
-              type: "error",
-              message: "生成订单失败，请稍后重试！"
-            })
-          }
-      })
-    },
-    toOrder(){
-      this.$router.push({
-        name: 'order'
-      })
     },
     //获取免费序列号
     getFreeSerialNo: function(){

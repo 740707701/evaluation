@@ -40,12 +40,9 @@
       <div class="back-box">
         <div class="header">
           <div class="title">提示</div>
-          <div class="close" @click="toOrder()">×</div>
         </div>
         <div class="back-content">
           <p class="text">正在跳转支付，请稍等</p>
-          <!-- <div class="back-btn success-btn"  @click="toOrder()">支付成功</div>
-          <div class="back-btn fail-btn"  @click="toOrder()">支付遇到问题</div> -->
         </div>
       </div>
     </div>
@@ -181,11 +178,6 @@ export default {
             }
         })
       }
-    },
-    toOrder() {
-      this.$router.push({
-        name: "order"
-      });
     }
   },
   components: {
