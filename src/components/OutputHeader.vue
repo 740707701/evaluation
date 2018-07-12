@@ -4,7 +4,7 @@
       <router-link to="/">
         <img src="../assets/images/logo.svg" alt="" class="logo">
       </router-link>
-			<router-link class="template" :to="`/templateList/${resumeId}`">模板商城</router-link>
+			<router-link class="template" v-if="!isPreview" :to="`/templateList/${resumeId}`">模板商城</router-link>
 			<div class="output" v-if="!isPreview" @click="dialogVisible=true">
 				<i class="iconfont icon-daochu"></i>
 				<span>在线导出</span>

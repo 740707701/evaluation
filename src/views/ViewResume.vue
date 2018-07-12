@@ -1,7 +1,7 @@
 <template>
   <div class="view-resume">
     <div class="container">
-      <output-header :resumeId="resumeId" :templateId="null" :resumeName="baseInfo.name" :org="org"></output-header>
+      <output-header :resumeId="resumeId" :templateId="''" :resumeName="baseInfo.name" :org="org"></output-header>
       <div class="base-content">
         <div class="avatar" >
           <img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../assets/images/man.png')" >
