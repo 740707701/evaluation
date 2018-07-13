@@ -11,7 +11,7 @@
         </div>
         <div class="job-item" v-for="exper in workExperList" :key="exper.id">
           <div class="job-time">
-            <span class="gray">{{exper.startTime.slice(0,10)}} - {{exper.endTime.slice(0,10)}}</span>
+            <span class="gray">{{exper.startTime.slice(0,10)}} ~ {{exper.endTime.slice(0,10)}}</span>
             <span>{{exper.companyName}}</span>
             <span>{{exper.position}}</span>
             <span class="icon-box">
@@ -50,7 +50,7 @@
           <div class="edit-content">
             <el-form :inline="true" :model="workExperInfo" :rules="rules" ref="workExperInfo" label-width="100px" class="form-box">
               <el-form-item label="开始时间：" prop="startTime" class="input-box">
-                <el-date-picker size="small" class="select-box"
+                <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                     v-model="workExperInfo.startTime"
                     type="date"
                     placeholder="选择日期"
@@ -58,7 +58,7 @@
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="结束时间：" prop="endTime" class="input-box">
-                <el-date-picker size="small" class="select-box"
+                <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                     v-model="workExperInfo.endTime"
                     type="date"
                     placeholder="选择日期"
@@ -133,7 +133,7 @@
               </el-form-item>
               <el-form-item label="工作描述：" prop="workDesc" class="input-box desc-box">
                 <div class="work-desc">
-                  <el-input type="textarea" v-model="workExperInfo.workDesc" :maxlength="200" placeholder="描述你的职责范围、工作任务以及取得成绩" @focus="showWorkDescMsg=true" @blur="showWorkDescMsg=false"></el-input>
+                  <el-input class="desc-input" type="textarea" v-model="workExperInfo.workDesc" :maxlength="200" placeholder="描述你的职责范围、工作任务以及取得成绩" @focus="showWorkDescMsg=true" @blur="showWorkDescMsg=false"></el-input>
                   <div class="msg" v-if="showWorkDescMsg">请确认按工作职责的条款，描述自己的工作职责范围、工作成果与经验。</div>
                 </div>
               </el-form-item>
@@ -162,7 +162,9 @@ export default {
         value: "code",
         children: 'childrens'
       },
-      workExperInfo: {},
+      workExperInfo: {
+        endTime: ''
+      },
       currentExper: [],
       rules: {
         startTime: [

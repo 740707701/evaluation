@@ -13,7 +13,7 @@
                   <i class="iconfont icon-refresh"></i>
                   <div class="icon-text">刷新</div>
                 </div>
-                <router-link target="_blank" :to="`/viewResume/${resumeId}/preview`">
+                <router-link v-if="resumeId" target="_blank" :to="`/viewResume/${resumeId}/preview`">
                   <div class="icon-box preview">
                     <i class="iconfont icon-yulan"></i>
                     <div class="icon-text">预览</div>
@@ -714,8 +714,17 @@ export default {
             .text-left {
               text-align: left !important;
             }
+            .edu-desc {
+              margin-right: 0px;
+            }
             .work-desc {
               width: 100%;
+              .desc-input {
+               min-height: 80px;
+               textarea {
+                min-height: 80px!important;
+               }
+              }
             }
             .work-desc-item {
               margin-top: 10px;

@@ -23,7 +23,7 @@ export default {
   },
   actions: {
     [LOGIN]({ commit }, data) {
-      data = new URLSearchParams(data)
+      // data = new URLSearchParams(data) //有兼容问题 360安全浏览器不可以
       return api.post(config.url.login, data).then(res => {
         commit('USER_SET', {
           target: 'loginInfo',
@@ -33,7 +33,7 @@ export default {
       })
     },
     [REGISTER]({ commit }, data) {
-      data = new URLSearchParams(data)
+      // data = new URLSearchParams(data) 
       return api.post(config.url.register, data).then(res => {
         commit('USER_SET', {
           target: 'registerInfo',
@@ -43,7 +43,7 @@ export default {
       })
     },
     [FORGET]({ commit }, data) {
-      data = new URLSearchParams(data)
+      // data = new URLSearchParams(data)
       return api.post(config.url.forget, data).then(res => {
         commit('USER_SET', {
           target: 'forgetInfo',
@@ -53,7 +53,7 @@ export default {
       })
     },
     [CAPTCHA]({ commit }, data) {
-      data = new URLSearchParams(data)
+      // data = new URLSearchParams(data)
       return api.post(config.url.captcha, data).then(res => {
         commit('USER_SET', {
           target: 'captchaInfo',

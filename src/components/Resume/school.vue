@@ -16,7 +16,7 @@
               <div class="edit-content">
                 <el-form :inline="true" :model="honorInfo" :rules="honorRules" ref="honorInfo" label-width="100px" class="form-box">
                   <el-form-item label="时间：" prop="honorTime" class="input-box">
-                    <el-date-picker size="small" class="select-box"
+                    <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                         v-model="honorInfo.honorTime"
                         type="date"
                         placeholder="选择日期"
@@ -50,7 +50,7 @@
               <div class="edit-content">
                 <el-form :inline="true" :model="workInfo" :rules="workRules" ref="workInfo" label-width="100px" class="form-box">
                   <el-form-item label="开始时间：" prop="startTime" class="input-box">
-                    <el-date-picker size="small" class="select-box"
+                    <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                         v-model="workInfo.startTime"
                         type="date"
                         placeholder="选择日期"
@@ -58,7 +58,7 @@
                       </el-date-picker>
                   </el-form-item>
                   <el-form-item label="结束时间：" prop="endTime" class="input-box">
-                    <el-date-picker size="small" class="select-box"
+                    <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                         v-model="workInfo.endTime"
                         type="date"
                         placeholder="选择日期"
@@ -71,7 +71,7 @@
                   </el-form-item>
                   <el-form-item label="职务描述：" prop="schoolWorkDesc" class="input-box desc-box">
                     <div class="work-desc">
-                      <el-input type="textarea" v-model="workInfo.schoolWorkDesc" :maxlength="200" placeholder="描述你的职责范围、工作任务以及取得成绩"></el-input>
+                      <el-input class="desc-input" type="textarea" v-model="workInfo.schoolWorkDesc" :maxlength="200" placeholder="描述你的职责范围、工作任务以及取得成绩"></el-input>
                     </div>
                   </el-form-item>
                   <el-form-item size="small" class="edit-btn-box">

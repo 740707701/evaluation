@@ -1,7 +1,7 @@
 <template>
 	<div class="template3-page">
 		<output-header :resumeId="resumeId" :templateId="templateId" :resumeName="baseInfo.name" :org="null"></output-header>
-		<div class="container">
+		<div class="container" id="pdfDom">
 			<img class="title-img" src="../../assets/images/resume_head.png" alt="">
 			<div class="bg">
 				<div class="img-box">

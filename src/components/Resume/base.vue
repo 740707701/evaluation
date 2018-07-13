@@ -74,7 +74,7 @@
               </div>
             </el-form-item>
             <el-form-item label="出生日期：" prop="birth" class="input-box">
-               <el-date-picker size="small" class="select-box"
+               <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                   v-model="base.birth"
                   type="date"
                   placeholder="选择日期"
@@ -106,7 +106,7 @@
                 ></el-cascader>
             </el-form-item>
             <el-form-item label="工作年份：" prop="workYear" class="input-box">
-              <el-date-picker size="small" class="select-box"
+              <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                   v-model="base.workYear"
                   type="year"
                   placeholder="选择日期"

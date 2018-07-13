@@ -3,7 +3,7 @@
     <el-tabs  v-model="activeName">
       <el-tab-pane label="消息通知" name="first">
         <div class="notice-list">
-          <div class="nodata" v-if="!noticeList.length">还没有任何消息哦~</div>
+          <div class="nodata" v-if="!noticeList.length&&!systemList.length">还没有任何消息哦~</div>
           <div class="notice" v-if="noticeList.length">
             <div class="item" v-for="msg in noticeList" :key="msg.id" v-if="msg.type==1" @click="updateStatus(msg.id)">
               <div class="logo" v-if="msg.user">

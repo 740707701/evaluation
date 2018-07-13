@@ -71,7 +71,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let loginInfo = {
-            data: this.loginForm.number,
+            userNum: this.loginForm.number,
             password: this.loginForm.pwd
           };
           this.$store

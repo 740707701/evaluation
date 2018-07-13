@@ -52,7 +52,7 @@
           <div class="edit-content">
             <el-form :inline="true" :model="eduInfo" :rules="rules" ref="eduInfo" label-width="100px" class="form-box">
               <el-form-item label="开始时间：" prop="startTime" class="input-box">
-                <el-date-picker size="small" class="select-box"
+                <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                     v-model="eduInfo.startTime"
                     type="date"
                     placeholder="选择日期"
@@ -60,7 +60,7 @@
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="结束时间：" prop="endTime" class="input-box">
-                <el-date-picker size="small" class="select-box"
+                <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                     v-model="eduInfo.endTime"
                     type="date"
                     placeholder="选择日期"
@@ -105,12 +105,12 @@
               </el-form-item>
               <el-form-item label="专业描述：" prop="majorDesc" class="input-box desc-box">
                 <div class="work-desc">
-                  <el-input type="textarea" v-model="eduInfo.majorDesc" :maxlength="300" placeholder="简单描述下所学专业"></el-input>
+                  <el-input class="desc-input" type="textarea" v-model="eduInfo.majorDesc" :maxlength="300" placeholder="简单描述下所学专业"></el-input>
                 </div>
               </el-form-item>
-              <el-form-item label="主修课程：" prop="eduDesc" class="input-box desc-box">
+              <el-form-item label="主修课程：" prop="eduDesc" class="input-box desc-box edu-desc">
                 <div class="work-desc">
-                  <el-input type="textarea" v-model="eduInfo.eduDesc" :maxlength="300" placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等" @focus="showEduDescMsg=true" @blur="showEduDescMsg=false"></el-input>
+                  <el-input class="desc-input" type="textarea" v-model="eduInfo.eduDesc" :maxlength="300" placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等" @focus="showEduDescMsg=true" @blur="showEduDescMsg=false"></el-input>
                   <div class="msg" v-if="showEduDescMsg">请确认主修课程罗列与意向岗位的匹配度</div>
                 </div>
               </el-form-item>

@@ -10,6 +10,9 @@ import 'element-ui/lib/theme-chalk/reset.css'
 import './assets/css/reset.css'
 import ('!style-loader!css-loader!less-loader!./assets/css/colors.less')
 
+import htmlToPdf from '@/components/HtmltoPdf.js'
+Vue.use(htmlToPdf)
+
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false

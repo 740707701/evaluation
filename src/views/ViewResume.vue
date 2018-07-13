@@ -2,222 +2,222 @@
   <div class="view-resume">
     <div class="container">
       <output-header :resumeId="resumeId" :templateId="''" :resumeName="baseInfo.name" :org="org"></output-header>
-      <div class="base-content">
-        <div class="avatar" >
-          <img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../assets/images/man.png')" >
+      <div class="pdf-content" id="pdfDom">
+        <div class="base-content">
+          <div class="avatar" >
+            <img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../assets/images/man.png')" >
+          </div>
+          <div class="info-list">
+            <div class="name">
+              <span>{{baseInfo.name}}</span>
+            </div>
+            <div class="status">
+              <span>{{baseInfo.jobStatusName}}</span>
+              <span>
+                <i class="iconfont icon-phone"></i>{{baseInfo.phone}}
+              </span>
+              <span v-if="baseInfo.email">
+                <i class="iconfont icon-email"></i>{{baseInfo.email}}
+              </span>
+            </div>
+            <div class="concat">
+              <span v-if="baseInfo.sex==1">男</span>
+              <span v-if="baseInfo.sex==2">女</span>
+              <span class="split">|</span>
+              <span v-if="baseInfo.age">{{baseInfo.age}}岁</span>
+              <span class="split">|</span>
+              <span v-if="baseInfo.birth">({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
+              <span class="split">|</span>
+              <span v-if="baseInfo.workTime">{{baseInfo.workTime}}年工作经验</span>
+              <span class="split">|</span>
+              <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>
+            </div>
+          </div>
         </div>
-        <div class="info-list">
-          <div class="name">
-            <span>{{baseInfo.name}}</span>
-          </div>
-          <div class="status">
-            <span>{{baseInfo.jobStatusName}}</span>
-            <span>
-              <i class="iconfont icon-phone"></i>{{baseInfo.phone}}
-            </span>
-            <span v-if="baseInfo.email">
-              <i class="iconfont icon-email"></i>{{baseInfo.email}}
-            </span>
-          </div>
-          <div class="concat">
-            <span v-if="baseInfo.sex==1">男</span>
-            <span v-if="baseInfo.sex==2">女</span>
-            <span class="split">|</span>
-            <span v-if="baseInfo.age">{{baseInfo.age}}岁</span>
-            <span class="split">|</span>
-            <span v-if="baseInfo.birth">({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
-            <span class="split">|</span>
-            <span v-if="baseInfo.workTime">{{baseInfo.workTime}}年工作经验</span>
-            <span class="split">|</span>
-            <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="work-box">
-        <ul class="item-list">
-          <li>
-            <span class="item">
-              <span class="item-title">最近工作</span>
-            </span>
-          </li>
-          <li>
-            <span class="item">
-              <span class="name">职位： </span>
-              <span v-if="workExperList.length">{{workExperList[0].position}}</span>
-            </span>
-          </li>
-          <li>
-            <span class="item">
-              <span class="name">公司： </span>
-              <span v-if="workExperList.length">{{workExperList[0].companyName}}</span>
-              
-            </span>
-          </li>
-          <li>
-            <span class="item">
-              <span class="name">行业： </span>
-              <span v-if="workExperList.length">{{workExperList[0].industryName}}</span>
-            </span>
-          </li>
-        </ul>
-        <ul class="item-list">
-          <li>
-            <span class="item">
-              <span class="item-title">最高学历/学位</span>
-            </span>
-          </li>
-          <li>
-            <span class="item">
-              <span class="name">专业： </span>
-              <span v-if="eduList.length">{{eduList[0].eduMajor}}</span>
-            </span>
-          </li>
-          <li class="item">
-            <span class="item">
-              <span class="name">学校： </span>
-              <span v-if="eduList.length">{{eduList[0].schoolName}}</span>
-            </span>
-          </li>
-          <li class="item">
-            <span class="item">
-              <span class="name">学历/学位： </span>
-              <span v-if="eduList.length">{{eduList[0].degreeName}}</span>
-            </span>
-          </li>
-        </ul>
-      </div>
-      <div class="content">
-        <div class="expect item-content">
-          <div class="item-title">求职意向</div>
-          <ul class="item-list" v-if="expectInfo.expectSalaryName">
+        <div class="work-box">
+          <ul class="item-list">
             <li>
               <span class="item">
-                <span class="name">期望薪资： </span>{{expectInfo.expectSalaryName}}元/月
-              </span>
-              <span class="item">
-                <span class="name">工作地点： </span>{{expectInfo.expectPlaceName}}
+                <span class="item-title">最近工作</span>
               </span>
             </li>
             <li>
               <span class="item">
-                <span class="name">职能/职位： </span>{{expectInfo.expectPositionName}}
-              </span>
-              <span class="item">
-                <span class="name">工作类型：  </span>{{expectInfo.expectWorkTypeName}}
+                <span class="name">职位： </span>
+                <span v-if="workExperList.length">{{workExperList[0].position}}</span>
               </span>
             </li>
             <li>
               <span class="item">
-                <span class="name">行业： </span>{{expectInfo.expectIndustryName}}
+                <span class="name">公司： </span>
+                <span v-if="workExperList.length">{{workExperList[0].companyName}}</span>
+                
               </span>
+            </li>
+            <li>
               <span class="item">
-              <span class="name">到岗时间： </span>{{expectInfo.arriveTimeName}}
+                <span class="name">行业： </span>
+                <span v-if="workExperList.length">{{workExperList[0].industryName}}</span>
               </span>
             </li>
           </ul>
-          <div class="evaluate-box">
-            <span class="name">自我评价：</span> <div class="evaluate">{{baseInfo.evaluate}}</div>
-          </div>
+          <ul class="item-list">
+            <li>
+              <span class="item">
+                <span class="item-title">最高学历/学位</span>
+              </span>
+            </li>
+            <li>
+              <span class="item">
+                <span class="name">专业： </span>
+                <span v-if="eduList.length">{{eduList[0].eduMajor}}</span>
+              </span>
+            </li>
+            <li class="item">
+              <span class="item">
+                <span class="name">学校： </span>
+                <span v-if="eduList.length">{{eduList[0].schoolName}}</span>
+              </span>
+            </li>
+            <li class="item">
+              <span class="item">
+                <span class="name">学历/学位： </span>
+                <span v-if="eduList.length">{{eduList[0].degreeName}}</span>
+              </span>
+            </li>
+          </ul>
         </div>
-        <div class="work-exper item-content" v-if="workExperList.length">
-          <div class="item-title">工作经验</div>
-          <div class="job-item" v-for="exper in workExperList" :key="exper.id">
-            <div class="job-time">
-              <span class="gray">{{exper.startTime.slice(0,10)}} - {{exper.endTime.slice(0,10)}}</span>
-              <span>{{exper.position}}</span>&nbsp;|&nbsp;
-              <span>{{exper.department}}</span>
-            </div>
-            <div class="job-time">
-              <span>{{exper.companyName}}</span>
-              <span class="gray">[{{exper.jobexpTime}}]</span>
-            </div>
-            <div class="job-type">
-              <span>{{exper.industryName}}</span>&nbsp;|&nbsp;
-              <span>{{exper.companySizeName}}</span>&nbsp;|&nbsp;
-              <span>{{exper.companyNatureName}}</span>
-            </div>
-            <div class="job-desc">
-              <div class="desc-text gray">工作描述：</div>
-              <div class="desc-content">
-                <ul class="desc-list">
-                  <li class="desc-item">{{exper.workDesc}}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="edu item-content" v-if="eduList.length">
-          <div class="item-title">教育背景</div>
-          <div class="job-item" v-for="edu in eduList" :key="edu.id">
-            <div class="job-time">
-              <span class="gray">{{edu.startTime.slice(0,10)}} - {{edu.endTime.slice(0,10)}}</span>
-              <span>{{edu.schoolName}}</span>&nbsp;|&nbsp;
-              <span>{{edu.eduMajor}}（{{edu.degreeName}}）</span>
-            </div>
-            <div class="job-desc">
-              <div class="desc-text gray">专业描述：</div>
-              <div class="desc-content">
-                <ul class="desc-list">
-                  <li class="desc-item">{{edu.majorDesc}}</li>
-                </ul>
-              </div>
-            </div>
-            <div class="job-desc">
-              <div class="desc-text gray">主修课程：</div>
-              <div class="desc-content">
-                <ul class="desc-list">
-                  <li class="desc-item">{{edu.eduDesc}}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="school" v-if="schoolHonorList.length || schoolWorkList.length">
-          <div class="item-title">在校情况</div>
-          <div class="honor" v-if="schoolHonorList.length">
-            <div class="school-type">
-              <span>校内荣誉</span>
-            </div>
-            <ul class="honor-list">
-              <li class="honor-item" v-for="honor in schoolHonorList" :key="honor.id">
-                <span class="gray">{{honor.honorTime.slice(0, 10)}}</span>
-                <span>{{honor.honorPrize}}</span>
-                <span>{{honor.honorLevel}}</span>
+        <div class="content">
+          <div class="expect item-content">
+            <div class="item-title">求职意向</div>
+            <ul class="item-list" v-if="expectInfo.expectSalaryName">
+              <li>
+                <span class="item">
+                  <span class="name">期望薪资： </span>{{expectInfo.expectSalaryName}}元/月
+                </span>
+                <span class="item">
+                  <span class="name">工作地点： </span>{{expectInfo.expectPlaceName}}
+                </span>
+              </li>
+              <li>
+                <span class="item">
+                  <span class="name">职能/职位： </span>{{expectInfo.expectPositionName}}
+                </span>
+                <span class="item">
+                  <span class="name">工作类型：  </span>{{expectInfo.expectWorkTypeName}}
+                </span>
+              </li>
+              <li>
+                <span class="item">
+                  <span class="name">行业： </span>{{expectInfo.expectIndustryName}}
+                </span>
+                <span class="item">
+                <span class="name">到岗时间： </span>{{expectInfo.arriveTimeName}}
+                </span>
               </li>
             </ul>
-          </div>
-          <div class="post" v-if="schoolWorkList.length">
-            <div class="school-type">
-              <span>校内职务</span>
+            <div class="evaluate-box">
+              <span class="name">自我评价：</span> <div class="evaluate">{{baseInfo.evaluate}}</div>
             </div>
-            <ul class="post-list">
-              <li class="job-item" v-for="work in schoolWorkList" :key="work.id">
-                <div class="job-time">
-                  <span class="gray">{{work.startTime.slice(0, 10)}} - {{work.endTime.slice(0, 10)}}</span>
-                  <span>{{work.schoolWorkName}}</span>
-                  <span></span>
+          </div>
+          <div class="work-exper item-content" v-if="workExperList.length">
+            <div class="item-title">工作经验</div>
+            <div class="job-item" v-for="exper in workExperList" :key="exper.id">
+              <div class="job-time">
+                <span class="gray">{{exper.startTime.slice(0,10)}} ~ {{exper.endTime.slice(0,10)}}</span>
+                <span>{{exper.position}}</span>&nbsp;|&nbsp;
+                <span>{{exper.department}}</span>
+                <span>（{{exper.companyName}}）</span>
+                <!-- <span class="gray">[{{exper.jobexpTime}}]</span> -->
+              </div>
+              <!-- <div class="job-type">
+                <span>{{exper.industryName}}</span>&nbsp;|&nbsp;
+                <span>{{exper.companySizeName}}</span>&nbsp;|&nbsp;
+                <span>{{exper.companyNatureName}}</span>
+              </div> -->
+              <div class="job-desc">
+                <div class="desc-text gray">工作描述：</div>
+                <div class="desc-content">
+                  <ul class="desc-list">
+                    <li class="desc-item">{{exper.workDesc}}</li>
+                  </ul>
                 </div>
-                <div class="job-desc">
-                  <div class="desc-text gray">职务描述：</div>
-                  <div class="desc-content">
-                    <ul class="desc-list">
-                      {{work.schoolWorkDesc}}
-                    </ul>
+              </div>
+            </div>
+          </div>
+          <div class="edu item-content" v-if="eduList.length">
+            <div class="item-title">教育背景</div>
+            <div class="job-item" v-for="edu in eduList" :key="edu.id">
+              <div class="job-time">
+                <span class="gray">{{edu.startTime.slice(0,10)}} ~ {{edu.endTime.slice(0,10)}}</span>
+                <span>{{edu.schoolName}}</span>&nbsp;|&nbsp;
+                <span>{{edu.eduMajor}}（{{edu.degreeName}}）</span>
+              </div>
+              <div class="job-desc">
+                <div class="desc-text gray">专业描述：</div>
+                <div class="desc-content">
+                  <ul class="desc-list">
+                    <li class="desc-item">{{edu.majorDesc}}</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="job-desc">
+                <div class="desc-text gray">主修课程：</div>
+                <div class="desc-content">
+                  <ul class="desc-list">
+                    <li class="desc-item">{{edu.eduDesc}}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="school" v-if="schoolHonorList.length || schoolWorkList.length">
+            <div class="item-title">在校情况</div>
+            <div class="honor" v-if="schoolHonorList.length">
+              <div class="school-type">
+                <span>校内荣誉</span>
+              </div>
+              <ul class="honor-list">
+                <li class="honor-item" v-for="honor in schoolHonorList" :key="honor.id">
+                  <span class="gray">{{honor.honorTime.slice(0, 10)}}</span>
+                  <span>{{honor.honorPrize}}</span>
+                  <span>{{honor.honorLevel}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="post" v-if="schoolWorkList.length">
+              <div class="school-type">
+                <span>校内职务</span>
+              </div>
+              <ul class="post-list">
+                <li class="job-item" v-for="work in schoolWorkList" :key="work.id">
+                  <div class="job-time">
+                    <span class="gray">{{work.startTime.slice(0, 10)}} ~ {{work.endTime.slice(0, 10)}}</span>
+                    <span>{{work.schoolWorkName}}</span>
+                    <span></span>
                   </div>
-                </div>
-              </li>
-            </ul>
+                  <div class="job-desc">
+                    <div class="desc-text gray">职务描述：</div>
+                    <div class="desc-content">
+                      <ul class="desc-list">
+                        {{work.schoolWorkDesc}}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="skill item-content" v-if="skillList.length">
-          <div class="item-title">技能证书</div>
-            <ul>
-              <li v-for="skill in skillList" :key="skill.id">
-                <span class="gray">{{skill.skillTime.slice(0,10)}}</span>
-                <span>{{skill.name}}</span>
-                <span>{{skill.score}}</span>
-              </li>
-            </ul>
+          <div class="skill item-content" v-if="skillList.length">
+            <div class="item-title">技能证书</div>
+              <ul>
+                <li v-for="skill in skillList" :key="skill.id">
+                  <span class="gray">{{skill.skillTime.slice(0,10)}}</span>
+                  <span>{{skill.name}}</span>
+                  <span>{{skill.score}}</span>
+                </li>
+              </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -231,6 +231,7 @@ export default {
   name: "viewResume",
   data() {
     return {
+      htmlTitle: '',
       resume: {},
       baseInfo: {},
       expectInfo: {},
@@ -273,6 +274,7 @@ export default {
           for (var item of this.workExperList) {
             item.time_solt = time.getTime(item.startTime, item.endTime);
           }
+          this.htmlTitle = res.data.resumeBaseInfo.resumeName
         })
         .catch(err => {
           if (err.data.msg) {
@@ -287,7 +289,8 @@ export default {
             });
           }
         });
-    }
+    },
+    //导出
   },
   components :{
     outputHeader
@@ -301,6 +304,11 @@ export default {
   .container {
     width: 1020px;
     margin: 0 auto;
+    .output-btn {
+      padding: 10px 20px;
+      border: 1px solid @main-color-border;
+      display: inline-block;
+    }
     .item-content {
       padding: 0px 50px;
       padding-bottom: 10px;
@@ -331,7 +339,9 @@ export default {
         }
       }
       .info-list {
-        margin-left: 162px;
+        // padding-left: 162px;
+        // width: calc(100% - 162px);
+        // float: right;
         .name,
         .status,
         .concat {
@@ -356,8 +366,11 @@ export default {
     .work-box {
       width: 100%;
       display: inline-block;
-      background-color: #f5f6f7;
+      // background-color: #f5f6f7;
+      border: 1px solid @main-color-border;
+      
       padding: 0px 50px;
+      color: @main-color-text;
       .item-list {
         float: left;
         width: 50%;

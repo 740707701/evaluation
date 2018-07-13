@@ -1,7 +1,7 @@
 <template>
 	<div class="template2-page">
-		<div class="container">
-      <output-header :resumeId="resumeId" :templateId="templateId" :resumeName="baseInfo.name" :org="null"></output-header>
+    <output-header :resumeId="resumeId" :templateId="templateId" :resumeName="baseInfo.name" :org="null"></output-header>
+		<div class="container" id="pdfDom">
 			<div class="base-content">
 				<div class="base">
 					<div class="avatar">
@@ -55,7 +55,7 @@
 					</div>
 					<div class="work-item" v-for="exper in workExperList" :key="exper.id">
 						<div class="title">
-							<span>{{exper.startTime.slice(0,10)}} - {{exper.endTime.slice(0,10)}}</span>
+							<span>{{exper.startTime.slice(0,10)}} ~ {{exper.endTime.slice(0,10)}}</span>
 							<span>{{exper.companyName}}</span>
 							<span>{{exper.position}}</span>
 						</div>
@@ -74,7 +74,7 @@
 					</div>
 					<div class="work-item" v-for="edu in eduList" :key="edu.id">
 						<div class="title">
-							<span>{{edu.startTime.slice(0,10)}} - {{edu.endTime.slice(0,10)}}</span>
+							<span>{{edu.startTime.slice(0,10)}} ~ {{edu.endTime.slice(0,10)}}</span>
 							<span>{{edu.schoolName}}</span>
 							<span>{{edu.eduMajor}}</span>
 						</div>
@@ -103,7 +103,7 @@
 						<div class="title">校内职务</div>
 						<div class="schoolwork-item item" v-for="work in schoolWorkList" :key="work.id">
 							<div class="">
-								<span>{{work.startTime.slice(0, 10)}} - {{work.endTime.slice(0, 10)}}</span>
+								<span>{{work.startTime.slice(0, 10)}} ~ {{work.endTime.slice(0, 10)}}</span>
 								<span>{{work.schoolWorkName}}</span>
 							</div>
 							<div class="work-desc">
@@ -219,7 +219,8 @@ export default {
 .template2-page {
   .container {
     width: 1020px;
-    margin: 20px auto;
+    margin: 0px auto;
+    margin-bottom: 20px;
     .base-content {
       width: 100%;
       height: 200px;

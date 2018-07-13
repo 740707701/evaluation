@@ -36,7 +36,7 @@
           <div class="edit-content">
             <el-form :inline="true" :model="skillInfo" :rules="rules" ref="skillInfo" label-width="100px" class="form-box">
               <el-form-item label="时间：" prop="skillTime" class="input-box">
-                <el-date-picker size="small" class="select-box"
+                <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                     v-model="skillInfo.skillTime"
                     type="date"
                     placeholder="选择日期"
