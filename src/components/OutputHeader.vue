@@ -5,14 +5,10 @@
         <img src="../assets/images/logo.svg" alt="" class="logo">
       </router-link>
 			<router-link class="template" v-if="!isPreview" :to="`/templateList/${resumeId}`">模板商城</router-link>
-			<div class="output" v-if="!isPreview" @click="getPdf">
-				<i class="iconfont icon-daochu"></i>
-				<span>导出PDF</span>
-			</div>
-			<!-- <div class="output" v-if="!isPreview" @click="dialogVisible=true">
+			<div class="output" v-if="!isPreview" @click="dialogVisible=true">
 				<i class="iconfont icon-daochu"></i>
 				<span>在线导出</span>
-			</div> -->
+			</div>
 		</div>
 		<el-dialog
       title="导出简历"
@@ -64,35 +60,37 @@ export default {
       };
       if (this.exportType == "word") {
         this.applicationType = "msword";
+        axios
+          .get(`resume/export/${this.resumeId}/${this.exportType}`+'?templateId=' + this.templateId, {
+            responseType: "arraybuffer"
+          })
+          .then(res => {})
+          .catch(err => {
+            // console.log("err", err);
+            if(err.status == 200){
+              let blob = new Blob([err.data], {
+                type: `application/${this.applicationType}`
+              });
+              let objectUrl = URL.createObjectURL(blob);
+              let link = document.createElement("a");
+              let fname = this.resumeName || "个人简历";
+              link.href = objectUrl;
+              link.setAttribute("download", fname);
+              document.body.appendChild(link);
+              link.click();
+              this.dialogVisible = false;
+            }else {
+              this.$message({
+                type: "error",
+                message: "导出失败"
+              })
+            }
+          });
       } else {
         this.applicationType = "pdf";
+        this.getPdf()
+        this.dialogVisible = false;
       }
-      axios
-        .get(`resume/export/${this.resumeId}/${this.exportType}`+'?templateId=' + this.templateId, {
-          responseType: "arraybuffer"
-        })
-        .then(res => {})
-        .catch(err => {
-          // console.log("err", err);
-          if(err.status == 200){
-            let blob = new Blob([err.data], {
-              type: `application/${this.applicationType}`
-            });
-            let objectUrl = URL.createObjectURL(blob);
-            let link = document.createElement("a");
-            let fname = this.resumeName || "个人简历";
-            link.href = objectUrl;
-            link.setAttribute("download", fname);
-            document.body.appendChild(link);
-            link.click();
-            this.dialogVisible = false;
-          }else {
-            this.$message({
-              type: "error",
-              message: "导出失败"
-            })
-          }
-        });
     },
     //弹框 关闭按钮
     handleClose(done) {
