@@ -72,6 +72,7 @@ export default {
     return {
       rootPath: "",
       cepingList: [],
+      cartCount: 0,
       totalPrice: 0,
       isCheckAll: false,
       isChecked: false,
@@ -91,6 +92,8 @@ export default {
         .then(res => {
           this.rootPath = res.data.rootPath;
           this.cepingList = res.data.cartListNormal;
+          this.cartCount = res.data.cartListNormal.length ? res.data.cartListNormal.length : 0;
+          this.$store.commit("setCartCount", this.cartCount)
         })
         .catch(err => {
           if (err.data.msg) {
@@ -194,6 +197,8 @@ export default {
             type: "success",
             message: "删除成功"
           });
+          this.cartCount = this.cartCount - 1;
+          this.$store.commit("setCartCount", this.cartCount)
         })
         .catch(err => {
           if (err.data.msg) {

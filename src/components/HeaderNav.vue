@@ -12,8 +12,14 @@
           <!-- <li @click="changeLogin(4, '/industryintro')" v-bind:class="{'active':$route.path=='/industryintro'}">书籍库</li> -->
         </ul>
         <div class="nav-right">
-          <router-link to="/cartDetail" v-if="isLogin" class="cart"> 
-            <el-button class="cart-btn" round size="small">
+          <router-link to="/cartDetail" v-if="isLogin" class="cart">
+            <el-badge v-if="cartCount" :value="cartCount" :max="99">
+              <el-button class="cart-btn" round size="small">
+                <i class="iconfont icon-cart"></i>
+                购物车
+              </el-button>
+            </el-badge>
+            <el-button v-if="!cartCount" class="cart-btn" round size="small">
               <i class="iconfont icon-cart"></i>
               购物车
             </el-button>
@@ -72,13 +78,15 @@ export default {
       showRegisterPage: false,
       showForgetPage: false,
       isBuyed: false,
-      isNews: false
+      isNews: false,
+      cartList: []
     };
   },
   props: ["updateBuyed", "updateNews"],
   created() {
     this.isBuyed =this.updateBuyed || false;
     this.isNews =this.updateNews || false;
+    this.getCartCount();
   },
   computed: {
     // isLogin (){
@@ -87,7 +95,8 @@ export default {
     ...mapState({
       isLogin: state => state.isLogin,
       userInfo: state => state.userInfo,
-      showLoginPage: state => state.showLoginPage
+      showLoginPage: state => state.showLoginPage,
+      cartCount: state => state.cartCount
     })
   },
   methods: {
@@ -169,6 +178,16 @@ export default {
           this.$store.commit("setShowLoginPage", true)
         }
       }
+    },
+    //购物车
+    getCartCount(){
+      this.$store.dispatch('CARTLIST').then(res => {
+        // console.log(res)
+        let count = res.data.cartListNormal.length || 0;
+        this.$store.commit("setCartCount", count)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   components: {

@@ -15,6 +15,7 @@ export default new Vuex.Store({
     isLogin: JSON.parse(localStorage.getItem("isLogin")) || false,
     userInfo: JSON.parse(localStorage.getItem("userInfo")) || {},
     showLoginPage: false,
+    cartCount: 0
   },
   getters: {
     getToken: state => {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     },
     setShowLoginPage: (state, data) => {
       state.showLoginPage = data
+    },
+    setCartCount: (state, data) => {
+      state.cartCount = data
     }
   },
   actions: {},

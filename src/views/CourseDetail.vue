@@ -127,6 +127,7 @@ export default {
         cepingId: this.detail.baseInfo.cepingId
       }
       this.$store.dispatch('ADDCART', data).then(res => {
+        this.getCartCount()
         this.$message({
           type: "success",
           message: "加入成功"
@@ -143,6 +144,16 @@ export default {
             message: "加入购物车失败，请稍后重试"
           })
         }
+      })
+    },
+    //获取购物车数量
+    getCartCount(){
+      this.$store.dispatch('CARTLIST').then(res => {
+        console.log(res)
+        let count = res.data.cartListNormal.length || 0;
+        this.$store.commit("setCartCount", count)
+      }).catch(err => {
+        console.log(err)
       })
     },
     //进入测评
