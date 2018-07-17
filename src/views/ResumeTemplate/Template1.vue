@@ -1,6 +1,6 @@
 <template>
 	<div class="template1-page">
-		<output-header :resumeId="resumeId" :templateId="templateId" :resumeName="baseInfo.name" :org="null"></output-header>
+		<output-header :resumeId="resumeId" :templateId="templateId" :resumeName="baseInfo.resumeName" :org="null"></output-header>
 		<div class="container" id="pdfDom">
 			<div class="aside">
 				<div class="img-box">
@@ -158,7 +158,7 @@
 								<span>{{work.schoolWorkName}}</span>
 							</div>
 							<div class="work-desc">
-								<div class="desc-title">工作描述：</div>
+								<div class="desc-title">职务描述：</div>
 								<div class="desc-content">{{work.schoolWorkDesc}}</div>
 							</div>
 						</div>

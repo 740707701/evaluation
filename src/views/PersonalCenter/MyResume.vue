@@ -19,10 +19,12 @@
                 <span v-if="resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.hour}}小时前</span>
                 <span v-if="resume.time_solt.minute&&!resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.minute}}分钟前</span>
                 <span v-if="resume.time_solt.second&&!resume.time_solt.minute&&!resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.second}}秒前</span>
-                
               </div>
-              <div class="operation-btn">
-                <router-link target="_blank" :to="`/viewResume/${resume.id}`">查看</router-link>
+              <div class="btn-box">
+                <div class="operation-btn edit-btn" @click="edit(resume.id)">修改</div>
+                <div class="operation-btn view-btn">
+                  <router-link target="_blank" :to="`/viewResume/${resume.id}`">查看</router-link>
+                </div>
               </div>
             </div>
           </div>
@@ -74,7 +76,7 @@ import time from '../../api/time.js'
           for(var item of this.resumeList){
             item.time_solt = time.getTime(item.updateDate)
           }
-          console.log(this.resumeList)
+          // console.log(this.resumeList)
         }).catch(err => {
           console.log(err)
           if (err.data.msg) {
@@ -178,6 +180,7 @@ import time from '../../api/time.js'
         float: left;
       }
       .item-content {
+        height: 100%;
         margin-left: 70px;
         line-height: 20px;
         padding-bottom: 25px;
@@ -192,18 +195,28 @@ import time from '../../api/time.js'
           line-height: 20px;
           color: #A2A9B8;
         }
+        .btn-box {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+        .edit-btn {
+          border: 1px solid @main-color-blue;
+          color: @main-color-blue;
+          margin-right: 10px;
+        }
+        .view-btn {
+          background-color: @main-color-blue;
+          color: #fff;
+        }
         .operation-btn {
           padding: 0 10px;
           height: 26px;
           line-height: 26px;
           text-align: center;
           border-radius: 4px;
-          background-color: @main-color-blue;
-          color: #fff;
           cursor: pointer;
-          position: absolute;
-          bottom: 0px;
-          right: 0px;
+          display: inline-block;
           a {
             width: 100%;
             line-height: 26px;

@@ -1,7 +1,7 @@
 <template>
   <div class="view-resume">
     <div class="container">
-      <output-header :resumeId="resumeId" :templateId="''" :resumeName="baseInfo.name" :org="org"></output-header>
+      <output-header :resumeId="resumeId" :templateId="''" :resumeName="baseInfo.resumeName" :org="org"></output-header>
       <div class="pdf-content" id="pdfDom">
         <div class="base-content">
           <div class="avatar" >
@@ -231,7 +231,6 @@ export default {
   name: "viewResume",
   data() {
     return {
-      htmlTitle: '',
       resume: {},
       baseInfo: {},
       expectInfo: {},
@@ -274,7 +273,6 @@ export default {
           for (var item of this.workExperList) {
             item.time_solt = time.getTime(item.startTime, item.endTime);
           }
-          this.htmlTitle = res.data.resumeBaseInfo.resumeName
         })
         .catch(err => {
           if (err.data.msg) {
