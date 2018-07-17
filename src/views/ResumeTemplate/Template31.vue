@@ -195,7 +195,17 @@ export default {
           this.eduList = res.data.educationList || [];
           this.schoolHonorList = res.data.schoolHonorList || [];
           this.schoolWorkList = res.data.schoolPostList || [];
-          this.skillList = res.data.skillsList || [];
+					this.skillList = res.data.skillsList || [];
+					//图片格式转base64
+          if(this.baseInfo.headPicAll){
+            var img = new Image();
+            img.src = this.baseInfo.headPicAll
+            img.crossOrigin = "*";
+            var that = this
+            img.onload = function(){
+              that.baseInfo.headPicAll = that.getBase64Image(img)
+            }
+          }
         })
         .catch(err => {
           if (err.data.msg) {
@@ -231,7 +241,18 @@ export default {
             });
           }
 			})
-		}
+		},
+		//图片转换为base64格式(用于PDF导出)
+    getBase64Image(img){
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+      var dataURL = canvas.toDataURL("image/"+ext);
+      return dataURL;
+    }
 	},
 	components: {
 		outputHeader
