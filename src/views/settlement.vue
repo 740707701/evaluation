@@ -23,10 +23,10 @@
 						<input type="radio" name="type" :checked="payType=='alipay'">
 						<i class="iconfont icon-alipay"></i>
 					</div>
-					<!-- <div class="wechat icon-box" @click="payType='wechatpay'">
+					<div class="wechat icon-box" @click="payType='wechatpay'">
 						<input type="radio" name="type" :checked="payType=='wechatpay'">
 						<i class="iconfont icon-wechatpay"></i>
-					</div> -->
+					</div>
 				</div>
         <div class="total-box">
           <p class="total-money">共{{cartList.length}}件商品，商品总金额: ¥&nbsp;&nbsp;{{cartData.totalPrice}}</p>
@@ -51,7 +51,6 @@
 <script>
 import headerNav from "../components/HeaderNav";
 import axios from "axios";
-import QRCode from 'qrcode';
 export default {
   name: "settlement",
   data() {
@@ -156,14 +155,16 @@ export default {
         this.$store.dispatch('WECHATPAY', data).then(res => {
           console.log('res',res)
           let weixinUrl = res.data.data;
-          //生成微信支付二维码
-          let qrCode = new QRCode('qrcode',{
-            text: weixinUrl,
-            width: 256,
-            height: 256,
-            colorDark: '#000',
-            colorLight: '#fff'
+          let info= {
+            payUrl: weixinUrl,
+            orderNo: this.orderNo,
+            orderPrice: this.cartData.totalPrice
+          }
+          localStorage.setItem("payInfo", JSON.stringify(info))
+          this.$router.push({
+            name: 'wechatPay'
           })
+          
         }).catch(err => {
           if (err.data.msg) {
               this.$message({

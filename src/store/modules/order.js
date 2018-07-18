@@ -13,6 +13,7 @@ const CARTLIST = 'CARTLIST'
 const ALIPAY = 'ALIPAY'
 const WECHATPAY = 'WECHATPAY'
 const REFUND = 'REFUND'
+const WXQUERY = 'WXQUERY'
 
 export default {
   state: {
@@ -22,7 +23,8 @@ export default {
 		cartList: [],
 		cartInfo: {},
 		buyInfo: {},
-		refundInfo: {}
+		refundInfo: {},
+		wxqueryInfo: {}
   },
   mutations: {
     [ORDER_SET](state, data) {
@@ -93,6 +95,7 @@ export default {
 			})
 		},
 		//购买
+		//支付宝支付
 		[ALIPAY]({ commit }, data) {
       return api.post(config.url.alipay, data).then(res => {
         commit('ORDER_SET', {
@@ -102,6 +105,7 @@ export default {
         return res
       })
 		},
+		//微信支付
 		[WECHATPAY]({ commit }, data) {
       return api.post(config.url.WeChatPay, data).then(res => {
         commit('ORDER_SET', {
@@ -111,6 +115,16 @@ export default {
         return res
       })
 		},
+		[WXQUERY]({ commit }, data){
+			return api.get(config.url.wxquery.replace('{orderNo}', data.orderNo)).then(res => {
+				commit('ORDER_SET', {
+					target: 'wxqueryInfo',
+					data: res.data
+				})
+				return res
+			})
+		},
+		//退款
 		[REFUND]({ commit }, data){
 			return api.post(config.url.refund, data).then(res => {
 				commit('ORDER_SET', {

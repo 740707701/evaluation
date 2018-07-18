@@ -34,6 +34,8 @@ export default {
     WeChatPay: 'ceping/purchasewx',
     //退款
     refund: 'ceping/refund',
+    //微信查询订单支付状态
+    wxquery: 'ceping/wxquery/{orderNo}',
     //订单
     //订单列表
     //全部

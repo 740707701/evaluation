@@ -30,6 +30,7 @@ import Template1 from "../views/ResumeTemplate/template1.vue";
 import Template2 from "../views/ResumeTemplate/template2.vue";
 import Template3 from "../views/ResumeTemplate/template3.vue";
 import Template31 from "../views/ResumeTemplate/Template31.vue";
+import WechatPay from '../views/WechatPay.vue';
 
 Vue.use(VueRouter);
 
@@ -103,6 +104,11 @@ const routes = [
     path: "/evaluation/:cepingId/:serialNo",
     name: "evaluation",
     component: Evaluation
+  },
+  {
+    path: '/wechatPay',
+    name: 'wechatPay',
+    component: WechatPay
   },
   {
     path: "/careerplan",
