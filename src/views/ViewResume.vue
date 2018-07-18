@@ -28,8 +28,8 @@
               <span class="split">|</span>
               <span v-if="baseInfo.birth">({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
               <span class="split">|</span>
-              <span v-if="baseInfo.workTime">{{baseInfo.workTime}}年工作经验</span>
-              <span class="split">|</span>
+              <span v-if="baseInfo.workTime>0">{{baseInfo.workTime}}年工作经验</span>
+              <span class="split" v-if="baseInfo.workTime>0">|</span>
               <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>
             </div>
           </div>

@@ -23,8 +23,8 @@
 							<span v-if="baseInfo.sex==2">女</span>
 							<span class="split">|</span>
 							<span>现居住{{baseInfo.nativePlaceName}}</span>
-							<span class="split">|</span>
-							<span>{{baseInfo.workTime}}年工作经验</span>
+							<span class="split" v-if="baseInfo.workTime>0">|</span>
+							<span v-if="baseInfo.workTime>0">{{baseInfo.workTime}}年工作经验</span>
 						</div>
 					</div>
 				</div>
