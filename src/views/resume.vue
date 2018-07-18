@@ -422,6 +422,7 @@ export default {
     }
     .textarea {
       min-height: 90px;
+      font-family: "微软雅黑";
     }
     textarea:-moz-placeholder,
     textarea::-webkit-input-placeholder {
@@ -723,6 +724,7 @@ export default {
                min-height: 80px;
                textarea {
                 min-height: 80px!important;
+                font-family: "微软雅黑";
                }
               }
             }
@@ -862,6 +864,7 @@ export default {
             margin-top: 5px;
           }
           textarea {
+            font-family: "微软雅黑";
             border-radius: 5px;
             border-color: @main-color-yellow;
           }

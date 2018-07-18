@@ -161,7 +161,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="job-desc">
+              <div class="job-desc" v-if="edu.eduDesc">
                 <div class="desc-text gray">主修课程：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
@@ -187,7 +187,7 @@
             </div>
             <div class="post" v-if="schoolWorkList.length">
               <div class="school-type">
-                <span>校内职务</span>
+                <span>校内实践</span>
               </div>
               <ul class="post-list">
                 <li class="job-item" v-for="work in schoolWorkList" :key="work.id">
@@ -197,7 +197,7 @@
                     <span></span>
                   </div>
                   <div class="job-desc">
-                    <div class="desc-text gray">职务描述：</div>
+                    <div class="desc-text gray">实践描述：</div>
                     <div class="desc-content">
                       <ul class="desc-list">
                         {{work.schoolWorkDesc}}
@@ -214,7 +214,6 @@
                 <li v-for="skill in skillList" :key="skill.id">
                   <span class="gray">{{skill.skillTime.slice(0,10)}}</span>
                   <span>{{skill.name}}</span>
-                  <span>{{skill.score}}</span>
                 </li>
               </ul>
           </div>
@@ -432,6 +431,7 @@ export default {
           }
           .evaluate {
             display: inline-block;
+            line-height: 22px;
           }
         }
       }
@@ -446,7 +446,7 @@ export default {
         }
         .evaluate {
           margin-left: 90px;
-          line-height: 30px;
+          line-height: 22px;
         }
       }
     }
@@ -486,7 +486,7 @@ export default {
             line-height: 24px;
             .desc-list {
               li {
-                line-height: 26px;
+                line-height: 22px;
               }
             }
           }
@@ -511,10 +511,9 @@ export default {
           background-color: rgba(241, 245, 251, 1);
         }
         .honor-item {
-          line-height: 40px;
+          line-height: 30px;
           span {
-            margin-right: 70px;
-            max-width: 30%;
+            width: 30%;
             line-height: 20px;
             vertical-align: middle;
             display: inline-block;
@@ -531,10 +530,9 @@ export default {
       display: inline-block;
       li {
         width: 100%;
-        line-height: 40px;
+        line-height: 30px;
         span {
-          margin-right: 70px;
-          max-width: 25%;
+          width: 30%;
           line-height: 20px;
           vertical-align: middle;
           display: inline-block;

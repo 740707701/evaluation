@@ -27,7 +27,7 @@
               </ul>
             </div>
           </div>
-          <div class="job-desc">
+          <div class="job-desc" v-if="edu.eduDesc">
             <div class="desc-text gray">主修课程：</div>
             <div class="desc-content">
               <ul class="desc-list">
@@ -186,13 +186,13 @@ export default {
             trigger: "blur"
           }
         ],
-        eduDesc: [
-          {
-            required: true,
-            message: "请填写主修课程",
-            trigger: "blur"
-          }
-        ]
+        // eduDesc: [
+        //   {
+        //     required: true,
+        //     message: "请填写主修课程",
+        //     trigger: "blur"
+        //   }
+        // ]
       }
     };
   },

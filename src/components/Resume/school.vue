@@ -27,10 +27,9 @@
                     <el-input size="small" v-model="honorInfo.honorPrize" placeholder="请输入奖项" :maxlength="10" @focus="showHonorMsg=true" @blur="showHonorMsg=false"></el-input>
                     <div class="msg" v-if="showHonorMsg">请确认该荣誉含金量高</div>
                   </el-form-item>
-                  <el-form-item label="级别：" prop="honorLevel" class="input-box">
+                  <el-form-item label="级别" prop="honorLevel" class="input-box">
                     <el-input size="small" v-model="honorInfo.honorLevel" placeholder="请输入级别" :maxlength="10"></el-input>
                   </el-form-item>
-                  <el-form-item label="" prop="" class="input-box"></el-form-item>
                   <el-form-item size="small" class="edit-btn-box">
                     <el-button class="save-btn" @click="saveSchoolHonor('honorInfo')">保存</el-button>
                     <el-button class="cancel" @click="cancelSchoolHonor('honorInfo')">取消</el-button>
@@ -44,7 +43,7 @@
           <div class="base-info">
             <div class="title">
               <i class="iconfont icon-school"></i>
-              <span>校内职务</span>
+              <span>校内实践</span>
             </div>
             <div class="base-content">
               <div class="edit-content">
@@ -69,7 +68,7 @@
                     <el-input size="small" v-model="workInfo.schoolWorkName" placeholder="请输入职务" :maxlength="30" @focus="showWorkMsg=true" @blur="showWorkMsg=false"></el-input>
                     <div class="msg" v-if="showWorkMsg">请确认此职务对求职有帮助</div>
                   </el-form-item>
-                  <el-form-item label="职务描述：" prop="schoolWorkDesc" class="input-box desc-box">
+                  <el-form-item label="实践描述：" prop="schoolWorkDesc" class="input-box desc-box">
                     <div class="work-desc">
                       <el-input class="desc-input" type="textarea" v-model="workInfo.schoolWorkDesc" :maxlength="200" placeholder="描述你的职责范围、工作任务以及取得成绩"></el-input>
                     </div>
@@ -111,9 +110,9 @@
           </div>
           <div class="post" v-if="!showSchoolWorkEdit">
             <div class="school-type">
-              <span>校内职务</span>
+              <span>校内实践</span>
               <div class="add-job" @click="addSchoolWork" v-if="schoolWorkList.length">
-                <i class="iconfont icon-add"></i>新增职务
+                <i class="iconfont icon-add"></i>新增实践
               </div>
             </div>
             <ul class="post-list" v-if="schoolWorkList.length">
@@ -128,7 +127,7 @@
                   </span>
                 </div>
                 <div class="job-desc">
-                  <div class="desc-text gray">职务描述：</div>
+                  <div class="desc-text gray">实践描述：</div>
                   <div class="desc-content">
                     <ul class="desc-list">
                       {{work.schoolWorkDesc}}
@@ -138,7 +137,7 @@
               </li>
             </ul>
             <div class="imperfect" v-if="!showSchoolWorkEdit&&!schoolWorkList.length">
-              <p class="perfect-text">完善校内职务，展现校园活动经验，让HR更了解你！</p>
+              <p class="perfect-text">完善校内实践，展现校园活动经验，让HR更了解你！</p>
               <el-button size="small" class="perfect-btn" @click="addSchoolWork">开始完善</el-button>
             </div>
           </div>
@@ -208,7 +207,7 @@ export default {
         schoolWorkDesc: [
           {
             required: true,
-            message: "请输入职务描述",
+            message: "请输入实践描述",
             trigger: "blur"
           }
         ]

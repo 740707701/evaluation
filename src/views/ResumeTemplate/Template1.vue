@@ -129,7 +129,7 @@
 							<span>{{edu.schoolName}}</span>
 							<span>{{edu.eduMajor}}</span>
 						</div>
-						<div class="content">
+						<div class="content" v-if="edu.eduDesc">
 							<div class="title">主修课程：</div>
 							<div class="work-content">{{edu.eduDesc}}</div>
 						</div>
@@ -147,18 +147,17 @@
 						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">
 							<span>{{honor.honorTime.slice(0, 10)}}</span>
 							<span>{{honor.honorPrize}}</span>
-							<span>{{honor.honorLevel}}</span>
 						</div>
 					</div>
 					<div class="schoolwork" v-if="schoolWorkList.length">
-						<div class="title">校内职务</div>
+						<div class="title">校内实践</div>
 						<div class="schoolwork-item item" v-for="work in schoolWorkList" :key="work.id">
 							<div class="">
 								<span>{{work.startTime.slice(0, 10)}} ~ {{work.endTime.slice(0, 10)}}</span>
 								<span>{{work.schoolWorkName}}</span>
 							</div>
 							<div class="work-desc">
-								<div class="desc-title">职务描述：</div>
+								<div class="desc-title">实践描述：</div>
 								<div class="desc-content">{{work.schoolWorkDesc}}</div>
 							</div>
 						</div>
@@ -174,7 +173,7 @@
 					<div class="skill-list">
 						<div class="item" v-for="skill in skillList" :key="skill.id">
 							<span class="date">{{skill.skillTime.slice(0,10)}}</span>
-							<span>{{skill.name}} （{{skill.score}}）</span>
+							<span>{{skill.name}}</span>
 						</div>
 					</div>
 				</div>
@@ -439,6 +438,7 @@ export default {
 						span {
 							width: 30%;
 							line-height: 30px;
+							display: inline-block;
 						}
 					}
 					.honor, .schoolwork {

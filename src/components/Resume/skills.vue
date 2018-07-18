@@ -13,7 +13,7 @@
           <li v-for="skill in skillList" :key="skill.id">
             <span class="gray">{{skill.skillTime.slice(0,10)}}</span>
             <span>{{skill.name}}</span>
-            <span>{{skill.score}}</span>
+            <span></span>
             <span class="icon-box">
               <i class="iconfont icon-edit" @click="editSkill(skill.id)"></i>
               <i class="iconfont icon-delete" @click="deleteSkill(skill.id)"></i>
@@ -47,9 +47,9 @@
                 <el-input size="small" v-model="skillInfo.name" placeholder="请输入证书名称" :maxlength="30" @focus="showSkillName=true" @blur="showSkillName=false"></el-input>
                 <div class="msg" v-if="showSkillName">请确认你的技能证书均有官网可查</div>
               </el-form-item>
-              <el-form-item label="成绩：" prop="score" class="input-box">
+              <!-- <el-form-item label="成绩：" prop="score" class="input-box">
                 <el-input size="small" v-model="skillInfo.score" placeholder="请输入成绩" :maxlength="30" ></el-input>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item size="small" class="edit-btn-box">
                 <el-button class="save-btn" @click="saveSkillInfo('skillInfo')">保存</el-button>
                 <el-button class="cancel" @click="cancel('skillInfo')">取消</el-button>
@@ -91,19 +91,19 @@ export default {
             trigger: "blur"
           }
         ],
-        score: [
-          {
-            required: true,
-            message: "请输入证书分数",
-            trigger: "blur"
-          },
-          {
-            min: 2,
-            max: 30,
-            message: "请确认你的技能证书均有官网可查",
-            trigger: "blur"
-          }
-        ]
+        // score: [
+        //   {
+        //     required: true,
+        //     message: "请输入证书分数",
+        //     trigger: "blur"
+        //   },
+        //   {
+        //     min: 2,
+        //     max: 30,
+        //     message: "请确认你的技能证书均有官网可查",
+        //     trigger: "blur"
+        //   }
+        // ]
       }
     };
   },
