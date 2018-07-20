@@ -22,7 +22,7 @@
 							<span v-if="baseInfo.sex==1">男</span>
 							<span v-if="baseInfo.sex==2">女</span>
 							<span class="split">|</span>
-							<span>现居住{{baseInfo.nativePlaceName}}</span>
+							<span>现居住{{baseInfo.address}}</span>
 							<span class="split" v-if="baseInfo.workTime>0">|</span>
 							<span v-if="baseInfo.workTime>0">{{baseInfo.workTime}}年工作经验</span>
 						</div>
@@ -77,6 +77,10 @@
 							<span>{{edu.startTime.slice(0,10)}} ~ {{edu.endTime.slice(0,10)}}</span>
 							<span>{{edu.schoolName}}</span>
 							<span>{{edu.eduMajor}}</span>
+						</div>
+            <div class="content" v-if="edu.majorDesc">
+							<div class="title">专业描述：</div>
+							<div class="work-content">{{edu.majorDesc}}</div>
 						</div>
 						<div class="content" v-if="edu.eduDesc">
 							<div class="title">主修课程：</div>

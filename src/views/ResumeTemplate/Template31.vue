@@ -137,6 +137,10 @@
 							<span>{{edu.schoolName}}</span>
 							<span>{{edu.eduMajor}}</span>
 						</div>
+						<div class="content" v-if="edu.majorDesc">
+							<div class="title">专业描述：</div>
+							<div class="work-content">{{edu.majorDesc}}</div>
+						</div>
 						<div class="content" v-if="edu.eduDesc">
 							<div class="title">主修课程：</div>
 							<div class="work-content">{{edu.eduDesc}}</div>
@@ -269,6 +273,7 @@ export default {
 				width: 100%;
 				height: 100px;
 				padding-top: 10px;
+				padding-left: 10px;
 				position: relative;
 				.head-img {
 					float: left;

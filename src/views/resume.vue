@@ -119,7 +119,7 @@
         <img src="../assets/images/resume_success.png" alt="" class="post-success">
         <div class="title">简历提交成功</div>
         <div class="date">{{submitDate}}</div>
-        <el-button size="small" round class="back-btn" @click="back">返回</el-button>
+        <el-button size="small" round class="back-btn" @click="viewResume">查看</el-button>
       </div>
     </div>
     <!-- 简历预览弹框 -->
@@ -267,6 +267,10 @@ export default {
             });
           }
         });
+    },
+    //查看
+    viewResume(){
+      this.$router.push({name: 'myresume'})
     },
     //返回
     back: function(){
