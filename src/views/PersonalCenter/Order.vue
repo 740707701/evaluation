@@ -42,18 +42,20 @@
                   <div v-if="item.state==0">待付款</div>
                   <div v-if="item.state==4">已关闭</div>
                   <div v-if="item.state==5">退款成功</div>
-                  <!-- <div class="refund" v-if="item.state==3" @click="refund(order)">退款</div> -->
+                  <!--退款接口不支持简历退款,订单列表里退款按钮需要隐藏 -->
+                  <div class="refund" v-if="item.state==3&&item.serialNo!='-1'" @click="refund(order)">退款</div>
                 </td>
                 <td class="border-right" :rowspan="order.applyList.length">{{item.realName}}</td>
-                <td>
+                <td class="operation-td" :rowspan="item.state==3?1:order.applyList.length">
                   <div v-if="item.state==0" class="operation-btn pay-btn" @click="pay(order)">立即付款</div>
-                  <div v-if="item.serialNo">序列号</div>
-                  <p>{{item.serialNo}}</p>
-                  <div class="operation-btn copy-btn" v-if="item.serialNo"
+                  <div v-if="item.serialNo!='-1'&&item.state==3">序列号</div>
+                  <p  v-if="item.serialNo!='-1'&&item.state==3">{{item.serialNo}}</p>
+                  <div class="operation-btn copy-btn"  v-if="item.serialNo!='-1'&&item.state==3"
                     v-clipboard:copy="item.serialNo"
                     v-clipboard:success="onCopy"
                     v-clipboard:error="onError">复制
                   </div>
+                  <i class="iconfont icon-delete" v-if="item.state==4" @click="deleteOrder(item)"></i>
                 </td>
               </tr>
               <tr v-for="item in order.applyList.slice(1)" :key="item.id">
@@ -66,15 +68,16 @@
                 <td>¥{{item.purchasePrice}}</td>
                 <td> ×{{item.purchaseNum}}</td>
                 <td class="border-right">¥{{item.purchaseSumPrice}}</td>
-                <td>
+                <td class="operation-td" v-if="item.state==3">
                   <div v-if="item.state==0" class="operation-btn pay-btn" @click="pay(order)">立即付款</div>
-                  <div v-if="item.serialNo">序列号</div>
-                  <p>{{item.serialNo}}</p>
-                  <div class="operation-btn copy-btn" v-if="item.serialNo"
+                  <div v-if="item.serialNo!='-1'&&item.state==3">序列号</div>
+                  <p v-if="item.serialNo!='-1'&&item.state==3">{{item.serialNo}}</p>
+                  <div class="operation-btn copy-btn"  v-if="item.serialNo!='-1'&&item.state==3"
                     v-clipboard:copy="item.serialNo"
                     v-clipboard:success="onCopy"
                     v-clipboard:error="onError">复制
                   </div>
+                  <i class="iconfont icon-delete" v-if="item.state==4" @click="deleteOrder(item)"></i>
                 </td>
               </tr>
             </tbody>
@@ -154,6 +157,17 @@
         <el-button size="small" type="primary" @click="confirmRefund()">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      title="提示"
+      :visible.sync="showDeleteDialog"
+      width="30%"
+      :before-close="handleClose">
+      <span>是否确定删除？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="showDeleteDialog = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="confirmDelete()">确 定</el-button>
+      </span>
+    </el-dialog>
     <div class="dialog" v-if="showPayDialog">
       <div class="back-box">
         <div class="header">
@@ -179,6 +193,7 @@ export default {
       serialNo: "",
       dialogVisible: false,
       showPayDialog: false,
+      showDeleteDialog: false,
       currentOrder: {}
     };
   },
@@ -261,8 +276,9 @@ export default {
         sumPrice: totalPrice.toFixed(2),
         title: payTitle.join(",")
       };
-      axios.defaults.headers.post["Content-Type"] = "text/html;charest=utf-8";
-      axios
+      if(order.applyList[0].payWay == 1){
+        axios.defaults.headers.post["Content-Type"] = "text/html;charest=utf-8";
+        axios
         .post(`ceping/purchase`, data)
         .then(res => {
           console.log(res);
@@ -289,6 +305,35 @@ export default {
             });
           }
         });
+      }else if(order.applyList[0].payWay == 2){
+        this.$store.dispatch('WECHATPAY', data).then(res => {
+          console.log('res',res)
+          let weixinUrl = res.data.data;
+          let info= {
+            payUrl: weixinUrl,
+            orderNo: order.orderNo,
+            orderPrice: totalPrice.toFixed(2)
+          }
+          localStorage.setItem("payInfo", JSON.stringify(info))
+          this.$router.push({
+            name: 'wechatPay'
+          })
+          
+        }).catch(err => {
+          if (err.data.msg) {
+              this.$message({
+                type: "error",
+                message: err.data.msg
+              });
+            } else {
+              this.$message({
+                type: "error",
+                message: "生成订单失败，请稍后重试！"
+              });
+            }
+        })
+      }
+    
     },
     refund(order){
       this.currentOrder = order;
@@ -301,7 +346,7 @@ export default {
       let payTitle = [];
       let totalPrice = 0;
       for (let item of order.applyList) {
-        payTitle.push(item.cepingName);
+        payTitle.push(item.productName);
         totalPrice += Number(item.purchaseSumPrice);
       }
       let data = {
@@ -332,6 +377,38 @@ export default {
           done();
         })
         .catch(_ => {});
+    },
+    //删除订单
+    deleteOrder(order){
+      this.showDeleteDialog = true;
+      this.currentOrder = order;
+    },
+    //
+    confirmDelete(){
+      let data = {
+        orderNo: this.currentOrder.orderNo
+      }
+      this.$store.dispatch('DELETEORDER', data).then(res => {
+        this.$message({
+          type: "success",
+          message: "删除成功！"
+        })
+        this.showDeleteDialog = false;
+        this.getAllOrder()
+      }).catch(err => {
+        console.log(err)
+        if(err.data.msg){
+          this.$message({
+            type: "error",
+            message: err.data.msg
+          })
+        }else {
+          this.$message({
+            type: "error",
+            message: "订单删除失败，请稍后重试！"
+          })
+        }
+      })
     }
   }
 };
@@ -403,7 +480,7 @@ export default {
           td {
             padding: 15px;
             text-align: center;
-            vertical-align: top;
+            vertical-align: middle;
             .item {
               float: left;
               max-width: 300px;
@@ -434,6 +511,10 @@ export default {
               // margin-top: 10px;
               display: inline-block;
             }
+            .icon-delete {
+              cursor: pointer;
+              display: none;
+            }
             .copy-btn {
               color: #fff;
               background-color: @main-color-blue;
@@ -446,6 +527,11 @@ export default {
               color: @main-color-blue;
               cursor: pointer;
               margin-top: 10px;
+            }
+          }
+          .operation-td:hover {
+            .icon-delete {
+              display: block;
             }
           }
         }

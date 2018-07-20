@@ -55,13 +55,19 @@ export default {
 				//USERPAYING--用户支付中 PAYERROR--支付失败(其他原因，如银行返回失败)
 				if(res.data == 'SUCCESS'){
 					window.clearInterval(this.timer)
-					this.$router.push({
-						name: 'paysuccess',
-						params: {
-							orderNo: this.payInfo.orderNo,
-							money: this.payInfo.orderPrice
-						}
-					})
+					if(this.payInfo.templateId){
+						this.$router.push({
+							path: '/template' +this.payInfo.templateId + '/' + this.payInfo.resumeId + '-' + this.payInfo.templateId
+						})
+					}else {
+						this.$router.push({
+							name: 'paysuccess',
+							params: {
+								orderNo: this.payInfo.orderNo,
+								money: this.payInfo.orderPrice
+							}
+						})
+					}
 				}
 
 			}).catch(err => {

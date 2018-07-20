@@ -44,6 +44,8 @@ export default {
     nopayOrder: 'ceping/nopaylist',
     //生成订单
     createOrder: 'ceping/addpurchase',
+    //删除订单
+    deleteOrder: 'ceping/purchase',
     //购物车列表
     cartList: 'ceping/shopcart',
     //加入购物车

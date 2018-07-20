@@ -158,9 +158,11 @@ export default {
           let info= {
             payUrl: weixinUrl,
             orderNo: this.orderNo,
-            orderPrice: this.cartData.totalPrice
+            orderPrice: this.cartData.totalPrice,
+            resumeId: this.cartData.resumeId || '',
+            templateId: this.cartData.templateId || ''
           }
-          localStorage.setItem("payInfo", JSON.stringify(info))
+          localStorage.setItem("payInfo", JSON.stringify(info));
           this.$router.push({
             name: 'wechatPay'
           })

@@ -7,6 +7,7 @@ const CREATEORDER = 'CREATEORDER'
 const ORDERLIST = "ORDERLIST"
 const NOPAYORDER = 'NOPAYORDER'
 const ORDERINFO = "ORDERINFO"
+const DELETEORDER = "DELETEORDER"
 const ADDCART = 'ADDCART'
 const DELETECART = 'DELETECART'
 const CARTLIST = 'CARTLIST'
@@ -58,6 +59,16 @@ export default {
 			return api.get(config.url.nopayOrder, params).then(res => {
 				commit('ORDER_SET', {
 					target: 'nopayOrder',
+					data: res.data
+				})
+				return res
+			})
+		},
+		//订单删除
+		[DELETEORDER]({ commit }, params){
+			return api.delete(config.url.deleteOrder, params).then(res => {
+				commit('ORDER_SET', {
+					target: 'orderInfo',
 					data: res.data
 				})
 				return res

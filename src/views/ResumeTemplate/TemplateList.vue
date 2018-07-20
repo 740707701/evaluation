@@ -53,7 +53,9 @@ export default {
 		},
 		buy(template){
 			let cartData = {
-				totalPrice: template.price
+				totalPrice: template.price,
+				templateId: template.templateId,
+				resumeId: this.resumeId
 			}
 			let list = [];
 			template.id = template.templateId
