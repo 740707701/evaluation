@@ -43,7 +43,7 @@
                   <div v-if="item.state==4">已关闭</div>
                   <div v-if="item.state==5">退款成功</div>
                   <!--退款接口不支持简历退款,订单列表里退款按钮需要隐藏 -->
-                  <div class="refund" v-if="item.state==3&&item.serialNo!='-1'" @click="refund(order)">退款</div>
+                  <!-- <div class="refund" v-if="item.state==3&&item.serialNo!='-1'" @click="refund(order)">退款</div> -->
                 </td>
                 <td class="border-right" :rowspan="order.applyList.length">{{item.realName}}</td>
                 <td class="operation-td" :rowspan="item.state==3?1:order.applyList.length">
