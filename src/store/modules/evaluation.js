@@ -96,8 +96,7 @@ export default {
       })
     },
     [VALIDCEPING]({ commit }, data){
-      data = new URLSearchParams(data)
-      return api.post(config.url.validCeping, data).then(res => {
+      return api.post(config.url.validCeping.replace('{serialNo}', data.serialNo)).then(res => {
         commit('EVALUATION_SET', {
           target: 'validCepingInfo',
           data: res.data

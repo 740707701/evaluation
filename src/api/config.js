@@ -26,7 +26,7 @@ export default {
     //立即测试
     tocaichu: 'ceping/tocaichu/{cepingId}/{serialno}',
     // 未完成 进入测试 验证
-    validCeping: 'ceping/validceping',
+    validCeping: 'ceping/validceping/{serialNo}',
     //立即购买
     //支付宝
     alipay: 'ceping/purchase',
