@@ -95,15 +95,7 @@
 							<i class="iconfont icon-menu"></i>
 						</div>
 					</div>
-					<div class="honor">
-						<div class="title">校内荣誉</div>
-						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">
-							<span>{{honor.honorTime.slice(0, 10)}}</span>
-                <span>{{honor.honorPrize}}</span>
-                <span>{{honor.honorLevel}}</span>
-						</div>
-					</div>
-					<div class="schoolwork" v-if="schoolWorkList.length">
+          <div class="schoolwork" v-if="schoolWorkList.length">
 						<div class="title">校内实践</div>
 						<div class="schoolwork-item item" v-for="work in schoolWorkList" :key="work.id">
 							<div class="">
@@ -116,6 +108,15 @@
 							</div>
 						</div>
 					</div>
+					<div class="honor" v-if="schoolHonorList.length">
+						<div class="title">校内荣誉</div>
+						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">
+							<span>{{honor.honorTime.slice(0, 10)}}</span>
+                <span>{{honor.honorPrize}}</span>
+                <span>{{honor.honorLevel}}</span>
+						</div>
+					</div>
+					
 				</div>
 				<div class="module skill" v-if="skillList.length">
 					<div class="top">

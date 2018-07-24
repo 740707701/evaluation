@@ -142,13 +142,6 @@
 						</div>
 						<div class="title">在校情况</div>
 					</div>
-					<div class="honor" v-if="schoolHonorList.length">
-						<div class="title">校内荣誉</div>
-						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">
-							<span>{{honor.honorTime.slice(0, 10)}}</span>
-							<span>{{honor.honorPrize}}</span>
-						</div>
-					</div>
 					<div class="schoolwork" v-if="schoolWorkList.length">
 						<div class="title">校内实践</div>
 						<div class="schoolwork-item item" v-for="work in schoolWorkList" :key="work.id">
@@ -160,6 +153,13 @@
 								<div class="desc-title">实践描述：</div>
 								<div class="desc-content">{{work.schoolWorkDesc}}</div>
 							</div>
+						</div>
+					</div>
+					<div class="honor" v-if="schoolHonorList.length">
+						<div class="title">校内荣誉</div>
+						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">
+							<span>{{honor.honorTime.slice(0, 10)}}</span>
+							<span>{{honor.honorPrize}}</span>
 						</div>
 					</div>
 				</div>

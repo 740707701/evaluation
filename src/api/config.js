@@ -49,7 +49,7 @@ export default {
     //购物车列表
     cartList: 'ceping/shopcart',
     //加入购物车
-    addCart: 'ceping/shopcart',
+    addCart: 'ceping/shopcart-{cepingId}',
     //购物车删除
     deleteCart: 'ceping/shopcart',
 

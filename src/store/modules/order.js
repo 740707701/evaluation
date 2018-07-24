@@ -76,8 +76,7 @@ export default {
 		},
 		//加入购物车
 		[ADDCART]({ commit }, data){
-			data = new URLSearchParams(data)
-			return api.post(config.url.addCart, data).then(res => {
+			return api.post(config.url.addCart.replace('{cepingId}', data.cepingId), data).then(res => {
 				commit('ORDER_SET', {
 					target: 'cartInfo',
 					data: res.data
