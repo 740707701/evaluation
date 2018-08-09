@@ -39,7 +39,7 @@ export default {
   .container {
     width: 1200px;
     margin: 0 auto;
-    height: calc(100% - 345px);
+    // height: calc(100vh - 400px);
     .category {
       .title {
         line-height: 2;

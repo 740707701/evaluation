@@ -141,6 +141,12 @@ export default {
     updateProf: 'plan/updateProf',
     listProf: 'plan/listProf',
 
+    //专业阅读
+    insertPread: 'plan/insertRead',
+    deletePread:'plan/deleteRead',
+    updatePread:'plan/updateRead',
+    listPread:'plan/listRead',
+
     //必修课
     insertRequired: 'plan/insertRequired',
     deleteRequired: 'plan/deleteRequired',
@@ -170,6 +176,10 @@ export default {
     planInfo: 'plan/planInfo',
     //根据用户获取规划列表
     planList: 'plan/planList',
+    //开启计划
+    openPlan: 'plan/insertPlan',
+    //提交计划
+    submitPlan: 'plan/insertPlan',
 
     //用户
     login: 'user/login',

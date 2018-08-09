@@ -21,6 +21,7 @@ export default {
   color: #333;
   font-size: 14px;
   height: 100%;
+  min-height: 100%;
   .page {
     padding-top: 60px;
   }

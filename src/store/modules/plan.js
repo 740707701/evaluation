@@ -1,577 +1,812 @@
-import api from '../../api/index'
-import config from '../../api/config'
+import api from "../../api/index";
+import config from "../../api/config";
 
-const PLAN_SET = 'PLAN_SET'
+const PLAN_SET = "PLAN_SET";
 
-const ADDITIONAL_LIST = 'ADDITIONAL_LIST'
-const INSERTADDITIONAL = 'INSERTADDITIONAL'
-const DELETEADDITIONAL = 'DELETEADDITIONAL'
-const ADDITIONALINFO = 'ADDITIONALINFO'
+const PLANINFO = "PLANINFO";
+const PLANLIST = "PLANLIST";
 
-const CERTIFICATE_LIST = 'CERTIFICATE_LIST'
-const INSERTCERTIFICATE = 'INSERTCERTIFICATE'
-const DELETECERTIFICATE = 'DELETECERTIFICATE'
-const CERTIFICATEINFO = ''
+const OPENPLAN = "OPENPLAN";
+const SUBMITPLAN = "SUBMITPLAN";
 
-const INTERNSHIP_LIST = 'INTERNSHIP_LIST'
-const INSERTINTERNSHIP = 'INSERTINTERNSHIP'
-const DELETEINTERNSHIP = 'DELETEINTERNSHIP'
-const INTERNSHIPINFO = 'INTERNSHIPINFO'
+const ADDITIONAL_LIST = "ADDITIONAL_LIST";
+const INSERT_ADDITIONAL = "INSERT_ADDITIONAL";
+const DELETE_ADDITIONAL = "DELETE_ADDITIONAL";
+const UPDATE_ADDITIONAL = "UPDATE_ADDITIONAL";
 
-const OFFICE_LIST = 'OFFICE_LIST'
-const INSERTOFFICE = 'INSERTOFFICE'
-const DELETEOFFICE = 'DELETEOFFICE'
-const OFFICEINFO = 'OFFICEINFO'
+const CERTIFICATE_LIST = "CERTIFICATE_LIST";
+const INSERT_CERTIFICATE = "INSERT_CERTIFICATE";
+const DELETE_CERTIFICATE = "DELETE_CERTIFICATE";
+const UPDATE_CERTIFICATE = "UPDATE_CERTIFICATE";
 
-const OPTIONAL_LIST = 'OPTIONAL_LIST'
-const INSERTOPTIONAL = 'INSERTOPTIONAL'
-const DELETEOPTIONAL = 'DELETEOPTIONAL'
-const OPTIONALINFO = 'OPTIONALINFO'
+const INTERNSHIP_LIST = "INTERNSHIP_LIST";
+const INSERT_INTERNSHIP = "INSERT_INTERNSHIP";
+const DELETE_INTERNSHIP = "DELETE_INTERNSHIP";
+const UPDATE_INTERNSHIP = "UPDATE_INTERNSHIP";
 
-const PROF_LIST = 'PROF_LIST'
-const INSERTPROF = 'INSERTPROF'
-const DELETEPROF = 'DELETEPROF'
-const PROFINFO = 'PROFINFO'
+const OFFICE_LIST = "OFFICE_LIST";
+const INSERT_OFFICE = "INSERT_OFFICE";
+const DELETE_OFFICE = "DELETE_OFFICE";
+const UPDATE_OFFICE = "UPDATE_OFFICE";
 
-const REQUIRE_LIST = 'REQUIRE_LIST'
-const INSERTREQUIRE = 'INSERTREQUIRE'
-const DELETEREQUIRE = 'DELETEREQUIRE'
-const REQUIREINFO = 'REQUIREINFO'
+const OPTIONAL_LIST = "OPTIONAL_LIST";
+const INSERT_OPTIONAL = "INSERT_OPTIONAL";
+const DELETE_OPTIONAL = "DELETE_OPTIONAL";
+const UPDATE_OPTIONAL = "UPDATE_OPTIONAL";
 
-const SELF_LIST = 'SELF_LIST'
-const INSERTSELF = 'INSERTSELF'
-const DELETESELF = 'DELETESELF'
-const SELFINFO = 'SELFINFO'
+const PROF_LIST = "PROF_LIST";
+const INSERT_PROF = "INSERT_PROF";
+const DELETE_PROF = "DELETE_PROF";
+const UPDATE_PROF = "UPDATE_PROF";
 
-const VOCATION_LIST = 'VOCATIONSL_LIST'
-const INSERTVOCATION = 'INSERTVOCATION'
-const DELETEVOCATION = 'DELETEVOCATION'
-const VOCATIONINFO = 'VOCATIONINFO'
+const PREAD_LIST = "PREAD_LIST";
+const INSERT_PREAD = "INSERT_PREAD";
+const UPDATE_PREAD = "UPDATE_PREAD";
+const DELETE_PREAD = "DELETE_PREAD";
 
-const OTHERPLAN_LIST = 'OTHERPLAN_LIST'
-const INSERTOTHERPLAN = 'INSERTOTHERPLAN'
-const DELETEOTHERPLAN = 'DELETEOTHERPLAN'
-const OTHERPLANINFO = 'OTHERPLANINFO'
+const REQUIRED_LIST = "REQUIRED_LIST";
+const INSERT_REQUIRED = "INSERT_REQUIRED";
+const DELETE_REQUIRED = "DELETE_REQUIRED";
+const UPDATE_REQUIRED = "UPDATE_REQUIRED";
+
+const SELF_LIST = "SELF_LIST";
+const INSERT_SELF = "INSERT_SELF";
+const DELETE_SELF = "DELETE_SELF";
+const UPDATE_SELF = "UPDATE_SELF";
+
+const VOCATION_LIST = "VOCATIONSL_LIST";
+const INSERT_VOCATION = "INSERT_VOCATION";
+const DELETE_VOCATION = "DELETE_VOCATION";
+const UPDATE_VOCATION = "UPDATE_VOCATION";
+
+const OTHERPLAN_LIST = "OTHERPLAN_LIST";
+const INSERT_OTHERPLAN = "INSERT_OTHERPLAN";
+const DELETE_OTHERPLAN = "DELETE_OTHERPLAN";
+const UPDATE_OTHERPLAN = "UPDATE_OTHERPLAN";
 
 export default {
   state: {
-    additionalList: [], //附加计划
-    additionalInfo: {},
-    certificateList: [], //证书
-    certificateInfo: {},
-    internshipList: [], //实习实践
-    internshipInfo: {},
-    officeList: [], //办公技能
-    officeInfo: {},
+    planInfo: {}, //规划内容
+    planList: [], //规划列表
+    requiredList: [], //必修课
+    requiredInfo: {},
     optionalList: [], //选修课
     optionalInfo: {},
-    profList: [], //专业大赛
-    profInfo: {},
-    requireList: [], //必修课
-    requireInfo: {},
     selfList: [], //自学课
     selfInfo: {},
+    profList: [], //专业大赛
+    profInfo: {},
+    preadList: [], //专业阅读
+    preadInfo: {},
+    officeList: [], //办公技能
+    officeInfo: {},
     vocationList: [], //职业能力
     vocationInfo: {},
+    internshipList: [], //实习实践
+    internshipInfo: {},
+    certificateList: [], //证书
+    certificateInfo: {},
     otherPlanList: [], //其他计划
-    otherPlanInfo: {}
+    otherPlanInfo: {},
+    additionalList: [], //附加计划
+    additionalInfo: {}
   },
   mutations: {
     [PLAN_SET](state, data) {
-      state[data['target']] = data.data
+      state[data["target"]] = data.data;
     }
   },
   actions: {
-    //获取其他计划列表
-    [ADDITIONAL_LIST]({ commit }, params) {
-      return api.get(config.url.listAdditions, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'additionalList',
+    //获取规划内容
+    [PLANINFO]({ commit }, params) {
+      return api.get(config.url.planInfo, params).then(res => {
+        commit("PLAN_SET", {
+          target: "planInfo",
           data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
+        });
+        return res;
+      });
     },
-    //新增 其他计划
-    [INSERTADDITIONAL]({ commit }, data) {
-      return api.post(config.url.insertAdditional, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'additionalInfo',
+    //根据用户获取规划列表
+    [PLANLIST]({ commit }, params) {
+      return api.get(config.url.planList, params).then(res => {
+        commit("PLAN_SET", {
+          target: "planList",
           data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
+        });
+        return res;
+      });
     },
-    //修改
-    [ADDITIONALINFO]({ commit }, data) {
-      return api.put(config.url.updateAdditional, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'additionalInfo',
+    //开启计划
+    [OPENPLAN]({ commit }, data) {
+      return api.post(config.url.openPlan, data).then(res => {
+        commit("PLAN_SET", {
+          target: "planInfo",
           data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
+        });
+        return res;
+      });
     },
-    //删除
-    [ADDITIONALINFO]({ commit }, data) {
-      return api.delete(config.url.deleteAdditional.replace('{id}', id)).then(res => {
-        commit('PLAN_SET', {
-          target: 'additionalInfo',
+    //提交计划
+    [SUBMITPLAN]({ commit }, data) {
+      return api.put(api.url.submitPlan, data).then(res => {
+        commit("PLAN_SET", {
+          target: "planInfo",
           data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-
-    //证书列表
-    [CERTIFICATE_LIST]({ commit }, params) {
-      return api.get(config.url.listCertificate, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'certificateList',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //新增 证书
-    [INSERTCERTIFICATE]({ commit }, data) {
-      return api.post(config.url.insertCertificate, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'certificateInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //修改
-    [CERTIFICATEINFO]({ commit }, data) {
-      return api.put(config.url.updateCertificate, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'certificateInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //删除
-    [CERTIFICATEINFO]({ commit }, data) {
-      return api.delete(config.url.deleteCertificate.replace('{id}', id)).then(res => {
-        commit('PLAN_SET', {
-          target: 'certificateInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-
-    //实习实践列表
-    [INTERNSHIP_LIST]({ commit }, params) {
-      return api.get(config.url.listInternship, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'internshipList',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //新增 实习实践
-    [INSERTINTERNSHIP]({ commit }, data) {
-      return api.post(config.url.insertInternship, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'internshipInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //修改
-    [INTERNSHIPINFO]({ commit }, data) {
-      return api.put(config.url.updateInternship, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'internshipInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //删除
-    [INTERNSHIPINFO]({ commit }, data) {
-      return api.delete(config.url.deleteInternship).then(res => {
-        commit('PLAN_SET', {
-          target: 'internshipInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-
-    //办公技能列表
-    [OFFICE_LIST]({ commit }, params) {
-      return api.get(config.url.listOffice, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'officeList',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //新增 办公技能
-    [INSERTOFFICE]({ commit }, data) {
-      return api.post(config.url.insertOffice, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'officeInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //修改
-    [OFFICEINFO]({ commit }, data) {
-      return api.put(config.url.updateOffice, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'officeInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //删除
-    [OFFICEINFO]({ commit }, data) {
-      return api.delete(config.url.deleteOffice.replace('{id}', id)).then(res => {
-        commit('PLAN_SET', {
-          target: 'officeInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //选修课列表
-    [OPTIONAL_LIST]({ commit }, params) {
-      return api.get(config.url.listOptional, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'optionalList',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //新增 选修课
-    [INSERTOPTIONAL]({ commit }, data) {
-      return api.post(config.url.insertOptional, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'optionalInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //修改
-    [OPTIONALINFO]({ commit }, data) {
-      return api.put(config.url.updateOptional, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'optionalInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //删除
-    [OPTIONALINFO]({ commit }, data) {
-      return api.delete(config.url.deleteOptional.replace('{id}', id)).then(res => {
-        commit('PLAN_SET', {
-          target: 'optionalInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-
-    //专业大赛
-    [PROF_LIST]({ commit }, params) {
-      return api.get(config.url.listProf, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'profList',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //新增 专业大赛
-    [INSERTPROF]({ commit }, data) {
-      return api.post(config.url.insertProf, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'profInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //修改
-    [PROFINFO]({ commit }, data) {
-      return api.put(config.url.updateProf, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'profInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
-    },
-    //删除
-    [PROFINFO]({ commit }, data) {
-      return api.delete(config.url.deleteProf.replace('{id}', id)).then(res => {
-        commit('PLAN_SET', {
-          target: 'profInfo',
-          data: res.data
-        })
-        return res
-      }).catch(err => {
-        return err
-      })
+        });
+        return res;
+      });
     },
 
     //必修课列表
-    [REQUIRE_LIST]({ commit }, params) {
-      return api.get(config.url.listReruired, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'requireList',
-          data: res.data
+    [REQUIRED_LIST]({ commit }, params) {
+      return api
+        .get(config.url.listReruired, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "requiredList",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
     //新增必修课
-    [INSERTREQUIRE]({ commit }, data) {
-      return api.post(config.url.insertRequired, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'requireInfo',
-          data: res.data
+    [INSERT_REQUIRED]({ commit }, data) {
+      return api
+        .post(config.url.insertRequired, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "requiredInfo",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
     //修改
-    [REQUIREINFO]({ commit }, data) {
-      return api.put(config.url.updateRequired, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'requireInfo',
-          data: res.data
+    [UPDATE_REQUIRED]({ commit }, data) {
+      return api
+        .put(config.url.updateRequired, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "requiredInfo",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
     //删除
-    [REQUIREINFO]({ commit }, data) {
-      return api.delete(config.url.deleteRequired.replace('{id}', id)).then(res => {
-        commit('PLAN_SET', {
-          target: 'requireInfo',
-          data: res.data
+    [DELETE_REQUIRED]({ commit }, data) {
+      return api
+        .delete(config.url.deleteRequired.replace("{id}", id))
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "requiredInfo",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
+    },
+
+    //选修课列表
+    [OPTIONAL_LIST]({ commit }, params) {
+      return api
+        .get(config.url.listOptional, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "optionalList",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //新增 选修课
+    [INSERT_OPTIONAL]({ commit }, data) {
+      return api
+        .post(config.url.insertOptional, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "optionalInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //修改
+    [UPDATE_OPTIONAL]({ commit }, data) {
+      return api
+        .put(config.url.updateOptional, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "optionalInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //删除
+    [DELETE_OPTIONAL]({ commit }, data) {
+      return api
+        .delete(config.url.deleteOptional.replace("{id}", id))
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "optionalInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
     },
 
     //自学课列表
     [SELF_LIST]({ commit }, params) {
-      return api.get(config.url.listSelf, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'selfList',
-          data: res.data
+      return api
+        .get(config.url.listSelf, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "selfList",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
     //新增 自学课
-    [INSERTSELF]({ commit }, data) {
-      return api.post(config.url.insertSelf, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'selfInfo',
-          data: res.data
+    [INSERT_SELF]({ commit }, data) {
+      return api
+        .post(config.url.insertSelf, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "selfInfo",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
     //修改
-    [SELFINFO]({ commit }, data) {
-      return api.put(config.url.updateSelf, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'selfInfo',
-          data: res.data
+    [UPDATE_SELF]({ commit }, data) {
+      return api
+        .put(config.url.updateSelf, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "selfInfo",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
     //删除
-    [SELFINFO]({ commit }, data) {
-      return api.delete(config.url.deleteSelf.replace('{id}', id)).then(res => {
-        commit('PLAN_SET', {
-          target: 'selfInfo',
-          data: res.data
+    [DELETE_SELF]({ commit }, data) {
+      return api
+        .delete(config.url.deleteSelf.replace("{id}", id))
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "selfInfo",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
+    },
+
+    //专业大赛
+    [PROF_LIST]({ commit }, params) {
+      return api
+        .get(config.url.listProf, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "profList",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //新增 专业大赛
+    [INSERT_PROF]({ commit }, data) {
+      return api
+        .post(config.url.insertProf, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "profInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //修改
+    [UPDATE_PROF]({ commit }, data) {
+      return api
+        .put(config.url.updateProf, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "profInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //删除
+    [DELETE_PROF]({ commit }, data) {
+      return api
+        .delete(config.url.deleteProf.replace("{id}", id))
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "profInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+
+    //专业阅读
+    [PREAD_LIST]({ commit }, params) {
+      return api
+        .get(config.url.listPread, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "preadList",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //新增 专业阅读
+    [INSERT_PREAD]({ commit }, data) {
+      return api
+        .post(config.url.insertPread, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "preadInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //修改
+    [UPDATE_PREAD]({ commit }, data) {
+      return api
+        .put(config.url.updatePread, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "preadInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //删除
+    [DELETE_PREAD]({ commit }, data) {
+      return api
+        .delete(config.url.deletePread.replace("{id}", id))
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "preadInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+
+    //办公技能列表
+    [OFFICE_LIST]({ commit }, params) {
+      return api
+        .get(config.url.listOffice, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "officeList",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //新增 办公技能
+    [INSERT_OFFICE]({ commit }, data) {
+      return api
+        .post(config.url.insertOffice, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "officeInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //修改
+    [UPDATE_OFFICE]({ commit }, data) {
+      return api
+        .put(config.url.updateOffice, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "officeInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //删除
+    [DELETE_OFFICE]({ commit }, data) {
+      return api
+        .delete(config.url.deleteOffice.replace("{id}", id))
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "officeInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
     },
 
     //职业能力列表
     [VOCATION_LIST]({ commit }, params) {
-      return api.get(config.url.listVocation, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'vocationList',
-          data: res.data
+      return api
+        .get(config.url.listVocation, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "vocationList",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
     //新增 职业能力
-    [INSERTVOCATION]({ commit }, data) {
-      return api.post(config.url.insertVocation, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'vocationInfo',
-          data: res.data
+    [INSERT_VOCATION]({ commit }, data) {
+      return api
+        .post(config.url.insertVocation, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "vocationInfo",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
     //修改
-    [VOCATIONINFO]({ commit }, data) {
-      return api.put(config.url.updateVocation, data).then(res => {
-        commit('PLAN_SET', {
-          target: 'vocationInfo',
-          data: res.data
+    [UPDATE_VOCATION]({ commit }, data) {
+      return api
+        .put(config.url.updateVocation, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "vocationInfo",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
     //删除
-    [VOCATIONINFO]({ commit }, data) {
-      return api.delete(config.url.deleteVocation.replace('{id}', id)).then(res => {
-        commit('PLAN_SET', {
-          target: 'vocationInfo',
-          data: res.data
+    [DELETE_VOCATION]({ commit }, data) {
+      return api
+        .delete(config.url.deleteVocation.replace("{id}", id))
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "vocationInfo",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
+    },
+
+    //实习实践列表
+    [INTERNSHIP_LIST]({ commit }, params) {
+      return api
+        .get(config.url.listInternship, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "internshipList",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //新增 实习实践
+    [INSERT_INTERNSHIP]({ commit }, data) {
+      return api
+        .post(config.url.insertInternship, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "internshipInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //修改
+    [UPDATE_INTERNSHIP]({ commit }, data) {
+      return api
+        .put(config.url.updateInternship, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "internshipInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //删除
+    [DELETE_INTERNSHIP]({ commit }, data) {
+      return api
+        .delete(config.url.deleteInternship)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "internshipInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+
+    //证书列表
+    [CERTIFICATE_LIST]({ commit }, params) {
+      return api
+        .get(config.url.listCertificate, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "certificateList",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //新增 证书
+    [INSERT_CERTIFICATE]({ commit }, data) {
+      return api
+        .post(config.url.insertCertificate, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "certificateInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //修改
+    [UPDATE_CERTIFICATE]({ commit }, data) {
+      return api
+        .put(config.url.updateCertificate, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "certificateInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //删除
+    [DELETE_CERTIFICATE]({ commit }, data) {
+      return api
+        .delete(config.url.deleteCertificate.replace("{id}", id))
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "certificateInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
     },
 
     //其他计划 列表
     [OTHERPLAN_LIST]({ commit }, params) {
-      return api.get(config.url.otherPlans, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'otherPlanList',
-          data: res.data
+      return api
+        .get(config.url.otherPlans, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "otherPlanList",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
-    /*
     //新增 其他列表
-    [INSERTOTHERPLAN]({ commit }, data) {
-      return api.post(config.url, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'otherPlanInfo',
-          data: res.data
+    [INSERT_OTHERPLAN]({ commit }, data) {
+      return api
+        .post(config.url, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "otherPlanInfo",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
     //修改
-    [OTHERPLANINFO]({ commit }, data) {
-      return api.put(config.url, params).then(res => {
-        commit('PLAN_SET', {
-          target: 'otherPlanInfo',
-          data: res.data
+    [UPDATE_OTHERPLAN]({ commit }, data) {
+      return api
+        .put(config.url, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "otherPlanInfo",
+            data: res.data
+          });
+          return res;
         })
-        return res
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
     //删除
-    [OTHERPLANINFO]({ commit }, data) {
-      return api.delete().then(res => {
-        commit('PLAN_SET', {
-          target: 'otherPlanInfo',
-          data: res.data
+    [DELETE_OTHERPLAN]({ commit }, data) {
+      return api
+        .delete()
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "otherPlanInfo",
+            data: res.data
+          });
         })
-      }).catch(err => {
-        return err
-      })
+        .catch(err => {
+          return err;
+        });
     },
-    */
 
+    //获取附加列表
+    [ADDITIONAL_LIST]({ commit }, params) {
+      return api
+        .get(config.url.listAdditions, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "additionalList",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //新增 附加计划
+    [INSERT_ADDITIONAL]({ commit }, data) {
+      return api
+        .post(config.url.insertAdditional, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "additionalInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //修改
+    [UPDATE_ADDITIONAL]({ commit }, data) {
+      return api
+        .put(config.url.updateAdditional, data)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "additionalInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //删除
+    [DELETE_ADDITIONAL]({ commit }, data) {
+      return api
+        .delete(config.url.deleteAdditional.replace("{id}", id))
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "additionalInfo",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    }
   },
   modules: {}
-}
+};

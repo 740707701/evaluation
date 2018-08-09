@@ -22,7 +22,10 @@ import PaySuccess from "../views/PaySuccess.vue";
 import Setting from "../views/PersonalCenter/Setting.vue";
 import Statistics from "../views/PersonalCenter/Statistics.vue";
 import News from "../views/PersonalCenter/News.vue";
-import CareerPlan from "../views/CareerPlan.vue";
+import CareerPlan from "../views/CareerPlan/CareerPlan.vue";
+import CareerPlanEntry from "../views/CareerPlan/PlanEntry.vue";
+import TermPlan from "../views/CareerPlan/TermPlan.vue";
+import PlanList from "../views/CareerPlan/PlanList.vue";
 import BookLibrary from "../views/BookLibrary.vue";
 import Agreement from "../views/Agreement.vue";
 import TemplateList from "../views/ResumeTemplate/TemplateList.vue";
@@ -114,6 +117,30 @@ const routes = [
     path: "/careerplan",
     name: "careerplan",
     component: CareerPlan,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: "/planEntry",
+    name: "planEntry",
+    component: CareerPlanEntry,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: "/termPlan",
+    name: "termPlan",
+    component: TermPlan,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: "/planList",
+    name: "planList",
+    component: PlanList,
     meta: {
       requireAuth: true
     }

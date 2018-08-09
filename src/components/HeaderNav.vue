@@ -6,8 +6,8 @@
           <img src="../assets/images/logo.svg" alt="" class="logo">
         </div>
         <ul class="nav-center">
-          <li @click="changeLogin(1, '/')" v-bind:class="{'active':$route.path=='/'}">职业测评</li>
-          <!-- <li @click="changeLogin(2, '/careerplan')" v-bind:class="{'active':$route.path=='/careerplan'}">大学规划与管理</li> -->
+          <li @click="changeLogin(1, '/')" v-bind:class="{'active':$route.path=='/'||$route.name=='coursedetail'}">职业测评</li>
+          <li @click="changeLogin(2, '/termPlan')" v-bind:class="{'active':$route.path=='/careerplan'||$route.path=='/termPlan'||$route.path=='/planEntry'}">大学规划与管理</li>
           <li @click="changeLogin(3, '/resume')" v-bind:class="{'active':$route.path=='/resume'}">我的简历</li>
           <!-- <li @click="changeLogin(4, '/industryintro')" v-bind:class="{'active':$route.path=='/industryintro'}">书籍库</li> -->
         </ul>
@@ -146,7 +146,29 @@ export default {
         if(id == 1){
           this.$router.push({ path: '/' })
         }else if(id == 2){
-          this.$router.push({ path: '/careerplan' })
+          let params = {
+            userId: userInfo.id
+          }
+          this.$store.dispatch('PLANLIST', params).then(res => {
+            console.log(res)
+            if(res.data.length){
+              this.$router.push({ path: '/termPlan' })
+            }else {
+              this.$router.push({ path: '/planEntry' })
+            }
+          }).catch(err => {
+            if(err.data.msg){
+              this.$message({
+                type: "error",
+                message: err.data.msg
+              })
+            }else {
+              this.$message({
+                type: "error",
+                message: "检查是否添加过规划失败，请稍后重试！"
+              })
+            }
+          })
         }else if (id == 3){
           this.$store.dispatch('CHECK_RESUME').then(res => {
             if(res.data == 0){
