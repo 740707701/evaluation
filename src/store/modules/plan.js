@@ -5,9 +5,14 @@ const PLAN_SET = "PLAN_SET";
 
 const PLANINFO = "PLANINFO";
 const PLANLIST = "PLANLIST";
-
 const OPENPLAN = "OPENPLAN";
 const SUBMITPLAN = "SUBMITPLAN";
+
+const CERTIFICATE_DATA = "CERTIFICATE_DATA";
+const CATEGORY_DATA = "CATEGORY_DATA";
+const BOOK_DATA = "BOOK_DATA";
+const OFFICE_DATA = "OFFICE_DATA";
+const VOCATION_DATA = "VOCATION_DATA";
 
 const ADDITIONAL_LIST = "ADDITIONAL_LIST";
 const INSERT_ADDITIONAL = "INSERT_ADDITIONAL";
@@ -68,6 +73,11 @@ export default {
   state: {
     planInfo: {}, //规划内容
     planList: [], //规划列表
+    certificateData: [],
+    categoryData: [],
+    bookData: [],
+    officeData: [],
+    vocationData: [],
     requiredList: [], //必修课
     requiredInfo: {},
     optionalList: [], //选修课
@@ -138,6 +148,82 @@ export default {
       });
     },
 
+    //所有证书列表
+    [CERTIFICATE_DATA]({ commit }, params) {
+      return api
+        .get(config.url.certificateData, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "certificateData",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //所有书籍分类
+    [CATEGORY_DATA]({ commit }, params) {
+      return api
+        .get(config.url.categoryData, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "categoryData",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //所有的书列表
+    [BOOK_DATA]({ commit }, params) {
+      return api
+        .get(config.url.bookData, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "bookData",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //所有办公技能列表
+    [OFFICE_DATA]({ commit }, params) {
+      return api
+        .get(config.url.officeData, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "officeData",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+    //所有职业能力列表
+    [VOCATION_DATA]({ commit }, params) {
+      return api
+        .get(config.url.vocationData, params)
+        .then(res => {
+          commit("PLAN_SET", {
+            target: "vocationData",
+            data: res.data
+          });
+          return res;
+        })
+        .catch(err => {
+          return err;
+        });
+    },
+
     //必修课列表
     [REQUIRED_LIST]({ commit }, params) {
       return api
@@ -184,10 +270,11 @@ export default {
         });
     },
     //删除
-    [DELETE_REQUIRED]({ commit }, data) {
+    [DELETE_REQUIRED]({ commit }, params) {
       return api
-        .delete(config.url.deleteRequired.replace("{id}", id))
+        .delete(config.url.deleteRequired, params)
         .then(res => {
+          console.log(res);
           commit("PLAN_SET", {
             target: "requiredInfo",
             data: res.data
@@ -247,7 +334,7 @@ export default {
     //删除
     [DELETE_OPTIONAL]({ commit }, data) {
       return api
-        .delete(config.url.deleteOptional.replace("{id}", id))
+        .delete(config.url.deleteOptional, data)
         .then(res => {
           commit("PLAN_SET", {
             target: "optionalInfo",
@@ -308,7 +395,7 @@ export default {
     //删除
     [DELETE_SELF]({ commit }, data) {
       return api
-        .delete(config.url.deleteSelf.replace("{id}", id))
+        .delete(config.url.deleteSelf, data)
         .then(res => {
           commit("PLAN_SET", {
             target: "selfInfo",
@@ -369,7 +456,7 @@ export default {
     //删除
     [DELETE_PROF]({ commit }, data) {
       return api
-        .delete(config.url.deleteProf.replace("{id}", id))
+        .delete(config.url.deleteProf, data)
         .then(res => {
           commit("PLAN_SET", {
             target: "profInfo",
@@ -430,7 +517,7 @@ export default {
     //删除
     [DELETE_PREAD]({ commit }, data) {
       return api
-        .delete(config.url.deletePread.replace("{id}", id))
+        .delete(config.url.deletePread, data)
         .then(res => {
           commit("PLAN_SET", {
             target: "preadInfo",
@@ -491,7 +578,7 @@ export default {
     //删除
     [DELETE_OFFICE]({ commit }, data) {
       return api
-        .delete(config.url.deleteOffice.replace("{id}", id))
+        .delete(config.url.deleteOffice, data)
         .then(res => {
           commit("PLAN_SET", {
             target: "officeInfo",
@@ -552,7 +639,7 @@ export default {
     //删除
     [DELETE_VOCATION]({ commit }, data) {
       return api
-        .delete(config.url.deleteVocation.replace("{id}", id))
+        .delete(config.url.deleteVocation, data)
         .then(res => {
           commit("PLAN_SET", {
             target: "vocationInfo",
@@ -613,7 +700,7 @@ export default {
     //删除
     [DELETE_INTERNSHIP]({ commit }, data) {
       return api
-        .delete(config.url.deleteInternship)
+        .delete(config.url.deleteInternship, data)
         .then(res => {
           commit("PLAN_SET", {
             target: "internshipInfo",
@@ -674,7 +761,7 @@ export default {
     //删除
     [DELETE_CERTIFICATE]({ commit }, data) {
       return api
-        .delete(config.url.deleteCertificate.replace("{id}", id))
+        .delete(config.url.deleteCertificate, data)
         .then(res => {
           commit("PLAN_SET", {
             target: "certificateInfo",
@@ -795,7 +882,7 @@ export default {
     //删除
     [DELETE_ADDITIONAL]({ commit }, data) {
       return api
-        .delete(config.url.deleteAdditional.replace("{id}", id))
+        .delete(config.url.deleteAdditional, data)
         .then(res => {
           commit("PLAN_SET", {
             target: "additionalInfo",

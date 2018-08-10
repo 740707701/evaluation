@@ -11,7 +11,7 @@
             <div class="sub-title">专业学习计划</div>
             <div class="item-list">
               <el-checkbox-group v-model="plan_options" @change="checkPlan">
-                <el-checkbox v-for="skill in planOptions.slice(0,5)" :label="skill" :key="skill.title" :checked="skill.checked">{{skill.title}}</el-checkbox>
+                <el-checkbox v-for="(skill,index) in planOptions.slice(0,5)" :label="skill" :key="index" :checked="skill.checked">{{skill.title}}</el-checkbox>
               </el-checkbox-group>
             </div>
           </div>
@@ -19,8 +19,8 @@
             <div class="sub-title">职业能力计划</div>
             <div class="item-list">
               <el-checkbox-group v-model="plan_options" @change="checkPlan">
-                <el-checkbox v-for="skill in planOptions.slice(5,8)" :label="skill" 
-                :key="skill.title" :checked="skill.checked">{{skill.title}}</el-checkbox>
+                <el-checkbox v-for="(skill,index) in planOptions.slice(5,8)" :label="skill" 
+                :key="index" :checked="skill.checked">{{skill.title}}</el-checkbox>
               </el-checkbox-group>
             </div>
           </div>
@@ -38,8 +38,8 @@
           </div>
           <div class="right-container">
             <el-carousel height="100%" :autoplay="false" arrow="always" indicator-position="none">
-              <el-carousel-item v-for="item in plan_options" :key="item.title">
-                <plan :plan="item" :planId="planId"></plan>
+              <el-carousel-item v-for="(item,index) in plan_options" :key="index">
+                <plan :plan="item" :planId="planId" @updateList="postPlan"></plan>
               </el-carousel-item>
             </el-carousel>
             <!-- <div v-for="item in plan_options" :key="item">{{item}}</div> -->
@@ -138,15 +138,7 @@
                 name: '课程名称',
                 placeholder: '请输入课程名称',
                 selectValue: '',
-                options:  [
-                  {
-                    value: '选项1',
-                    label: '黄金糕'
-                  }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                  }
-                ],
+                options:  [],
               },
               {
                 name: '计划分数',
@@ -198,17 +190,9 @@
             inputBox: [
               {
                 name: '书籍名称',
-                placeholder: '请输入书籍名称',
+                placeholder: '请选择书籍名称',
                 selectValue: '',
-                options:  [
-                  {
-                    value: '选项1',
-                    label: '黄金糕'
-                  }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                  }
-                ],
+                options:  [],
               },
               {
                 name: '书籍类型',
@@ -232,8 +216,8 @@
             listTitle: "办公技能计划",
             inputBox: [
               {
-                name: '课程名称',
-                placeholder: '请输入课程名称',
+                name: '技能名称',
+                placeholder: '请选择技能名称',
                 selectValue: '',
                 options:  [
                   {
@@ -244,17 +228,11 @@
                     label: '双皮奶'
                   }
                 ],
-              },
-              {
-                name: '计划分数',
-                placeholder: '请输入计划分数',
-                selectValue: '',
-                options: []
               }
             ],
             textareaBox: [
               {
-                name: '课程目标',
+                name: '计划内容',
                 placeholder: '仅限30个字',
                 maxlength: 30,
                 value: ''
@@ -341,9 +319,31 @@
             ]
           },
           {
+            type: "additions",
+            title: "其他计划",
+            listTitle: "其他计划",
+            inputBox: [
+              {
+                name: '计划名称',
+                placeholder: '请输入名称',
+                selectValue: '',
+                options:  [],
+              }
+            ],
+            textareaBox: [
+              {
+                name: '计划内容',
+                placeholder: '仅限30个字',
+                maxlength: 30,
+                value: ''
+              },
+            ]
+          },
+        /*
+          {
             type: "otherPlans",
             title: "其他计划",
-            listTitle: "证书计划",
+            listTitle: "其他计划",
             inputBox: [
               {
                 name: '计划名称',
@@ -370,27 +370,7 @@
               },
             ]
           },
-          {
-            type: "additions",
-            title: "附加信息",
-            listTitle: "附加计划",
-            inputBox: [
-              {
-                name: '附加计划名称',
-                placeholder: '请输入名称',
-                selectValue: '',
-                options:  [],
-              }
-            ],
-            textareaBox: [
-              {
-                name: '计划内容',
-                placeholder: '仅限30个字',
-                maxlength: 30,
-                value: ''
-              },
-            ]
-          },
+        */
         ],
 
       };
@@ -403,6 +383,12 @@
     methods: {
       postPlan: function(data){
         console.log('adddata',data)
+        this.getPlanInfo()
+        // this.plan_options.map(item => {
+        //   if(item.type == data.type){
+        //     item[data.type+'List'] = data.list
+        //   }
+        // })
       },
       checkPlan: function(){
         console.log(this.plan_options)
@@ -421,9 +407,44 @@
               }
             }
           }
+          this.getMetaData()
           console.log(this.plan_options)
         }).catch(err => {
           console.log(err)
+        })
+      },
+      getMetaData(){
+        Promise.all([
+          this.$store.dispatch("CERTIFICATE_DATA"), //证书列表
+          this.$store.dispatch("CATEGORY_DATA"), //书籍分类
+          this.$store.dispatch("BOOK_DATA"), //所有的书列表
+          this.$store.dispatch("OFFICE_DATA"), //所有的办公技能列表
+          this.$store.dispatch("VOCATION_DATA"), //所有职业能力列表
+        ]).then(res => {
+          this.plan_options.map(item => {
+            if(item.type == 'certificates'){
+              item.inputBox[0].options = res[0].data
+            }else if(item.type == 'pread'){
+              item.inputBox[0].options = res[2].data
+              item.inputBox[1].options = res[1].data
+            }else if(item.type == 'officeSkills'){
+              item.inputBox[0].options = res[3].data
+            }else if(item.type == 'vocations'){
+              item.inputBox[0].options = res[4].data
+            }
+          })
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取字典数据失败"
+            });
+          }
         })
       }
     },
@@ -531,12 +552,18 @@
         height: calc(100% - 50px);
         padding: 20px;
         position: relative;
-        overflow: hidden;
+        // overflow: hidden;
+        .el-carousel {
+          overflow-y: scroll;
+        }
+        .el-carousel__item {
+          overflow: auto;
+        }
         .el-carousel__arrow {
           background-color: @main-color-blue;
           color: #fff;
           position: absolute;
-          top: 90%;
+          top: 260px; //77%;
         }
         .el-carousel {
           height: 100%;

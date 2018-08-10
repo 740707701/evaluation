@@ -105,6 +105,14 @@ export default {
 
 
     //大学规划与管理
+
+    //字典
+    certificateData: 'plan/certificateList',
+    categoryData: 'plan/category',
+    bookData: 'plan/bookList',
+    officeData: 'plan/officeList',
+    vocationData: 'plan/vocationList',
+
     //附加计划
     insertAdditional: 'plan/insertAdditional',
     deleteAdditional: 'plan/deleteAdditional',
@@ -151,7 +159,7 @@ export default {
     insertRequired: 'plan/insertRequired',
     deleteRequired: 'plan/deleteRequired',
     updateRequired: 'plan/updateRequired',
-    listReruired: 'plan/listRequired',
+    listRequired: 'plan/listRequired',
 
     //自学课
     insertSelf: 'plan/insertSelf',

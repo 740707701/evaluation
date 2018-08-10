@@ -11,9 +11,9 @@
             <el-select size="small" v-if="item.options?item.options.length:item.options" v-model="input[index]" :placeholder="item.placeholder">
               <el-option
                 v-for="item in item.options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.label">
+                :key="item.id"
+                :label="item.name"
+                :value="item.name">
               </el-option>
             </el-select>
           </div>
@@ -34,24 +34,178 @@
           </div> -->
         </div>
       </div>
+      <div class="list-title">{{plan.listTitle}}</div>
       <ul class="item-list">
-        <li class="item" v-if="plan.type=='requireds'" v-for="(item,index) in plan.requiredsList" :key="index">
+        <li class="item" v-if="plan.type=='requireds'" v-for="(item,index) in requiredsList" :key="index">
           <div class="item-icon">
             <i class="el-icon-bell"></i>
           </div>
           <div class="item-title">
             <div class="name">{{item.courseName}}</div>
-            <div class="score">{{item.score}}</div>
+            <div class="score">{{item.score}}<span>分</span></div>
           </div>
           <div class="item-desc">
-            <div class="name">描述</div>
+            <div class="name">课程目标</div>
             <div class="desc-text">{{item.goal}}</div>
           </div>
-          <div class="item-del" @click="deletePlan(item.id)">
+          <div class="item-del" @click="confirmDeletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item" v-if="plan.type=='options'" v-for="(item,index) in optionsList" :key="index">
+          <div class="item-icon">
+            <i class="el-icon-bell"></i>
+          </div>
+          <div class="item-title">
+            <div class="name">{{item.courseName}}</div>
+            <div class="score">{{item.score}}
+              <span>分</span>
+            </div>
+          </div>
+          <div class="item-desc">
+            <div class="name">课程目标：</div>
+            <div class="desc-text">{{item.goal}}</div>
+          </div>
+          <div class="item-del" @click="confirmDeletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item" v-if="plan.type=='selfs'" v-for="(item,index) in selfsList" :key="index">
+          <div class="item-icon">
+            <i class="el-icon-bell"></i>
+          </div>
+          <div class="item-title">
+            <div class="name">{{item.courseName}}</div>
+            <div class="score">{{item.score}}
+              <span>分</span>
+            </div>
+          </div>
+          <div class="item-desc">
+            <div class="name">课程目标：</div>
+            <div class="desc-text">{{item.goal}}</div>
+          </div>
+          <div class="item-del" @click="confirmDeletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item" v-if="plan.type=='profs'" v-for="(item,index) in profsList" :key="index">
+          <div class="item-icon">
+            <i class="el-icon-bell"></i>
+          </div>
+          <div class="item-title">
+            <div class="name">{{item.name}}</div>
+          </div>
+          <div class="item-desc">
+            <div class="name">大赛目标：</div>
+            <div class="desc-text">{{item.goal}}</div>
+          </div>
+          <div class="item-del" @click="confirmDeletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item" v-if="plan.type=='pread'" v-for="(item,index) in preadList" :key="index">
+          <div class="item-icon">
+            <i class="el-icon-bell"></i>
+          </div>
+          <div class="item-title">
+            <div class="name">{{item.name}}</div>
+          </div>
+          <div class="item-desc">
+            <div class="name">阅读计划：</div>
+            <div class="desc-text">{{item.content}}</div>
+          </div>
+          <div class="item-del" @click="confirmDeletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item office" v-if="plan.type=='officeSkills'" v-for="(item,index) in officeSkillsList" :key="index">
+          <div class="item-icon">
+            <i class="el-icon-bell"></i>
+          </div>
+          <div class="item-title">
+            <div class="name">{{item.name}}</div>
+          </div>
+          <div class="item-desc">
+            <div class="name">计划内容：</div>
+            <div class="desc-text">{{item.desc}}</div>
+          </div>
+          <div class="item-del" @click="confirmDeletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item" v-if="plan.type=='vocations'" v-for="(item,index) in vocationsList" :key="index">
+          <div class="item-icon">
+            <i class="el-icon-bell"></i>
+          </div>
+          <div class="item-title">
+            <div class="name">{{item.name}}</div>
+          </div>
+          <div class="item-desc">
+            <div class="name">计划内容：</div>
+            <div class="desc-text">{{item.goal}}</div>
+          </div>
+          <div class="item-del" @click="confirmDeletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item" v-if="plan.type=='internships'" v-for="(item,index) in internshipsList" :key="index">
+          <div class="item-icon">
+            <i class="el-icon-bell"></i>
+          </div>
+          <div class="item-desc">
+            <div class="name">计划内容：</div>
+            <div class="desc-text">{{item.content}}</div>
+          </div>
+          <div class="item-desc">
+            <div class="name">实习实践目标：</div>
+            <div class="desc-text">{{item.score}}</div>
+          </div>
+          <div class="item-del" @click="confirmDeletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item certificates" v-if="plan.type=='certificates'" v-for="(item,index) in certificatesList" :key="index">
+          <div class="item-icon">
+            <i class="el-icon-bell"></i>
+          </div>
+          <div class="item-title">
+            <div class="name">{{item.name}}</div>
+            <i class="iconfont icon-skill"></i>
+          </div>
+          <div class="item-desc">
+            <div class="name">计划内容：</div>
+            <div class="desc-text">{{item.content}}</div>
+          </div>
+          <div class="item-del" @click="confirmDeletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item" v-if="plan.type=='additions'" v-for="(item,index) in additionsList" :key="index">
+          <div class="item-icon">
+            <i class="el-icon-bell"></i>
+          </div>
+          <div class="item-title">
+            <div class="name">{{item.additionalName}}</div>
+          </div>
+          <div class="item-desc">
+            <div class="name">计划内容：</div>
+            <div class="desc-text">{{item.additionalDesc}}</div>
+          </div>
+          <div class="item-del" @click="confirmDeletePlan(item)">
             <i class="el-icon-delete"></i>
           </div>
         </li>
       </ul>
+      <!-- <el-dialog
+        title="提示"
+        :visible.sync="dialogVisible"
+        :before-close="handleClose">
+        <span>是否确定删除？</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="confirmDeletePlan">确 定</el-button>
+        </span>
+      </el-dialog> -->
     </div>
 </template>
 <script>
@@ -59,13 +213,14 @@ import api from '../api/index'
 import config from '../api/config'
 export default {
   name: 'plan',
-  // props: ['title', 'inputBox', 'textareaBox', 'target', "type", "planList", "planId"],
   props: ["plan", "planId"],
   data(){
     return { 
+      dialogVisible: false,
       input:[],
       select: [],
       textarea: [],
+      optionsInfo: {}, //当前选项信息
       requiredsList: [],
       optionsList: [],
       selfsList: [],
@@ -79,11 +234,12 @@ export default {
       additionsList: []
     }
   },
-  created(){
+  created(){},
+  mounted(){
+    this[this.plan.type+'List'] = this.plan[this.plan.type+'List']
   },
   methods: {
     post(){
-      console.log(this.inputBox)
       if(this.plan.type == 'requireds'){
         let data = {
           courseName: this.input[0],
@@ -157,41 +313,211 @@ export default {
       }
       else if(this.plan.type == 'profs'){
         //专业大赛
+        let data = {
+          name: this.input[0],
+          goal: this.textarea[0],
+          desc: this.textarea[1],
+          planId: this.planId
+        }
+        this.$store.dispatch('INSERT_PROF', data).then(res => {
+          this.getPlanList()
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "保存失败！"
+            });
+          }
+        })
       }
       else if(this.plan.type == 'pread'){
         //专业阅读
+        let data = {
+          name: this.input[0],
+          type: this.input[1],
+          content: this.textarea[0],
+          mode: 0,
+          planId: this.planId
+        }
+        this.$store.dispatch('INSERT_PREAD', data).then(res => {
+          this.getPlanList()
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "保存失败！"
+            });
+          }
+        })
       }
       else if(this.plan.type == 'officeSkills'){
         //办公技能
+        let data = {
+          name: this.input[0],
+          desc: this.textarea[0],
+          planId: this.planId
+        }
+        this.$store.dispatch('INSERT_OFFICE', data).then(res => {
+          this.getPlanList()
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "保存失败！"
+            });
+          }
+        })
       }
       else if(this.plan.type == 'vocations'){
         //职业能力
+        let data = {
+          name: this.input[0],
+          goal: this.textarea[0],
+          planId: this.planId
+        }
+        this.$store.dispatch('INSERT_VOCATION', data).then(res => {
+          this.getPlanList()
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "保存失败！"
+            });
+          }
+        })
       }
       else if(this.plan.type == 'internships'){
         //实习实践
+        let data = {
+          content: this.textarea[0],
+          score: this.textarea[1],
+          planId: this.planId
+        }
+        this.$store.dispatch('INSERT_INTERNSHIP', data).then(res => {
+          this.getPlanList()
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "保存失败！"
+            });
+          }
+        })
       }
       else if(this.plan.type == 'certificates'){
         //证书计划
-      }
-      else if(this.plan.type == 'otherPlans'){
-        //其他计划
+        let data = {
+          name: this.input[0] || this.input[1],
+          content: this.textarea[0],
+          planId: this.planId
+        }
+        this.$store.dispatch('INSERT_CERTIFICATE', data).then(res => {
+          this.getPlanList()
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "保存失败！"
+            });
+          }
+        })
       }
       else if(this.plan.type == 'additions'){
-        //附加计划
+        //其他计划
+        let data = {
+          additionalName: this.input[0],
+          additionalDesc: this.textarea[0],
+          planId: this.planId
+        }
+        this.$store.dispatch('INSERT_ADDITIONAL', data).then(res => {
+          this.getPlanList()
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "保存失败！"
+            });
+          }
+        })
       }
     },
     getPlanList(){
       //additions,certificates,internships,officeSkills,
       //options,otherPlans,profs,pread,jread,selfs,required,vocations
+      //清空表单数据
+      this.input = []
+      this.textarea = []
       let data = {
         id: this.planId,
         data: this.plan.type
       }
       this.$store.dispatch('PLANINFO', data).then(res => {
-        this.plan[this.plan.type+'List'] = res.data[this.plan.type];
-        console.log(this.plan[this.plan.type+'List'])
+        this[this.plan.type+'List'] = res.data[this.plan.type];
+        // console.log(this[this.plan.type+'List'])
       }).catch(err => {
         if (err.data.msg) {
+          this.$message({
+            type: "error",
+            message: err.data.msg
+          });
+        } else {
+          this.$message({
+            type: "error",
+            message: "获取计划列表失败！"
+          });
+        }
+      })
+    },
+    deletePlan(item){
+      this.optionsInfo = item;
+      this.dialogVisible = true
+    },
+    confirmDeletePlan(item){
+      this.optionsInfo = item;
+      let data = {
+        id: this.optionsInfo.id
+      }
+      if(this.plan.type == 'requireds'){
+        this.$store.dispatch('DELETE_REQUIRED', data).then(res => {
+          this.getPlanList()
+        }).catch(err =>{
+          console.log(err)
+          if (err.data.msg) {
             this.$message({
               type: "error",
               message: err.data.msg
@@ -202,7 +528,187 @@ export default {
               message: "获取计划列表失败！"
             });
           }
-      })
+        })
+      }
+      else if(this.plan.type == 'options'){
+        this.$store.dispatch('DELETE_OPTIONAL', data).then(res => {
+          this.getPlanList()
+        }).catch(err =>{
+          console.log(err)
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取计划列表失败！"
+            });
+          }
+        })
+      }
+      else if(this.plan.type == 'selfs'){
+        this.$store.dispatch('DELETE_SELF', data).then(res => {
+          this.getPlanList()
+        }).catch(err =>{
+          console.log(err)
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取计划列表失败！"
+            });
+          }
+        })
+      }
+      else if(this.plan.type == 'profs'){
+        //专业大赛
+        this.$store.dispatch('DELETE_PROF', data).then(res => {
+          this.getPlanList()
+        }).catch(err =>{
+          console.log(err)
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取计划列表失败！"
+            });
+          }
+        })
+      }
+      else if(this.plan.type == 'pread'){
+        //专业阅读
+        this.$store.dispatch('DELETE_PREAD', data).then(res => {
+          this.getPlanList()
+        }).catch(err =>{
+          console.log(err)
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取计划列表失败！"
+            });
+          }
+        })
+      }
+      else if(this.plan.type == 'officeSkills'){
+        //办公技能
+        this.$store.dispatch('DELETE_OFFICE', data).then(res => {
+          this.getPlanList()
+        }).catch(err =>{
+          console.log(err)
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取计划列表失败！"
+            });
+          }
+        })
+      }
+      else if(this.plan.type == 'vocations'){
+        //职业能力
+        this.$store.dispatch('DELETE_VOCATION', data).then(res => {
+          this.getPlanList()
+        }).catch(err =>{
+          console.log(err)
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取计划列表失败！"
+            });
+          }
+        })
+      }
+      else if(this.plan.type == 'internships'){
+        //实习实践
+        this.$store.dispatch('DELETE_INTERNSHIP', data).then(res => {
+          this.getPlanList()
+        }).catch(err =>{
+          console.log(err)
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取计划列表失败！"
+            });
+          }
+        })
+      }
+      else if(this.plan.type == 'certificates'){
+        //证书计划
+        this.$store.dispatch('DELETE_CERTIFICATE', data).then(res => {
+          this.getPlanList()
+        }).catch(err =>{
+          console.log(err)
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取计划列表失败！"
+            });
+          }
+        })
+      }
+      else if(this.plan.type == 'additions'){
+        //其他计划
+        this.$store.dispatch('DELETE_ADDITIONAL', data).then(res => {
+          this.getPlanList()
+        }).catch(err =>{
+          console.log(err)
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取计划列表失败！"
+            });
+          }
+        })
+      }
+      else if(this.plan.type == 'otherPlans'){
+        //附加计划
+      }
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     }
   },
 }
@@ -287,17 +793,28 @@ export default {
         }
       }
     }
+    .list-title {
+      width: 100%;
+      height: 22px;
+      line-height: 22px;
+      padding-left: 10px;
+      margin-bottom: 15px;
+      border-left: 2px solid @main-color-blue;
+    }
     .item-list {
       width: 100%;
-      display: flex;
+      display: inline-block;
+      // display: flex;
       // box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
       .item {
-        max-width: 25%;
-        flex: 1 1 auto;
+        float: left;
+        width: 22%;
+        height: 200px;
+        // flex: 1 1 auto;
         border: 1px solid @main-color-border;
         border-radius: 4px;
         box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
-        margin: 0 10px;
+        margin: 0 10px 20px 10px;
         padding: 0 10px 10px 10px;
         position: relative;
         .item-icon {
@@ -316,13 +833,21 @@ export default {
             float: right;
             font-size: 30px;
             color: RGBA(255, 116, 129, 1);
+            span {
+              font-size: 14px;
+            }
           }
+        }
+        .item-desc:last-child {
+          margin-bottom: 0;
         }
         .item-desc {
           color: @main-color-gray;
           font-size: 12px;
+          margin-bottom: 10px;
           .name {
             line-height: 20px;
+            margin-bottom: 6px;
           }
           .desc-text {
             line-height: 16px;
@@ -337,7 +862,7 @@ export default {
           background-color: RGBA(250, 169, 174, 1);
           color: #fff;
           cursor: pointer;
-          display: none;
+          // display: none;
           position: absolute;
           bottom: 10px;
           right: 10px;
@@ -346,6 +871,13 @@ export default {
       .item:hover {
         .item-del {
           display: inline-block;
+        }
+      }
+      .certificates {
+        .icon-skill {
+          float: right;
+          color: @main-color-blue;
+          font-size: 30px;
         }
       }
     }

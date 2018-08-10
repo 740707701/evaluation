@@ -64,7 +64,7 @@ export default {
   }
   */
   .el-carousel {
-    overflow-y: hidden;
+    // overflow-y: hidden;
   }
   .el-carousel__indicators {
     bottom: 20px;
