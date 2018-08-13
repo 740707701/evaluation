@@ -25,20 +25,20 @@
           </div>
         </div>
         <div class="post-btn">
-          <!-- <div class="pager-btn left-btn">
+          <div class="pager-btn left-btn" @click="prev" :class="noPrev?'disabled':''">
             <i class="iconfont icon-arrow-left-line"></i>
-          </div> -->
+          </div>
           <el-button size="small" class="complete-btn btn" @click="post()">完成</el-button>
-          <!-- <div class="pager-btn right-btn">
+          <div class="pager-btn right-btn" @click="next" :class="noNext?'disabled':''">
             <i class="iconfont icon-arrow-right-line"></i>
-          </div> -->
+          </div>
         </div>
       </div>
       <div class="list-title">{{plan.listTitle}}</div>
       <ul class="item-list">
         <li class="item" v-if="plan.type=='requireds'" v-for="(item,index) in requiredsList" :key="index">
           <div class="item-icon">
-            <i class="el-icon-bell"></i>
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
           <div class="item-title">
             <div class="name">{{item.courseName}}</div>
@@ -54,7 +54,7 @@
         </li>
         <li class="item" v-if="plan.type=='options'" v-for="(item,index) in optionsList" :key="index">
           <div class="item-icon">
-            <i class="el-icon-bell"></i>
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
           <div class="item-title">
             <div class="name">{{item.courseName}}</div>
@@ -72,7 +72,7 @@
         </li>
         <li class="item" v-if="plan.type=='selfs'" v-for="(item,index) in selfsList" :key="index">
           <div class="item-icon">
-            <i class="el-icon-bell"></i>
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
           <div class="item-title">
             <div class="name">{{item.courseName}}</div>
@@ -90,7 +90,7 @@
         </li>
         <li class="item" v-if="plan.type=='profs'" v-for="(item,index) in profsList" :key="index">
           <div class="item-icon">
-            <i class="el-icon-bell"></i>
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
           <div class="item-title">
             <div class="name">{{item.name}}</div>
@@ -105,7 +105,7 @@
         </li>
         <li class="item" v-if="plan.type=='pread'" v-for="(item,index) in preadList" :key="index">
           <div class="item-icon">
-            <i class="el-icon-bell"></i>
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
           <div class="item-title">
             <div class="name">{{item.name}}</div>
@@ -120,10 +120,20 @@
         </li>
         <li class="item office" v-if="plan.type=='officeSkills'" v-for="(item,index) in officeSkillsList" :key="index">
           <div class="item-icon">
-            <i class="el-icon-bell"></i>
+            <!-- <img src="../assets/images/plan-arrow-icon.png" alt=""> -->
+            <img v-if="item.name=='word能力'" src="../assets/images/word-arrow-icon.png" alt="">
+            <img v-if="item.name=='ppt能力'" src="../assets/images/ppt-arrow-icon.png" alt="">
+            <img v-if="item.name=='excel能力'" src="../assets/images/excel-arrow-icon.png" alt="">
+            <img v-if="item.name=='xmind能力'" src="../assets/images/xmind-arrow-icon.png" alt="">
           </div>
           <div class="item-title">
             <div class="name">{{item.name}}</div>
+            <div class="icon-box">
+              <img v-if="item.name=='word能力'" src="../assets/images/word-icon.png" alt="">
+              <img v-if="item.name=='ppt能力'" src="../assets/images/ppt-icon.png" alt="">
+              <img v-if="item.name=='excel能力'" src="../assets/images/excel-icon.png" alt="">
+              <img v-if="item.name=='xmind能力'" src="../assets/images/xmind-icon.png" alt="">
+            </div>
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
@@ -135,7 +145,7 @@
         </li>
         <li class="item" v-if="plan.type=='vocations'" v-for="(item,index) in vocationsList" :key="index">
           <div class="item-icon">
-            <i class="el-icon-bell"></i>
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
           <div class="item-title">
             <div class="name">{{item.name}}</div>
@@ -150,7 +160,7 @@
         </li>
         <li class="item" v-if="plan.type=='internships'" v-for="(item,index) in internshipsList" :key="index">
           <div class="item-icon">
-            <i class="el-icon-bell"></i>
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
@@ -166,7 +176,7 @@
         </li>
         <li class="item certificates" v-if="plan.type=='certificates'" v-for="(item,index) in certificatesList" :key="index">
           <div class="item-icon">
-            <i class="el-icon-bell"></i>
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
           <div class="item-title">
             <div class="name">{{item.name}}</div>
@@ -182,7 +192,7 @@
         </li>
         <li class="item" v-if="plan.type=='additions'" v-for="(item,index) in additionsList" :key="index">
           <div class="item-icon">
-            <i class="el-icon-bell"></i>
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
           <div class="item-title">
             <div class="name">{{item.additionalName}}</div>
@@ -213,10 +223,11 @@ import api from '../api/index'
 import config from '../api/config'
 export default {
   name: 'plan',
-  props: ["plan", "planId"],
+  props: ["plan", "planId", "noNext", "noPrev"],
   data(){
     return { 
       dialogVisible: false,
+      planIndex: 0,
       input:[],
       select: [],
       textarea: [],
@@ -505,7 +516,7 @@ export default {
     },
     deletePlan(item){
       this.optionsInfo = item;
-      this.dialogVisible = true
+      this.dialogVisible = true;
     },
     confirmDeletePlan(item){
       this.optionsInfo = item;
@@ -709,7 +720,13 @@ export default {
           done();
         })
         .catch(_ => {});
-    }
+    },
+    prev(){
+      this.$emit("prev")
+    },
+    next(){
+      this.$emit("next")
+    },
   },
 }
 </script>
@@ -717,7 +734,7 @@ export default {
   @import "../assets/css/colors.less";
   .plan-content {
     width: 100%;
-    // height: 100%;
+    height: 100%;
     background-color: #fff;
     border-radius: 8px;
     // box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
@@ -757,7 +774,7 @@ export default {
         }
         .textarea {
           width: calc(100% - 30px);
-          min-height: 10px;
+          min-height: 90px;
           border: 1px solid @main-color-border;
           border-radius: 8px;
           padding: 15px;
@@ -829,6 +846,11 @@ export default {
             font-weight: bold;
             font-size: 12px;
           }
+          .icon-box {
+            float: right;
+            width: 22px;
+            height: 22px;
+          }
           .score {
             float: right;
             font-size: 30px;
@@ -859,10 +881,9 @@ export default {
           line-height: 26px;
           text-align: center;
           border-radius: 15px;
-          background-color: RGBA(250, 169, 174, 1);
+          background-color: @main-color-blue;
           color: #fff;
           cursor: pointer;
-          // display: none;
           position: absolute;
           bottom: 10px;
           right: 10px;

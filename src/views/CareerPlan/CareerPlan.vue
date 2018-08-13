@@ -11,7 +11,7 @@
             <div class="sub-title">专业学习计划</div>
             <div class="item-list">
               <el-checkbox-group v-model="plan_options" @change="checkPlan">
-                <el-checkbox v-for="(skill,index) in planOptions.slice(0,5)" :label="skill" :key="index" :checked="skill.checked">{{skill.title}}</el-checkbox>
+                <el-checkbox v-for="(skill,index) in planOptions.slice(0,5)" :label="skill" :key="index">{{skill.title}}</el-checkbox>
               </el-checkbox-group>
             </div>
           </div>
@@ -20,14 +20,23 @@
             <div class="item-list">
               <el-checkbox-group v-model="plan_options" @change="checkPlan">
                 <el-checkbox v-for="(skill,index) in planOptions.slice(5,8)" :label="skill" 
-                :key="index" :checked="skill.checked">{{skill.title}}</el-checkbox>
+                :key="index">{{skill.title}}</el-checkbox>
               </el-checkbox-group>
             </div>
           </div>
           <div class="add-box" v-for="(other,index) in planOptions.slice(8)" :key="index">
             <div class="name">{{other.title}}</div>
-            <div class="add-icon">
+            <div class="add-icon" v-if="!hasCertificatePlan&&other.type=='certificates'" @click="addPlanOption(other)">
               <i class="el-icon-plus"></i>
+            </div>
+            <div class="add-icon" v-if="!hasAdditionPlan&&other.type=='additions'" @click="addPlanOption(other)">
+              <i class="el-icon-plus"></i>
+            </div>
+            <div class="add-icon checked" v-if="hasCertificatePlan&&other.type=='certificates'" @click="deletePlanOption(other)">
+              <i class="el-icon-minus"></i>
+            </div>
+            <div class="add-icon checked" v-if="hasAdditionPlan&&other.type=='additions'" @click="deletePlanOption(other)">
+              <i class="el-icon-minus"></i>
             </div>
           </div>
         </el-col>
@@ -35,21 +44,19 @@
           <div class="top">
             <div class="title">大一上半学期计划</div>
             <div class="page-box">共{{plan_options.length}}页</div>
+            <div class="page-box">第{{planIndex+1}}页</div>
           </div>
           <div class="right-container">
-            <el-carousel height="100%" :autoplay="false" arrow="always" indicator-position="none">
+            <!-- <el-carousel height="100%" :autoplay="false" arrow="always" indicator-position="none">
               <el-carousel-item v-for="(item,index) in plan_options" :key="index">
                 <plan :plan="item" :planId="planId" @updateList="postPlan"></plan>
               </el-carousel-item>
-            </el-carousel>
-            <!-- <div v-for="item in plan_options" :key="item">{{item}}</div> -->
-            <!-- <div class="plan-list" ref="planWidth">
-              <div class="plan" v-for="plan in planList" :key="plan.title">
-                <plan :title="plan.title" :inputBox="plan.inputBox" :textareaBox="plan.textareaBox"
-                :target="plan.target" :planList="plan.planList" @postPlan="postPlan"
-                ></plan>
+            </el-carousel> -->
+            <div class="plan-box">
+              <div class="plan-item" v-for="(item,index) in plan_options" :key="index">
+                <plan :plan="item" :planId="planId" @prev="prev" @next="next" :noPrev="noPrev" :noNext="noNext"></plan>
               </div>
-            </div> -->
+            </div>
           </div>
         </el-col>
     </div>
@@ -63,8 +70,11 @@
     data() {
       return {
         planId: '',
+        planIndex: 0,
         allPlanList: [],
         plan_options: [],
+        hasAdditionPlan: false,
+        hasCertificatePlan: false,
         planOptions: [
           {
             type: "requireds",
@@ -87,8 +97,8 @@
             textareaBox: [
               {
                 name: '课程目标',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
             ]
@@ -103,15 +113,7 @@
                 name: '课程名称',
                 placeholder: '请输入课程名称',
                 selectValue: '',
-                options:  [
-                  {
-                    value: '选项1',
-                    label: '黄金糕'
-                  }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                  }
-                ],
+                options:  [],
               },
               {
                 name: '计划分数',
@@ -123,8 +125,8 @@
             textareaBox: [
               {
                 name: '课程目标',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
             ]
@@ -150,8 +152,8 @@
             textareaBox: [
               {
                 name: '课程目标',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
             ]
@@ -171,14 +173,14 @@
             textareaBox: [
               {
                 name: '大赛目标',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
               {
                 name: '参赛计划',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
             ]
@@ -196,7 +198,7 @@
               },
               {
                 name: '书籍类型',
-                placeholder: '金融类',
+                placeholder: '请选择书籍类型',
                 selectValue: '',
                 options: []
               }
@@ -204,8 +206,8 @@
             textareaBox: [
               {
                 name: '阅读计划',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
             ]
@@ -219,22 +221,14 @@
                 name: '技能名称',
                 placeholder: '请选择技能名称',
                 selectValue: '',
-                options:  [
-                  {
-                    value: '选项1',
-                    label: '黄金糕'
-                  }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                  }
-                ],
+                options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
             ]
@@ -248,22 +242,14 @@
                 name: '职业技能名称',
                 placeholder: '请选择职业技能名称',
                 selectValue: '',
-                options:  [
-                  {
-                    value: '选项1',
-                    label: '黄金糕'
-                  }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                  }
-                ],
+                options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
             ]
@@ -276,14 +262,14 @@
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
               {
                 name: '实习实践目标',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
             ]
@@ -312,8 +298,8 @@
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
             ]
@@ -333,8 +319,8 @@
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
             ]
@@ -364,34 +350,76 @@
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '仅限30个字',
-                maxlength: 30,
+                placeholder: '自定义填写(限制在100个字以内)',
+                maxlength: 100,
                 value: ''
               },
             ]
           },
         */
         ],
-
+        planItem: [],
+        noNext: false,
+        noPrev: true
       };
     },
     created() {
       this.planId = this.$route.query.planId;
-      console.log(this.planId)
       this.getPlanInfo()
+      this.getMetaData()
+    },
+    mounted(){
+      this.planItem = document.getElementsByClassName("plan-item");
+      if(this.planItem.length == 1){
+        this.noNext = false
+        this.noPrev = false
+      }
     },
     methods: {
-      postPlan: function(data){
-        console.log('adddata',data)
-        this.getPlanInfo()
-        // this.plan_options.map(item => {
-        //   if(item.type == data.type){
-        //     item[data.type+'List'] = data.list
-        //   }
-        // })
-      },
       checkPlan: function(){
-        console.log(this.plan_options)
+        // console.log(this.plan_options)
+      },
+      addPlanOption(plan){
+        if(this.plan_options.length){
+          this.plan_options.map(item => {
+            if(item.type == plan.type){
+              return
+            }else {
+              console.log(item.type)
+              if(plan.type == "certificates"){
+                if(!this.hasCertificatePlan){
+                  this.plan_options.push(plan)
+                  this.hasCertificatePlan = true
+                }
+              }else if(plan.type == "additions"){
+                if(!this.hasAdditionPlan){
+                  this.plan_options.push(plan)
+                  this.hasAdditionPlan = true
+                }
+              }
+            }
+          })
+        }else {
+          if(plan.type == "certificates"){
+            this.hasCertificatePlan = true
+          }else if(plan.type == 'additions'){
+            this.hasAdditionPlan = true;
+          }
+          this.plan_options.push(plan)
+        }
+        // console.log(this.plan_options)
+      },
+      deletePlanOption(plan){
+        this.plan_options.map((item, index) => {
+          if(item.type == plan.type){
+            if(plan.type =="certificates"){
+              this.hasCertificatePlan = false;
+            }else if(plan.type == 'additions'){
+              this.hasAdditionPlan = false;
+            }
+            this.plan_options.splice(index,1)
+          }
+        })
       },
       getPlanInfo(){
         let params = {
@@ -406,11 +434,27 @@
                 this.plan_options.push(this.planOptions[i])
               }
             }
+            this.plan_options.map(item => {
+              if(item.type == "certificates"){
+                this.hasCertificatePlan = true;
+              }else if(item.type == "additions"){
+                this.hasAdditionPlan = true;
+              }
+            })
           }
-          this.getMetaData()
-          console.log(this.plan_options)
         }).catch(err => {
           console.log(err)
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取规划信息失败！"
+            });
+          }
         })
       },
       getMetaData(){
@@ -421,7 +465,7 @@
           this.$store.dispatch("OFFICE_DATA"), //所有的办公技能列表
           this.$store.dispatch("VOCATION_DATA"), //所有职业能力列表
         ]).then(res => {
-          this.plan_options.map(item => {
+          this.planOptions.map(item => {
             if(item.type == 'certificates'){
               item.inputBox[0].options = res[0].data
             }else if(item.type == 'pread'){
@@ -442,10 +486,52 @@
           } else {
             this.$message({
               type: "error",
-              message: "获取字典数据失败"
+              message: "获取字典数据失败！"
             });
           }
         })
+      },
+      prev(){
+        if(this.planIndex == 0){
+          console.log("没有上一页了")
+          return
+        }else {
+          this.planIndex--
+          if(this.planIndex == 0){
+            this.noPrev = true
+          }else {
+            this.noNext = false
+            this.noPrev = false
+          }
+        }
+        console.log('this.planIndex',this.planIndex)
+        this.changePlan()
+      },
+      next(){
+        if(this.planIndex == this.planItem.length-1){
+          console.log("没有下一页了")
+          return
+        }else {
+          this.planIndex++
+          if(this.planIndex == this.planItem.length-1){
+            this.noNext = true
+          }else {
+            this.noNext = false
+            this.noPrev = false
+          }
+        }
+        this.changePlan()
+      },
+      changePlan(){
+        for(let i = 0; i<this.planItem.length; i++){
+          this.planItem[i].style.display = "none";
+        }
+        this.planItem[this.planIndex].style.display = "block"
+      }
+    },
+    watch: {
+      plan_options(val, oldVal){
+        console.log(val, oldVal)
       }
     },
     components: {
@@ -474,7 +560,6 @@
     .left-content,
     .right-content {
       height: 100%;
-      // overflow: hidden;
     }
     .left-content {
       padding: 10px;
@@ -506,6 +591,10 @@
       }
       .add-box {
         margin: 10px 0;
+        .checked {
+          background-color: @main-color-blue!important;
+          color: #ffff!important;
+        }
         .name {
           line-height: 30px;
           display: inline-block;
@@ -524,10 +613,6 @@
             color: #fff;
             font-size: 12px;
           }
-        }
-        .add-icon:hover {
-          color: #fff;
-          background-color: @main-color-blue;
         }
       }
     }
@@ -552,35 +637,21 @@
         height: calc(100% - 50px);
         padding: 20px;
         position: relative;
-        // overflow: hidden;
-        .el-carousel {
-          overflow-y: scroll;
-        }
-        .el-carousel__item {
-          overflow: auto;
-        }
-        .el-carousel__arrow {
-          background-color: @main-color-blue;
-          color: #fff;
-          position: absolute;
-          top: 260px; //77%;
-        }
-        .el-carousel {
+        .plan-box {
+          width: 100%;
           height: 100%;
           background-color: #fff;
-          .el-carousel__item {
+          .plan-item {
+            width: calc(100% - 40px);
             height: 100%;
-            background-color: #fff;
+            position: absolute;
+            .disabled {
+              cursor: no-drop;
+              background-color: #ddd!important;
+            }
           }
         }
-        .plan-list {
-          // position: relative;
-          border: 1px solid red;
-          overflow: hidden;
-          .plan {
-            float: left;
-          }
-        }
+        /*
         .content {
           width: 100%;
           height: 100%;
@@ -718,6 +789,7 @@
             }
           }
         }
+        */
       }
     }
   }
