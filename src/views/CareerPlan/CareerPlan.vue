@@ -19,8 +19,7 @@
             <div class="sub-title">职业能力计划</div>
             <div class="item-list">
               <el-checkbox-group v-model="plan_options" @change="checkPlan">
-                <el-checkbox v-for="(skill,index) in planOptions.slice(5,8)" :label="skill" 
-                :key="index">{{skill.title}}</el-checkbox>
+                <el-checkbox v-for="(skill,index) in planOptions.slice(5,8)" :label="skill" :key="index">{{skill.title}}</el-checkbox>
               </el-checkbox-group>
             </div>
           </div>
@@ -371,13 +370,13 @@
     mounted(){
       this.planItem = document.getElementsByClassName("plan-item");
       if(this.planItem.length == 1){
-        this.noNext = false
-        this.noPrev = false
+        this.noNext = true
+        this.noPrev = true
       }
     },
     methods: {
       checkPlan: function(){
-        // console.log(this.plan_options)
+        console.log('plan_options',this.plan_options)
       },
       addPlanOption(plan){
         if(this.plan_options.length){
@@ -420,6 +419,7 @@
             this.plan_options.splice(index,1)
           }
         })
+        console.log(this.plan_options)
       },
       getPlanInfo(){
         let params = {
@@ -441,6 +441,12 @@
                 this.hasAdditionPlan = true;
               }
             })
+          }
+          this.planItem = document.getElementsByClassName("plan-item");
+          console.log(this.planItem.length)
+          if(this.planItem.length == 1){
+            this.noNext = true
+            this.noPrev = true
           }
         }).catch(err => {
           console.log(err)
@@ -504,7 +510,6 @@
             this.noPrev = false
           }
         }
-        console.log('this.planIndex',this.planIndex)
         this.changePlan()
       },
       next(){

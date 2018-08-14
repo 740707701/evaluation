@@ -28,7 +28,8 @@
           <div class="pager-btn left-btn" @click="prev" :class="noPrev?'disabled':''">
             <i class="iconfont icon-arrow-left-line"></i>
           </div>
-          <el-button size="small" class="complete-btn btn" @click="post()">完成</el-button>
+          <el-button size="small" class="complete-btn btn" @click="post()">保存</el-button>
+          <el-button size="small" class="complete-btn btn" type="primary" v-if="noNext" @click="submit()">提交</el-button>
           <div class="pager-btn right-btn" @click="next" :class="noNext?'disabled':''">
             <i class="iconfont icon-arrow-right-line"></i>
           </div>
@@ -226,6 +227,7 @@ export default {
   props: ["plan", "planId", "noNext", "noPrev"],
   data(){
     return { 
+      userInfo: JSON.parse(localStorage.getItem("userInfo")),
       dialogVisible: false,
       planIndex: 0,
       input:[],
@@ -251,6 +253,26 @@ export default {
   },
   methods: {
     post(){
+      this.plan.inputBox.map((item,index) => {
+        if(!this.input[index]){
+          this.$message({
+            type: "error",
+            message: `${item.placeholder}！`
+          })
+          return
+        }
+      })
+      if(this.plan.type!="requireds" && this.plan.type=="selfs" && this.plan.type=="options"){
+        this.plan.textareaBox.map((item, index) => {
+          if(!this.textareaBox[index]){
+            this.$message({
+              type: "error",
+              message: `${item.placeholder}！`
+            })
+            return
+          }
+        })
+      }
       if(this.plan.type == 'requireds'){
         let data = {
           courseName: this.input[0],
@@ -486,6 +508,32 @@ export default {
           }
         })
       }
+    },
+    submit() {
+      let data = {
+        id: this.planId
+      }
+      this.$store.dispatch('SUBMITPLAN', data).then(res => {
+        this.$message({
+          type: "success",
+          message: "提交成功！"
+        })
+        this.$router.push({
+          name: 'planList'
+        })
+      }).catch(err => {
+        if (err.data.msg) {
+          this.$message({
+            type: "error",
+            message: err.data.msg
+          });
+        } else {
+          this.$message({
+            type: "error",
+            message: "保存失败！"
+          });
+        }
+      })
     },
     getPlanList(){
       //additions,certificates,internships,officeSkills,

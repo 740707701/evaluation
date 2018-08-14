@@ -187,7 +187,7 @@ export default {
     //开启计划
     openPlan: 'plan/insertPlan',
     //提交计划
-    submitPlan: 'plan/insertPlan',
+    submitPlan: 'plan/updatePlan',
 
     //用户
     login: 'user/login',

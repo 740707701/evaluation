@@ -139,7 +139,7 @@ export default {
     },
     //提交计划
     [SUBMITPLAN]({ commit }, data) {
-      return api.put(api.url.submitPlan, data).then(res => {
+      return api.put(config.url.submitPlan, data).then(res => {
         commit("PLAN_SET", {
           target: "planInfo",
           data: res.data
