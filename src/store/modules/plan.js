@@ -159,9 +159,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //所有书籍分类
     [CATEGORY_DATA]({ commit }, params) {
@@ -174,9 +171,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //所有的书列表
     [BOOK_DATA]({ commit }, params) {
@@ -189,9 +183,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //所有办公技能列表
     [OFFICE_DATA]({ commit }, params) {
@@ -204,9 +195,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //所有职业能力列表
     [VOCATION_DATA]({ commit }, params) {
@@ -219,9 +207,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
 
     //必修课列表
@@ -235,9 +220,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //新增必修课
     [INSERT_REQUIRED]({ commit }, data) {
@@ -250,9 +232,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //修改
     [UPDATE_REQUIRED]({ commit }, data) {
@@ -265,9 +244,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //删除
     [DELETE_REQUIRED]({ commit }, params) {
@@ -281,9 +257,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
 
     //选修课列表
@@ -297,9 +270,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //新增 选修课
     [INSERT_OPTIONAL]({ commit }, data) {
@@ -312,9 +282,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //修改
     [UPDATE_OPTIONAL]({ commit }, data) {
@@ -327,9 +294,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //删除
     [DELETE_OPTIONAL]({ commit }, data) {
@@ -342,9 +306,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
 
     //自学课列表
@@ -358,9 +319,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //新增 自学课
     [INSERT_SELF]({ commit }, data) {
@@ -373,9 +331,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //修改
     [UPDATE_SELF]({ commit }, data) {
@@ -388,9 +343,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //删除
     [DELETE_SELF]({ commit }, data) {
@@ -403,9 +355,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
 
     //专业大赛
@@ -419,9 +368,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //新增 专业大赛
     [INSERT_PROF]({ commit }, data) {
@@ -434,9 +380,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //修改
     [UPDATE_PROF]({ commit }, data) {
@@ -449,9 +392,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //删除
     [DELETE_PROF]({ commit }, data) {
@@ -464,9 +404,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
 
     //专业阅读
@@ -480,9 +417,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //新增 专业阅读
     [INSERT_PREAD]({ commit }, data) {
@@ -495,9 +429,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //修改
     [UPDATE_PREAD]({ commit }, data) {
@@ -510,9 +441,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //删除
     [DELETE_PREAD]({ commit }, data) {
@@ -525,9 +453,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
 
     //办公技能列表
@@ -541,9 +466,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //新增 办公技能
     [INSERT_OFFICE]({ commit }, data) {
@@ -556,9 +478,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //修改
     [UPDATE_OFFICE]({ commit }, data) {
@@ -571,9 +490,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //删除
     [DELETE_OFFICE]({ commit }, data) {
@@ -586,9 +502,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
 
     //职业能力列表
@@ -602,9 +515,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //新增 职业能力
     [INSERT_VOCATION]({ commit }, data) {
@@ -617,9 +527,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //修改
     [UPDATE_VOCATION]({ commit }, data) {
@@ -632,9 +539,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //删除
     [DELETE_VOCATION]({ commit }, data) {
@@ -647,9 +551,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
 
     //实习实践列表
@@ -663,9 +564,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //新增 实习实践
     [INSERT_INTERNSHIP]({ commit }, data) {
@@ -678,9 +576,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //修改
     [UPDATE_INTERNSHIP]({ commit }, data) {
@@ -693,9 +588,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //删除
     [DELETE_INTERNSHIP]({ commit }, data) {
@@ -708,9 +600,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
 
     //证书列表
@@ -724,9 +613,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //新增 证书
     [INSERT_CERTIFICATE]({ commit }, data) {
@@ -739,9 +625,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //修改
     [UPDATE_CERTIFICATE]({ commit }, data) {
@@ -754,9 +637,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //删除
     [DELETE_CERTIFICATE]({ commit }, data) {
@@ -769,9 +649,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
 
     //其他计划 列表
@@ -785,9 +662,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //新增 其他列表
     [INSERT_OTHERPLAN]({ commit }, data) {
@@ -800,9 +674,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //修改
     [UPDATE_OTHERPLAN]({ commit }, data) {
@@ -815,9 +686,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //删除
     [DELETE_OTHERPLAN]({ commit }, data) {
@@ -829,9 +697,6 @@ export default {
             data: res.data
           });
         })
-        .catch(err => {
-          return err;
-        });
     },
 
     //获取附加列表
@@ -845,9 +710,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //新增 附加计划
     [INSERT_ADDITIONAL]({ commit }, data) {
@@ -860,9 +722,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //修改
     [UPDATE_ADDITIONAL]({ commit }, data) {
@@ -875,9 +734,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     },
     //删除
     [DELETE_ADDITIONAL]({ commit }, data) {
@@ -890,9 +746,6 @@ export default {
           });
           return res;
         })
-        .catch(err => {
-          return err;
-        });
     }
   },
   modules: {}

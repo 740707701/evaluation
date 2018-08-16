@@ -25,7 +25,7 @@ export default {
   .page {
     padding-top: 60px;
   }
-  .textarea {
+  textarea, .textarea {
     width: 100%;
     padding: 10px 15px;
     border-radius: 4px;

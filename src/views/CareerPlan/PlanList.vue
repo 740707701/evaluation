@@ -4,13 +4,17 @@
 		<div class="container">
 			<div class="top">
 				<span>规划表</span>
+				<div class="btn-box">
+					<el-button type="default" size="small" round @click="prevTerm" v-if="termIndex!=0">上学期</el-button>
+					<el-button type="primary" size="small" round @click="nextTerm" v-if="termIndex!=planList.length-1">下学期</el-button>
+				</div>
 			</div>
 			<div class="content">
 				<div class="banner">
 					<img src="../../assets/images/resume_bg.jpg" alt="">
 				</div>
 				<div class="plan-list">
-					<div class="options-item" v-for="(options,index) in infoOptions" :key="index">
+					<div class="options-item" v-for="(options,index) in infoOptions" :key="index" >
 						<div class="en">{{options.en}}</div>
 						<div class="en-border"></div>
 						<div class="options-title">{{options.optionsTitle}}</div>
@@ -27,11 +31,19 @@
 											<span class="name">{{item.courseName}}</span>
 											<span class="score">计划分数：{{item.score}}分</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" @click="perfect(item)"></i>
-												<i class="iconfont icon-yijiao" @click="transfer(item)"></i>
-												<i class="iconfont icon-delete" @click="deletePlan(item)"></i>
+												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
+												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
+												<el-dropdown trigger="click" >
+													<span class="el-dropdown-link">
+														<i class="iconfont icon-yijiao"></i>
+													</span>
+													<el-dropdown-menu slot="dropdown">
+														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+													</el-dropdown-menu>
+												</el-dropdown>
+												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
 											</div>
-										</div>
+									</div>
 										<div class="plan-content">
 											<div class="content-title">课程目标：</div>
 											<div class="content-text">{{item.goal}}</div>
@@ -53,9 +65,17 @@
 										<div class="plan-top">
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" @click="perfect(item)"></i>
-												<i class="iconfont icon-yijiao" @click="transfer(item)"></i>
-												<i class="iconfont icon-delete" @click="deletePlan(item)"></i>
+												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
+												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
+												<el-dropdown trigger="click" >
+													<span class="el-dropdown-link">
+														<i class="iconfont icon-yijiao"></i>
+													</span>
+													<el-dropdown-menu slot="dropdown">
+														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+													</el-dropdown-menu>
+												</el-dropdown>
+												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
 										<div class="plan-content">
@@ -66,55 +86,115 @@
 											<div class="content-title">参赛计划：</div>
 											<div class="content-text">{{item.desc}}</div>
 										</div>
+										<div class="plan-content perfect-content" v-if="item.finish">
+											<div class="content-title">大赛总结：</div>
+											<div class="content-text red">{{item.finish}}</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.isEnd">
+											<div class="content-title">是否完成目标：</div>
+											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='pread'">
 										<div class="plan-top">
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" @click="perfect(item)"></i>
-												<i class="iconfont icon-yijiao" @click="transfer(item)"></i>
-												<i class="iconfont icon-delete" @click="deletePlan(item)"></i>
+												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
+												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
+												<el-dropdown trigger="click" >
+													<span class="el-dropdown-link">
+														<i class="iconfont icon-yijiao"></i>
+													</span>
+													<el-dropdown-menu slot="dropdown">
+														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+													</el-dropdown-menu>
+												</el-dropdown>
+												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
 										<div class="plan-content">
 											<div class="content-title">阅读计划：</div>
 											<div class="content-text">{{item.content}}</div>
 										</div>
+										<div class="plan-content perfect-content" v-if="item.finish">
+											<div class="content-title">阅读感想：</div>
+											<div class="content-text red">{{item.finish}}</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.isEnd">
+											<div class="content-title">是否完成目标：</div>
+											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='officeSkills'">
 										<div class="plan-top">
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" @click="perfect(item)"></i>
-												<i class="iconfont icon-yijiao" @click="transfer(item)"></i>
-												<i class="iconfont icon-delete" @click="deletePlan(item)"></i>
+												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
+												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
+												<el-dropdown trigger="click" >
+													<span class="el-dropdown-link">
+														<i class="iconfont icon-yijiao"></i>
+													</span>
+													<el-dropdown-menu slot="dropdown">
+														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+													</el-dropdown-menu>
+												</el-dropdown>
+												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
 										<div class="plan-content">
 											<div class="content-title">计划目标：</div>
 											<div class="content-text">{{item.desc}}</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.finish">
+											<div class="content-title">计划总结：</div>
+											<div class="content-text red">{{item.finish}}</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.isEnd">
+											<div class="content-title">是否完成目标：</div>
+											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='vocations'">
 										<div class="plan-top">
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" @click="perfect(item)"></i>
-												<i class="iconfont icon-yijiao" @click="transfer(item)"></i>
-												<i class="iconfont icon-delete" @click="deletePlan(item)"></i>
+												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
+												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
+												<el-dropdown trigger="click" >
+													<span class="el-dropdown-link">
+														<i class="iconfont icon-yijiao"></i>
+													</span>
+													<el-dropdown-menu slot="dropdown">
+														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+													</el-dropdown-menu>
+												</el-dropdown>
+												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>										
 										<div class="plan-content">
 											<div class="content-title">计划目标：</div>
-											<div class="content-text">{{item.desc}}</div>
+											<div class="content-text">{{item.goal}}</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.finish">
+											<div class="content-title">计划总结：</div>
+											<div class="content-text red">{{item.finish}}</div>
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='internships'">
 										<div class="plan-top">
 											<div class="operation">
-												<i class="iconfont icon-bianji" @click="perfect(item)"></i>
-												<i class="iconfont icon-yijiao" @click="transfer(item)"></i>
-												<i class="iconfont icon-delete" @click="deletePlan(item)"></i>
+												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
+												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
+												<el-dropdown trigger="click" >
+													<span class="el-dropdown-link">
+														<i class="iconfont icon-yijiao"></i>
+													</span>
+													<el-dropdown-menu slot="dropdown">
+														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+													</el-dropdown-menu>
+												</el-dropdown>
+												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
 										<div class="plan-content">
@@ -125,150 +205,134 @@
 											<div class="content-title">计划目标：</div>
 											<div class="content-text">{{item.score}}</div>
 										</div>
+										<div class="plan-content perfect-content" v-if="item.finish">
+											<div class="content-title">计划总结：</div>
+											<div class="content-text red">{{item.finish}}</div>
+										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='certificates'">
 										<div class="plan-top">
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" @click="perfect(item)"></i>
-												<i class="iconfont icon-yijiao" @click="transfer(item)"></i>
-												<i class="iconfont icon-delete" @click="deletePlan(item)"></i>
+												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
+												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
+												<el-dropdown trigger="click" >
+													<span class="el-dropdown-link">
+														<i class="iconfont icon-yijiao"></i>
+													</span>
+													<el-dropdown-menu slot="dropdown">
+														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+													</el-dropdown-menu>
+												</el-dropdown>
+												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
 										<div class="plan-content">
 											<div class="content-title">计划目标：</div>
 											<div class="content-text">{{item.content}}</div>
 										</div>
+										<div class="plan-content perfect-content" v-if="item.finish">
+											<div class="content-title">计划总结：</div>
+											<div class="content-text red">{{item.finish}}</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.isEnd">
+											<div class="content-title">是否完成目标：</div>
+											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='additions'">
 										<div class="plan-top">
 											<span class="name">{{item.additionalName}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" @click="perfect(item)"></i>
-												<i class="iconfont icon-yijiao" @click="transfer(item)"></i>
-												<i class="iconfont icon-delete" @click="deletePlan(item)"></i>
+												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
+												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
+												<el-dropdown trigger="click" >
+													<span class="el-dropdown-link">
+														<i class="iconfont icon-yijiao"></i>
+													</span>
+													<el-dropdown-menu slot="dropdown">
+														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+													</el-dropdown-menu>
+												</el-dropdown>
+												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
 										<div class="plan-content">
 											<div class="content-title">计划目标：</div>
 											<div class="content-text">{{item.additionalDesc}}</div>
 										</div>
+										<div class="plan-content perfect-content" v-if="item.finish">
+											<div class="content-title">计划总结：</div>
+											<div class="content-text red">{{item.finish}}</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.isEnd">
+											<div class="content-title">是否完成目标：</div>
+											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+										</div>
 									</div>
 								</div>
-								<div class="item-plan perfect" v-if="showFormBox">
+								<div class="item-plan perfect" v-if="currentPlanId==item.id&&currentType==plan.type">
 									<div class="plan-box" v-if="plan.type=='requireds'||plan.type=='options'||plan.type=='selfs'">
 										<el-form :model="form" label-width="110px" label-position="left">
 											<el-form-item label="实际分数：">
-												<el-input v-model="form.score" size="small" placeholder="请输入分数" :maxlength="30" class="form-input"></el-input>
+												<el-input v-model="form.sscore" size="small" placeholder="请输入分数" :maxlength="30" class="form-input"></el-input>
 											</el-form-item>
 											<el-form-item label="课程总结：">
 												<el-input type="textarea" v-model="form.finish" size="small" placeholder="请输入总结(150个字以内)" :maxlength="150"></el-input>
 											</el-form-item>
 											<el-form-item label="是否完成目标：">
-												<el-radio-group v-model="form.end" size="small">
+												<el-radio-group v-model="form.isEnd" size="small">
 													<el-radio class="radio-end" label="1" border>已完成</el-radio>
-													<el-radio class="radio-end" label="2" border >未完成</el-radio>
+													<el-radio class="radio-end" label="0" border >未完成</el-radio>
 												</el-radio-group>
 											</el-form-item>
 											<el-form-item class="btn-box">
-												<el-button size="small" type="primary" @click="save">保存</el-button>
+												<el-button size="small" type="primary" @click="save(item,plan.type)">保存</el-button>
+												<el-button size="small" @click="cancel()">取消</el-button>
 											</el-form-item>
 										</el-form>
 									</div>
-								</div>
-								<div class="item-plan perfect" v-if="showFormBox">
 									<div class="plan-box" v-if="plan.type!='requireds'&&plan.type!='options'&&plan.type!='selfs'">
 										<el-form :model="form" label-width="110px" label-position="left">
 											<el-form-item label="计划总结：">
 												<el-input type="textarea" v-model="form.finish" size="small" placeholder="请输入总结(150个字以内)" :maxlength="150"></el-input>
 											</el-form-item>
-											<el-form-item label="是否完成目标：">
-												<el-radio-group v-model="form.end" size="small">
+											<el-form-item label="是否完成目标：" v-if="plan.type=='certificates'||plan.type=='officeSkills'">
+												<el-radio-group v-model="form.isEnd" size="small">
 													<el-radio class="radio-end" label="1" border>已完成</el-radio>
-													<el-radio class="radio-end" label="2" border >未完成</el-radio>
+													<el-radio class="radio-end" label="0" border >未完成</el-radio>
 												</el-radio-group>
 											</el-form-item>
+											<el-form-item label="阅读进度" class="progress-box" v-if="plan.type=='pread'">
+												<el-input placeholder="请输入阅读进度(百分比)"  v-model="form.progress"></el-input>
+												<el-progress :percentage="Number(form.progress)" color="#8e71c7"></el-progress>
+											</el-form-item>
+											<el-form-item :label="form.isEnd==1?'上传证书图片':'上传分数图片'" v-if="plan.type=='certificates'" class="upload-box">
+												<el-upload
+													class="avatar-uploader"
+													:action="uploadUrl"
+													:headers="uploadHeaders"
+													:data="uploadData"
+													:name="'multfile'"
+													:show-file-list="false"
+													:on-success="handleAvatarSuccess"
+													>
+													<img v-if="imageUrl" :src="imageUrl" class="avatar">
+													<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+												</el-upload>
+											</el-form-item>
 											<el-form-item class="btn-box">
-												<el-button size="small" type="primary" @click="save">保存</el-button>
+												<el-button size="small" type="primary" @click="save(item,plan.type)">保存</el-button>
+												<el-button size="small" @click="cancel()">取消</el-button>
 											</el-form-item>
 										</el-form>
 									</div>
 								</div>
+								<!-- <div class="item-plan perfect" v-if="currentPlanId==item.id&&currentType==plan.type">
+								</div> -->
 							</div>
 						</div>
 					</div>
-					<!-- <div class="options-item">
-						<div class="en">Professional learning plan</div>
-						<div class="en-border"></div>
-						<div class="options-title">专业学习计划</div>
-						<div class="item">
-							<div class="item-title">
-								<span class="num">01</span>
-								<span class="title">专业课程</span>
-							</div>
-							<div class="item-content">
-								<div class="item-plan">
-									<div class="sign"></div>
-									<div class="plan-box">
-										<div class="plan-top">
-											<span class="name">金融分析师概念课</span>
-											<span class="score">计划分数：80分</span>
-											<div class="operation">
-												<i class="iconfont icon-delete"></i>
-												<i class="iconfont icon-yijiao"></i>
-												<i class="iconfont icon-delete"></i>
-											</div>
-										</div>
-										<div class="plan-content">
-											<div class="content-title">课程目标：</div>
-											<div class="content-text">不知道要经历多少苦难，才能走上正常的生活轨迹，光是追求普通生活已经是这么困难。
-												我现在所谈论的只是对于一般大学生，那种出类拔萃，或者他是富二代的免谈，毕竟没什么可比性，也没有谈论的价值。</div>
-										</div>
-										<div class="plan-content perfect-content">
-											<div class="content-title">实际分数：</div>
-											<div class="content-text red">80分</div>
-											<div class="plan-content perfect-content">
-												<div class="content-title">课程目标：</div>
-												<div class="content-text red">不知道要经历多少苦难，才能走上正常的生活轨迹，光是追求普通生活已经是这么困难。
-													我现在所谈论的只是对于一般大学生，那种出类拔萃，或者他是富二代的免谈，毕竟没什么可比性，也没有谈论的价值。
-												</div>
-											</div>
-											<div class="plan-content perfect-content">
-												<div class="content-title">是否完成目标：</div>
-												<div class="content-text red">已完成</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="item-plan perfect">
-									<div class="sign"></div>
-									<div class="plan-box">
-										<div class="plan-top">
-											<span class="name">金融分析师概念课</span>
-											<span class="score">计划分数：80分</span>
-										</div>
-										<el-form :model="form" label-width="110px">
-											<el-form-item label="实际分数：">
-												<el-input v-model="form.score" size="small"></el-input>
-											</el-form-item>
-											<el-form-item label="课程总结：">
-												<el-input type="textarea" v-model="form.finish" size="small"></el-input>
-											</el-form-item>
-											<el-form-item label="是否完成目标：">
-												<el-radio-group v-model="form.end" size="small">
-													<el-radio class="radio-end" label="1" border>已完成</el-radio>
-													<el-radio class="radio-end" label="2" border >未完成</el-radio>
-												</el-radio-group>
-											</el-form-item>
-											<el-form-item>
-												<el-button size="small" type="primary" @click="save">保存</el-button>
-											</el-form-item>
-										</el-form>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> -->
 				</div>
 			</div>
 		</div>
@@ -287,20 +351,35 @@
 </template>
 <script>
 	import headerNav from '../../components/HeaderNav.vue'
+	import axios from 'axios'
+	import store from '../../store/index'
 	export default {
 		name: 'planList',
 		data(){
 			return {
+				imageUrl: '',
+				uploadUrl: axios.defaults.baseURL + '/file/headpic',
+				uploadHeaders: {
+					Authorization: store.getters.getToken
+				},
+				uploadData: {
+					operaType: 'certificates'
+				},
 				userInfo: JSON.parse(localStorage.getItem("userInfo")),
 				planList: [],
 				planInfoList: [],
 				currentPlanInfo: {},
+				currentType: '',
+				currentPlanId: '',
+				termIndex: 0,
 				dialogVisible: false,
 				showFormBox: false,
 				form: {
-					score: '',
-					finsish: '',
-					end: '1'
+					sscore: '',
+					finish: '',
+					isEnd: '',
+					pic: '',
+					progress: 0
 				},
 				infoOptions: [
 					{
@@ -368,22 +447,54 @@
 						]
 					},
 				],
+				termPlan: [
+					{
+						title: "大一上学期规划",
+						stage: 1
+					},
+					{
+						title: "大一下学期规划",
+						stage: 2
+					},
+					{
+						title: "大二上学期规划",
+						stage: 3
+					},
+					{
+						title: "大二下学期规划",
+						stage: 4
+					},
+					{
+						title: "大三上学期规划",
+						stage: 5
+					},
+					{
+						title: "大三下学期规划",
+						stage: 6
+					},
+					{
+						title: "大四上学期规划",
+						stage: 7
+					},
+					{
+						title: "大四下学期规划",
+						stage: 8
+					}
+				],
 			}
 		},
 		created(){
 			this.getPlanList()
 		},
+		mounted(){},
 		methods: {
 			getPlanList(){
 				let params = {
 					userId: this.userInfo.id
 				}
 				this.$store.dispatch('PLANLIST', params).then(res => {
-					this.planList = res.data
-					this.getPlanInfo(this.planList[0].id)
-					// this.planList.map((item, index) => {
-					// 	this.getPlanInfo(item.id)
-					// })
+					this.planList = res.data;
+					this.getPlanInfo(this.planList[this.termIndex].id);
 				}).catch(err => {
 					this.$message({
 						type: "error",
@@ -427,25 +538,74 @@
           }
         })
       },
-			save(plan){},
-			perfect(plan){
-				this['showFormBox'+plan.id] = true;
-			},
-			transfer(plan){
-				if(this.showFormBox){
-					this.showFormBox = false
+			//移交
+			transfer(stage, item, type){
+				this.currentPlanInfo = item;
+				this.currentType = type;
+				console.log(stage)
+				let stageArr = []
+				let currentTermId = ''
+				this.planList.map(term => {
+					stageArr.push(term.stage)
+					if(term.stage == stage){
+						currentTermId = term.id
+					}
+				})
+				if(stageArr.indexOf(stage) == '-1'){
+					this.$message({
+						type: "error",
+						message: "还未开启该学期计划，移交失败！"
+					})
 				}else {
-					this.form.sscore = ''
-					this.form.finish = ''
-					this.showFormBox = true
+					this.save(item, type, 'transfer', currentTermId)
 				}
-				let data = {
-					sscore: this.form.sscore,
-					finish: this.form.finish
+				
+			},
+			//完善编辑
+			perfect(item, type){
+				this.currentPlanInfo = item;
+				this.currentType = type;
+				this.currentPlanId = item.id;
+				this.form = {
+					sscore: '',
+					finish: '',
+					progress: '',
+					isEnd: ''
 				}
-				if(plan.type == 'requireds'){
+			},
+			//保存
+			save(item, type, org, planId){
+				this.currentPlanInfo = item;
+				this.currentType = type;
+				let data = {}
+				let errMessage = ''
+				let successMessage = ''
+				if(org == 'transfer'){
+					data = {
+						planId: planId,
+						id: this.currentPlanInfo.id
+					}
+					errMessage = '移交失败！'
+					successMessage = '移交成功！'
+				}else {
+					data = {
+						id: this.currentPlanInfo.id,
+						sscore: this.form.sscore,
+						finish: this.form.finish,
+						progress: this.form.progress,
+						isEnd: this.form.isEnd
+					}
+					errMessage = '完善信息失败，请稍后重试！'
+					successMessage = '修改信息成功！'
+				}
+				if(this.currentType == 'requireds'){
 					this.$store.dispatch('UPDATE_REQUIRED', data).then(res => {
-						this.showFormBox = false
+						this.currentPlanId = '';
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: successMessage
+						})
 					}).catch(err => {
 						if (err.data.msg) {
 							this.$message({
@@ -455,14 +615,19 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "信息失败，请稍后重试！"
+								message: errMessage
 							});
 						}
 					})
 				}
-				else if(plan.type == 'selfs'){
-					this.$store.dispatch('UPDATE_SELFS', data).then(res => {
-						this.showFormBox = false
+				else if(this.currentType == 'selfs'){
+					this.$store.dispatch('UPDATE_SELF', data).then(res => {
+						this.currentPlanId = '';
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: successMessage
+						})
 					}).catch(err => {
 						if (err.data.msg) {
 							this.$message({
@@ -472,14 +637,19 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "信息失败，请稍后重试！"
+								message: errMessage
 							});
 						}
 					})
 				}
-				else if(plan.type == 'profs'){
-					this.$store.dispatch('UPDATE_PROFS', data).then(res => {
-						this.showFormBox = false
+				else if(this.currentType == 'profs'){
+					this.$store.dispatch('UPDATE_PROF', data).then(res => {
+						this.currentPlanId = '';
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: successMessage
+						})
 					}).catch(err => {
 						if (err.data.msg) {
 							this.$message({
@@ -489,14 +659,19 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "信息失败，请稍后重试！"
+								message: errMessage
 							});
 						}
 					})
 				}
-				else if(plan.type == 'pread'){
+				else if(this.currentType == 'pread'){
 					this.$store.dispatch('UPDATE_PREAD', data).then(res => {
-						this.showFormBox = false
+						this.currentPlanId = '';
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: successMessage
+						})
 					}).catch(err => {
 						if (err.data.msg) {
 							this.$message({
@@ -506,14 +681,19 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "信息失败，请稍后重试！"
+								message: errMessage
 							});
 						}
 					})
 				}
-				else if(plan.type == 'officeSkills'){
+				else if(this.currentType == 'officeSkills'){
 					this.$store.dispatch('UPDATE_OFFICE', data).then(res => {
-						this.showFormBox = false
+						this.currentPlanId = '';
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: successMessage
+						})
 					}).catch(err => {
 						if (err.data.msg) {
 							this.$message({
@@ -523,14 +703,19 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "信息失败，请稍后重试！"
+								message: errMessage
 							});
 						}
 					})
 				}
-				else if(plan.type == 'vocations'){
+				else if(this.currentType == 'vocations'){
 					this.$store.dispatch('UPDATE_VOCATION', data).then(res => {
-						this.showFormBox = false
+						this.currentPlanId = '';
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: successMessage
+						})
 					}).catch(err => {
 						if (err.data.msg) {
 							this.$message({
@@ -540,14 +725,19 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "信息失败，请稍后重试！"
+								message: errMessage
 							});
 						}
 					})
 				}
-				else if(plan.type == 'internships'){
+				else if(this.currentType == 'internships'){
 					this.$store.dispatch('UPDATE_INTERNSHIP', data).then(res => {
-						this.showFormBox = false
+						this.currentPlanId = '';
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: successMessage
+						})
 					}).catch(err => {
 						if (err.data.msg) {
 							this.$message({
@@ -557,14 +747,20 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "信息失败，请稍后重试！"
+								message: errMessage
 							});
 						}
 					})
 				}
-				else if(plan.type == 'certificates'){
+				else if(this.currentType == 'certificates'){
+					data.pic = this.imageUrl;
 					this.$store.dispatch('UPDATE_CERTIFICATE', data).then(res => {
-						this.showFormBox = false
+						this.currentPlanId = '';
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: successMessage
+						})
 					}).catch(err => {
 						if (err.data.msg) {
 							this.$message({
@@ -574,14 +770,19 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "信息失败，请稍后重试！"
+								message: errMessage
 							});
 						}
 					})
 				}
-				else if(plan.type == 'additions'){
+				else if(this.currentType == 'additions'){
 					this.$store.dispatch('UPDATE_ADDITIONAL', data).then(res => {
-						this.showFormBox = false
+						this.currentPlanId = '';
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: successMessage
+						})
 					}).catch(err => {
 						if (err.data.msg) {
 							this.$message({
@@ -591,25 +792,34 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "信息失败，请稍后重试！"
+								message: errMessage
 							});
 						}
 					})
 				}
 				
 			},
-			deletePlan(item){
-				this.currentPlanInfo = item;
-				this.dialogVisible = true;
+			cancel(){
+				this.currentPlanId = '';
 			},
-			confirmDeletePlan(item){
+			deletePlan(item, type){
 				this.currentPlanInfo = item;
+				this.currentType = type;
+				this.dialogVisible = true;
+				console.log('info',this.currentPlanInfo)
+			},
+			confirmDeletePlan(){
 				let data = {
 					id: this.currentPlanInfo.id
 				}
-				if(this.plan.type == 'requireds'){
+				if(this.currentType == 'requireds'){
 					this.$store.dispatch('DELETE_REQUIRED', data).then(res => {
-						this.getPlanList()
+						this.dialogVisible = false;
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: "删除成功!"
+						})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
@@ -620,14 +830,19 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "获取计划列表失败！"
+								message: "删除失败，请稍后重试！"
 							});
 						}
 					})
 				}
-				else if(this.plan.type == 'options'){
+				else if(this.currentType == 'options'){
 					this.$store.dispatch('DELETE_OPTIONAL', data).then(res => {
-						this.getPlanList()
+						this.dialogVisible = false;
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: "删除成功!"
+						})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
@@ -638,14 +853,19 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "获取计划列表失败！"
+								message: "删除失败，请稍后重试！"
 							});
 						}
 					})
 				}
-				else if(this.plan.type == 'selfs'){
+				else if(this.currentType == 'selfs'){
 					this.$store.dispatch('DELETE_SELF', data).then(res => {
-						this.getPlanList()
+						this.dialogVisible = false;
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: "删除成功!"
+						})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
@@ -656,15 +876,20 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "获取计划列表失败！"
+								message: "删除失败，请稍后重试！"
 							});
 						}
 					})
 				}
-				else if(this.plan.type == 'profs'){
+				else if(this.currentType == 'profs'){
 					//专业大赛
 					this.$store.dispatch('DELETE_PROF', data).then(res => {
-						this.getPlanList()
+						this.dialogVisible = false;
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: "删除成功!"
+						})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
@@ -675,15 +900,20 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "获取计划列表失败！"
+								message: "删除失败，请稍后重试！"
 							});
 						}
 					})
 				}
-				else if(this.plan.type == 'pread'){
+				else if(this.currentType == 'pread'){
 					//专业阅读
 					this.$store.dispatch('DELETE_PREAD', data).then(res => {
-						this.getPlanList()
+						this.dialogVisible = false;
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: "删除成功!"
+						})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
@@ -694,15 +924,20 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "获取计划列表失败！"
+								message: "删除失败，请稍后重试！"
 							});
 						}
 					})
 				}
-				else if(this.plan.type == 'officeSkills'){
+				else if(this.currentType == 'officeSkills'){
 					//办公技能
 					this.$store.dispatch('DELETE_OFFICE', data).then(res => {
-						this.getPlanList()
+						this.dialogVisible = false;
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: "删除成功!"
+						})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
@@ -713,15 +948,20 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "获取计划列表失败！"
+								message: "删除失败，请稍后重试！"
 							});
 						}
 					})
 				}
-				else if(this.plan.type == 'vocations'){
+				else if(this.currentType == 'vocations'){
 					//职业能力
 					this.$store.dispatch('DELETE_VOCATION', data).then(res => {
-						this.getPlanList()
+						this.dialogVisible = false;
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: "删除成功!"
+						})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
@@ -732,15 +972,20 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "获取计划列表失败！"
+								message: "删除失败，请稍后重试！"
 							});
 						}
 					})
 				}
-				else if(this.plan.type == 'internships'){
+				else if(this.currentType == 'internships'){
 					//实习实践
 					this.$store.dispatch('DELETE_INTERNSHIP', data).then(res => {
-						this.getPlanList()
+						this.dialogVisible = false;
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: "删除成功!"
+						})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
@@ -751,15 +996,20 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "获取计划列表失败！"
+								message: "删除失败，请稍后重试！"
 							});
 						}
 					})
 				}
-				else if(this.plan.type == 'certificates'){
+				else if(this.currentType == 'certificates'){
 					//证书计划
 					this.$store.dispatch('DELETE_CERTIFICATE', data).then(res => {
-						this.getPlanList()
+						this.dialogVisible = false;
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: "删除成功!"
+						})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
@@ -770,15 +1020,20 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "获取计划列表失败！"
+								message: "删除失败，请稍后重试！"
 							});
 						}
 					})
 				}
-				else if(this.plan.type == 'additions'){
+				else if(this.currentType == 'additions'){
 					//其他计划
 					this.$store.dispatch('DELETE_ADDITIONAL', data).then(res => {
-						this.getPlanList()
+						this.dialogVisible = false;
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: "删除成功!"
+						})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
@@ -789,13 +1044,10 @@
 						} else {
 							this.$message({
 								type: "error",
-								message: "获取计划列表失败！"
+								message: "删除失败，请稍后重试！"
 							});
 						}
 					})
-				}
-				else if(this.plan.type == 'otherPlans'){
-					//附加计划
 				}
 			},
 			handleClose(done) {
@@ -805,6 +1057,33 @@
 					})
 					.catch(_ => {});
 			},
+			handleAvatarSuccess(res, file) {
+				console.log(res, file)
+				this.imageUrl = res.data.rootPath + res.data.headPic
+        // this.imageUrl = URL.createObjectURL(file.raw);
+      },
+			nextTerm(){
+				this.termIndex++;
+				if(this.termIndex <= this.planList.length-1){
+					this.getPlanInfo(this.planList[this.termIndex].id)
+				}else {
+					this.$message({
+						type: "error",
+						message: "没有了"
+					})
+				}
+			},
+			prevTerm(){
+				this.termIndex--;
+				if(this.termIndex == this.planList.length-1){
+					this.$message({
+						type: "error",
+						message: "没有了"
+					})
+				}else {
+					this.getPlanInfo(this.planList[this.termIndex].id)
+				}
+			}
 		},
 		components: {
 			headerNav
@@ -829,6 +1108,12 @@
 				border-left: 2px solid @main-color-blue;
 				margin: 20px 0;
 				background-color: #fff;
+				.btn-box {
+					float: right;
+					button {
+						margin-left: 20px;
+					}
+				}
 			}
 			.content {
 				width: 100%;
@@ -900,6 +1185,46 @@
 										.form-input {
 											width: 150px;
 										}
+										.progress-box {
+											.el-input {
+												width: 200px;
+											}
+											.el-progress {
+												width: 500px;
+												margin-top: 20px;
+											}
+										}
+										.upload-box {
+											.avatar-uploader{
+												width: 100px;
+												height: 100px;
+												border: 1px solid @main-color-border;
+												.el-upload {
+													border: 1px dashed #d9d9d9;
+													border-radius: 6px;
+													cursor: pointer;
+													position: relative;
+													overflow: hidden;
+												}
+												.el-upload:hover {
+													border-color: #409EFF;
+												}
+												.avatar-uploader-icon {
+													font-size: 28px;
+													color: #8c939d;
+													width: 100px;
+													height: 100px;
+													line-height: 100px;
+													text-align: center;
+												}
+												.avatar {
+													width: 100px;
+													height: 100px;
+													display: block;
+												}
+
+											} 
+										}
 									}
 									.plan-top {
 										margin-bottom: 5px;
@@ -930,6 +1255,7 @@
 												margin-right: 15px;
 												cursor: pointer;
 											}
+											
 										}
 									}
 									.plan-content {
