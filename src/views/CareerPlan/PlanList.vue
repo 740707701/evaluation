@@ -55,7 +55,7 @@
 												<div class="content-title">课程总结：</div>
 												<div class="content-text red">{{item.finish}}</div>
 											</div>
-											<div class="plan-content perfect-content" v-if="item.isEnd">
+											<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 												<div class="content-title">是否完成目标：</div>
 												<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 											</div>
@@ -90,7 +90,7 @@
 											<div class="content-title">大赛总结：</div>
 											<div class="content-text red">{{item.finish}}</div>
 										</div>
-										<div class="plan-content perfect-content" v-if="item.isEnd">
+										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
 											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
@@ -120,9 +120,11 @@
 											<div class="content-title">阅读感想：</div>
 											<div class="content-text red">{{item.finish}}</div>
 										</div>
-										<div class="plan-content perfect-content" v-if="item.isEnd">
-											<div class="content-title">是否完成目标：</div>
-											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+										<div class="plan-content perfect-content" v-if="item.progress">
+											<div class="content-title">阅读进度：</div>
+											<div class="content-text">
+												<el-progress :percentage="Number(item.progress)"></el-progress>
+											</div>
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='officeSkills'">
@@ -150,7 +152,7 @@
 											<div class="content-title">计划总结：</div>
 											<div class="content-text red">{{item.finish}}</div>
 										</div>
-										<div class="plan-content perfect-content" v-if="item.isEnd">
+										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
 											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
@@ -235,9 +237,16 @@
 											<div class="content-title">计划总结：</div>
 											<div class="content-text red">{{item.finish}}</div>
 										</div>
-										<div class="plan-content perfect-content" v-if="item.isEnd">
+										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
 											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.pic">
+											<div class="content-title" v-if="item.isEnd=='1'">证书图片：</div>
+											<div class="content-title" v-if="item.isEnd!='1'">分数图片：</div>
+											<div class="content-text">
+												<img :src="item.pic" alt="">
+											</div>
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='additions'">
@@ -265,7 +274,7 @@
 											<div class="content-title">计划总结：</div>
 											<div class="content-text red">{{item.finish}}</div>
 										</div>
-										<div class="plan-content perfect-content" v-if="item.isEnd">
+										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
 											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
@@ -328,8 +337,6 @@
 										</el-form>
 									</div>
 								</div>
-								<!-- <div class="item-plan perfect" v-if="currentPlanId==item.id&&currentType==plan.type">
-								</div> -->
 							</div>
 						</div>
 					</div>
@@ -598,6 +605,24 @@
 					errMessage = '完善信息失败，请稍后重试！'
 					successMessage = '修改信息成功！'
 				}
+				if(this.currentType == 'requireds' ||
+					 this.currentType == 'selfs' ||
+					 this.currentType == 'profs' 
+					){
+					if(data.sscore == "" ) {
+						this.$message({type: "error", message:"请输入实际分数！"})
+						return;
+					}else if(Number(data.sscore) != data.sscore || Number(data.sscore)>100 || Number(data.sscore)<0){
+						this.$message({type: "error", message:"请输入0~100范围内的数字！"})
+						return;
+					}else if(data.finish == ""){
+						this.$message({type: "error", message:"请输入课程总结！"})
+						return;
+					}else if(data.isEnd === ""){
+						this.$message({type: "error", message:"请选择是否完成目标！"})
+						return;
+					}
+				}
 				if(this.currentType == 'requireds'){
 					this.$store.dispatch('UPDATE_REQUIRED', data).then(res => {
 						this.currentPlanId = '';
@@ -665,6 +690,16 @@
 					})
 				}
 				else if(this.currentType == 'pread'){
+					if(data.finish == "" ) {
+						this.$message({type: "error", message:"请输入计划总结！"})
+						return;
+					}else if(data.progress == ''){
+						this.$message({type: "error", message:"请输入阅读进度！"})
+						return;
+					}else if(Number(data.progress) != data.progress || Number(data.progress)>100 || Number(data.progress)<0){
+						this.$message({type: "error", message:"请输入0~100范围内的数字！"})
+						return;
+					}
 					this.$store.dispatch('UPDATE_PREAD', data).then(res => {
 						this.currentPlanId = '';
 						this.getPlanList();
@@ -687,6 +722,13 @@
 					})
 				}
 				else if(this.currentType == 'officeSkills'){
+					if(data.finish == ""){
+						this.$message({type: "error", message:"请输入计划总结！"})
+						return;
+					}else if(data.isEnd === ""){
+						this.$message({type: "error", message:"请选择是否完成目标！"})
+						return;
+					}
 					this.$store.dispatch('UPDATE_OFFICE', data).then(res => {
 						this.currentPlanId = '';
 						this.getPlanList();
@@ -709,6 +751,10 @@
 					})
 				}
 				else if(this.currentType == 'vocations'){
+					if(data.finish == ""){
+						this.$message({type: "error", message:"请输入计划总结！"})
+						return;
+					}
 					this.$store.dispatch('UPDATE_VOCATION', data).then(res => {
 						this.currentPlanId = '';
 						this.getPlanList();
@@ -731,6 +777,10 @@
 					})
 				}
 				else if(this.currentType == 'internships'){
+					if(data.finish == ""){
+						this.$message({type: "error", message:"请输入计划总结！"})
+						return;
+					}
 					this.$store.dispatch('UPDATE_INTERNSHIP', data).then(res => {
 						this.currentPlanId = '';
 						this.getPlanList();
@@ -754,6 +804,16 @@
 				}
 				else if(this.currentType == 'certificates'){
 					data.pic = this.imageUrl;
+					if(data.finish == ""){
+						this.$message({type: "error", message:"请输入计划总结！"})
+						return;
+					}else if(data.isEnd === ""){
+						this.$message({type: "error", message:"请选择是否完成目标！"})
+						return;
+					}else if(data.pic == ''){
+						this.$message({type: "error", message:"请上传证书或分数图片！"})
+						return;
+					}
 					this.$store.dispatch('UPDATE_CERTIFICATE', data).then(res => {
 						this.currentPlanId = '';
 						this.getPlanList();
@@ -776,6 +836,10 @@
 					})
 				}
 				else if(this.currentType == 'additions'){
+					if(data.finish == ""){
+						this.$message({type: "error", message:"请输入计划总结！"})
+						return;
+					}
 					this.$store.dispatch('UPDATE_ADDITIONAL', data).then(res => {
 						this.currentPlanId = '';
 						this.getPlanList();
@@ -1190,8 +1254,10 @@
 												width: 200px;
 											}
 											.el-progress {
-												width: 500px;
+												width: 400px;
 												margin-top: 20px;
+												margin-left: 50px;
+												display: inline-block;
 											}
 										}
 										.upload-box {
@@ -1267,6 +1333,14 @@
 										.content-text {
 											margin-left: 130px;
 											line-height: 22px;
+											.el-progress {
+												width: 400px;
+												display: inline-block;
+											}
+											img {
+												width: 200px;
+												height: auto;
+											}
 										}
 										
 									}
