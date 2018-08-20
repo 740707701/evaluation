@@ -247,6 +247,7 @@ import headerNav from '../../components/HeaderNav'
 				margin-left: -120px;
 				margin-top: -160px;
 				.icon-news {
+					color: rgb(56,171,253);
 					font-size: 100px;
 					margin: 45px auto 20px auto;
 					display: inline-block;
