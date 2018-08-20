@@ -11,16 +11,21 @@
 			</div>
 			<div class="content">
 				<div class="banner">
-					<img src="../../assets/images/resume_bg.jpg" alt="">
+					<img src="../../assets/images/plan_bg.jpg" alt="">
+					<div class="banner-text">
+						<div class="term-title" v-for="term in termPlan" :key="term.stage" v-if="termIndex+1==term.stage">{{term.title}}</div>
+						<div class="term-split"></div>
+						<div class="sub-title">Freshman last semester planning</div>
+					</div>
 				</div>
 				<div class="plan-list">
-					<div class="options-item" v-for="(options,index) in infoOptions" :key="index" >
+					<div class="options-item" v-for="(options,index) in infoOptions" :key="index" v-if="options.showPlanList">
 						<div class="en">{{options.en}}</div>
 						<div class="en-border"></div>
 						<div class="options-title">{{options.optionsTitle}}</div>
 						<div class="item" v-if="planInfoList[plan.type]?planInfoList[plan.type].length:''" v-for="(plan, subIndex) in options.planList" :key="subIndex">
 							<div class="item-title">
-								<span class="num">0{{subIndex+1}}</span>
+								<span class="num">{{subIndex+1>=10?subIndex+1:'0'+(subIndex+1)}}</span>
 								<span class="title">{{plan.title}}</span>
 							</div>
 							<div class="item-content" v-for="(item, idx) in planInfoList[plan.type]" :key="idx">
@@ -392,6 +397,7 @@
 					{
 						optionsTitle: '专业学习计划',
 						en: 'Professional learning plan',
+						showPlanList: true,
 						planList: [
 							{
 								type: "requireds",
@@ -418,6 +424,7 @@
 					{
 						optionsTitle: '职业能力计划',
 						en: 'Vocational ability plan',
+						showPlanList: true,
 						planList: [
 							{
 								type: "officeSkills",
@@ -436,6 +443,7 @@
 					{
 						optionsTitle: '考证计划',
 						en: 'Textual research plan',
+						showPlanList: true,
 						planList: [
 							{
 								type: "certificates",
@@ -446,6 +454,7 @@
 					{
 						optionsTitle: '其他计划',
 						en: 'Others plans',
+						showPlanList: true,
 						planList: [
 							{
 								type: "additions",
@@ -512,24 +521,23 @@
 			getPlanInfo(planId){
         let params = {
           id: planId
-        }
+				}
+				this.infoOptions.map(item => { item.showPlanList = true; })
         this.$store.dispatch('PLANINFO', params).then(res => {
-          this.planInfoList = res.data;
-					//合并自定义数据
-					/*
-					for(let plan in this.planInfoList){
-						this.infoOptions.map((options, index) => {
-							let planList = options.planList;
-							planList.map((item, subIndex) => {
-								if(this.planInfoList[plan].length &&
-								 plan == planList[subIndex].type){
-									 item[item.type+'List'] = this.planInfoList[plan]
-								 }
-							})
-						})
+					this.planInfoList = res.data;
+					if(!this.planInfoList['requireds'].length && !this.planInfoList['options'].length && !this.planInfoList['selfs'].length && 
+						!this.planInfoList['profs'].length && !this.planInfoList['pread'].length){
+							this.infoOptions[0].showPlanList = false;
 					}
-					*/
-          console.log(this.infoOptions)
+					if(!this.planInfoList['officeSkills'].length && !this.planInfoList['vocations'].length && !this.planInfoList['internships'].length){
+						this.infoOptions[1].showPlanList = false;
+					}
+					if(!this.planInfoList['certificates'].length){
+						this.infoOptions[2].showPlanList = false;
+					}
+					if(!this.planInfoList['additions'].length){
+						this.infoOptions[3].showPlanList = false;
+					}
         }).catch(err => {
           console.log(err)
           if (err.data.msg) {
@@ -605,10 +613,7 @@
 					errMessage = '完善信息失败，请稍后重试！'
 					successMessage = '修改信息成功！'
 				}
-				if(this.currentType == 'requireds' ||
-					 this.currentType == 'selfs' ||
-					 this.currentType == 'profs' 
-					){
+				if(this.currentType == 'requireds' || this.currentType == 'selfs' || this.currentType == 'options' ){
 					if(data.sscore == "" ) {
 						this.$message({type: "error", message:"请输入实际分数！"})
 						return;
@@ -667,7 +672,33 @@
 						}
 					})
 				}
+				else if(this.currentType == 'options'){
+					this.$store.dispatch('UPDATE_OPTIONAL', data).then(res => {
+						this.currentPlanId = '';
+						this.getPlanList();
+						this.$message({
+							type: "success",
+							message: successMessage
+						})
+					}).catch(err => {
+						if (err.data.msg) {
+							this.$message({
+								type: "error",
+								message: err.data.msg
+							});
+						} else {
+							this.$message({
+								type: "error",
+								message: errMessage
+							});
+						}
+					})
+				}
 				else if(this.currentType == 'profs'){
+					if(data.finish == "" ) {
+						this.$message({type: "error", message:"请输入计划总结！"})
+						return;
+					}
 					this.$store.dispatch('UPDATE_PROF', data).then(res => {
 						this.currentPlanId = '';
 						this.getPlanList();
@@ -1184,17 +1215,39 @@
 				background-color: #fff;
 				.banner {
 					width: 100%;
-					height: 290px;
+					height: 350px;
 					background-color: lightblue;
+					position: relative;
 					img {
 						width: 100%;
-						height: 290px;
+						height: 350px;
+					}
+					.banner-text {
+						position: absolute;
+						top: 110px;
+						left: 230px;
+						.term-title {
+							font-size: 40px;
+							margin-bottom: 20px;
+						}
+						.term-split {
+							width: 60px;
+							height: 4px;
+							display: inline-block;
+							border-bottom:4px solid @main-color-blue;
+							margin-bottom: 20px;
+						}
+						.sub-title {
+							font-size: 20px;
+							color: #535A6C;
+							line-height: 30px;
+						}
 					}
 				}
 				.plan-list {
 					padding: 10px 50px;
 					.red {
-						color: red;
+						color: red!important;
 					}
 					.options-item {
 						margin-bottom: 30px;
@@ -1297,12 +1350,13 @@
 										height: 26px;
 										line-height: 26px;
 										.name {
+											font-weight: 600;
 											color: @main-color-blue;
 											margin-right: 40px;
 											display: inline-block;
 										}
 										.score {
-											font-weight: 500;
+											font-weight: 600;
 										}
 										.operation {
 											float: right;
@@ -1325,14 +1379,18 @@
 										}
 									}
 									.plan-content {
+										width:100%;
+										display: inline-block;
 										.content-title {
 											float: left;
 											width: 110px;
 											margin-top: 3px;
 										}
 										.content-text {
-											margin-left: 130px;
+											color: #A2A9B8;
+											margin-left: 30px;
 											line-height: 22px;
+											display: inline-block;
 											.el-progress {
 												width: 400px;
 												display: inline-block;
