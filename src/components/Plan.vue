@@ -7,8 +7,8 @@
         <div class="input-list">
           <div class="input-box" v-for="(item,index) in plan.inputBox" :key="item.name">
             <div class="name">{{item.name}}</div>
-            <el-input size="small" v-if="!(item.options?item.options.length:item.options)" :placeholder="item.placeholder" v-model="input[index]"></el-input>
-            <el-select size="small" v-if="item.options?item.options.length:item.options" v-model="input[index]" :placeholder="item.placeholder">
+            <el-input size="small" v-if="!(item.options?item.options.length:item.options)" :placeholder="item.placeholder" v-model="form.input[index]"></el-input>
+            <el-select size="small" v-if="item.options?item.options.length:item.options" v-model="form.input[index]" :placeholder="item.placeholder">
               <el-option
                 v-for="item in item.options"
                 :key="item.id"
@@ -21,7 +21,7 @@
         <div class="desc-box" v-for="(item, index) in plan.textareaBox" :key="item.name">
           <div class="name">{{item.name}}</div>
           <div class="desc">
-            <textarea class="textarea" v-model="textarea[index]" :placeholder="item.placeholder" :maxlength="item.maxlength"></textarea>
+            <textarea class="textarea" v-model="form.textarea[index]" :placeholder="item.placeholder" :maxlength="item.maxlength"></textarea>
           </div>
         </div>
         <div class="post-btn">
@@ -29,8 +29,8 @@
             <i class="iconfont icon-arrow-left-line"></i>
           </div>
           <el-button size="small" class="complete-btn btn" @click="post()">保存</el-button>
-          <el-button size="small" class="complete-btn btn" type="primary" v-if="noNext" @click="submit()">提交</el-button>
-          <div class="pager-btn right-btn" @click="next" :class="noNext?'disabled':''">
+          <el-button size="small" class="complete-btn btn" type="primary" v-if="curPageIndex==planOptionsLen" @click="submit()">提交</el-button>
+          <div class="pager-btn right-btn" @click="next" :class="curPageIndex==planOptionsLen?'disabled':''">
             <i class="iconfont icon-arrow-right-line"></i>
           </div>
         </div>
@@ -224,15 +224,16 @@ import api from '../api/index'
 import config from '../api/config'
 export default {
   name: 'plan',
-  props: ["plan", "planId", "noNext", "noPrev"],
+  props: ["plan", "planId", "noNext", "noPrev", "planOptionsLen", "curPageIndex"],
   data(){
     return { 
       userInfo: JSON.parse(localStorage.getItem("userInfo")),
       dialogVisible: false,
       planIndex: 0,
-      input:[],
-      select: [],
-      textarea: [],
+      form: {
+        input: [],
+        textarea: []
+      },
       optionsInfo: {}, //当前选项信息
       requiredsList: [],
       optionsList: [],
@@ -253,32 +254,22 @@ export default {
   },
   methods: {
     post(){
-      this.plan.inputBox.map((item,index) => {
-        if(!this.input[index]){
-          this.$message({
-            type: "error",
-            message: `${item.placeholder}！`
-          })
-          return
-        }
-      })
-      if(this.plan.type!="requireds" && this.plan.type=="selfs" && this.plan.type=="options"){
-        this.plan.textareaBox.map((item, index) => {
-          if(!this.textareaBox[index]){
-            this.$message({
-              type: "error",
-              message: `${item.placeholder}！`
-            })
-            return
-          }
-        })
-      }
       if(this.plan.type == 'requireds'){
         let data = {
-          courseName: this.input[0],
-          score: this.input[1],
-          goal: this.textarea[0],
+          courseName: this.form.input[0],
+          score: this.form.input[1],
+          goal: this.form.textarea[0],
           planId: this.planId
+        }
+        if(data.courseName == undefined){
+          this.$message({type: "error", message:"请输入课程名称！"})
+          return;
+        }else if(data.score === undefined){
+          this.$message({type: "error", message:"请输入计划分数！"})
+          return;
+        }else if(data.goal === undefined){
+          this.$message({type: "error", message:"请输入课程目标！"})
+          return;
         }
         this.$store.dispatch('INSERT_REQUIRED', data).then(res => {
           this.getPlanList()
@@ -298,10 +289,20 @@ export default {
       }
       else if(this.plan.type == 'options'){
         let data = {
-          courseName: this.input[0],
-          score: this.input[1],
-          goal: this.textarea[0],
+          courseName: this.form.input[0],
+          score: this.form.input[1],
+          goal: this.form.textarea[0],
           planId: this.planId
+        }
+        if(data.courseName == undefined){
+          this.$message({type: "error", message:"请输入课程名称！"})
+          return;
+        }else if(data.score === undefined){
+          this.$message({type: "error", message:"请输入计划分数！"})
+          return;
+        }else if(data.goal === undefined){
+          this.$message({type: "error", message:"请输入课程目标！"})
+          return;
         }
         //选修课
         this.$store.dispatch('INSERT_OPTIONAL', data).then(res => {
@@ -322,10 +323,20 @@ export default {
       }
       else if(this.plan.type == 'selfs'){
         let data = {
-          courseName: this.input[0],
-          score: this.input[1],
-          goal: this.textarea[0],
+          courseName: this.form.input[0],
+          score: this.form.input[1],
+          goal: this.form.textarea[0],
           planId: this.planId
+        }
+        if(data.courseName == undefined){
+          this.$message({type: "error", message:"请输入课程名称！"})
+          return;
+        }else if(data.score === undefined){
+          this.$message({type: "error", message:"请输入计划分数！"})
+          return;
+        }else if(data.goal === undefined){
+          this.$message({type: "error", message:"请输入课程目标！"})
+          return;
         }
         //自学课
         this.$store.dispatch('INSERT_SELF', data).then(res => {
@@ -345,13 +356,23 @@ export default {
         })
       }
       else if(this.plan.type == 'profs'){
-        //专业大赛
         let data = {
-          name: this.input[0],
-          goal: this.textarea[0],
-          desc: this.textarea[1],
+          name: this.form.input[0],
+          goal: this.form.textarea[0],
+          desc: this.form.textarea[1],
           planId: this.planId
         }
+        if(data.name == undefined){
+          this.$message({type: "error", message:"请输入大赛名称！"})
+          return;
+        }else if(data.goal === undefined){
+          this.$message({type: "error", message:"请输入大赛目标！"})
+          return;
+        }else if(data.desc === undefined){
+          this.$message({type: "error", message:"请输入参赛计划！"})
+          return;
+        }
+        //专业大赛
         this.$store.dispatch('INSERT_PROF', data).then(res => {
           this.getPlanList()
         }).catch(err => {
@@ -369,14 +390,24 @@ export default {
         })
       }
       else if(this.plan.type == 'pread'){
-        //专业阅读
         let data = {
-          name: this.input[0],
-          type: this.input[1],
-          content: this.textarea[0],
+          name: this.form.input[0],
+          type: this.form.input[1],
+          content: this.form.textarea[0],
           mode: 0,
           planId: this.planId
         }
+        if(data.name === undefined){
+          this.$message({type: "error", message:"请选择书籍名称！"})
+          return;
+        }else if(data.type === undefined){
+          this.$message({type: "error", message:"请选择书籍类型！"})
+          return;
+        }else if(data.content === undefined){
+          this.$message({type: "error", message:"请输入阅读计划！"})
+          return;
+        }
+        //专业阅读
         this.$store.dispatch('INSERT_PREAD', data).then(res => {
           this.getPlanList()
         }).catch(err => {
@@ -394,12 +425,19 @@ export default {
         })
       }
       else if(this.plan.type == 'officeSkills'){
-        //办公技能
         let data = {
-          name: this.input[0],
-          desc: this.textarea[0],
+          name: this.form.input[0],
+          desc: this.form.textarea[0],
           planId: this.planId
         }
+        if(data.name === undefined){
+          this.$message({type: "error", message:"请选择技能名称！"})
+          return;
+        }else if(data.desc === undefined){
+          this.$message({type: "error", message:"请输入计划内容！"})
+          return;
+        }
+        //办公技能
         this.$store.dispatch('INSERT_OFFICE', data).then(res => {
           this.getPlanList()
         }).catch(err => {
@@ -417,12 +455,19 @@ export default {
         })
       }
       else if(this.plan.type == 'vocations'){
-        //职业能力
         let data = {
-          name: this.input[0],
-          goal: this.textarea[0],
+          name: this.form.input[0],
+          goal: this.form.textarea[0],
           planId: this.planId
         }
+        if(data.name === undefined){
+          this.$message({type: "error", message:"请选择职业技能名称！"})
+          return;
+        }else if(data.goal === undefined){
+          this.$message({type: "error", message:"请输入计划内容！"})
+          return;
+        }
+        //职业能力
         this.$store.dispatch('INSERT_VOCATION', data).then(res => {
           this.getPlanList()
         }).catch(err => {
@@ -440,12 +485,19 @@ export default {
         })
       }
       else if(this.plan.type == 'internships'){
-        //实习实践
         let data = {
-          content: this.textarea[0],
-          score: this.textarea[1],
+          content: this.form.textarea[0],
+          score: this.form.textarea[1],
           planId: this.planId
         }
+        if(data.content === undefined){
+          this.$message({type: "error", message:"请输入计划内容！"})
+          return;
+        }else if(data.score === undefined){
+          this.$message({type: "error", message:"请输入实习实践目标！"})
+          return;
+        }
+        //实习实践
         this.$store.dispatch('INSERT_INTERNSHIP', data).then(res => {
           this.getPlanList()
         }).catch(err => {
@@ -463,12 +515,19 @@ export default {
         })
       }
       else if(this.plan.type == 'certificates'){
-        //证书计划
         let data = {
-          name: this.input[0] || this.input[1],
-          content: this.textarea[0],
+          name: this.form.input[0],
+          content: this.form.textarea[0],
           planId: this.planId
         }
+        if(data.name === undefined){
+          this.$message({type: "error", message:"请选择证书名称！"})
+          return;
+        }else if(data.content === undefined){
+          this.$message({type: "error", message:"请输入计划内容！"})
+          return;
+        }
+        //证书计划
         this.$store.dispatch('INSERT_CERTIFICATE', data).then(res => {
           this.getPlanList()
         }).catch(err => {
@@ -486,12 +545,20 @@ export default {
         })
       }
       else if(this.plan.type == 'additions'){
-        //其他计划
         let data = {
-          additionalName: this.input[0],
-          additionalDesc: this.textarea[0],
+          additionalName: this.form.input[0],
+          additionalDesc: this.form.textarea[0],
           planId: this.planId
         }
+        console.log(data)
+        if(data.additionalName === undefined){
+          this.$message({type: "error", message:"请输入计划名称！"})
+          return;
+        }else if(data.additionalDesc === undefined){
+          this.$message({type: "error", message:"请输入计划内容！"})
+          return;
+        }
+        //其他计划
         this.$store.dispatch('INSERT_ADDITIONAL', data).then(res => {
           this.getPlanList()
         }).catch(err => {
@@ -539,8 +606,8 @@ export default {
       //additions,certificates,internships,officeSkills,
       //options,otherPlans,profs,pread,jread,selfs,required,vocations
       //清空表单数据
-      this.input = []
-      this.textarea = []
+      this.form.input = []
+      this.form.textarea = []
       let data = {
         id: this.planId,
         data: this.plan.type
@@ -776,6 +843,14 @@ export default {
       this.$emit("next")
     },
   },
+  watch: {
+    noNext(val, oldVal){
+      console.log('noNext', val, oldVal)
+    },
+    noPrev(val, oldVal){
+      console.log('noPrev', val, oldVal)
+    },
+  }
 }
 </script>
 <style lang="less" scope>
