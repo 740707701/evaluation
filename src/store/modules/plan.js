@@ -7,6 +7,8 @@ const PLANINFO = "PLANINFO";
 const PLANLIST = "PLANLIST";
 const OPENPLAN = "OPENPLAN";
 const SUBMITPLAN = "SUBMITPLAN";
+const QUERYPLAN = 'QUERYPLAN';
+const RECORD_OPENSTATE = 'RECORD_OPENSTATE'
 
 const CERTIFICATE_DATA = "CERTIFICATE_DATA";
 const CATEGORY_DATA = "CATEGORY_DATA";
@@ -130,6 +132,26 @@ export default {
     //开启计划
     [OPENPLAN]({ commit }, data) {
       return api.post(config.url.openPlan, data).then(res => {
+        commit("PLAN_SET", {
+          target: "planInfo",
+          data: res.data
+        });
+        return res;
+      });
+    },
+    //记录开启按钮
+    [RECORD_OPENSTATE]({commit}, data){
+      return api.post(config.url.recordOpenState, data).then(res => {
+        commit("PLAN_SET", {
+          target: "planInfo",
+          data: res.data
+        });
+        return res;
+      });
+    },
+    //查询是否开启计划
+    [QUERYPLAN]({ commit }, params){
+      return api.get(config.url.queryOpen, params).then(res => {
         commit("PLAN_SET", {
           target: "planInfo",
           data: res.data

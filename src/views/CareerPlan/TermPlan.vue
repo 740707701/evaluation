@@ -4,10 +4,10 @@
 		<div class="termplan-container">
 			<div class="top">
 				<span>规划表</span>
-				<div class="switch-box" v-if="planList.length<=4&&!confirmOpen">
+				<div class="switch-box" v-if="!isOpen&&!confirmOpenBox">
 					<span>开启</span>
-					<el-switch @change="openTerm"
-						v-model="open"
+					<el-switch 
+						v-model="showOpenBox"
 						active-color="#3477F6"
 						inactive-color="#ddd">
 					</el-switch>
@@ -15,32 +15,32 @@
 			</div>
 			<div class="list-content">
 				<el-row :gutter="20" class="term-item">
-					<el-col :span="6" v-for="(term, index) in planTerm" :key="index">
+					<el-col :span="6" v-for="(term, index) in termPlan.slice(0,4)" :key="index">
 						<div class="item">
 							<img src="../../assets/images/term.png" alt="">
 							<div class="title">{{term.title}}</div>
-							<el-button @click="toPlan(term.stage)" size="small">进入制作</el-button>
+							<el-button @click="toPlan(term)" size="small">进入制作</el-button>
 						</div>
 					</el-col>
 				</el-row>
-				<el-row :gutter="20" v-if="confirmOpen">
-					<el-col :span="6" v-for="(term, index) in otherPlanTerm" :key="index">
+				<el-row :gutter="20" v-if="isOpen">
+					<el-col :span="6" v-for="(term, index) in termPlan.slice(4)" :key="index">
 						<div class="item">
 							<img src="../../assets/images/term.png" alt="">
 							<div class="title">{{term.title}}</div>
-							<el-button @click="toPlan(term.stage)" size="small">进入制作</el-button>
+							<el-button @click="toPlan(term)" size="small">进入制作</el-button>
 						</div>
 					</el-col>
 				</el-row>
 			</div>
 		</div>
-		<div class="dialog" v-if="open&&!confirmOpen">
+		<div class="dialog" v-if="showOpenBox">
 			<div class="open-content">
-				<div class="close" @click="open=false">×</div>
+				<div class="close" @click="showOpenBox=false">×</div>
 				<i class="iconfont icon-news"></i>
 				<div class="title">开启通知</div>
 				<div class="tips">开启大三与大四规划与管理表</div>
-				<el-button type="primary" round size="small" @click="confirmOpen=true">确认开启</el-button>
+				<el-button type="primary" round size="small" @click="confirmOpen">确认开启</el-button>
 				<div class="fold-angle"></div>
 			</div>
 		</div>
@@ -53,12 +53,13 @@ import headerNav from '../../components/HeaderNav'
 		name: 'termPlan',
 		data(){
 			return {
-				open: false,
-				confirmOpen: false,
+				showOpenBox: false,
+				confirmOpenBox: false,
 				userInfo: JSON.parse(localStorage.getItem("userInfo")),
 				planList: [],
 				planId: '',
-				planTerm: [
+				isOpen: false,
+				termPlan: [
 					{
 						title: "大一上学期规划",
 						stage: 1
@@ -74,9 +75,7 @@ import headerNav from '../../components/HeaderNav'
 					{
 						title: "大二下学期规划",
 						stage: 4
-					}
-				],
-				otherPlanTerm: [
+					},
 					{
 						title: "大三上学期规划",
 						stage: 5
@@ -97,6 +96,7 @@ import headerNav from '../../components/HeaderNav'
 			}
 		},
 		created(){
+			this.queryOpenPlan()
 			this.getPlanList()
 		},
 		methods: {
@@ -106,6 +106,13 @@ import headerNav from '../../components/HeaderNav'
 				}
 				this.$store.dispatch('PLANLIST', params).then(res => {
 					this.planList = res.data
+					this.planList.map((plan, index) => {
+						this.termPlan.map((term, aubIndex) => {
+							if(plan.stage == term.stage){
+								term.isOpen = true
+							}
+						})
+					})
 				}).catch(err => {
 					this.$message({
 						type: "error",
@@ -140,36 +147,54 @@ import headerNav from '../../components/HeaderNav'
           }
 				})
 			},
-			toPlan(stage){
+			toPlan(term){
 				if(!this.planList.length){
-					this.openPlan(stage)
+					this.openPlan(term.stage)
 				}else {
-					this.planList.map((item, index) => {
-						if(item.stage == stage){
-							if(item.state == '10'){
-								this.$message({
-									type: "error",
-									message: "当前规划已提交，等待审核！"
-								})
-								return
-							}else {
-								this.$router.push({
-									name: 'careerplan',
-									query: {
-										planId: item.id
-									}
-								})
+					if(term.isOpen){
+						this.planList.map((item, index) => {
+							if(item.stage == term.stage){
+								if(item.state == '10'){
+									this.$message({	type: "error", 	message: "当前规划已提交，等待审核！"	})
+									return
+								}else if(item.state == '-1'){
+									this.$router.push({	name: 'careerplan',	query: { planId: item.id, termStage: item.stage } })
+								}
 							}
-						}else{
-							console.log('开启',index)
-							return
-						}
-					})
+						})
+					}else{
+						this.openPlan(term.stage)
+					}
 				}
 			},
-			openTerm(){
-				// console.log(this.open)
-			}
+			queryOpenPlan(){
+				this.$store.dispatch('QUERYPLAN').then(res => {
+					if(!res.data){
+						this.isOpen = false;
+					}else {
+						this.isOpen = true;
+					}
+				}).catch(err=> {
+					if(err.data.msg){
+						this.$message({type: "error", message: err.data.msg})
+					}else {
+						this.$message({type: "error", message: "查询开启大三大赛规划失败，请稍后重试！"})
+					}
+				})
+			},
+			confirmOpen(){
+				this.$store.dispatch('RECORD_OPENSTATE').then(res => {
+					this.confirmOpenBox = false;
+					this.showOpenBox = false;
+					this.isOpen = true;
+				}).catch(err => {
+					if(err.data.msg){
+						this.$message({type: "error", message: err.data.msg})
+					}else {
+						this.$message({type: "error", message: "开启大三大四规划失败，请稍后重试！"})
+					}
+				})
+			},
 		},
 		components: {
 			headerNav
@@ -222,6 +247,13 @@ import headerNav from '../../components/HeaderNav'
 					}
 					button {
 						margin-top: 30px;
+					}
+				}
+				.item:hover {
+					border: 1px solid @main-color-blue;
+					button {
+						background-color: @main-color-blue;
+						color: #fff;
 					}
 				}
 				.term-item {

@@ -41,24 +41,18 @@
         </el-col>
         <el-col :span="20" class="right-content">
           <div class="top">
-            <div class="title">大一上半学期计划</div>
+            <div class="title" v-if="termStage == term.stage" v-for="term in termPlan" :key="term.stage">{{term.title}}</div>
             <div class="page-box">共{{plan_options.length}}页</div>
             <div class="page-box">第{{planIndex+1}}页</div>
           </div>
           <div class="right-container">
-            <!-- <el-carousel height="100%" :autoplay="false" arrow="always" indicator-position="none">
-              <el-carousel-item v-for="(item,index) in plan_options" :key="index">
-                <plan :plan="item" :planId="planId" @updateList="postPlan"></plan>
-              </el-carousel-item>
-            </el-carousel> -->
             <div class="plan-box">
               <div class="icon-bg" v-if="!plan_options.length">
                 <i class="iconfont icon-queshengyesvg"></i>
                 <div class="tips">请在左侧列表勾选所需要的规划计划</div>
               </div>
               <div class="plan-item" v-for="(item,index) in plan_options" :key="index">
-                <plan :plan="item" :planId="planId" @prev="prev" @next="next" :noPrev="noPrev" :noNext="noNext"
-                 :planOptionsLen="plan_options.length" :curPageIndex="planIndex"></plan>
+                <plan :plan="item" :planId="planId" @prev="prev" @next="next" :noPrev="noPrev" :noNext="noNext"></plan>
               </div>
             </div>
           </div>
@@ -74,6 +68,7 @@
     data() {
       return {
         planId: '',
+        termStage:'',
         planIndex: 0,
         allPlanList: [],
         plan_options: [],
@@ -363,12 +358,47 @@
         */
         ],
         planItem: [],
-        noNext: false,
+        termPlan: [
+					{
+						title: "大一上学期规划",
+						stage: 1
+					},
+					{
+						title: "大一下学期规划",
+						stage: 2
+					},
+					{
+						title: "大二上学期规划",
+						stage: 3
+					},
+					{
+						title: "大二下学期规划",
+						stage: 4
+					},
+					{
+						title: "大三上学期规划",
+						stage: 5
+					},
+					{
+						title: "大三下学期规划",
+						stage: 6
+					},
+					{
+						title: "大四上学期规划",
+						stage: 7
+					},
+					{
+						title: "大四下学期规划",
+						stage: 8
+					}
+				],
+        noNext: true,
         noPrev: true
       };
     },
     created() {
       this.planId = this.$route.query.planId;
+      this.termStage = this.$route.query.termStage;
       this.getPlanInfo()
       this.getMetaData()
     },
@@ -380,7 +410,7 @@
       }
     },
     methods: {
-      checkPlan: function(){
+      checkPlan(){
         console.log('plan_options',this.plan_options)
       },
       addPlanOption(plan){
@@ -448,7 +478,6 @@
             })
           }
           this.planItem = document.getElementsByClassName("plan-item");
-          console.log(this.planItem.length)
           if(this.planItem.length == 1){
             this.noNext = true
             this.noPrev = true
@@ -510,6 +539,7 @@
           this.planIndex--
           if(this.planIndex == 0){
             this.noPrev = true
+            this.noNext = false
           }else {
             this.noNext = false
             this.noPrev = false
@@ -525,6 +555,7 @@
           this.planIndex++
           if(this.planIndex == this.planItem.length-1){
             this.noNext = true
+            this.noPrev = false
           }else {
             this.noNext = false
             this.noPrev = false
@@ -542,6 +573,12 @@
     watch: {
       plan_options(val, oldVal){
         console.log(val, oldVal)
+        if(val.length>=2){
+          this.noNext = false
+        }
+        if(this.planIndex+1 >= oldVal.length && val.length<oldVal.length){
+          this.planIndex = val.length - 1
+        }
       }
     },
     components: {

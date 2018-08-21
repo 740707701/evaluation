@@ -188,6 +188,10 @@ export default {
     openPlan: 'plan/insertPlan',
     //提交计划
     submitPlan: 'plan/updatePlan',
+    //记录开启大三大四计划按钮
+    recordOpenState: 'plan/insertPlanOpen',
+    //查询是否开启大三大四计划
+    queryOpen: 'plan/findPlanOpen',
 
     //用户
     login: 'user/login',

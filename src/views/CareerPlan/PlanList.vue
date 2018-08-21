@@ -35,7 +35,7 @@
 										<div class="plan-top">
 											<span class="name">{{item.courseName}}</span>
 											<span class="score">计划分数：{{item.score}}分</span>
-											<div class="operation">
+											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
 												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
@@ -69,7 +69,7 @@
 									<div class="plan-box" v-if="plan.type=='profs'">
 										<div class="plan-top">
 											<span class="name">{{item.name}}</span>
-											<div class="operation">
+											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
 												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
@@ -103,7 +103,7 @@
 									<div class="plan-box" v-if="plan.type=='pread'">
 										<div class="plan-top">
 											<span class="name">{{item.name}}</span>
-											<div class="operation">
+											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
 												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
@@ -135,7 +135,7 @@
 									<div class="plan-box" v-if="plan.type=='officeSkills'">
 										<div class="plan-top">
 											<span class="name">{{item.name}}</span>
-											<div class="operation">
+											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
 												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
@@ -165,7 +165,7 @@
 									<div class="plan-box" v-if="plan.type=='vocations'">
 										<div class="plan-top">
 											<span class="name">{{item.name}}</span>
-											<div class="operation">
+											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
 												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
@@ -190,7 +190,7 @@
 									</div>
 									<div class="plan-box" v-if="plan.type=='internships'">
 										<div class="plan-top">
-											<div class="operation">
+											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
 												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
@@ -220,7 +220,7 @@
 									<div class="plan-box" v-if="plan.type=='certificates'">
 										<div class="plan-top">
 											<span class="name">{{item.name}}</span>
-											<div class="operation">
+											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
 												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
@@ -257,7 +257,7 @@
 									<div class="plan-box" v-if="plan.type=='additions'">
 										<div class="plan-top">
 											<span class="name">{{item.additionalName}}</span>
-											<div class="operation">
+											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
 												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
@@ -378,6 +378,7 @@
 					operaType: 'certificates'
 				},
 				userInfo: JSON.parse(localStorage.getItem("userInfo")),
+				auth: '',
 				planList: [],
 				planInfoList: [],
 				currentPlanInfo: {},
@@ -525,6 +526,7 @@
 				this.infoOptions.map(item => { item.showPlanList = true; })
         this.$store.dispatch('PLANINFO', params).then(res => {
 					this.planInfoList = res.data;
+					this.auth = res.data.auth;
 					if(!this.planInfoList['requireds'].length && !this.planInfoList['options'].length && !this.planInfoList['selfs'].length && 
 						!this.planInfoList['profs'].length && !this.planInfoList['pread'].length){
 							this.infoOptions[0].showPlanList = false;
@@ -1388,9 +1390,8 @@
 										}
 										.content-text {
 											color: #A2A9B8;
-											margin-left: 30px;
+											margin-left: 110px;
 											line-height: 22px;
-											display: inline-block;
 											.el-progress {
 												width: 400px;
 												display: inline-block;

@@ -29,8 +29,8 @@
             <i class="iconfont icon-arrow-left-line"></i>
           </div>
           <el-button size="small" class="complete-btn btn" @click="post()">保存</el-button>
-          <el-button size="small" class="complete-btn btn" type="primary" v-if="curPageIndex==planOptionsLen" @click="submit()">提交</el-button>
-          <div class="pager-btn right-btn" @click="next" :class="curPageIndex==planOptionsLen?'disabled':''">
+          <el-button size="small" class="complete-btn btn" type="primary" v-if="noNext" @click="submit()">提交</el-button>
+          <div class="pager-btn right-btn" @click="next" :class="noNext?'disabled':''">
             <i class="iconfont icon-arrow-right-line"></i>
           </div>
         </div>
@@ -224,7 +224,7 @@ import api from '../api/index'
 import config from '../api/config'
 export default {
   name: 'plan',
-  props: ["plan", "planId", "noNext", "noPrev", "planOptionsLen", "curPageIndex"],
+  props: ["plan", "planId", "noNext", "noPrev"],
   data(){
     return { 
       userInfo: JSON.parse(localStorage.getItem("userInfo")),
@@ -845,10 +845,10 @@ export default {
   },
   watch: {
     noNext(val, oldVal){
-      console.log('noNext', val, oldVal)
+      console.log('noNext', val)
     },
     noPrev(val, oldVal){
-      console.log('noPrev', val, oldVal)
+      console.log('noPrev', val)
     },
   }
 }
