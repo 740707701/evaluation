@@ -2,61 +2,66 @@
   <div class="careerplan-page">
     <headerNav></headerNav>
     <div class="container">
-      <el-row :gutter="20"></el-row>
-        <el-col :span="4" class="left-content">
-          <div class="title">
-            <i class="iconfont icon-option"></i>规划选项
-          </div>
-          <div class="item-box">
-            <div class="sub-title">专业学习计划</div>
-            <div class="item-list">
-              <el-checkbox-group v-model="plan_options" @change="checkPlan">
-                <el-checkbox v-for="(skill,index) in planOptions.slice(0,5)" :label="skill" :key="index">{{skill.title}}</el-checkbox>
-              </el-checkbox-group>
+      <el-container>
+        <el-aside width="205px">
+          <div class="left-content">
+            <div class="title">
+              <i class="iconfont icon-option"></i>规划选项
             </div>
-          </div>
-          <div class="item-box">
-            <div class="sub-title">职业能力计划</div>
-            <div class="item-list">
-              <el-checkbox-group v-model="plan_options" @change="checkPlan">
-                <el-checkbox v-for="(skill,index) in planOptions.slice(5,8)" :label="skill" :key="index">{{skill.title}}</el-checkbox>
-              </el-checkbox-group>
-            </div>
-          </div>
-          <div class="add-box" v-for="(other,index) in planOptions.slice(8)" :key="index">
-            <div class="name">{{other.title}}</div>
-            <div class="add-icon" v-if="!hasCertificatePlan&&other.type=='certificates'" @click="addPlanOption(other)">
-              <i class="el-icon-plus"></i>
-            </div>
-            <div class="add-icon" v-if="!hasAdditionPlan&&other.type=='additions'" @click="addPlanOption(other)">
-              <i class="el-icon-plus"></i>
-            </div>
-            <div class="add-icon checked" v-if="hasCertificatePlan&&other.type=='certificates'" @click="deletePlanOption(other)">
-              <i class="el-icon-minus"></i>
-            </div>
-            <div class="add-icon checked" v-if="hasAdditionPlan&&other.type=='additions'" @click="deletePlanOption(other)">
-              <i class="el-icon-minus"></i>
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="20" class="right-content">
-          <div class="top">
-            <div class="title" v-if="termStage == term.stage" v-for="term in termPlan" :key="term.stage">{{term.title}}</div>
-            <div class="page-box">共{{plan_options.length}}页</div>
-            <div class="page-box">第{{planIndex+1}}页</div>
-          </div>
-          <div class="right-container">
-            <div class="plan-box">
-              <div class="icon-bg" v-if="!plan_options.length">
-                <i class="iconfont icon-queshengyesvg"></i>
-                <div class="tips">请在左侧列表勾选所需要的规划计划</div>
+            <div class="item-box">
+              <div class="sub-title">专业学习计划</div>
+              <div class="item-list">
+                <el-checkbox-group v-model="plan_options" @change="checkPlan">
+                  <el-checkbox v-for="(skill,index) in planOptions.slice(0,5)" :label="skill" :key="index">{{skill.title}}</el-checkbox>
+                </el-checkbox-group>
               </div>
-              <div class="plan-item" v-for="(item,index) in plan_options" :key="index">
-                <plan :plan="item" :planId="planId" @prev="prev" @next="next" :noPrev="noPrev" :noNext="noNext"></plan>
+            </div>
+            <div class="item-box">
+              <div class="sub-title">职业能力计划</div>
+              <div class="item-list">
+                <el-checkbox-group v-model="plan_options" @change="checkPlan">
+                  <el-checkbox v-for="(skill,index) in planOptions.slice(5,8)" :label="skill" :key="index">{{skill.title}}</el-checkbox>
+                </el-checkbox-group>
+              </div>
+            </div>
+            <div class="add-box" v-for="(other,index) in planOptions.slice(8)" :key="index">
+              <div class="name">{{other.title}}</div>
+              <div class="add-icon" v-if="!hasCertificatePlan&&other.type=='certificates'" @click="addPlanOption(other)">
+                <i class="el-icon-plus"></i>
+              </div>
+              <div class="add-icon" v-if="!hasAdditionPlan&&other.type=='additions'" @click="addPlanOption(other)">
+                <i class="el-icon-plus"></i>
+              </div>
+              <div class="add-icon checked" v-if="hasCertificatePlan&&other.type=='certificates'" @click="deletePlanOption(other)">
+                <i class="el-icon-minus"></i>
+              </div>
+              <div class="add-icon checked" v-if="hasAdditionPlan&&other.type=='additions'" @click="deletePlanOption(other)">
+                <i class="el-icon-minus"></i>
               </div>
             </div>
           </div>
-        </el-col>
+        </el-aside>
+        <el-container>
+          <div class="main">
+            <div class="top">
+              <div class="title" v-if="termStage == term.stage" v-for="term in termPlan" :key="term.stage">{{term.title}}</div>
+              <div class="page-box">共{{plan_options.length}}页</div>
+              <div class="page-box">第{{planIndex+1}}页</div>
+            </div>
+            <div class="right-container">
+              <div class="plan-box">
+                <div class="icon-bg" v-if="!plan_options.length">
+                  <i class="iconfont icon-queshengyesvg"></i>
+                  <div class="tips">请在左侧列表勾选所需要的规划计划</div>
+                </div>
+                <div class="plan-item" v-for="(item,index) in plan_options" :key="index">
+                  <plan :plan="item" :planId="planId" @prev="prev" @next="next" :noPrev="noPrev" :noNext="noNext"></plan>
+                </div>
+              </div>
+            </div>
+          </div>
+        </el-container>
+      </el-container>
     </div>
   </div>
 </template>
@@ -67,6 +72,7 @@
     name: "careerplan",
     data() {
       return {
+        planItemHeight: '',
         planId: '',
         termStage:'',
         planIndex: 0,
@@ -83,13 +89,13 @@
               {
                 name: '课程名称',
                 placeholder: '请输入课程名称',
-                selectValue: '',
+                maxlength: 30,
                 options:  [],
               },
               {
                 name: '计划分数',
                 placeholder: '请输入计划分数',
-                selectValue: '',
+                maxlength: 10,
                 options: []
               }
             ],
@@ -111,13 +117,7 @@
               {
                 name: '课程名称',
                 placeholder: '请输入课程名称',
-                selectValue: '',
-                options:  [],
-              },
-              {
-                name: '计划分数',
-                placeholder: '请输入计划分数',
-                selectValue: '',
+                maxlength: 30,
                 options: []
               }
             ],
@@ -138,13 +138,13 @@
               {
                 name: '课程名称',
                 placeholder: '请输入课程名称',
-                selectValue: '',
+                maxlength: 30,
                 options:  [],
               },
               {
                 name: '计划分数',
                 placeholder: '请输入计划分数',
-                selectValue: '',
+                maxlength: 10,
                 options: []
               }
             ],
@@ -165,20 +165,20 @@
               {
                 name: '大赛名称',
                 placeholder: '请输入课程名称',
-                selectValue: '',
+                maxlength: 30,
                 options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '大赛目标',
-                placeholder: '自定义填写(限制在100个字以内)',
+                placeholder: '限制在100个字以内',
                 maxlength: 100,
                 value: ''
               },
               {
                 name: '参赛计划',
-                placeholder: '自定义填写(限制在100个字以内)',
+                placeholder: '限制在100个字以内',
                 maxlength: 100,
                 value: ''
               },
@@ -192,20 +192,20 @@
               {
                 name: '书籍名称',
                 placeholder: '请选择书籍名称',
-                selectValue: '',
+                maxlength: 30,
                 options:  [],
               },
               {
                 name: '书籍类型',
                 placeholder: '请选择书籍类型',
-                selectValue: '',
+                maxlength: 30,
                 options: []
               }
             ],
             textareaBox: [
               {
                 name: '阅读计划',
-                placeholder: '自定义填写(限制在100个字以内)',
+                placeholder: '限制在100个字以内',
                 maxlength: 100,
                 value: ''
               },
@@ -219,14 +219,14 @@
               {
                 name: '技能名称',
                 placeholder: '请选择技能名称',
-                selectValue: '',
+                maxlength: 30,
                 options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '自定义填写(限制在100个字以内)',
+                placeholder: '限制在100个字以内',
                 maxlength: 100,
                 value: ''
               },
@@ -240,14 +240,14 @@
               {
                 name: '职业技能名称',
                 placeholder: '请选择职业技能名称',
-                selectValue: '',
+                maxlength: 30,
                 options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '自定义填写(限制在100个字以内)',
+                placeholder: '限制在100个字以内',
                 maxlength: 100,
                 value: ''
               },
@@ -261,13 +261,13 @@
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '自定义填写(限制在100个字以内)',
+                placeholder: '限制在100个字以内',
                 maxlength: 100,
                 value: ''
               },
               {
                 name: '实习实践目标',
-                placeholder: '自定义填写(限制在100个字以内)',
+                placeholder: '限制在100个字以内',
                 maxlength: 100,
                 value: ''
               },
@@ -282,22 +282,14 @@
                 name: '证书名称',
                 placeholder: '请选择证书名称',
                 note: '建议：大二上学期开始考虑',
-                selectValue: '',
-                options:  [
-                  {
-                    value: '选项1',
-                    label: '黄金糕'
-                  }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                  }
-                ],
+                maxlength: 30,
+                options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '自定义填写(限制在100个字以内)',
+                placeholder: '限制在100个字以内',
                 maxlength: 100,
                 value: ''
               },
@@ -311,14 +303,14 @@
               {
                 name: '计划名称',
                 placeholder: '请输入名称',
-                selectValue: '',
+                maxlength: 30,
                 options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '自定义填写(限制在100个字以内)',
+                placeholder: '限制在100个字以内',
                 maxlength: 100,
                 value: ''
               },
@@ -334,7 +326,7 @@
                 name: '计划名称',
                 placeholder: '请选择证书名称',
                 note: '建议：大二上学期开始考虑',
-                selectValue: '',
+                maxlength: 30,
                 options:  [
                   {
                     value: '选项1',
@@ -401,6 +393,7 @@
       this.termStage = this.$route.query.termStage;
       this.getPlanInfo()
       this.getMetaData()
+      
     },
     mounted(){
       this.planItem = document.getElementsByClassName("plan-item");
@@ -454,7 +447,7 @@
             this.plan_options.splice(index,1)
           }
         })
-        console.log(this.plan_options)
+        // console.log(this.plan_options)
       },
       getPlanInfo(){
         let params = {
@@ -477,7 +470,11 @@
               }
             })
           }
+         
           this.planItem = document.getElementsByClassName("plan-item");
+          this.$nextTick(function(){
+            this.planItem[0].style.display = "block";
+          })
           if(this.planItem.length == 1){
             this.noNext = true
             this.noPrev = true
@@ -500,21 +497,23 @@
       getMetaData(){
         Promise.all([
           this.$store.dispatch("CERTIFICATE_DATA"), //证书列表
-          this.$store.dispatch("CATEGORY_DATA"), //书籍分类
-          this.$store.dispatch("BOOK_DATA"), //所有的书列表
+          // this.$store.dispatch("CATEGORY_DATA"), //书籍分类
+          // this.$store.dispatch("BOOK_DATA"), //所有的书列表
           this.$store.dispatch("OFFICE_DATA"), //所有的办公技能列表
           this.$store.dispatch("VOCATION_DATA"), //所有职业能力列表
         ]).then(res => {
           this.planOptions.map(item => {
             if(item.type == 'certificates'){
               item.inputBox[0].options = res[0].data
-            }else if(item.type == 'pread'){
-              item.inputBox[0].options = res[2].data
-              item.inputBox[1].options = res[1].data
-            }else if(item.type == 'officeSkills'){
-              item.inputBox[0].options = res[3].data
+            }
+            // else if(item.type == 'pread'){
+            //   item.inputBox[0].options = res[2].data
+            //   item.inputBox[1].options = res[1].data
+            // }
+            else if(item.type == 'officeSkills'){
+              item.inputBox[0].options = res[1].data
             }else if(item.type == 'vocations'){
-              item.inputBox[0].options = res[4].data
+              item.inputBox[0].options = res[2].data
             }
           })
         }).catch(err => {
@@ -591,25 +590,19 @@
 @import "../../assets/css/colors.less";
 .careerplan-page {
   width: 100%;
-  height: 100vh;
-  display: inline-block;
   min-height: 100%;
   background-color: @main-color-bg;
   padding-top: 60px;
   padding-bottom: 25px;
   .container {
     width: 1200px;
-    height: calc(100% - 20px);
+    height: 100%;
     margin: 0 auto;
     margin-top: 20px;
     box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
-    overflow: hidden;
-    .left-content,
-    .right-content {
-      height: 100%;
-    }
     .left-content {
-      padding: 10px;
+      height: 100%;
+      padding: 15px;
       background-color: #fff;
       border-right: 1px solid @main-color-border;
       border-radius: 8px 0 0 8px;
@@ -663,7 +656,10 @@
         }
       }
     }
-    .right-content {
+    .main {
+      width: 100%;
+      background-color: @main-color-bg;
+      border-radius: 10px;
       .top {
         padding-left: 20px;
         height: 50px;
@@ -681,17 +677,18 @@
         }
       }
       .right-container {
-        height: calc(100% - 50px);
         padding: 20px;
-        position: relative;
         .plan-box {
           width: 100%;
           height: 100%;
           background-color: #fff;
+          display: inline-block;
+          overflow: hidden;
           .plan-item {
-            width: calc(100% - 40px);
+            width: 100%;
             height: 100%;
-            position: absolute;
+            display: none;
+            // position: absolute;
             .disabled {
               cursor: no-drop;
               background-color: #ddd!important;
@@ -715,6 +712,7 @@
           }
         }
       }
+      
     }
   }
 }

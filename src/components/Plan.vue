@@ -7,7 +7,7 @@
         <div class="input-list">
           <div class="input-box" v-for="(item,index) in plan.inputBox" :key="item.name">
             <div class="name">{{item.name}}</div>
-            <el-input size="small" v-if="!(item.options?item.options.length:item.options)" :placeholder="item.placeholder" v-model="form.input[index]"></el-input>
+            <el-input size="small" v-if="!(item.options?item.options.length:item.options)" :placeholder="item.placeholder" v-model="form.input[index]" :maxlength="item.maxlength"></el-input>
             <el-select size="small" v-if="item.options?item.options.length:item.options" v-model="form.input[index]" :placeholder="item.placeholder">
               <el-option
                 v-for="item in item.options"
@@ -49,7 +49,7 @@
             <div class="name">课程目标</div>
             <div class="desc-text">{{item.goal}}</div>
           </div>
-          <div class="item-del" @click="confirmDeletePlan(item)">
+          <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
           </div>
         </li>
@@ -67,7 +67,7 @@
             <div class="name">课程目标：</div>
             <div class="desc-text">{{item.goal}}</div>
           </div>
-          <div class="item-del" @click="confirmDeletePlan(item)">
+          <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
           </div>
         </li>
@@ -85,7 +85,7 @@
             <div class="name">课程目标：</div>
             <div class="desc-text">{{item.goal}}</div>
           </div>
-          <div class="item-del" @click="confirmDeletePlan(item)">
+          <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
           </div>
         </li>
@@ -100,7 +100,7 @@
             <div class="name">大赛目标：</div>
             <div class="desc-text">{{item.goal}}</div>
           </div>
-          <div class="item-del" @click="confirmDeletePlan(item)">
+          <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
           </div>
         </li>
@@ -115,13 +115,12 @@
             <div class="name">阅读计划：</div>
             <div class="desc-text">{{item.content}}</div>
           </div>
-          <div class="item-del" @click="confirmDeletePlan(item)">
+          <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
           </div>
         </li>
-        <li class="item office" v-if="plan.type=='officeSkills'" v-for="(item,index) in officeSkillsList" :key="index">
+        <li class="item" v-if="plan.type=='officeSkills'" v-for="(item,index) in officeSkillsList" :key="index">
           <div class="item-icon">
-            <!-- <img src="../assets/images/plan-arrow-icon.png" alt=""> -->
             <img v-if="item.name=='word能力'" src="../assets/images/word-arrow-icon.png" alt="">
             <img v-if="item.name=='ppt能力'" src="../assets/images/ppt-arrow-icon.png" alt="">
             <img v-if="item.name=='excel能力'" src="../assets/images/excel-arrow-icon.png" alt="">
@@ -140,7 +139,7 @@
             <div class="name">计划内容：</div>
             <div class="desc-text">{{item.desc}}</div>
           </div>
-          <div class="item-del" @click="confirmDeletePlan(item)">
+          <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
           </div>
         </li>
@@ -155,7 +154,7 @@
             <div class="name">计划内容：</div>
             <div class="desc-text">{{item.goal}}</div>
           </div>
-          <div class="item-del" @click="confirmDeletePlan(item)">
+          <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
           </div>
         </li>
@@ -171,7 +170,7 @@
             <div class="name">实习实践目标：</div>
             <div class="desc-text">{{item.score}}</div>
           </div>
-          <div class="item-del" @click="confirmDeletePlan(item)">
+          <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
           </div>
         </li>
@@ -187,7 +186,7 @@
             <div class="name">计划内容：</div>
             <div class="desc-text">{{item.content}}</div>
           </div>
-          <div class="item-del" @click="confirmDeletePlan(item)">
+          <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
           </div>
         </li>
@@ -202,21 +201,21 @@
             <div class="name">计划内容：</div>
             <div class="desc-text">{{item.additionalDesc}}</div>
           </div>
-          <div class="item-del" @click="confirmDeletePlan(item)">
+          <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
           </div>
         </li>
       </ul>
-      <!-- <el-dialog
+      <el-dialog width="30%"
         title="提示"
         :visible.sync="dialogVisible"
         :before-close="handleClose">
         <span>是否确定删除？</span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="confirmDeletePlan">确 定</el-button>
+          <el-button size="small" @click="dialogVisible = false">取 消</el-button>
+          <el-button size="small" type="primary" @click="confirmDeletePlan">确 定</el-button>
         </span>
-      </el-dialog> -->
+      </el-dialog>
     </div>
 </template>
 <script>
@@ -267,10 +266,11 @@ export default {
         }else if(data.score === undefined){
           this.$message({type: "error", message:"请输入计划分数！"})
           return;
-        }else if(data.goal === undefined){
-          this.$message({type: "error", message:"请输入课程目标！"})
-          return;
         }
+        // else if(data.goal === undefined){
+        //   this.$message({type: "error", message:"请输入课程目标！"})
+        //   return;
+        // }
         this.$store.dispatch('INSERT_REQUIRED', data).then(res => {
           this.getPlanList()
         }).catch(err => {
@@ -300,10 +300,11 @@ export default {
         }else if(data.score === undefined){
           this.$message({type: "error", message:"请输入计划分数！"})
           return;
-        }else if(data.goal === undefined){
-          this.$message({type: "error", message:"请输入课程目标！"})
-          return;
         }
+        // else if(data.goal === undefined){
+        //   this.$message({type: "error", message:"请输入课程目标！"})
+        //   return;
+        // }
         //选修课
         this.$store.dispatch('INSERT_OPTIONAL', data).then(res => {
           this.getPlanList()
@@ -334,10 +335,11 @@ export default {
         }else if(data.score === undefined){
           this.$message({type: "error", message:"请输入计划分数！"})
           return;
-        }else if(data.goal === undefined){
-          this.$message({type: "error", message:"请输入课程目标！"})
-          return;
         }
+        // else if(data.goal === undefined){
+        //   this.$message({type: "error", message:"请输入课程目标！"})
+        //   return;
+        // }
         //自学课
         this.$store.dispatch('INSERT_SELF', data).then(res => {
           this.getPlanList()
@@ -614,7 +616,6 @@ export default {
       }
       this.$store.dispatch('PLANINFO', data).then(res => {
         this[this.plan.type+'List'] = res.data[this.plan.type];
-        // console.log(this[this.plan.type+'List'])
       }).catch(err => {
         if (err.data.msg) {
           this.$message({
@@ -633,14 +634,14 @@ export default {
       this.optionsInfo = item;
       this.dialogVisible = true;
     },
-    confirmDeletePlan(item){
-      this.optionsInfo = item;
+    confirmDeletePlan(){
       let data = {
         id: this.optionsInfo.id
       }
       if(this.plan.type == 'requireds'){
         this.$store.dispatch('DELETE_REQUIRED', data).then(res => {
-          this.getPlanList()
+          this.getPlanList();
+          this.dialogVisible = false;
         }).catch(err =>{
           console.log(err)
           if (err.data.msg) {
@@ -658,7 +659,8 @@ export default {
       }
       else if(this.plan.type == 'options'){
         this.$store.dispatch('DELETE_OPTIONAL', data).then(res => {
-          this.getPlanList()
+          this.getPlanList();
+          this.dialogVisible = false;
         }).catch(err =>{
           console.log(err)
           if (err.data.msg) {
@@ -676,7 +678,8 @@ export default {
       }
       else if(this.plan.type == 'selfs'){
         this.$store.dispatch('DELETE_SELF', data).then(res => {
-          this.getPlanList()
+          this.getPlanList();
+          this.dialogVisible = false;
         }).catch(err =>{
           console.log(err)
           if (err.data.msg) {
@@ -695,7 +698,8 @@ export default {
       else if(this.plan.type == 'profs'){
         //专业大赛
         this.$store.dispatch('DELETE_PROF', data).then(res => {
-          this.getPlanList()
+          this.getPlanList();
+          this.dialogVisible = false;
         }).catch(err =>{
           console.log(err)
           if (err.data.msg) {
@@ -714,7 +718,8 @@ export default {
       else if(this.plan.type == 'pread'){
         //专业阅读
         this.$store.dispatch('DELETE_PREAD', data).then(res => {
-          this.getPlanList()
+          this.getPlanList();
+          this.dialogVisible = false;
         }).catch(err =>{
           console.log(err)
           if (err.data.msg) {
@@ -733,7 +738,8 @@ export default {
       else if(this.plan.type == 'officeSkills'){
         //办公技能
         this.$store.dispatch('DELETE_OFFICE', data).then(res => {
-          this.getPlanList()
+          this.getPlanList();
+          this.dialogVisible = false;
         }).catch(err =>{
           console.log(err)
           if (err.data.msg) {
@@ -752,7 +758,8 @@ export default {
       else if(this.plan.type == 'vocations'){
         //职业能力
         this.$store.dispatch('DELETE_VOCATION', data).then(res => {
-          this.getPlanList()
+          this.getPlanList();
+          this.dialogVisible = false;
         }).catch(err =>{
           console.log(err)
           if (err.data.msg) {
@@ -771,7 +778,8 @@ export default {
       else if(this.plan.type == 'internships'){
         //实习实践
         this.$store.dispatch('DELETE_INTERNSHIP', data).then(res => {
-          this.getPlanList()
+          this.getPlanList();
+          this.dialogVisible = false;
         }).catch(err =>{
           console.log(err)
           if (err.data.msg) {
@@ -790,7 +798,8 @@ export default {
       else if(this.plan.type == 'certificates'){
         //证书计划
         this.$store.dispatch('DELETE_CERTIFICATE', data).then(res => {
-          this.getPlanList()
+          this.getPlanList();
+          this.dialogVisible = false;
         }).catch(err =>{
           console.log(err)
           if (err.data.msg) {
@@ -809,7 +818,8 @@ export default {
       else if(this.plan.type == 'additions'){
         //其他计划
         this.$store.dispatch('DELETE_ADDITIONAL', data).then(res => {
-          this.getPlanList()
+          this.getPlanList();
+          this.dialogVisible = false;
         }).catch(err =>{
           console.log(err)
           if (err.data.msg) {
@@ -845,10 +855,10 @@ export default {
   },
   watch: {
     noNext(val, oldVal){
-      console.log('noNext', val)
+      // console.log('noNext', val)
     },
     noPrev(val, oldVal){
-      console.log('noPrev', val)
+      // console.log('noPrev', val)
     },
   }
 }
@@ -860,7 +870,6 @@ export default {
     height: 100%;
     background-color: #fff;
     border-radius: 8px;
-    // box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
     display: inline-block;
     .title {
       width: 100%;
@@ -944,18 +953,15 @@ export default {
     .item-list {
       width: 100%;
       display: inline-block;
-      // display: flex;
-      // box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
       .item {
         float: left;
         width: 22%;
         height: 200px;
-        // flex: 1 1 auto;
         border: 1px solid @main-color-border;
         border-radius: 4px;
         box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
-        margin: 0 10px 20px 10px;
-        padding: 0 10px 10px 10px;
+        margin: 0 14px 20px 14px;
+        padding: 0 12px 12px 12px;
         position: relative;
         .item-icon {
           text-align: right;
@@ -993,9 +999,11 @@ export default {
           .name {
             line-height: 20px;
             margin-bottom: 6px;
+            color: #A2A9B8;
           }
           .desc-text {
             line-height: 16px;
+            color: #B4BFD1;
           }
         }
         .item-del {
