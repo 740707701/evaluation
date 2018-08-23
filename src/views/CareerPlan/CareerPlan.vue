@@ -402,6 +402,12 @@
         this.noPrev = true
       }
     },
+    updated(){
+      this.planItem = document.getElementsByClassName("plan-item");
+      if(this.planItem.length==1){
+        this.planItem[0].style.display = "block";
+      }
+    },
     methods: {
       checkPlan(){
         console.log('plan_options',this.plan_options)
@@ -426,6 +432,7 @@
               }
             }
           })
+          
         }else {
           if(plan.type == "certificates"){
             this.hasCertificatePlan = true
@@ -472,8 +479,11 @@
           }
          
           this.planItem = document.getElementsByClassName("plan-item");
+          // console.log(this.planItem)
           this.$nextTick(function(){
-            this.planItem[0].style.display = "block";
+            if(this.planItem.length){
+              this.planItem[0].style.display = "block";
+            }
           })
           if(this.planItem.length == 1){
             this.noNext = true
@@ -598,7 +608,7 @@
     width: 1200px;
     height: 100%;
     margin: 0 auto;
-    margin-top: 20px;
+    padding-top: 20px;
     box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
     .left-content {
       height: 100%;
@@ -678,12 +688,14 @@
       }
       .right-container {
         padding: 20px;
+        height: calc(100% - 40px);
         .plan-box {
           width: 100%;
           height: 100%;
           background-color: #fff;
           display: inline-block;
           overflow: hidden;
+          position: relative;
           .plan-item {
             width: 100%;
             height: 100%;
@@ -698,7 +710,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            margin-top: -100px;
+            margin-top: -75px;
             margin-left: -100px;
             .icon-queshengyesvg {
               font-size: 100px;
