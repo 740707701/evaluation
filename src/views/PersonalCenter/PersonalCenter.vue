@@ -222,7 +222,7 @@ export default {
           .name {
             font-size: 16px;
             text-align: center;
-            font-weight: 500;
+            line-height: 22px;
           }
           .school,.class {
             font-size: 12px;

@@ -317,6 +317,11 @@ export default {
 @import "../../assets/css/colors.less";
 .setting-page {
   position: relative;
+  .setting-content {
+    .el-form-item {
+      margin-bottom: 0!important;
+    }
+  }
   .bg {
     width: 100%;
     height: 100%;

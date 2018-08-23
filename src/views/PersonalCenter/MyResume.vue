@@ -39,7 +39,9 @@
               <div class="name">{{item.name}}</div>
               <div class="comment">修改评语：</div>
               <div class="comment">{{item.resumeComment}}</div>
-              <div class="operation-btn" @click="edit(item.id)">立即修改</div>
+              <div class="btn-box">
+                <div class="operation-btn view-btn" @click="edit(item.id)">立即修改</div>
+              </div>
             </div>
           </div>
         </div>
@@ -143,6 +145,7 @@ import time from '../../api/time.js'
     width: 100%;
     font-size: 13px;
     padding:10px 20px;
+    // display: inline-block;
     display: flex;
     -webkit-display: flex;
     flex-wrap: wrap;
@@ -154,21 +157,10 @@ import time from '../../api/time.js'
       color: #EB6A68;
     }
     .resume-item {
-      width: 240px;
-      img {
-        width: 50px;
-        height: 59px;
-      }
+      width: 220px;
     }
     .modify-item {
-      width: 324px;
-      img {
-        width: 40px;
-        height: 48px;
-      }
-      .item-content {
-        margin-left: 60px!important;
-      }
+      width: 298px;
     }
     .item {
       padding: 10px;
@@ -176,14 +168,17 @@ import time from '../../api/time.js'
       box-shadow: 2px 0px 10px rgba(56, 127, 246, 0.15);
       margin-bottom: 10px;
       margin-right: 12px;
+      display: inline-block;
       img {
         float: left;
+        width: 40px;
+        height: 48px;
       }
       .item-content {
         height: 100%;
-        margin-left: 70px;
+        margin-left: 55px;
         line-height: 20px;
-        padding-bottom: 25px;
+        padding-bottom: 32px;
         position: relative;
         .time {
           color: #DCDFE6;
@@ -211,15 +206,15 @@ import time from '../../api/time.js'
         }
         .operation-btn {
           padding: 0 10px;
-          height: 26px;
-          line-height: 26px;
+          height: 30px;
+          line-height: 30px;
           text-align: center;
           border-radius: 4px;
           cursor: pointer;
           display: inline-block;
           a {
             width: 100%;
-            line-height: 26px;
+            line-height: 30px;
             display: inline-block;
             color: #fff;
           }

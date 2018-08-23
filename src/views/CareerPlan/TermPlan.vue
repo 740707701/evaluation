@@ -160,7 +160,7 @@ import headerNav from '../../components/HeaderNav'
 								}else if(item.state == '-1'){
 									this.$router.push({	name: 'careerplan',	query: { planId: item.id, termStage: item.stage } })
 								}else {
-									this.$message({	type: "error", 	message: "修改权限尚未开通！"	})
+									this.$message({	type: "error", 	message: "修改权限尚未开放！"	})
 									return
 								}
 							}
