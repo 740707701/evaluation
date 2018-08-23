@@ -96,9 +96,13 @@
           <div class="item-title">
             <div class="name">{{item.name}}</div>
           </div>
-          <div class="item-desc">
+          <div class="item-desc item-goal">
             <div class="name">大赛目标：</div>
             <div class="desc-text">{{item.goal}}</div>
+          </div>
+          <div class="item-desc">
+            <div class="name">大赛计划：</div>
+            <div class="desc-text">{{item.desc}}</div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -162,13 +166,13 @@
           <div class="item-icon">
             <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
+          <div class="item-desc item-goal">
+            <div class="name">实习实践目标：</div>
+            <div class="desc-text">{{item.score}}</div>
+          </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
             <div class="desc-text">{{item.content}}</div>
-          </div>
-          <div class="item-desc">
-            <div class="name">实习实践目标：</div>
-            <div class="desc-text">{{item.score}}</div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -266,6 +270,9 @@ export default {
         }else if(data.score === undefined){
           this.$message({type: "error", message:"请输入计划分数！"})
           return;
+        }else if(Number(data.score) != data.score || Number(data.score)>100 || Number(data.score)<0){
+          this.$message({type: "error", message:"计划分数，请输入0~100范围内的数字！"})
+          return;
         }
         // else if(data.goal === undefined){
         //   this.$message({type: "error", message:"请输入课程目标！"})
@@ -299,6 +306,9 @@ export default {
           return;
         }else if(data.score === undefined){
           this.$message({type: "error", message:"请输入计划分数！"})
+          return;
+        }else if(Number(data.score) != data.score || Number(data.score)>100 || Number(data.score)<0){
+          this.$message({type: "error", message:"计划分数，请输入0~100范围内的数字！"})
           return;
         }
         // else if(data.goal === undefined){
@@ -334,6 +344,9 @@ export default {
           return;
         }else if(data.score === undefined){
           this.$message({type: "error", message:"请输入计划分数！"})
+          return;
+        }else if(Number(data.score) != data.score || Number(data.score)>100 || Number(data.score)<0){
+          this.$message({type: "error", message:"计划分数，请输入0~100范围内的数字！"})
           return;
         }
         // else if(data.goal === undefined){
@@ -952,23 +965,26 @@ export default {
     }
     .item-list {
       width: 100%;
-      display: inline-block;
+      display: flex;
+      -webkit-display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
       .item {
-        float: left;
         width: 22%;
-        height: 200px;
+        min-height: 200px;
         border: 1px solid @main-color-border;
         border-radius: 4px;
-        box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
+        box-shadow: 8px 0px 10px rgba(32, 35, 41, 0.15);
         margin: 0 14px 20px 14px;
         padding: 0 12px 12px 12px;
+        display: inline-block;
         position: relative;
         .item-icon {
           text-align: right;
           line-height: 30px;
         }
         .item-title {
-          height: 26px;
+          line-height: 26px;
           .name {
             display: inline-block;
             line-height: 20px;
@@ -989,13 +1005,13 @@ export default {
             }
           }
         }
-        .item-desc:last-child {
-          margin-bottom: 0;
+        .item-goal {
+          margin-bottom: 10px!important;
         }
         .item-desc {
           color: @main-color-gray;
           font-size: 12px;
-          margin-bottom: 10px;
+          margin-bottom: 30px;
           .name {
             line-height: 20px;
             margin-bottom: 6px;

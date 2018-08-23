@@ -89,7 +89,7 @@
               {
                 name: '课程名称',
                 placeholder: '请输入课程名称',
-                maxlength: 30,
+                maxlength: 50,
                 options:  [],
               },
               {
@@ -102,8 +102,8 @@
             textareaBox: [
               {
                 name: '课程目标',
-                placeholder: '自定义填写(限制在100个字以内)',
-                maxlength: 100,
+                placeholder: '自定义填写(限制在500个字以内)',
+                maxlength: 500,
                 value: ''
               },
             ]
@@ -117,15 +117,21 @@
               {
                 name: '课程名称',
                 placeholder: '请输入课程名称',
-                maxlength: 30,
+                maxlength: 50,
+                options: []
+              },
+              {
+                name: '计划分数',
+                placeholder: '请输入计划分数',
+                maxlength: 10,
                 options: []
               }
             ],
             textareaBox: [
               {
                 name: '课程目标',
-                placeholder: '自定义填写(限制在100个字以内)',
-                maxlength: 100,
+                placeholder: '自定义填写(限制在500个字以内)',
+                maxlength: 500,
                 value: ''
               },
             ]
@@ -138,7 +144,7 @@
               {
                 name: '课程名称',
                 placeholder: '请输入课程名称',
-                maxlength: 30,
+                maxlength: 50,
                 options:  [],
               },
               {
@@ -151,8 +157,8 @@
             textareaBox: [
               {
                 name: '课程目标',
-                placeholder: '自定义填写(限制在100个字以内)',
-                maxlength: 100,
+                placeholder: '自定义填写(限制在500个字以内)',
+                maxlength: 500,
                 value: ''
               },
             ]
@@ -164,22 +170,22 @@
             inputBox: [
               {
                 name: '大赛名称',
-                placeholder: '请输入课程名称',
-                maxlength: 30,
+                placeholder: '请输入大赛名称',
+                maxlength: 50,
                 options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '大赛目标',
-                placeholder: '限制在100个字以内',
-                maxlength: 100,
+                placeholder: '限制在500个字以内',
+                maxlength: 500,
                 value: ''
               },
               {
                 name: '参赛计划',
-                placeholder: '限制在100个字以内',
-                maxlength: 100,
+                placeholder: '限制在500个字以内',
+                maxlength: 500,
                 value: ''
               },
             ]
@@ -192,21 +198,21 @@
               {
                 name: '书籍名称',
                 placeholder: '请选择书籍名称',
-                maxlength: 30,
+                maxlength: 50,
                 options:  [],
               },
               {
                 name: '书籍类型',
                 placeholder: '请选择书籍类型',
-                maxlength: 30,
+                maxlength: 50,
                 options: []
               }
             ],
             textareaBox: [
               {
                 name: '阅读计划',
-                placeholder: '限制在100个字以内',
-                maxlength: 100,
+                placeholder: '限制在500个字以内',
+                maxlength: 500,
                 value: ''
               },
             ]
@@ -219,15 +225,15 @@
               {
                 name: '技能名称',
                 placeholder: '请选择技能名称',
-                maxlength: 30,
+                maxlength: 50,
                 options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '限制在100个字以内',
-                maxlength: 100,
+                placeholder: '限制在500个字以内',
+                maxlength: 500,
                 value: ''
               },
             ]
@@ -240,15 +246,15 @@
               {
                 name: '职业技能名称',
                 placeholder: '请选择职业技能名称',
-                maxlength: 30,
+                maxlength: 50,
                 options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '限制在100个字以内',
-                maxlength: 100,
+                placeholder: '限制在500个字以内',
+                maxlength: 500,
                 value: ''
               },
             ]
@@ -261,14 +267,14 @@
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '限制在100个字以内',
-                maxlength: 100,
+                placeholder: '限制在500个字以内',
+                maxlength: 500,
                 value: ''
               },
               {
                 name: '实习实践目标',
-                placeholder: '限制在100个字以内',
-                maxlength: 100,
+                placeholder: '限制在500个字以内',
+                maxlength: 500,
                 value: ''
               },
             ]
@@ -282,15 +288,15 @@
                 name: '证书名称',
                 placeholder: '请选择证书名称',
                 note: '建议：大二上学期开始考虑',
-                maxlength: 30,
+                maxlength: 50,
                 options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '限制在100个字以内',
-                maxlength: 100,
+                placeholder: '限制在500个字以内',
+                maxlength: 500,
                 value: ''
               },
             ]
@@ -303,15 +309,15 @@
               {
                 name: '计划名称',
                 placeholder: '请输入名称',
-                maxlength: 30,
+                maxlength: 50,
                 options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '限制在100个字以内',
-                maxlength: 100,
+                placeholder: '限制在500个字以内',
+                maxlength: 500,
                 value: ''
               },
             ]
@@ -326,23 +332,15 @@
                 name: '计划名称',
                 placeholder: '请选择证书名称',
                 note: '建议：大二上学期开始考虑',
-                maxlength: 30,
-                options:  [
-                  {
-                    value: '选项1',
-                    label: '黄金糕'
-                  }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                  }
-                ],
+                maxlength: 50,
+                options:  [],
               }
             ],
             textareaBox: [
               {
                 name: '计划内容',
-                placeholder: '自定义填写(限制在100个字以内)',
-                maxlength: 100,
+                placeholder: '自定义填写(限制在500个字以内)',
+                maxlength: 500,
                 value: ''
               },
             ]
