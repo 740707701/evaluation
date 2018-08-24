@@ -32,23 +32,24 @@
 								<div class="item-plan">
 									<div class="sign"></div>
 									<div class="plan-box" v-if="plan.type=='requireds' || plan.type=='options' || plan.type=='selfs'">
-										<div class="plan-top">
+										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.courseName}}</span>
 											<span class="score">计划分数：{{item.score}}分</span>
-											<div class="operation" v-if="auth==1">
-												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<el-dropdown trigger="click" >
+											<div class="operation">
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
-														<i class="iconfont icon-yijiao"></i>
+														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
 														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
-												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
+												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
 											</div>
-									</div>
-										<div class="plan-content">
+										</div>
+										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">课程目标：</div>
 											<div class="content-text">{{item.goal}}</div>
 										</div>
@@ -66,26 +67,27 @@
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='profs'">
-										<div class="plan-top">
+										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.name}}</span>
-											<div class="operation" v-if="auth==1">
-												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<el-dropdown trigger="click" >
+											<div class="operation">
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
-														<i class="iconfont icon-yijiao"></i>
+														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
 														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
-												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
+												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
-										<div class="plan-content">
+										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">大赛目标：</div>
 											<div class="content-text">{{item.goal}}</div>
 										</div>
-										<div class="plan-content">
+										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">参赛计划：</div>
 											<div class="content-text">{{item.desc}}</div>
 										</div>
@@ -99,22 +101,24 @@
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='pread'">
-										<div class="plan-top">
+										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.name}}</span>
-											<div class="operation" v-if="auth==1">
-												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<el-dropdown trigger="click" >
+											<span class="score">{{item.type}}</span>
+											<div class="operation">
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
-														<i class="iconfont icon-yijiao"></i>
+														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
 														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
-												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
+												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
-										<div class="plan-content">
+										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">阅读计划：</div>
 											<div class="content-text">{{item.content}}</div>
 										</div>
@@ -130,22 +134,23 @@
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='officeSkills'">
-										<div class="plan-top">
+										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.name}}</span>
-											<div class="operation" v-if="auth==1">
-												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<el-dropdown trigger="click" >
+											<div class="operation">
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
-														<i class="iconfont icon-yijiao"></i>
+														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
 														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
-												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
+												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
-										<div class="plan-content">
+										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">计划目标：</div>
 											<div class="content-text">{{item.desc}}</div>
 										</div>
@@ -159,22 +164,23 @@
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='vocations'">
-										<div class="plan-top">
+										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.name}}</span>
-											<div class="operation" v-if="auth==1">
-												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<el-dropdown trigger="click" >
+											<div class="operation">
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
-														<i class="iconfont icon-yijiao"></i>
+														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
 														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
-												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
+												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>										
-										<div class="plan-content">
+										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">计划目标：</div>
 											<div class="content-text">{{item.goal}}</div>
 										</div>
@@ -184,25 +190,26 @@
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='internships'">
-										<div class="plan-top">
-											<div class="operation" v-if="auth==1">
-												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<el-dropdown trigger="click" >
+										<div class="plan-top" v-if="!item.edit">
+											<div class="operation">
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<el-dropdown trigger="click"  v-if="auth==1">
 													<span class="el-dropdown-link">
-														<i class="iconfont icon-yijiao"></i>
+														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
 														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
-												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
+												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
-										<div class="plan-content">
+										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">实践内容：</div>
 											<div class="content-text">{{item.content}}</div>
 										</div>
-										<div class="plan-content">
+										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">计划目标：</div>
 											<div class="content-text">{{item.score}}</div>
 										</div>
@@ -212,22 +219,23 @@
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='certificates'">
-										<div class="plan-top">
+										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.name}}</span>
-											<div class="operation" v-if="auth==1">
-												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<el-dropdown trigger="click" >
+											<div class="operation">
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
-														<i class="iconfont icon-yijiao"></i>
+														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
 														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
-												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
+												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
-										<div class="plan-content">
+										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">计划内容：</div>
 											<div class="content-text">{{item.content}}</div>
 										</div>
@@ -248,22 +256,23 @@
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='additions'">
-										<div class="plan-top">
+										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.additionalName}}</span>
-											<div class="operation" v-if="auth==1">
-												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<el-dropdown trigger="click" >
+											<div class="operation">
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
-														<i class="iconfont icon-yijiao"></i>
+														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
 														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
-												<i class="iconfont icon-delete" @click="deletePlan(item,plan.type)"></i>
+												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
 											</div>
 										</div>
-										<div class="plan-content">
+										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">计划内容：</div>
 											<div class="content-text">{{item.additionalDesc}}</div>
 										</div>
@@ -277,7 +286,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="item-plan perfect" v-if="currentPlanId==item.id&&currentType==plan.type">
+								<!--完善弹窗 -->
+								<div class="item-plan perfect" v-if="!item.edit&&currentPlanId==item.id&&currentType==plan.type">
 									<div class="plan-box" v-if="plan.type=='requireds'||plan.type=='options'||plan.type=='selfs'">
 										<el-form :model="form" label-width="110px" label-position="left">
 											<el-form-item label="实际分数：">
@@ -293,7 +303,7 @@
 												</el-radio-group>
 											</el-form-item>
 											<el-form-item class="btn-box">
-												<el-button size="small" type="primary" @click="save(item,plan.type)">保存</el-button>
+												<el-button size="small" type="primary" @click="save(item,plan.type,'prefect')">保存</el-button>
 												<el-button size="small" @click="cancel()">取消</el-button>
 											</el-form-item>
 										</el-form>
@@ -334,10 +344,122 @@
 												</el-upload>
 											</el-form-item>
 											<el-form-item class="btn-box">
-												<el-button size="small" type="primary" @click="save(item,plan.type)">保存</el-button>
+												<el-button size="small" type="primary" @click="save(item,plan.type,'prefect')">保存</el-button>
 												<el-button size="small" @click="cancel()">取消</el-button>
 											</el-form-item>
 										</el-form>
+									</div>
+								</div>
+								<!--编辑弹窗 -->
+								<div class="item-plan perfect" v-if="item.edit&&currentPlanId==item.id&&currentType==plan.type">
+									<div class="plan-box">
+										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='requireds'||plan.type=='options'||plan.type=='selfs'">
+											<el-form-item label="课程名称：">
+												<el-input v-model="curEditPlanInfo.courseName" size="small" placeholder="请输入课程名称" :maxlength="50" class="form-input"></el-input>
+											</el-form-item>
+											<el-form-item label="计划分数：">
+												<el-input v-model="curEditPlanInfo.score" size="small" placeholder="请输入计划分数" :maxlength="10" class="form-input"></el-input>
+											</el-form-item>
+											<el-form-item label="课程目标：">
+												<el-input type="textarea" v-model="curEditPlanInfo.goal" size="small" placeholder="请输入课程目标(500个字以内)" :maxlength="500"></el-input>
+											</el-form-item>
+											<el-form-item class="btn-box">
+												<el-button size="small" type="primary" @click="save(item,plan.type,'edit')">保存</el-button>
+												<el-button size="small" @click="editCancel(item)">取消</el-button>
+											</el-form-item>
+										</el-form>
+										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='profs'">
+											<el-form-item label="大赛名称：">
+												<el-input v-model="curEditPlanInfo.name" size="small" placeholder="请输入大赛名称" :maxlength="50" class="form-input"></el-input>
+											</el-form-item>
+											<el-form-item label="大赛目标：">
+												<el-input type="textarea" v-model="curEditPlanInfo.goal" size="small" placeholder="请输入大赛目标(500个字以内)" :maxlength="500"></el-input>
+											</el-form-item>
+											<el-form-item label="参赛计划：">
+												<el-input type="textarea" v-model="item.desc" size="small" placeholder="请输入大赛计划(500个字以内)" :maxlength="500"></el-input>
+											</el-form-item>
+											<el-form-item class="btn-box">
+												<el-button size="small" type="primary" @click="save(item,plan.type,'edit')">保存</el-button>
+												<el-button size="small" @click="cancel()">取消</el-button>
+											</el-form-item>
+										</el-form>
+										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='pread'">
+											<el-form-item label="书籍名称：">
+												<el-input v-model="curEditPlanInfo.name" size="small" placeholder="请输入书籍名称" :maxlength="50" class="form-input"></el-input>
+											</el-form-item>
+											<el-form-item label="书籍类型：">
+												<el-input v-model="curEditPlanInfo.type" size="small" placeholder="请输入书籍类型" :maxlength="30" class="form-input"></el-input>
+											</el-form-item>
+											<el-form-item label="阅读计划：">
+												<el-input type="textarea" v-model="curEditPlanInfo.content" size="small" placeholder="请输入阅读计划(500个字以内)" :maxlength="500"></el-input>
+											</el-form-item>
+											<el-form-item class="btn-box">
+												<el-button size="small" type="primary" @click="save(item,plan.type,'edit')">保存</el-button>
+												<el-button size="small" @click="editCancel(item)">取消</el-button>
+											</el-form-item>
+										</el-form>
+										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='officeSkills'">
+											<el-form-item label="技能名称：">
+												<el-input v-model="curEditPlanInfo.name" disabled size="small" placeholder="请输入技能名称" :maxlength="50" class="form-input"></el-input>
+											</el-form-item>
+											<el-form-item label="计划内容：">
+												<el-input type="textarea" v-model="curEditPlanInfo.desc" size="small" placeholder="请输入计划内容(500个字以内)" :maxlength="500"></el-input>
+											</el-form-item>
+											<el-form-item class="btn-box">
+												<el-button size="small" type="primary" @click="save(item,plan.type,'edit')">保存</el-button>
+												<el-button size="small" @click="editCancel(item)">取消</el-button>
+											</el-form-item>
+										</el-form>
+										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='vocations'">
+											<el-form-item label="职业技能名称：">
+												<el-input v-model="curEditPlanInfo.name" disabled size="small" placeholder="请输入职业技能名称" :maxlength="50" class="form-input"></el-input>
+											</el-form-item>
+											<el-form-item label="计划内容：">
+												<el-input type="textarea" v-model="curEditPlanInfo.goal" size="small" placeholder="请输入计划内容(500个字以内)" :maxlength="500"></el-input>
+											</el-form-item>
+											<el-form-item class="btn-box">
+												<el-button size="small" type="primary" @click="save(item,plan.type,'edit')">保存</el-button>
+												<el-button size="small" @click="editCancel(item)">取消</el-button>
+											</el-form-item>
+										</el-form>
+										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='internships'">
+											<el-form-item label="计划内容：">
+												<el-input type="textarea" v-model="curEditPlanInfo.content" size="small" placeholder="请输入计划内容(500个字以内)" :maxlength="500"></el-input>
+											</el-form-item>
+											<el-form-item label="实习实践目标：">
+												<el-input type="textarea" v-model="curEditPlanInfo.score" size="small" placeholder="请输入实习实践目标(500个字以内)" :maxlength="500"></el-input>
+											</el-form-item>
+											<el-form-item class="btn-box">
+												<el-button size="small" type="primary" @click="save(item,plan.type,'edit')">保存</el-button>
+												<el-button size="small" @click="editCancel(item)">取消</el-button>
+											</el-form-item>
+										</el-form>
+										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='certificates'">
+											<el-form-item label="证书名称：">
+												<el-input v-model="curEditPlanInfo.name" disabled size="small" placeholder="请输入证书名称" :maxlength="50" class="form-input"></el-input>
+											</el-form-item>
+											<el-form-item label="计划内容：">
+												<el-input type="textarea" v-model="curEditPlanInfo.content" size="small" placeholder="请输入计划内容(500个字以内)" :maxlength="500"></el-input>
+											</el-form-item>
+											<el-form-item class="btn-box">
+												<el-button size="small" type="primary" @click="save(item,plan.type,'edit')">保存</el-button>
+												<el-button size="small" @click="editCancel(item)">取消</el-button>
+											</el-form-item>
+										</el-form>
+										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='additions'">
+											<el-form-item label="计划名称：">
+												<el-input v-model="curEditPlanInfo.additionalName" size="small" placeholder="请输入计划名称" :maxlength="50" class="form-input"></el-input>
+											</el-form-item>
+											<el-form-item label="计划内容：">
+												<el-input type="textarea" v-model="curEditPlanInfo.additionalDesc" size="small" placeholder="请输入计划内容(500个字以内)" :maxlength="500"></el-input>
+											</el-form-item>
+											<el-form-item class="btn-box">
+												<el-button size="small" type="primary" @click="save(item,plan.type,'edit')">保存</el-button>
+												<el-button size="small" @click="editCancel(item)">取消</el-button>
+											</el-form-item>
+										</el-form>
+									</div>
+									<div class="plan-box" v-if="plan.type!='requireds'&&plan.type!='options'&&plan.type!='selfs'">
 									</div>
 								</div>
 							</div>
@@ -377,9 +499,13 @@
 				},
 				userInfo: JSON.parse(localStorage.getItem("userInfo")),
 				auth: '',
+				cerficatesData: [],
+				officeData: [],
+				vocationsData: [],
 				planList: [],
 				planInfoList: [],
 				currentPlanInfo: {},
+				curEditPlanInfo: {},
 				currentType: '',
 				currentPlanId: '',
 				termIndex: 0,
@@ -501,10 +627,34 @@
 		},
 		created(){
 			this.stage = this.$route.query.stage
+			// this.getMetaData()
 			this.getPlanList()
 		},
 		mounted(){},
 		methods: {
+			getMetaData(){
+        Promise.all([
+          this.$store.dispatch("CERTIFICATE_DATA"), //证书列表
+          this.$store.dispatch("OFFICE_DATA"), //所有的办公技能列表
+          this.$store.dispatch("VOCATION_DATA"), //所有职业能力列表
+        ]).then(res => {
+					this.certificatesData = res[0].data
+					this.officeData = res[1].data
+					this.vocationsData = res[2].data
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.msg
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取字典数据失败！"
+            });
+          }
+        })
+			},
 			getPlanList(){
 				let params = {
 					userId: this.userInfo.id
@@ -559,12 +709,20 @@
             });
           }
         })
-      },
+			},
+			//编辑
+			edit(item, type){
+				this.$set(item, 'edit', true)
+				for(let k in item){
+					this.curEditPlanInfo[k] = item[k]
+				}
+				this.currentType = type;
+				this.currentPlanId = item.id;
+			},
 			//移交
 			transfer(stage, item, type){
 				this.currentPlanInfo = item;
 				this.currentType = type;
-				console.log(stage)
 				let stageArr = []
 				let currentTermId = ''
 				this.planList.map(term => {
@@ -597,7 +755,6 @@
 			},
 			//保存
 			save(item, type, org, planId){
-				this.currentPlanInfo = item;
 				this.currentType = type;
 				let data = {}
 				let errMessage = ''
@@ -605,13 +762,17 @@
 				if(org == 'transfer'){
 					data = {
 						planId: planId,
-						id: this.currentPlanInfo.id
+						id: item.id
 					}
-					errMessage = '移交失败！'
+					errMessage = '移交失败，请稍后重试！'
 					successMessage = '移交成功！'
-				}else {
+				}else if(org == 'edit'){
+					data = this.curEditPlanInfo
+					errMessage = '更新失败，请稍后重试！'
+					successMessage = '更新成功！'
+				}else if(org == 'prefect'){
 					data = {
-						id: this.currentPlanInfo.id,
+						id: item.id,
 						sscore: this.form.sscore,
 						finish: this.form.finish,
 						progress: this.form.progress,
@@ -620,8 +781,9 @@
 					errMessage = '完善信息失败，请稍后重试！'
 					successMessage = '修改信息成功！'
 				}
-				if(org != 'transfer'){
-					if(this.currentType == 'requireds' || this.currentType == 'selfs' || this.currentType == 'options' ){
+				
+				if(this.currentType == 'requireds' || this.currentType == 'selfs' || this.currentType == 'options' ){
+					if(org == 'prefect'){
 						if(data.sscore == "" ) {
 							this.$message({type: "error", message:"请输入实际分数！"})
 							return;
@@ -635,8 +797,20 @@
 							this.$message({type: "error", message:"请选择是否完成目标！"})
 							return;
 						}
+					}else if(org == 'edit'){
+						if(data.courseName == ""){
+							this.$message({type: "error", message:"请输入课程名称！"})
+							return;
+						}else if(data.score == ""){
+							this.$message({type: "error", message:"请输入计划分数！"})
+							return;
+						}else if(Number(data.score) != data.score || Number(data.score)>100 || Number(data.score)<0){
+							this.$message({type: "error", message:"计划分数，请输入0~100范围内的数字！"})
+							return;
+						}
 					}
 				}
+				
 				if(this.currentType == 'requireds'){
 					this.$store.dispatch('UPDATE_REQUIRED', data).then(res => {
 						this.currentPlanId = '';
@@ -704,9 +878,20 @@
 					})
 				}
 				else if(this.currentType == 'profs'){
-					if(org != 'transfer'){
+					if(org == 'prefect'){
 						if(data.finish == "" ) {
 							this.$message({type: "error", message:"请输入计划总结！"})
+							return;
+						}
+					}else if(org == 'edit'){
+						if(data.name == ""){
+							this.$message({type: "error", message:"请输入大赛名称！"})
+							return;
+						}else if(data.goal == ""){
+							this.$message({type: "error", message:"请输入大赛目标！"})
+							return;
+						}else if(data.desc == ""){
+							this.$message({type: "error", message:"请输入参赛计划！"})
 							return;
 						}
 					}
@@ -732,7 +917,7 @@
 					})
 				}
 				else if(this.currentType == 'pread'){
-					if(org != 'transfer'){
+					if(org == 'prefect'){
 						if(data.finish == "" ) {
 							this.$message({type: "error", message:"请输入计划总结！"})
 							return;
@@ -741,6 +926,17 @@
 							return;
 						}else if(Number(data.progress) != data.progress || Number(data.progress)>100 || Number(data.progress)<0){
 							this.$message({type: "error", message:"请输入0~100范围内的数字！"})
+							return;
+						}
+					}else if(org == 'edit'){
+						if(data.name == ""){
+							this.$message({type: "error", message:"请选择书籍名称！"})
+							return;
+						}else if(data.type == ""){
+							this.$message({type: "error", message:"请选择书籍类型！"})
+							return;
+						}else if(data.content == ""){
+							this.$message({type: "error", message:"请输入阅读计划！"})
 							return;
 						}
 					}
@@ -766,12 +962,20 @@
 					})
 				}
 				else if(this.currentType == 'officeSkills'){
-					if(org != 'transfer'){
+					if(org == 'prefect'){
 						if(data.finish == ""){
 							this.$message({type: "error", message:"请输入计划总结！"})
 							return;
 						}else if(data.isEnd === ""){
 							this.$message({type: "error", message:"请选择是否完成目标！"})
+							return;
+						}
+					}else if(org == 'edit'){
+						if(data.name == ""){
+							this.$message({type: "error", message:"请选择技能名称！"})
+							return;
+						}else if(data.desc == ""){
+							this.$message({type: "error", message:"请输入计划内容！"})
 							return;
 						}
 					}
@@ -797,9 +1001,17 @@
 					})
 				}
 				else if(this.currentType == 'vocations'){
-					if(org != 'transfer'){
+					if(org == 'prefect'){
 						if(data.finish == ""){
 							this.$message({type: "error", message:"请输入计划总结！"})
+							return;
+						}
+					}else if(org == 'edit'){
+						if(data.name == ""){
+							this.$message({type: "error", message:"请选择职业技能名称！"})
+							return;
+						}else if(data.goal == ""){
+							this.$message({type: "error", message:"请输入计划内容！"})
 							return;
 						}
 					}
@@ -825,9 +1037,17 @@
 					})
 				}
 				else if(this.currentType == 'internships'){
-					if(org != 'transfer') {
+					if(org == 'prefect') {
 						if(data.finish == ""){
 							this.$message({type: "error", message:"请输入计划总结！"})
+							return;
+						}
+					}else if(org == 'edit'){
+						if(data.content == ""){
+							this.$message({type: "error", message:"请输入计划内容！"})
+							return;
+						}else if(data.score == ""){
+							this.$message({type: "error", message:"请输入实习实践目标！"})
 							return;
 						}
 					}
@@ -853,7 +1073,7 @@
 					})
 				}
 				else if(this.currentType == 'certificates'){
-					if(org != 'transfer'){
+					if(org == 'prefect'){
 						data.pic = this.imageUrl;
 						if(data.finish == ""){
 							this.$message({type: "error", message:"请输入计划总结！"})
@@ -863,6 +1083,14 @@
 							return;
 						}else if(data.pic == ''){
 							this.$message({type: "error", message:"请上传证书或分数图片！"})
+							return;
+						}
+					}else if(org == 'edit'){
+						if(data.name == ""){
+							this.$message({type: "error", message:"请选择证书名称！"})
+							return;
+						}else if(data.content == ""){
+							this.$message({type: "error", message:"请输入计划内容！"})
 							return;
 						}
 					}
@@ -888,9 +1116,17 @@
 					})
 				}
 				else if(this.currentType == 'additions'){
-					if(org != 'transfer') {
+					if(org == 'prefect') {
 						if(data.finish == ""){
 							this.$message({type: "error", message:"请输入计划总结！"})
+							return;
+						}
+					}else if(org == 'edit'){
+						if(data.additionalName == ""){
+							this.$message({type: "error", message:"请输入计划名称！"})
+							return;
+						}else if(data.additionalDesc == ""){
+							this.$message({type: "error", message:"请输入计划内容！"})
 							return;
 						}
 					}
@@ -918,6 +1154,10 @@
 				
 			},
 			cancel(){
+				this.currentPlanId = '';
+			},
+			editCancel(item){
+				item.edit = false;
 				this.currentPlanId = '';
 			},
 			deletePlan(item, type){
@@ -1390,6 +1630,9 @@
 											line-height: 30px;
 											.icon-bianji {
 												color: #3477f6;
+											}
+											.icon-perfect {
+												color: goldenrod;
 											}
 											.icon-delete {
 												color: #db3529;
