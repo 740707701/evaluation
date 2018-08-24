@@ -814,7 +814,7 @@
 				if(this.currentType == 'requireds'){
 					this.$store.dispatch('UPDATE_REQUIRED', data).then(res => {
 						this.currentPlanId = '';
-						this.getPlanList();
+						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
 							message: successMessage
@@ -836,7 +836,7 @@
 				else if(this.currentType == 'selfs'){
 					this.$store.dispatch('UPDATE_SELF', data).then(res => {
 						this.currentPlanId = '';
-						this.getPlanList();
+						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
 							message: successMessage
@@ -858,7 +858,7 @@
 				else if(this.currentType == 'options'){
 					this.$store.dispatch('UPDATE_OPTIONAL', data).then(res => {
 						this.currentPlanId = '';
-						this.getPlanList();
+						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
 							message: successMessage
@@ -897,7 +897,7 @@
 					}
 					this.$store.dispatch('UPDATE_PROF', data).then(res => {
 						this.currentPlanId = '';
-						this.getPlanList();
+						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
 							message: successMessage
@@ -942,7 +942,7 @@
 					}
 					this.$store.dispatch('UPDATE_PREAD', data).then(res => {
 						this.currentPlanId = '';
-						this.getPlanList();
+						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
 							message: successMessage
@@ -981,7 +981,7 @@
 					}
 					this.$store.dispatch('UPDATE_OFFICE', data).then(res => {
 						this.currentPlanId = '';
-						this.getPlanList();
+						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
 							message: successMessage
@@ -1017,7 +1017,7 @@
 					}
 					this.$store.dispatch('UPDATE_VOCATION', data).then(res => {
 						this.currentPlanId = '';
-						this.getPlanList();
+						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
 							message: successMessage
@@ -1053,7 +1053,7 @@
 					}
 					this.$store.dispatch('UPDATE_INTERNSHIP', data).then(res => {
 						this.currentPlanId = '';
-						this.getPlanList();
+						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
 							message: successMessage
@@ -1096,7 +1096,7 @@
 					}
 					this.$store.dispatch('UPDATE_CERTIFICATE', data).then(res => {
 						this.currentPlanId = '';
-						this.getPlanList();
+						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
 							message: successMessage
@@ -1132,7 +1132,7 @@
 					}
 					this.$store.dispatch('UPDATE_ADDITIONAL', data).then(res => {
 						this.currentPlanId = '';
-						this.getPlanList();
+						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
 							message: successMessage
