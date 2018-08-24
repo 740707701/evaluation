@@ -19,7 +19,8 @@
 						<div class="item">
 							<img src="../../assets/images/term.png" alt="">
 							<div class="title">{{term.title}}</div>
-							<el-button @click="toPlan(term)" size="small">进入制作</el-button>
+							<el-button v-if="term.state=='10'||term.state=='20'" @click="toPlanList(term.stage)" size="small">进入预览</el-button>
+							<el-button v-if="term.state!='10'&&term.state!='20'" @click="toPlan(term)" size="small">进入制作</el-button>
 						</div>
 					</el-col>
 				</el-row>
@@ -28,7 +29,8 @@
 						<div class="item">
 							<img src="../../assets/images/term.png" alt="">
 							<div class="title">{{term.title}}</div>
-							<el-button @click="toPlan(term)" size="small">进入制作</el-button>
+							<el-button v-if="term.state=='10'||term.state=='20'" @click="toPlanList(term.stage)" size="small">进入预览</el-button>
+							<el-button v-if="term.state!='10'&&term.state!='20'" @click="toPlan(term)" size="small">进入制作</el-button>
 						</div>
 					</el-col>
 				</el-row>
@@ -110,14 +112,22 @@ import headerNav from '../../components/HeaderNav'
 						this.termPlan.map((term, aubIndex) => {
 							if(plan.stage == term.stage){
 								term.isOpen = true
+								this.$set(term, 'state', plan.state)
 							}
 						})
 					})
 				}).catch(err => {
-					this.$message({
-						type: "error",
-						message: "获取规划列表失败，请稍后重试！"
-					})
+					if(err.data.msg){
+						this.$message({
+							type: "error",
+							message: err.data.msg
+						})
+					}else {
+						this.$message({
+							type: "error",
+							message: "获取规划列表失败，请稍后重试！"
+						})
+					}
 				})
 			},
 			openPlan(stage){
@@ -198,6 +208,9 @@ import headerNav from '../../components/HeaderNav'
 					}
 				})
 			},
+			toPlanList(stage){
+				this.$router.push({name: 'planList', query: {stage: stage}})
+			}
 		},
 		components: {
 			headerNav

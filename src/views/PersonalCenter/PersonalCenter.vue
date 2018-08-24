@@ -37,14 +37,14 @@
                     <!-- <el-badge class="badge" is-dot></el-badge> -->
                     <router-link to="/news">消息通知</router-link>
                   </li>
-                  <li>
+                  <!-- <li>
                     <span class="point" v-if="$route.name==`myplan`"></span>
                     <router-link to="/myplan">职业规划</router-link>
                   </li>
                   <li>
                     <span class="point" v-if="$route.name==`mybook`"></span>
                     <router-link to="/mybook">书籍库</router-link>
-                  </li>
+                  </li> -->
                   <li>
                     <span class="point" v-if="$route.name==`order`"></span>
                     <router-link to="/order">订单中心</router-link>

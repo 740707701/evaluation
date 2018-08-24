@@ -37,7 +37,6 @@
 											<span class="score">计划分数：{{item.score}}分</span>
 											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao"></i>
@@ -71,7 +70,6 @@
 											<span class="name">{{item.name}}</span>
 											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao"></i>
@@ -105,7 +103,6 @@
 											<span class="name">{{item.name}}</span>
 											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao"></i>
@@ -137,7 +134,6 @@
 											<span class="name">{{item.name}}</span>
 											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao"></i>
@@ -167,7 +163,6 @@
 											<span class="name">{{item.name}}</span>
 											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao"></i>
@@ -192,7 +187,6 @@
 										<div class="plan-top">
 											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao"></i>
@@ -222,7 +216,6 @@
 											<span class="name">{{item.name}}</span>
 											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao"></i>
@@ -235,7 +228,7 @@
 											</div>
 										</div>
 										<div class="plan-content">
-											<div class="content-title">计划目标：</div>
+											<div class="content-title">计划内容：</div>
 											<div class="content-text">{{item.content}}</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
@@ -259,7 +252,6 @@
 											<span class="name">{{item.additionalName}}</span>
 											<div class="operation" v-if="auth==1">
 												<i class="iconfont icon-bianji" @click="perfect(item,plan.type)"></i>
-												<!-- <i class="iconfont icon-yijiao" @click="transfer(item,plan.type)"></i> -->
 												<el-dropdown trigger="click" >
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao"></i>
@@ -272,7 +264,7 @@
 											</div>
 										</div>
 										<div class="plan-content">
-											<div class="content-title">计划目标：</div>
+											<div class="content-title">计划内容：</div>
 											<div class="content-text">{{item.additionalDesc}}</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
@@ -308,7 +300,13 @@
 									</div>
 									<div class="plan-box" v-if="plan.type!='requireds'&&plan.type!='options'&&plan.type!='selfs'">
 										<el-form :model="form" label-width="110px" label-position="left">
-											<el-form-item label="计划总结：">
+											<el-form-item label="计划总结：" v-if="plan.type!='profs'&&plan.type!='pread'">
+												<el-input type="textarea" v-model="form.finish" size="small" placeholder="请输入总结(150个字以内)" :maxlength="150"></el-input>
+											</el-form-item>
+											<el-form-item label="大赛总结：" v-if="plan.type=='profs'">
+												<el-input type="textarea" v-model="form.finish" size="small" placeholder="请输入总结(150个字以内)" :maxlength="150"></el-input>
+											</el-form-item>
+											<el-form-item label="阅读感想：" v-if="plan.type=='pread'">
 												<el-input type="textarea" v-model="form.finish" size="small" placeholder="请输入总结(150个字以内)" :maxlength="150"></el-input>
 											</el-form-item>
 											<el-form-item label="是否完成目标：" v-if="plan.type=='certificates'||plan.type=='officeSkills'">
@@ -385,6 +383,7 @@
 				currentType: '',
 				currentPlanId: '',
 				termIndex: 0,
+				stage: 1,
 				dialogVisible: false,
 				showFormBox: false,
 				form: {
@@ -501,6 +500,7 @@
 			}
 		},
 		created(){
+			this.stage = this.$route.query.stage
 			this.getPlanList()
 		},
 		mounted(){},
@@ -511,6 +511,11 @@
 				}
 				this.$store.dispatch('PLANLIST', params).then(res => {
 					this.planList = res.data;
+					this.planList.map((item,index)=>{
+						if(item.stage == this.stage){
+							this.termIndex = index
+						}
+					})
 					this.getPlanInfo(this.planList[this.termIndex].id);
 				}).catch(err => {
 					this.$message({
@@ -615,19 +620,21 @@
 					errMessage = '完善信息失败，请稍后重试！'
 					successMessage = '修改信息成功！'
 				}
-				if(this.currentType == 'requireds' || this.currentType == 'selfs' || this.currentType == 'options' ){
-					if(data.sscore == "" ) {
-						this.$message({type: "error", message:"请输入实际分数！"})
-						return;
-					}else if(Number(data.sscore) != data.sscore || Number(data.sscore)>100 || Number(data.sscore)<0){
-						this.$message({type: "error", message:"请输入0~100范围内的数字！"})
-						return;
-					}else if(data.finish == ""){
-						this.$message({type: "error", message:"请输入课程总结！"})
-						return;
-					}else if(data.isEnd === ""){
-						this.$message({type: "error", message:"请选择是否完成目标！"})
-						return;
+				if(org != 'transfer'){
+					if(this.currentType == 'requireds' || this.currentType == 'selfs' || this.currentType == 'options' ){
+						if(data.sscore == "" ) {
+							this.$message({type: "error", message:"请输入实际分数！"})
+							return;
+						}else if(Number(data.sscore) != data.sscore || Number(data.sscore)>100 || Number(data.sscore)<0){
+							this.$message({type: "error", message:"请输入0~100范围内的数字！"})
+							return;
+						}else if(data.finish == ""){
+							this.$message({type: "error", message:"请输入课程总结！"})
+							return;
+						}else if(data.isEnd === ""){
+							this.$message({type: "error", message:"请选择是否完成目标！"})
+							return;
+						}
 					}
 				}
 				if(this.currentType == 'requireds'){
@@ -697,9 +704,11 @@
 					})
 				}
 				else if(this.currentType == 'profs'){
-					if(data.finish == "" ) {
-						this.$message({type: "error", message:"请输入计划总结！"})
-						return;
+					if(org != 'transfer'){
+						if(data.finish == "" ) {
+							this.$message({type: "error", message:"请输入计划总结！"})
+							return;
+						}
 					}
 					this.$store.dispatch('UPDATE_PROF', data).then(res => {
 						this.currentPlanId = '';
@@ -723,15 +732,17 @@
 					})
 				}
 				else if(this.currentType == 'pread'){
-					if(data.finish == "" ) {
-						this.$message({type: "error", message:"请输入计划总结！"})
-						return;
-					}else if(data.progress == ''){
-						this.$message({type: "error", message:"请输入阅读进度！"})
-						return;
-					}else if(Number(data.progress) != data.progress || Number(data.progress)>100 || Number(data.progress)<0){
-						this.$message({type: "error", message:"请输入0~100范围内的数字！"})
-						return;
+					if(org != 'transfer'){
+						if(data.finish == "" ) {
+							this.$message({type: "error", message:"请输入计划总结！"})
+							return;
+						}else if(data.progress == ''){
+							this.$message({type: "error", message:"请输入阅读进度！"})
+							return;
+						}else if(Number(data.progress) != data.progress || Number(data.progress)>100 || Number(data.progress)<0){
+							this.$message({type: "error", message:"请输入0~100范围内的数字！"})
+							return;
+						}
 					}
 					this.$store.dispatch('UPDATE_PREAD', data).then(res => {
 						this.currentPlanId = '';
@@ -755,12 +766,14 @@
 					})
 				}
 				else if(this.currentType == 'officeSkills'){
-					if(data.finish == ""){
-						this.$message({type: "error", message:"请输入计划总结！"})
-						return;
-					}else if(data.isEnd === ""){
-						this.$message({type: "error", message:"请选择是否完成目标！"})
-						return;
+					if(org != 'transfer'){
+						if(data.finish == ""){
+							this.$message({type: "error", message:"请输入计划总结！"})
+							return;
+						}else if(data.isEnd === ""){
+							this.$message({type: "error", message:"请选择是否完成目标！"})
+							return;
+						}
 					}
 					this.$store.dispatch('UPDATE_OFFICE', data).then(res => {
 						this.currentPlanId = '';
@@ -784,9 +797,11 @@
 					})
 				}
 				else if(this.currentType == 'vocations'){
-					if(data.finish == ""){
-						this.$message({type: "error", message:"请输入计划总结！"})
-						return;
+					if(org != 'transfer'){
+						if(data.finish == ""){
+							this.$message({type: "error", message:"请输入计划总结！"})
+							return;
+						}
 					}
 					this.$store.dispatch('UPDATE_VOCATION', data).then(res => {
 						this.currentPlanId = '';
@@ -810,9 +825,11 @@
 					})
 				}
 				else if(this.currentType == 'internships'){
-					if(data.finish == ""){
-						this.$message({type: "error", message:"请输入计划总结！"})
-						return;
+					if(org != 'transfer') {
+						if(data.finish == ""){
+							this.$message({type: "error", message:"请输入计划总结！"})
+							return;
+						}
 					}
 					this.$store.dispatch('UPDATE_INTERNSHIP', data).then(res => {
 						this.currentPlanId = '';
@@ -836,16 +853,18 @@
 					})
 				}
 				else if(this.currentType == 'certificates'){
-					data.pic = this.imageUrl;
-					if(data.finish == ""){
-						this.$message({type: "error", message:"请输入计划总结！"})
-						return;
-					}else if(data.isEnd === ""){
-						this.$message({type: "error", message:"请选择是否完成目标！"})
-						return;
-					}else if(data.pic == ''){
-						this.$message({type: "error", message:"请上传证书或分数图片！"})
-						return;
+					if(org != 'transfer'){
+						data.pic = this.imageUrl;
+						if(data.finish == ""){
+							this.$message({type: "error", message:"请输入计划总结！"})
+							return;
+						}else if(data.isEnd === ""){
+							this.$message({type: "error", message:"请选择是否完成目标！"})
+							return;
+						}else if(data.pic == ''){
+							this.$message({type: "error", message:"请上传证书或分数图片！"})
+							return;
+						}
 					}
 					this.$store.dispatch('UPDATE_CERTIFICATE', data).then(res => {
 						this.currentPlanId = '';
@@ -869,9 +888,11 @@
 					})
 				}
 				else if(this.currentType == 'additions'){
-					if(data.finish == ""){
-						this.$message({type: "error", message:"请输入计划总结！"})
-						return;
+					if(org != 'transfer') {
+						if(data.finish == ""){
+							this.$message({type: "error", message:"请输入计划总结！"})
+							return;
+						}
 					}
 					this.$store.dispatch('UPDATE_ADDITIONAL', data).then(res => {
 						this.currentPlanId = '';
@@ -1218,7 +1239,6 @@
 				.banner {
 					width: 100%;
 					height: 350px;
-					background-color: lightblue;
 					position: relative;
 					img {
 						width: 100%;
@@ -1281,6 +1301,11 @@
 									font-size: 14px;
 									font-weight: bold;
 									display: inline-block;
+								}
+							}
+							.item-content:last-child {
+								.item-plan {
+									border: none!important;
 								}
 							}
 							.item-content {
@@ -1349,9 +1374,9 @@
 									}
 									.plan-top {
 										margin-bottom: 5px;
-										height: 26px;
-										line-height: 26px;
 										.name {
+											max-width: 85%;
+											line-height: 20px;
 											font-weight: 600;
 											color: @main-color-blue;
 											margin-right: 40px;

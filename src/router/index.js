@@ -138,7 +138,7 @@ const routes = [
     }
   },
   {
-    path: "/planList",
+    path: "/planList/:stage?",
     name: "planList",
     component: PlanList,
     meta: {
