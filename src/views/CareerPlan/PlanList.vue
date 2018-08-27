@@ -13,7 +13,7 @@
 				<div class="banner">
 					<img src="../../assets/images/plan_bg.jpg" alt="">
 					<div class="banner-text">
-						<div class="term-title" v-for="term in termPlan" :key="term.stage" v-if="termIndex+1==term.stage">{{term.title}}</div>
+						<div class="term-title" v-for="term in planList" :key="term.stage" v-if="termIndex+1==term.stage">{{term.stageName}}</div>
 						<div class="term-split"></div>
 						<div class="sub-title">Freshman last semester planning</div>
 					</div>
@@ -43,7 +43,7 @@
 														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
-														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
 												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
@@ -77,7 +77,7 @@
 														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
-														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
 												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
@@ -112,7 +112,7 @@
 														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
-														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
 												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
@@ -144,7 +144,7 @@
 														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
-														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
 												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
@@ -174,7 +174,7 @@
 														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
-														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
 												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
@@ -199,7 +199,7 @@
 														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
-														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
 												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
@@ -229,7 +229,7 @@
 														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
-														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
 												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
@@ -262,7 +262,7 @@
 														<i class="iconfont icon-yijiao" title="移交"></i>
 													</span>
 													<el-dropdown-menu slot="dropdown">
-														<el-dropdown-item v-for="term in termPlan" :key="term.stage" @click.native="transfer(term.stage,item,plan.type)">{{term.title}}</el-dropdown-item>
+														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
 													</el-dropdown-menu>
 												</el-dropdown>
 												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
@@ -517,7 +517,7 @@
 				currentPlanId: '',
 				termIndex: 0,
 				stage: 1,
-				currentStage: 1,
+				currentTerm: '',
 				dialogVisible: false,
 				showFormBox: false,
 				transferDialog: false,
@@ -597,41 +597,7 @@
 							}
 						]
 					},
-				],
-				termPlan: [
-					{
-						title: "大一上学期规划",
-						stage: 1
-					},
-					{
-						title: "大一下学期规划",
-						stage: 2
-					},
-					{
-						title: "大二上学期规划",
-						stage: 3
-					},
-					{
-						title: "大二下学期规划",
-						stage: 4
-					},
-					{
-						title: "大三上学期规划",
-						stage: 5
-					},
-					{
-						title: "大三下学期规划",
-						stage: 6
-					},
-					{
-						title: "大四上学期规划",
-						stage: 7
-					},
-					{
-						title: "大四下学期规划",
-						stage: 8
-					}
-				],
+				]
 			}
 		},
 		created(){
@@ -729,30 +695,14 @@
 				this.currentPlanId = item.id;
 			},
 			//移交
-			transfer(stage, item, type){
-				this.currentStage = stage;
+			transfer(term, item, type){
+				this.currentTerm = term;
 				this.currentPlanInfo = item;
 				this.currentType = type;
 				this.transferDialog = true;
 			},
 			confirmTransfer(){
-				let stageArr = []
-				let currentTermId = ''
-				this.planList.map(term => {
-					stageArr.push(term.stage)
-					if(term.stage == this.currentStage){
-						currentTermId = term.id
-					}
-				})
-				if(stageArr.indexOf(this.currentStage) == '-1'){
-					this.$message({
-						type: "error",
-						message: "还未开启该学期计划，移交失败！"
-					})
-				}else {
-					this.save(this.currentPlanInfo, this.currentType, 'transfer', currentTermId)
-				}
-				
+				this.save(this.currentPlanInfo, this.currentType, 'transfer', this.currentTerm.id)
 			},
 			//完善编辑
 			perfect(item, type){
