@@ -37,11 +37,11 @@
                     <!-- <el-badge class="badge" is-dot></el-badge> -->
                     <router-link to="/news">消息通知</router-link>
                   </li>
-                  <!-- <li>
+                  <li>
                     <span class="point" v-if="$route.name==`myplan`"></span>
                     <router-link to="/myplan">职业规划</router-link>
                   </li>
-                  <li>
+                  <!-- <li>
                     <span class="point" v-if="$route.name==`mybook`"></span>
                     <router-link to="/mybook">书籍库</router-link>
                   </li> -->
@@ -234,19 +234,21 @@ export default {
           .upload-box {
             position: relative;
             text-align: center;
-            margin-top: 5px;
+            width: 80%;
+            margin: 10px auto 0 auto;
             .input-file {
-              width: 80px;
+              width: 100%;
+              height: 30px;
+              cursor: pointer;
               opacity: 0;
               position: absolute;
               top: 0;
-              left: 50%;
-              margin-left: -40px;
+              left: 0;
             }
             .upload-btn {
-              width: 80px;
-              height: 26px;
-              line-height: 26px;
+              width: 100%;
+              height: 30px;
+              line-height: 30px;
               border-radius: 4px;
               text-align: center;
               font-size: 12px;

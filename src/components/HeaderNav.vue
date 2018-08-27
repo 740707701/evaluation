@@ -49,6 +49,7 @@
                   <el-badge :is-dot="isBuyed" >我的测评</el-badge>
                 </el-dropdown-item>
                 <el-dropdown-item command="myresume">我的简历</el-dropdown-item>
+                <el-dropdown-item command="myplan">我的规划</el-dropdown-item>
                 <el-dropdown-item command="order">订单中心</el-dropdown-item>
                 <el-dropdown-item command="setting">个人资料</el-dropdown-item>
                 <el-dropdown-item command="logout">退出账号</el-dropdown-item>
@@ -129,6 +130,8 @@ export default {
         this.$router.push({ path: '/personalcenter'})
       }else if(command == 'myresume'){
         this.$router.push({path: '/myresume'})
+      }else if(command == 'myplan'){
+        this.$router.push({path: '/myplan'})
       }else if(command == 'order'){
         this.$router.push({ path: '/order' })
       }else if(command == 'setting'){
