@@ -239,10 +239,6 @@
 											<div class="content-title">计划内容：</div>
 											<div class="content-text">{{item.content}}</div>
 										</div>
-										<div class="plan-content perfect-content" v-if="item.finish">
-											<div class="content-title">计划总结：</div>
-											<div class="content-text red">{{item.finish}}</div>
-										</div>
 										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
 											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
@@ -310,7 +306,7 @@
 									</div>
 									<div class="plan-box" v-if="plan.type!='requireds'&&plan.type!='options'&&plan.type!='selfs'">
 										<el-form :model="form" label-width="110px" label-position="left">
-											<el-form-item label="计划总结：" v-if="plan.type!='profs'&&plan.type!='pread'">
+											<el-form-item label="计划总结：" v-if="plan.type!='profs'&&plan.type!='pread'&&plan.type!='certificates'">
 												<el-input type="textarea" v-model="form.finish" size="small" placeholder="请输入总结(150个字以内)" :maxlength="150"></el-input>
 											</el-form-item>
 											<el-form-item label="大赛总结：" v-if="plan.type=='profs'">
@@ -479,6 +475,17 @@
 				<el-button size="small" type="primary" @click="confirmDeletePlan">确 定</el-button>
 			</span>
 		</el-dialog>
+		<el-dialog
+			title="提示"
+			:visible.sync="transferDialog"
+			width="30%"
+			:before-close="handleClose">
+			<span>是否确认移交？</span>
+			<span slot="footer" class="dialog-footer">
+				<el-button size="small" @click="transferDialog = false">取 消</el-button>
+				<el-button size="small" type="primary" @click="confirmTransfer">确 定</el-button>
+			</span>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -510,8 +517,10 @@
 				currentPlanId: '',
 				termIndex: 0,
 				stage: 1,
+				currentStage: 1,
 				dialogVisible: false,
 				showFormBox: false,
+				transferDialog: false,
 				form: {
 					sscore: '',
 					finish: '',
@@ -721,23 +730,27 @@
 			},
 			//移交
 			transfer(stage, item, type){
+				this.currentStage = stage;
 				this.currentPlanInfo = item;
 				this.currentType = type;
+				this.transferDialog = true;
+			},
+			confirmTransfer(){
 				let stageArr = []
 				let currentTermId = ''
 				this.planList.map(term => {
 					stageArr.push(term.stage)
-					if(term.stage == stage){
+					if(term.stage == this.currentStage){
 						currentTermId = term.id
 					}
 				})
-				if(stageArr.indexOf(stage) == '-1'){
+				if(stageArr.indexOf(this.currentStage) == '-1'){
 					this.$message({
 						type: "error",
 						message: "还未开启该学期计划，移交失败！"
 					})
 				}else {
-					this.save(item, type, 'transfer', currentTermId)
+					this.save(this.currentPlanInfo, this.currentType, 'transfer', currentTermId)
 				}
 				
 			},
@@ -768,8 +781,8 @@
 					successMessage = '移交成功！'
 				}else if(org == 'edit'){
 					data = this.curEditPlanInfo
-					errMessage = '更新失败，请稍后重试！'
-					successMessage = '更新成功！'
+					errMessage = '更新信息失败，请稍后重试！'
+					successMessage = '更新信息成功！'
 				}else if(org == 'prefect'){
 					data = {
 						id: item.id,
@@ -779,7 +792,7 @@
 						isEnd: this.form.isEnd
 					}
 					errMessage = '完善信息失败，请稍后重试！'
-					successMessage = '修改信息成功！'
+					successMessage = '完善信息成功！'
 				}
 				
 				if(this.currentType == 'requireds' || this.currentType == 'selfs' || this.currentType == 'options' ){
@@ -814,6 +827,7 @@
 				if(this.currentType == 'requireds'){
 					this.$store.dispatch('UPDATE_REQUIRED', data).then(res => {
 						this.currentPlanId = '';
+						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
@@ -836,6 +850,7 @@
 				else if(this.currentType == 'selfs'){
 					this.$store.dispatch('UPDATE_SELF', data).then(res => {
 						this.currentPlanId = '';
+						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
@@ -858,6 +873,7 @@
 				else if(this.currentType == 'options'){
 					this.$store.dispatch('UPDATE_OPTIONAL', data).then(res => {
 						this.currentPlanId = '';
+						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
@@ -897,6 +913,7 @@
 					}
 					this.$store.dispatch('UPDATE_PROF', data).then(res => {
 						this.currentPlanId = '';
+						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
@@ -942,6 +959,7 @@
 					}
 					this.$store.dispatch('UPDATE_PREAD', data).then(res => {
 						this.currentPlanId = '';
+						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
@@ -981,6 +999,7 @@
 					}
 					this.$store.dispatch('UPDATE_OFFICE', data).then(res => {
 						this.currentPlanId = '';
+						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
@@ -1017,6 +1036,7 @@
 					}
 					this.$store.dispatch('UPDATE_VOCATION', data).then(res => {
 						this.currentPlanId = '';
+						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
@@ -1053,6 +1073,7 @@
 					}
 					this.$store.dispatch('UPDATE_INTERNSHIP', data).then(res => {
 						this.currentPlanId = '';
+						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
@@ -1075,10 +1096,7 @@
 				else if(this.currentType == 'certificates'){
 					if(org == 'prefect'){
 						data.pic = this.imageUrl;
-						if(data.finish == ""){
-							this.$message({type: "error", message:"请输入计划总结！"})
-							return;
-						}else if(data.isEnd === ""){
+						if(data.isEnd === ""){
 							this.$message({type: "error", message:"请选择是否完成目标！"})
 							return;
 						}else if(data.pic == ''){
@@ -1096,6 +1114,7 @@
 					}
 					this.$store.dispatch('UPDATE_CERTIFICATE', data).then(res => {
 						this.currentPlanId = '';
+						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
@@ -1132,6 +1151,7 @@
 					}
 					this.$store.dispatch('UPDATE_ADDITIONAL', data).then(res => {
 						this.currentPlanId = '';
+						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
 						this.$message({
 							type: "success",
