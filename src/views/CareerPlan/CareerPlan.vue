@@ -416,7 +416,6 @@
             if(item.type == plan.type){
               return
             }else {
-              console.log(item.type)
               if(plan.type == "certificates"){
                 if(!this.hasCertificatePlan){
                   this.plan_options.push(plan)
@@ -439,7 +438,6 @@
           }
           this.plan_options.push(plan)
         }
-        // console.log(this.plan_options)
       },
       deletePlanOption(plan){
         this.plan_options.map((item, index) => {
@@ -450,9 +448,12 @@
               this.hasAdditionPlan = false;
             }
             this.plan_options.splice(index,1)
+            //页码减1
+            if(this.planIndex+1 >= this.plan_options.length){
+              this.planIndex = this.plan_options.length - 1
+            }
           }
         })
-        // console.log(this.plan_options)
       },
       getPlanInfo(){
         let params = {
@@ -584,7 +585,14 @@
           this.noNext = false
         }
         if(this.planIndex+1 >= oldVal.length && val.length<oldVal.length){
-          this.planIndex = val.length - 1
+          this.planIndex = oldVal.length - 2
+        }
+        if(val.length == 1 ){
+          this.noNext = true;
+          this.noPrev = true;
+        }
+        if(this.planIndex == val.length-1){
+           this.noNext = true;
         }
       }
     },

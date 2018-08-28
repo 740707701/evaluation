@@ -8,12 +8,12 @@
             <img src="../../assets/images/term.png" alt="">
             <div class="item-content">
               <div class="name">{{plan.stageName}}</div>
-              <div class="name">{{plan.updateDate.slice(0,10)}}</div>
               <div class="status">状态：
                 <span class="red" v-if="plan.state == '-1'">待提交</span>
                 <span class="red" v-if="plan.state == 10">待审核</span>
                 <span class="red" v-if="plan.auditScore">{{plan.auditScore}}分</span>
               </div>
+              <div class="time">{{plan.updateDate.slice(0,10)}}</div>
               <div class="btn-box">
                 <div class="operation-btn view-btn" @click="viewPlan(plan.stage)">查看</div>
               </div>
@@ -90,7 +90,7 @@ export default {
       padding: 10px;
       border-radius: 4px;
       box-shadow: 2px 0px 10px rgba(56, 127, 246, 0.15);
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       margin-right: 12px;
       display: inline-block;
       img {
@@ -101,9 +101,8 @@ export default {
       .item-content {
         margin-left: 65px;
         line-height: 20px;
-        padding-bottom: 32px;
         position: relative;
-        .name {
+        .name, .time, .status {
           line-height: 24px;
         }
         .time {
