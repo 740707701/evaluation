@@ -220,6 +220,16 @@
           <el-button size="small" type="primary" @click="confirmDeletePlan">确 定</el-button>
         </span>
       </el-dialog>
+      <el-dialog width="30%"
+        title="提示"
+        :visible.sync="submitDialog"
+        :before-close="handleClose">
+        <span>请确认你的【专业学习计划】、【职业能力计划】、【考证计划】、【其他计划】均已填写完毕且均点击保存，一旦提交，无法更改！</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button size="small" @click="submitDialog = false">取 消</el-button>
+          <el-button size="small" type="primary" @click="confirmSubmit">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
 </template>
 <script>
@@ -232,6 +242,7 @@ export default {
     return { 
       userInfo: JSON.parse(localStorage.getItem("userInfo")),
       dialogVisible: false,
+      submitDialog: false,
       planIndex: 0,
       form: {
         input: [],
@@ -592,10 +603,14 @@ export default {
       }
     },
     submit() {
+      this.submitDialog = true;
+    },
+    confirmSubmit() {
       let data = {
         id: this.planId
       }
       this.$store.dispatch('SUBMITPLAN', data).then(res => {
+        this.submitDialog = false;
         this.$message({
           type: "success",
           message: "提交成功！"
