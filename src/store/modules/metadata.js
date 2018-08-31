@@ -23,6 +23,7 @@ const POLITICAL_OUTLOOK = 'POLITICAL_OUTLOOK'
 
 const SCHOOL_LIST = 'SCHOOL_LIST'
 const CLASS_LIST = 'CLASS_LIST'
+const GRADE_LIST = 'GRADE_LIST'
 
 export default {
   state: {
@@ -43,6 +44,7 @@ export default {
     sex: [],
     schoolList: [],
     classList: [],
+    gradeList: [],
     politicalOutlook: []
   },
   mutations: {
@@ -218,6 +220,15 @@ export default {
       return api.get(config.url.classList, params).then(res => {
         commit('DATA_SET', {
           target: 'classList',
+          data: res
+        })
+        return res
+      })
+    },
+    [GRADE_LIST]({ commit }, params) {
+      return api.get(config.url.gradeList, params).then(res => {
+        commit('DATA_SET', {
+          target: 'gradeList',
           data: res
         })
         return res

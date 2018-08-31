@@ -28,27 +28,34 @@
             </el-form-item>
             <div class="title">教育背景</div>
             <el-form-item label="学校名称：" prop="school" >
-              <el-input size="small" v-model="personInfo.school" placeholder="请输入学校名称" :maxlength="30"></el-input>
-              <!-- <el-select size="small" v-model="personInfo.school" @change="chooseSchool" placeholder="请选择学校名称" >
+              <!-- <el-input size="small" v-model="personInfo.school" placeholder="请输入学校名称" :maxlength="30"></el-input> -->
+              <el-select size="small" v-model="personInfo.school" placeholder="请选择学校名称" >
                 <el-option 
                 v-for="item in schoolList"
-                :key="item.id"
-                :label="item.schoolName"
-                :value="item.schoolName"></el-option>
-              </el-select> -->
+                :key="item"
+                :label="item"
+                :value="item"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="专业名称：" prop="classes">
-              <el-input size="small" v-model="personInfo.classes" placeholder="请输入专业名称" :maxlength="30"></el-input>
-              <!-- <el-select size="small" v-model="personInfo.classes" @change="chooseClass" placeholder="请选择所在班级">
+              <!-- <el-input size="small" v-model="personInfo.classes" placeholder="请输入专业名称" :maxlength="30"></el-input> -->
+              <el-select size="small" v-model="personInfo.classes" placeholder="请选择所在班级" :title="personInfo.classes">
                 <el-option 
                   v-for="item in classList"
-                  :key="item.id"
-                  :label="item.className"
-                  :value="item.className"></el-option>
-              </el-select> -->
+                  :key="item"
+                  :label="item"
+                  :value="item"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="年级：" prop="grade">
-              <el-input size="small" v-model="personInfo.grade" placeholder="请输入年级 如:2015级" :maxlength="30"></el-input>
+              <!-- <el-input size="small" v-model="personInfo.grade" placeholder="请输入年级 如:2015级" :maxlength="30"></el-input> -->
+              <el-select size="small" v-model="personInfo.grade" placeholder="请选择所在年级">
+                <el-option 
+                  v-for="item in gradeList"
+                  :key="item"
+                  :label="item"
+                  :value="item"></el-option>
+              </el-select>
             </el-form-item>
             <div class="post-btn" @click="post('personInfo')">保存</div>
           </el-form>
@@ -128,6 +135,7 @@ export default {
       showForgetPage: false,
       schoolList: [],
       classList: [],
+      gradeList: [],
       school: "",
       classes: "",
       school_id: "",
@@ -209,10 +217,31 @@ export default {
     if(this.personInfo.email){
       this.isComplete = true
     }
-    // this.getSchoolList();
+    this.getGradeList();
+    this.getSchoolList();
+    this.getClassList();
   },
   methods: {
-    /*
+    getGradeList(){
+       this.$store
+        .dispatch("GRADE_LIST")
+        .then(res => {
+          this.gradeList = res.data;
+        })
+        .catch(err => {
+          if (err.data.msg) {
+            this.$message({
+              type: "error",
+              message: err.data.message
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "获取个人资料信息失败,请稍后重试"
+            });
+          }
+        });
+    },
     getSchoolList() {
       this.$store
         .dispatch("SCHOOL_LIST")
@@ -233,6 +262,7 @@ export default {
           }
         });
     },
+    /*
     chooseSchool(e) {
       console.log(e);
       this.school = e;
@@ -247,12 +277,13 @@ export default {
       this.class_id = e.id;
       this.class = e.className;
     },
+    */
     getClassList() {
-      let params = {
-        id: this.school_id
-      };
+      // let params = {
+      //   id: this.school_id
+      // };
       this.$store
-        .dispatch("CLASS_LIST", params)
+        .dispatch("CLASS_LIST")
         .then(res => {
           this.classList = res.data;
         })
@@ -270,7 +301,6 @@ export default {
           }
         });
     },
-    */
     post: function(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -319,7 +349,7 @@ export default {
   position: relative;
   .setting-content {
     .el-form-item {
-      margin-bottom: 0!important;
+      margin-bottom: 15px!important;
     }
   }
   .bg {
@@ -372,7 +402,7 @@ export default {
       background-color: @main-color-blue;
       border-radius: 4px;
       margin-left: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       cursor: pointer;
     }
   }
