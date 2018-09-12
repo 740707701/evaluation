@@ -73,21 +73,6 @@
                     :props="cascaderProp"
                     ></el-cascader>
               </el-form-item>
-              <el-form-item label="职能/职位：" prop="expectPositionList" class="input-box">
-                <!-- <el-select size="small" v-model="expect.expectPosition" placeholder="请选择" class="select-box">
-                  <el-option
-                    v-for="item in expectData.funType"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.code">
-                  </el-option>
-                </el-select> -->
-                <el-cascader size="small" v-model="expect.expectPositionList" @change="changePosition"
-                    :options="expectData.funType"
-                    :show-all-levels="false"
-                    :props="cascaderProp"
-                    ></el-cascader>
-              </el-form-item>
               <el-form-item label="行业：" prop="expectIndustryList" class="input-box">
                 <!-- <el-select size="small" v-model="expect.expectIndustry" placeholder="请选择" class="select-box">
                   <el-option
@@ -99,6 +84,21 @@
                 </el-select> -->
                  <el-cascader size="small" v-model="expect.expectIndustryList" @change="changeIndustry"
                     :options="expectData.industryType"
+                    :show-all-levels="false"
+                    :props="cascaderProp"
+                    ></el-cascader>
+              </el-form-item>
+              <el-form-item label="职能/职位：" prop="expectPositionList" class="input-box">
+                <!-- <el-select size="small" v-model="expect.expectPosition" placeholder="请选择" class="select-box">
+                  <el-option
+                    v-for="item in expectData.funType"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.code">
+                  </el-option>
+                </el-select> -->
+                <el-cascader size="small" v-model="expect.expectPositionList" @change="changePosition"
+                    :options="expectData.funType"
                     :show-all-levels="false"
                     :props="cascaderProp"
                     ></el-cascader>

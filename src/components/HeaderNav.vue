@@ -73,7 +73,6 @@ import forget from "./Forget.vue";
 import { mapState } from 'vuex';
 export default {
   name: "headerNav",
-  props: {},
   data() {
     return { 
       showRegisterPage: false,
