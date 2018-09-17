@@ -15,8 +15,12 @@
             <span>{{skill.name}}</span>
             <span></span>
             <span class="icon-box">
-              <i class="iconfont icon-edit" @click="editSkill(skill.id)"></i>
-              <i class="iconfont icon-delete" @click="deleteSkill(skill.id)"></i>
+              <span @click="editSkill(skill.id)">
+                编辑&nbsp;<i class="iconfont icon-edit"></i>
+              </span>
+              <span @click="deleteSkill(skill.id)">
+                删除&nbsp;<i class="iconfont icon-delete"></i>
+              </span>
             </span>
           </li>
         </ul>

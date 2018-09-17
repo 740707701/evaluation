@@ -15,8 +15,12 @@
             <span>{{edu.schoolName}}</span>
             <span>{{edu.eduMajor}}（{{edu.degreeName}}）</span>
             <span class="icon-box">
-              <i class="iconfont icon-edit" @click="editEdu(edu.id)"></i>
-              <i class="iconfont icon-delete" @click="deleteEdu(edu.id)"></i>
+              <span @click="editEdu(edu.id)">
+                编辑&nbsp;<i class="iconfont icon-edit"></i>
+              </span>
+              <span @click="deleteEdu(edu.id)">
+                删除&nbsp;<i class="iconfont icon-delete"></i>
+              </span>
             </span>
           </div>
           <div class="job-desc">

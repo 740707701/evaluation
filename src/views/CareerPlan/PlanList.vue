@@ -657,17 +657,17 @@
         this.$store.dispatch('PLANINFO', params).then(res => {
 					this.planInfoList = res.data;
 					this.auth = res.data.auth;
-					if(!this.planInfoList['requireds'].length && !this.planInfoList['options'].length && !this.planInfoList['selfs'].length && 
-						!this.planInfoList['profs'].length && !this.planInfoList['pread'].length){
+					if(!this.planInfoList['requireds'] && !this.planInfoList['options'] && !this.planInfoList['selfs'] && 
+						!this.planInfoList['profs'] && !this.planInfoList['pread']){
 							this.infoOptions[0].showPlanList = false;
 					}
-					if(!this.planInfoList['officeSkills'].length && !this.planInfoList['vocations'].length && !this.planInfoList['internships'].length){
+					if(!this.planInfoList['officeSkills'] && !this.planInfoList['vocations'] && !this.planInfoList['internships']){
 						this.infoOptions[1].showPlanList = false;
 					}
-					if(!this.planInfoList['certificates'].length){
+					if(!this.planInfoList['certificates']){
 						this.infoOptions[2].showPlanList = false;
 					}
-					if(!this.planInfoList['additions'].length){
+					if(!this.planInfoList['additions']){
 						this.infoOptions[3].showPlanList = false;
 					}
         }).catch(err => {

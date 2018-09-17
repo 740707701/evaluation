@@ -36,13 +36,16 @@
             <router-link to="/news" class="news">
               <el-badge :is-dot="isNews">
                 <i class="el-icon-bell"></i>
+                <div class="text">消息</div>
               </el-badge>
             </router-link>
+            <div class="username">你好！{{userInfo.userName}}</div>
             <el-dropdown @command="dropdownEvent">
               <el-button class="avatar el-dropdown-link">
                 <el-badge :is-dot="isBuyed" >
                   <img class="avatar-img" :src="userInfo.avatar" alt="">
                 </el-badge>
+                <i class="el-icon-arrow-down"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="personalcenter" class="dropdown-badge">
@@ -73,7 +76,6 @@ import forget from "./Forget.vue";
 import { mapState } from 'vuex';
 export default {
   name: "headerNav",
-  props: {},
   data() {
     return { 
       showRegisterPage: false,
@@ -252,6 +254,7 @@ export default {
       display: inline-block;
       li {
         float: left;
+        font-size: 16px;
         padding: 0 10px;
         margin: 0 10px;
         line-height: 58px;
@@ -264,6 +267,7 @@ export default {
         }
       }
       .router-link-active, .active {
+        font-weight: 600;
         color: @main-color-blue;
         border-bottom: 2px solid @main-color-blue;
       }
@@ -280,7 +284,18 @@ export default {
         font-size: 20px;
       }
       .news {
+        width: 30px;
+        text-align: center;
         margin: 0 20px;
+        .text {
+          font-size: 12px;
+          margin-top: 2px;
+        }
+      }
+      .username {
+        line-height: 40px;
+        margin-right: 20px;
+        display: inline-block;
       }
       .avatar {
         width: 30px;
@@ -295,6 +310,11 @@ export default {
           border-radius: 30px;
           background-color: #eaeaea;
           display: inline-block;
+        }
+        .el-icon-arrow-down {
+          font-size: 16px;
+          color: #333;
+          margin-left: 5px;
         }
       }
       .avatar:hover,

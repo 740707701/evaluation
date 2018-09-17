@@ -1,12 +1,12 @@
 <template>
-  <div class="banner">
+  <div class="banner" v-if="!hideBanner">
     <div class="default-box">
       <img src="../assets/images/default_banner.jpg" alt="" ref="defaultImg" class="default-img img">
     </div>
     <el-carousel :interval="4000" :height="defaultImgHeight">
       <el-carousel-item v-for="item in bannerList" :key="item.id">
         <div class="img-box">
-          <img :src="item.pictureUrl" class="img">
+          <img :src="item.pictureUrl" class="img" @click="toDetail(item.linkAddr)">
         </div>
       </el-carousel-item>
     </el-carousel>
@@ -21,6 +21,7 @@ export default {
       defaultImgHeight: ''
     }
   },
+  props: ['hideBanner'],
   created(){
     this.getBannerList()
   },
@@ -31,6 +32,7 @@ export default {
         this.bannerList = res.data;
         this.defaultImgHeight = this.$refs.defaultImg.height + 'px';
       }).catch(err => {
+        console.log(err)
         if(err.data.msg){
           this.$message({
             type: "error",
@@ -43,7 +45,18 @@ export default {
           })
         }
       })
-    }
+    },
+    toDetail: function(cepingId) {
+      if (this.$store.state.isLogin) {
+        this.$router.push({ name: `coursedetail`, params: { cepingId: cepingId } });
+      } else {
+        this.$store.commit("setShowLoginPage", true);
+        this.$router.push({
+          path: "/",
+          query: { redirect: "/coursedetail/" + cepingId }
+        });
+      }
+    },
   }
 };
 </script>

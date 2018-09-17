@@ -571,6 +571,13 @@ export default {
           i {
             color: @main-color-yellow;
           }
+          .icon-text-box {
+            float: right;
+            cursor: pointer;
+            .icon-text {
+              color: @main-color-blue;
+            }
+          }
           .right-icon {
             color: @main-color-blue;
           }
@@ -621,6 +628,13 @@ export default {
               line-height: 28px;
               .right-icon {
                 color: @main-color-blue;
+              }
+              .icon-text-box {
+                float: right;
+                cursor: pointer;
+                .icon-text {
+                  color: @main-color-blue;
+                }
               }
             }
             .status {
@@ -790,7 +804,7 @@ export default {
         .icon-box {
           color: @main-color-blue;
           text-align: right;
-          i {
+          span {
             cursor: pointer;
           }
           i:first-child {
@@ -914,7 +928,7 @@ export default {
         .tag-box {
           .tag-title {
             line-height: 26px;
-            font-size: 13px;
+            font-size: 14px;
           }
           .tag-split {
             width: 30px;
@@ -922,7 +936,7 @@ export default {
             background-color: RGBA(255, 77, 150, 1);
           }
           .tag-content {
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.3;
             color: @main-color-gray;
             padding: 5px 0;

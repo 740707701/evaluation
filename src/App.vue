@@ -35,17 +35,16 @@ export default {
   }
   textarea:-moz-placeholder,
   textarea::-webkit-input-placeholder {
-    // color: @main-color-gray;
-    color: red;
+    color: @main-color-gray;
   }
   //element-ui input边线
   .el-input__inner {
-    // border: 1px solid @main-color-border;
     color: @main-color-text;
     background-color: #fff;
   }
   .el-tabs__item.is-active,.el-tabs__item:hover {
     color: @main-color-blue;
+    font-weight: 600;
   }
   .el-tabs__active-bar {
     background-color: @main-color-blue;

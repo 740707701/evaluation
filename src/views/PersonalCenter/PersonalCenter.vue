@@ -183,6 +183,7 @@ export default {
       .aside-box {
         margin-right: 20px;
         .user-info {
+          font-size: 14px;
           background-color: #fff;
           border-radius: 4px;
           padding: 15px 0;

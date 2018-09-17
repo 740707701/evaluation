@@ -97,8 +97,12 @@
                   <span>{{honor.honorPrize}}</span>
                   <span>{{honor.honorLevel}}</span>
                   <span class="icon-box">
-                    <i class="iconfont icon-edit" @click="editSchoolHonor(honor.id)"></i>
-                    <i class="iconfont icon-delete" @click="deleteSchoolHonor(honor.id)"></i>
+                    <span @click="editSchoolHonor(honor.id)">
+                      编辑&nbsp;<i class="iconfont icon-edit"></i>
+                    </span>
+                    <span @click="deleteSchoolHonor(honor.id)">
+                      删除&nbsp;<i class="iconfont icon-delete"></i>
+                    </span>
                   </span>
                 </div>
               </li>
@@ -122,8 +126,12 @@
                   <span>{{work.schoolWorkName}}</span>
                   <span></span>
                   <span class="icon-box">
-                    <i class="iconfont icon-edit" @click="editSchoolWork(work.id)"></i>
-                    <i class="iconfont icon-delete" @click="deleteSchoolWork(work.id)"></i>
+                    <span @click="editSchoolWork(work.id)">
+                      编辑&nbsp;<i class="iconfont icon-edit"></i>
+                    </span>
+                    <span @click="deleteSchoolWork(work.id)">
+                      删除&nbsp;<i class="iconfont icon-delete"></i>
+                    </span>
                   </span>
                 </div>
                 <div class="job-desc">

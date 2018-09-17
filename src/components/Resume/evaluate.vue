@@ -5,7 +5,10 @@
         <div class="title">
           <i class="iconfont icon-evaluate"></i>
           <span>自我评价</span>
-          <i class="iconfont icon-edit right-icon" v-if="evaluateInfo.evaluate" @click="editEvaluate"></i>
+          <div class="icon-text-box" v-if="evaluateInfo.evaluate" @click="editEvaluate">
+            <i class="iconfont icon-edit right-icon"></i>
+            <span class="icon-text">编辑&nbsp;</span>
+          </div>
         </div>
         <div class="evaluate-box" v-if="evaluateInfo.evaluate&&showEvaluateEdit==false">
           <div class="evaluate-text">{{evaluateInfo.evaluate}}</div>

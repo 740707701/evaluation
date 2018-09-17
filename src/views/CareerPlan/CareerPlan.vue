@@ -624,6 +624,7 @@
       border-radius: 8px 0 0 8px;
       .title {
         line-height: 30px;
+        margin-bottom: 10px;
         i {
           color: @main-color-blue;
           margin-right: 10px;
@@ -633,15 +634,17 @@
       .item-box {
         margin-bottom: 10px;
         .sub-title {
-          font-size: 12px;
+          font-size: 16px;
           color: @main-color-gray;
-          line-height: 26px;
+          line-height: 30px;
+          margin-bottom: 10px;
         }
         .item-list {
           line-height: 20px;
           .el-checkbox {
             margin-left: 0!important;
             margin-right: 10px!important;
+            margin-bottom:10px;
           }
         }
       }
@@ -674,6 +677,7 @@
     }
     .main {
       width: 100%;
+      min-height: 600px;
       background-color: @main-color-bg;
       border-radius: 10px;
       .top {
@@ -717,12 +721,14 @@
             top: 50%;
             left: 50%;
             margin-top: -75px;
-            margin-left: -100px;
+            margin-left: -240px;
+            text-align: center;
             .icon-queshengyesvg {
               font-size: 100px;
               color: rgb(221,224,231);
             }
             .tips {
+              font-size: 30px;
               text-align: center;
               margin-top: 20px;
               color: #ddd;
