@@ -15,8 +15,12 @@
             <span>{{exper.companyName}}</span>
             <span>{{exper.position}}</span>
             <span class="icon-box">
-              <i class="iconfont icon-edit" @click="editWorkExper(exper.id)"></i>
-              <i class="iconfont icon-delete" @click="deleteWorkExper(exper.id)"></i>
+              <span @click="editWorkExper(exper.id)">
+                编辑&nbsp;<i class="iconfont icon-edit"></i>
+              </span>
+              <span @click="deleteWorkExper(exper.id)">
+                删除&nbsp;<i class="iconfont icon-delete"></i>
+              </span>
             </span>
           </div>
           <div class="job-type">
@@ -54,7 +58,7 @@
                     v-model="workExperInfo.startTime"
                     type="date"
                     placeholder="选择日期"
-                    value-format="yyyy-MM-dd">
+                    value-format="yyyy-MM">
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="结束时间：" prop="endTime" class="input-box">
@@ -62,7 +66,7 @@
                     v-model="workExperInfo.endTime"
                     type="date"
                     placeholder="选择日期"
-                    value-format="yyyy-MM-dd">
+                    value-format="yyyy-MM">
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="公司：" prop="companyName" class="input-box">

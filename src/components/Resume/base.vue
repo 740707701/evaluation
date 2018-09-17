@@ -13,7 +13,10 @@
         <div class="info-list">
           <div class="name">
             <span>{{baseInfo.name}}</span>
-            <i class="iconfont icon-edit right-icon" @click="editBaseInfo"></i>
+            <div class="icon-text-box" @click="editBaseInfo">
+              <span class="icon-text">编辑&nbsp;</span>
+              <i class="iconfont icon-edit right-icon"></i>
+            </div>
           </div>
           <div class="status">
             <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>

@@ -5,7 +5,10 @@
         <div class="title">
           <i class="iconfont icon-job"></i>
           <span>求职意向</span>
-          <i class="iconfont icon-edit right-icon" v-if="expectInfo.expectSalary" @click="editJobIntension"></i>
+          <div class="icon-text-box" v-if="expectInfo.expectSalary" @click="editJobIntension">
+            <i class="iconfont icon-edit right-icon"></i>
+            <span class="icon-text">编辑&nbsp;</span>
+          </div>
         </div>
         <ul class="item-list" v-if="expectInfo.expectSalaryName">
           <li>
@@ -56,7 +59,7 @@
                     :label="item.name"
                     :value="item.code">
                   </el-option>
-                </el-select>
+                </el-select> 月
               </el-form-item>
               <el-form-item label="工作地点：" prop="expectPlaceList" class="input-box">
                  <!-- <el-select size="small" v-model="expect.expectPlace" placeholder="请选择" class="select-box">

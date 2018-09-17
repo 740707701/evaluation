@@ -1,6 +1,12 @@
 <template>
   <div class="courselist-page">
+    <Banner :hideBanner="hideBanner"></Banner>
     <div class="container">
+      <div class="category">
+        <p class="title">
+          <i class="iconfont icon-star"></i>
+          测试分类</p>
+      </div>
       <el-row :gutter="20">
         <el-col :span="16">
           <div class="left-list">
@@ -84,8 +90,8 @@
         </el-col>
         <el-col :span="8">
           <div class="right-list">
-            <p class="title">热门课程</p>
-            <div class="nodata" v-if="!hotList.length">还没有热门课程哦~</div>
+            <p class="title">热门测评</p>
+            <div class="nodata" v-if="!hotList.length">还没有热门测评哦~</div>
             <ul class="item-box">
               <li v-for="item of hotList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                   <div class="item">
@@ -105,6 +111,7 @@
   </div>
 </template>
 <script>
+import Banner from "../components/Banner.vue";
 import { mapState } from "vuex";
 export default {
   name: "courselist",
@@ -112,6 +119,7 @@ export default {
     return {
       activeName: "first",
       tabIndex: 0,
+      hideBanner: false,
       evaluationList: [],
       hotList: []
     };
@@ -145,7 +153,7 @@ export default {
     },
     getHotList: function() {
       this.$store
-        .dispatch("HOT_LIST", { size: 10 })
+        .dispatch("HOT_LIST", { size: 9 })
         .then(res => {
           this.hotList = res.data;
         })
@@ -175,11 +183,14 @@ export default {
       }
     },
     tabsClick: function(tab, event) {
+      this.hideBanner = true
       this.tabIndex = Number(tab.index);
       this.getEvaluationList(this.tabIndex);
     }
   },
-  components: {}
+  components: {
+    Banner
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -199,12 +210,24 @@ export default {
     text-align: center;
   }
   .container {
+    width: 1200px;
     height: calc(100% - 30px);
+    margin: 0 auto;
     .el-row,
     .el-col {
       height: 100%;
     }
-
+    .category {
+      .title {
+        font-size: 16px;
+        line-height: 3;
+        margin-bottom: 6px;
+        i {
+          color: @main-color-blue;
+          margin-right: 10px;
+        }
+      }
+    }
     .left-list {
       background-color: #fff;
       height: calc(100% - 30px);
@@ -217,7 +240,7 @@ export default {
           li {
             float: left;
             width: 168px;
-            height: 225px;
+            height: 260px;
             overflow: hidden;
             font-size: 14px;
             margin-bottom: 10px;
@@ -233,7 +256,8 @@ export default {
               padding: 5px;
               .title {
                 line-height: 1.2;
-                font-size: 14px;
+                font-size: 15px;
+                font-weight: 600;
               }
               // .gray {
               //   color: #a2a9b8;
@@ -244,17 +268,18 @@ export default {
               //   justify-content: space-between;
               // }
               .price {
-                font-size: 14px;
+                font-size: 15px;
+                font-weight: 600;
                 line-height: 1.5;
               }
             }
             .desc {
-              font-size: 12px;
+              font-size: 14px;
               // height: 45px;
               overflow: hidden;
-              line-height: 1.3;
+              line-height: 1.5;
               padding: 0 5px;
-              color: #a2a9b8;
+              color: #333;
               text-overflow: ellipsis;
               -webkit-line-clamp: 3;
               -webkit-box-orient: vertical;
@@ -272,6 +297,7 @@ export default {
       height: calc(100% - 30px);
       .title {
         font-size: 14px;
+        font-weight: 600;
         color: @main-color-blue;
         line-height: 40px;
         border-bottom: 1px solid @main-color-border;
@@ -302,7 +328,7 @@ export default {
                 font-weight: bold;
               }
               .gray {
-                font-size: 12px;
+                font-size: 14px;
                 color: @main-color-gray;
               }
             }

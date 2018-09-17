@@ -4,16 +4,16 @@
       <div class="back">
         <router-link to="/">
           <i class="el-icon-arrow-left"></i>
-          <span>返回</span>
+          <span>返回首页</span>
         </router-link>
       </div>
       <div class="content" v-if="detail.baseInfo">
         <img :src="detail.baseInfo.picAll" alt="">
         <div class="info-box">
           <p class="title">{{detail.baseInfo.cepingName}}</p>
-          <p class="gray">适应人群：{{detail.baseInfo.peopleScope}}</p>
-          <p class="gray">难度：{{detail.baseInfo.cepingLevel}}</p>
-          <p class="gray">数量：{{detail.baseInfo.num}}题</p>
+          <p>适应人群：{{detail.baseInfo.peopleScope}}</p>
+          <p>难度：{{detail.baseInfo.cepingLevel}}</p>
+          <p>数量：{{detail.baseInfo.num}}题</p>
           <p class="red" v-if="detail.baseInfo.price>0">价格： ¥{{detail.baseInfo.price}}</p>
           <div class="btn-box" v-if="detail.baseInfo.price>0">
             <!-- <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button> -->
@@ -217,7 +217,7 @@ export default {
       });
     },
   },
-  components: {}
+  components: { }
 };
 </script>
 <style lang="less" scoped>
@@ -225,8 +225,10 @@ export default {
 .coursedetail-page {
   height: 100%;
   .container {
-    width: 100%;
+    width: 1200px;
     height: 100%;
+    margin: 0 auto;
+    margin-top: 6px;
     background-color: #fff;
     border-radius: 10px;
     position: relative;
@@ -238,6 +240,7 @@ export default {
         color: @main-color-blue;
       }
       span {
+        font-weight: bold;
         margin-left: 5px;
         color: @main-color-text;
       }
@@ -263,6 +266,7 @@ export default {
         margin-left: 330px;
         height: 160px;
         .title {
+          font-size: 16px;
           font-weight: bold;
         }
         p {
@@ -309,7 +313,7 @@ export default {
       }
       .intro {
         padding: 20px;
-        color: @main-color-lighttext;
+        color: @main-color-text;
         .title {
           line-height: 30px;
         }
@@ -318,8 +322,10 @@ export default {
         }
       }
       .hot {
+        font-size: 16px;
         color: @main-color-blue;
         line-height: 40px;
+        font-weight: 600;
       }
       .table {
         width: 100%;
@@ -329,9 +335,6 @@ export default {
           td {
             padding: 10px;
             line-height: 20px;
-            color: @main-color-lighttext;
-          }
-          .name {
             color: @main-color-text;
           }
         }

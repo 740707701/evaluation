@@ -14,14 +14,9 @@
               <div class="item" v-for="item in finish.applyList" :key="item.cepingSerialno">
                 <img :src="item.baseInfo.pic" alt="">
                 <div class="mask">
-                  <div class="preview">
-                    <a class="preview-text" :href="item.cepingReportPath" target="_blank">
-                      <div class="circle">
-                        <img :src="item.baseInfo.pic" alt="">
-                      </div>
-                      <div class="title">点击预览</div>
-                    </a>
-                  </div>
+                  <a :href="item.cepingReportPath" target="_blank">
+                    <div  class="ceping-name">{{item.baseInfo.cepingName}}</div>
+                  </a>
                 </div>
               </div>
             </div>
@@ -90,6 +85,10 @@ export default {
       rateValue: 3.7,
       range: "",
       rangeList: [
+        {
+          id: '',
+          name: "全部"
+        },
         {
           id: 0,
           name: "专业选择"
@@ -283,11 +282,24 @@ export default {
           .mask {
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            display: none;
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 4px;
+            // display: none;
             position: absolute;
             top: 0;
             left: 0;
+            a {
+              width: 100%;
+              height: 100%;
+              display: inline-block;
+            }
+            .ceping-name {
+              color: #fff;
+              font-weight: 600;
+              padding: 50px 10px 0px 10px;
+              text-align: center;
+              line-height: 1.5;
+            }
             .preview {
               width: 100%;
               height: 60px;
@@ -298,20 +310,19 @@ export default {
               bottom: 0;
               left: 0;
               .circle {
-                width: 50px;
-                height: 50px;
+                width: 40px;
+                height: 40px;
                 position: absolute;
-                top: -25px;
+                top: -20px;
                 left: 50%;
-                margin-left: -25px;
+                margin-left: -20px;
               }
               img {
-                width:50px;
-                height: 50px;
-                border-radius: 50px;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
               }
               .title {
-                line-height: 30px;
                 padding-top: 25px;
                 text-align: center;
               }
