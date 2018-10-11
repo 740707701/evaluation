@@ -238,6 +238,8 @@ export default {
       border-bottom: 1px solid @main-color-border;
       i {
         color: @main-color-blue;
+        font-size: 16px;
+        font-weight: 600;
       }
       span {
         font-weight: bold;

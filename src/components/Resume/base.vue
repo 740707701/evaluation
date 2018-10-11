@@ -5,6 +5,7 @@
       <div class="title">
         <i class="iconfont icon-user"></i>
         <span>基本信息</span>
+        <span class="red-tag"></span>
       </div>
       <div class="base-content">
         <div class="avatar" >
