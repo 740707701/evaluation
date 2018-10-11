@@ -35,15 +35,15 @@
           <div class="login" v-if="isLogin">
             <router-link to="/news" class="news">
               <el-badge :is-dot="isNews">
-                <i class="el-icon-bell"></i>
-                <div class="text">消息</div>
+                消息&nbsp;<i class="el-icon-bell"></i>
               </el-badge>
             </router-link>
-            <div class="username">你好！{{userInfo.userName}}</div>
+            <div class="username">你好！{{userInfo.userName||userInfo.mobile}}</div>
             <el-dropdown @command="dropdownEvent">
               <el-button class="avatar el-dropdown-link">
                 <el-badge :is-dot="isBuyed" >
-                  <img class="avatar-img" :src="userInfo.avatar" alt="">
+                  <i class="iconfont icon-user" v-if="!userInfo.avatar"></i>
+                  <img class="avatar-img" v-if="userInfo.avatar" :src="userInfo.avatar" alt="">
                 </el-badge>
                 <i class="el-icon-arrow-down"></i>
               </el-button>
@@ -284,13 +284,18 @@ export default {
         font-size: 20px;
       }
       .news {
-        width: 30px;
-        text-align: center;
+        height: 30px;
+        line-height: 30px;
         margin: 0 20px;
         .text {
           font-size: 12px;
           margin-top: 2px;
         }
+      }
+      .username {
+        line-height: 40px;
+        margin-right: 20px;
+        display: inline-block;
       }
       .username {
         line-height: 40px;
@@ -304,6 +309,11 @@ export default {
         padding: 0;
         border: none;
         background-color: #fff;
+        .icon-user {
+          font-size: 28px;
+          color: #5497d5;
+          border-radius: 50%;
+        }
         img,.avatar-img {
           width: 30px;
           height: 30px;

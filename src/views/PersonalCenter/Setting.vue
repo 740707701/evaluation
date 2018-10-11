@@ -20,7 +20,7 @@
               <el-input size="small" v-model="personInfo.mobile" placeholder="请输入手机号" :maxlength="20"></el-input>
             </el-form-item>
             <el-form-item label="邮箱：" prop="email">
-              <el-input size="small" v-model="personInfo.email" placeholder="请输入真实邮箱" :maxlength="20"></el-input>
+              <el-input size="small" v-model="personInfo.email" placeholder="请输入真实邮箱" :maxlength="30"></el-input>
               <div class="tag">请保证邮箱真实有效,以便接收测评报告。</div>
             </el-form-item>
             <el-form-item label="学号：" prop="userNum">

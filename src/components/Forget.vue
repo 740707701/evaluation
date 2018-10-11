@@ -23,7 +23,7 @@
       <h4>重置密码</h4>
       <el-form :model="resetForm" :rules="resetRules" ref="resetForm" label-width="0" class="demo-ruleForm">
         <el-form-item label="" prop="mobile">
-          <el-input v-model="resetForm.mobile" placeholder="手机号" :maxlength="11"></el-input>
+          <el-input v-model="resetForm.mobile" placeholder="手机号" :maxlength="11" disabled></el-input>
         </el-form-item>
         <el-form-item label="" prop="pwd">
           <el-input type="password" v-model="resetForm.pwd" placeholder="请设置新密码" :maxlength="20"></el-input>
@@ -135,6 +135,7 @@
         }
       },
       next: function(formName){
+        this.resetForm.mobile = this.forgetForm.phone
         this.$refs[formName].validate(valid => {
           if(valid){
             this.showReset = true;

@@ -2,6 +2,11 @@
   <div class="resume-page">
     <headerNav></headerNav>
     <div class="container">
+      <el-alert
+    title="不会填写？请点击右边HR视角给你帮助！"
+    center
+    type="error">
+  </el-alert>
       <el-row :gutter="10" class="el-content">
         <el-col :span="3" class="left-content">
           <div class="grid-content">
@@ -387,8 +392,12 @@ export default {
     position: absolute;
     top: 60px;
     left: 50%;
-    bottom: 0;
+    bottom: 50px;
     margin-left: -600px;
+    .el-alert {
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
   }
   .container,
   .preview-container {
@@ -570,6 +579,10 @@ export default {
           padding: 0 20px;
           i {
             color: @main-color-yellow;
+          }
+          .red-tag {
+            margin-left: 50px;
+            color: red;
           }
           .icon-text-box {
             float: right;
