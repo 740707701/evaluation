@@ -2,17 +2,30 @@
   <div class="register-form">
     <h4>注册</h4>
     <el-form :model="registerForm" :rules="rules" ref="registerForm" label-width="0" class="demo-ruleForm">
-      <el-form-item label="" prop="number">
-        <el-input v-model="registerForm.number" placeholder="用户名（示例：扶诚学院15级王磊）" :maxlength="11"></el-input>
-      </el-form-item>
       <el-form-item label="" prop="phone">
         <el-input v-model="registerForm.phone" placeholder="手机号" :maxlength="11"></el-input>
       </el-form-item>
+      <el-form-item label="" prop="authCode">
+        <el-row :gutter="20">
+          <el-col :span="14">
+            <el-input
+              class="input-item auth-code-input"
+              v-model="registerForm.authCode"
+              placeholder="验证码"></el-input>
+          </el-col>
+          <el-col :span="10">
+            <el-button
+              class="auth-code"
+              :disabled="registerForm.authCodeBtnDisable"
+              :class="{'auth-code-disable': registerForm.authCodeBtnDisable}"
+              @click="getAuthCode">
+              <div>{{registerForm.authCodeTxt}}</div>
+            </el-button>
+          </el-col>
+        </el-row>
+      </el-form-item>
       <el-form-item label="" prop="pwd">
         <el-input type="password" v-model="registerForm.pwd" placeholder="密码" :maxlength="20"></el-input>
-      </el-form-item>
-      <el-form-item label="" prop="pwd2">
-        <el-input type="password" v-model="registerForm.pwd2" placeholder="确认密码" :maxlength="20"></el-input>
       </el-form-item>
       <el-form-item label="" prop="">
         <p class="text">同意用户的
@@ -50,27 +63,88 @@ export default {
         callback();
       }
     };
-    const validatePwd2 = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error("请再次输入密码"));
-      } else if (value != this.registerForm.pwd) {
-        callback(new Error("两次输入密码不一致"));
-      } else {
-        callback();
-      }
-    };
     return {
-      registerForm: {},
+      registerForm: {
+        authCode: '',
+        authCodeTxt: '获取验证码',
+        authCodeBtnDisable: false,
+      },
       rules: {
-        number: [{ required: true, message: "学号不能为空", trigger: "blur" }],
         phone: [{ validator: validatePhone, trigger: "blur" }],
         pwd: [{ validator: validatePwd, trigger: "blur" }],
-        pwd2: [{ validator: validatePwd2, trigger: "blur" }]
+        authCode: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
       }
     };
   },
   created() {},
   methods: {
+    doLoginAction: function (params) {
+      this.$store
+        .dispatch("LOGIN", params)
+        .then(res => {
+          localStorage.setItem("userInfo",JSON.stringify(res.data.data));
+          localStorage.setItem("isLogin", true);
+          this.$store.commit("setUserInfo", res.data.data);
+          
+          //路由跳转 登录之前记录的路由
+          console.log(this.redirect)
+          this.$router.push({ path: this.redirect})
+          this.$store.commit("setShowLoginPage", false);
+        })
+        .catch(err => {
+          console.log(err)
+          if (err.data.msg) {
+            this.$message({
+              message: err.data.msg,
+              type: "error"
+            });
+          } else {
+            this.$message({
+              message: "登录失败，请稍后重试。",
+              type: "error"
+            });
+          }
+        });
+    },
+    getAuthCode: function () {
+      if (!this.registerForm.phone) {
+        this.$message({
+          type: 'warning',
+          message: '请填写手机号'
+        })
+        return
+      }
+      clearInterval(this.timer)
+      this.registerForm.authCodeBtnDisable = true
+      let time = 60 // 验证码1分钟倒计时
+      this.timer = setInterval(() => {
+        if (time <= 0) {
+          this.registerForm.authCodeTxt = '重新发送'
+          this.registerForm.authCodeBtnDisable = false
+        } else {
+          this.registerForm.authCodeBtnDisable = true
+          this.registerForm.authCodeTxt = `(${time}s) 后重试`
+          time = time - 1
+        }
+      }, 1000)
+      const reg = {
+        mobile: this.registerForm.phone
+      }
+      this.$store.dispatch("GETAUTHMSG", reg)
+        .then(res => {
+          this.$message({
+            type: "success",
+            message: "验证码发送成功，请注意查收！"
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          this.$message({
+            type: "error",
+            message: "验证码发送失败，请稍后重试！"
+          })
+        })
+    },
     agreement: function() {
       this.$router.push("agreement");
     },
@@ -80,35 +154,58 @@ export default {
     register: function(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          let reg = {
-            "mobile": this.registerForm.phone,
-            "userNum": this.registerForm.number,
-            "password": this.registerForm.pwd
-          };
-          this.$store
-            .dispatch("REGISTER", reg)
-            .then(res => {
-              console.log(res);
-              this.$message({
-                type: "success",
-                message: "注册成功"
-              })
-              this.$emit("showLogin")
+          this.$store.dispatch("VALIDAUTHCODE", {
+            "mobile": this.registerForm.phone, 
+            "code": this.registerForm.authCode
+          })
+          .then(res => {
+            this.$message({
+              type: "success",
+              message: "验证码校验通过"
             })
-            .catch(err => {
-              console.log(err);
-              if (err.data.msg) {
+          })
+          .then(() => {
+            let reg = {
+              "mobile": this.registerForm.phone,
+              "password": this.registerForm.pwd
+            };
+            this.$store
+              .dispatch("REGISTER", reg)
+              .then(res => {
+                console.log(res);
                 this.$message({
-                  message: err.data.msg,
-                  type: "error"
-                });
-              } else {
-                this.$message({
-                  message: "注册失败。",
-                  type: "error"
-                });
-              }
-            });
+                  type: "success",
+                  message: "注册成功"
+                })
+                this.$emit("showLogin")
+                let loginInfo = {
+                  userNum: this.registerForm.phone,
+                  password: this.registerForm.pwd
+                };
+                this.doLoginAction(loginInfo)
+              })
+              .catch(err => {
+                console.log(err);
+                if (err.data.msg) {
+                  this.$message({
+                    message: err.data.msg,
+                    type: "error"
+                  });
+                } else {
+                  this.$message({
+                    message: "注册失败。",
+                    type: "error"
+                  });
+                }
+              })
+          })
+          .catch(error => {
+            console.log(error)
+            this.$message({
+              type: "warning",
+              message: "验证码校验未通过，请重新发送验证码！"
+            })
+          })
         } else {
           return false;
         }
@@ -170,6 +267,10 @@ export default {
   .login {
     text-align: right;
   }
+  .auth-code {
+    width: 100%;
+  }
+  .auth-code-disable {}
 }
 </style>
 
