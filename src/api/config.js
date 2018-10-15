@@ -200,8 +200,8 @@ export default {
     captcha: 'user/sendMobileCode',
     forget: 'user/validCode',
     userInfo: 'user/complete',
-    getAuthMsg: '/user/sendMobileCode',
-    authValid: '/user/validIcode'
+    getAuthMsg: 'user/sendMobileCode',
+    authValid: 'user/validIcode'
 
   }
 }
