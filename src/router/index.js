@@ -34,6 +34,8 @@ import Template2 from "../views/ResumeTemplate/template2.vue";
 import Template3 from "../views/ResumeTemplate/template3.vue";
 import Template31 from "../views/ResumeTemplate/Template31.vue";
 import WechatPay from '../views/WechatPay.vue';
+import VocationCognize from '../views/VocationCognize/Index.vue'
+import PracticeEmployment from '../views/PracticeEmployment/Index.vue'
 
 Vue.use(VueRouter);
 
@@ -226,7 +228,23 @@ const routes = [
     path: "/template31/:resumeId-:templateId",
     name: "template31",
     component: Template31
-  }
+  },
+  {
+    path: "/vocationCognize",
+    name: "vocationCognize",
+    component: VocationCognize,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: "/practiceEmployment",
+    name: "practiceEmployment",
+    component: PracticeEmployment,
+    meta: {
+      requireAuth: true
+    }
+  },
 ];
 
 const router = new VueRouter({

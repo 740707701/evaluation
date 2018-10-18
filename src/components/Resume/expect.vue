@@ -21,7 +21,7 @@
           </li>
           <li>
             <span class="item">
-              <span class="name">职能/职位： </span>{{expectInfo.expectPositionName}}
+              <span class="name">行业： </span>{{expectInfo.expectIndustryName}}
             </span>
             <span class="item">
               <span class="name">工作类型：  </span>{{expectInfo.expectWorkTypeName}}
@@ -29,7 +29,7 @@
           </li>
           <li>
             <span class="item">
-              <span class="name">行业： </span>{{expectInfo.expectIndustryName}}
+              <span class="name">职能/职位： </span>{{expectInfo.expectPositionName}}
             </span>
             <span class="item">
             <span class="name">到岗时间： </span>{{expectInfo.arriveTimeName}}
