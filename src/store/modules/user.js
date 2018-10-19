@@ -7,6 +7,8 @@ const REGISTER = 'REGISTER'
 const CAPTCHA = 'CAPTCHA'
 const FORGET = 'FORGET'
 const USERINFO = 'USERINFO'
+const GETAUTHMSG = 'GETAUTHMSG'
+const VALIDAUTHCODE = 'VALIDAUTHCODE'
 
 export default {
   state: {
@@ -39,6 +41,16 @@ export default {
           target: 'registerInfo',
           data: res
         })
+        return res
+      })
+    },
+    [GETAUTHMSG]({commit}, data) {
+      return api.post(config.url.getAuthMsg, data).then(res => {
+        return res
+      })
+    },
+    [VALIDAUTHCODE]({commit}, data) {
+      return api.post(config.url.authValid, data).then(res => {
         return res
       })
     },

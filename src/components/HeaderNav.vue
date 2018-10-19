@@ -10,6 +10,9 @@
           <li @click="changeLogin(2, '/termPlan')" v-bind:class="{'active':$route.path=='/careerplan'||$route.path=='/termPlan'||$route.path=='/planEntry'}">大学规划与管理</li>
           <li @click="changeLogin(3, '/resume')" v-bind:class="{'active':$route.path=='/resume'}">我的简历</li>
           <!-- <li @click="changeLogin(4, '/industryintro')" v-bind:class="{'active':$route.path=='/industryintro'}">书籍库</li> -->
+          <li @click="changeLogin(5, '/vocationCognize')" v-bind:class="{'active':$route.path=='/vocationCognize'}">行业与职业认知</li>
+          <li @click="changeLogin(6, '/practiceEmployment')" v-bind:class="{'active':$route.path=='/practiceEmployment'}">实习与就业</li>
+
         </ul>
         <div class="nav-right">
           <router-link to="/cartDetail" v-if="isLogin" class="cart">
@@ -196,6 +199,10 @@ export default {
           })
         }else if(id == 4){
           this.$router.push({ path: '/industryintro' })
+        }else if(id == 5) {
+          this.$router.push({ path: '/vocationCognize'})
+        }else if (id == 6) {
+          this.$router.push({ path: '/practiceEmployment'})
         }
       }else {
         if(id == 1){

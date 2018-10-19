@@ -3,7 +3,7 @@
     <headerNav></headerNav>
     <div class="container">
       <el-alert
-    title="不会填写？请点击右边HR视角给你帮助！"
+    title="不会填写？请参阅右边HR视角！"
     center
     type="error">
   </el-alert>
