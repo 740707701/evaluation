@@ -138,7 +138,22 @@
         this.resetForm.mobile = this.forgetForm.phone
         this.$refs[formName].validate(valid => {
           if(valid){
-            this.showReset = true;
+            this.$store.dispatch("VALIDAUTHCODE", {
+              "mobile": this.forgetForm.phone, 
+              "code": this.forgetForm.captcha
+            })
+            .then(res => {
+              this.$message({
+                type: "success",
+                message: "验证码校验通过"
+              })
+              this.showReset = true;
+            }).catch(error => {
+              this.$message({
+                type: "warning",
+                message: "验证码错误！"
+              })
+            })
           }
         })
       },

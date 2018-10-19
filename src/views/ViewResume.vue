@@ -124,7 +124,7 @@
             <div class="item-title">工作经验</div>
             <div class="job-item" v-for="exper in workExperList" :key="exper.id">
               <div class="job-time">
-                <span class="gray">{{exper.startTime.slice(0,10)}} ~ {{exper.endTime.slice(0,10)}}</span>
+                <span class="gray">{{exper.startTime.slice(0,7)}} ~ {{exper.endTime.slice(0,7)}}</span>
                 <span>{{exper.position}}</span>&nbsp;|&nbsp;
                 <span>{{exper.department}}</span>
                 <span>（{{exper.companyName}}）</span>
@@ -149,7 +149,7 @@
             <div class="item-title">教育背景</div>
             <div class="job-item" v-for="edu in eduList" :key="edu.id">
               <div class="job-time">
-                <span class="gray">{{edu.startTime.slice(0,10)}} ~ {{edu.endTime.slice(0,10)}}</span>
+                <span class="gray">{{edu.startTime.slice(0,7)}} ~ {{edu.endTime.slice(0,7)}}</span>
                 <span>{{edu.schoolName}}</span>&nbsp;|&nbsp;
                 <span>{{edu.eduMajor}}（{{edu.degreeName}}）</span>
               </div>
@@ -180,7 +180,7 @@
               <ul class="post-list">
                 <li class="job-item" v-for="work in schoolWorkList" :key="work.id">
                   <div class="job-time">
-                    <span class="gray">{{work.startTime.slice(0, 10)}} ~ {{work.endTime.slice(0, 10)}}</span>
+                    <span class="gray">{{work.startTime.slice(0, 7)}} ~ {{work.endTime.slice(0, 7)}}</span>
                     <span>{{work.schoolWorkName}}</span>
                     <span></span>
                   </div>
@@ -201,7 +201,7 @@
               </div>
               <ul class="honor-list">
                 <li class="honor-item" v-for="honor in schoolHonorList" :key="honor.id">
-                  <span class="gray">{{honor.honorTime.slice(0, 10)}}</span>
+                  <span class="gray">{{honor.honorTime.slice(0, 7)}}</span>
                   <span>{{honor.honorPrize}}</span>
                   <span>{{honor.honorLevel}}</span>
                 </li>
@@ -212,7 +212,7 @@
             <div class="item-title">技能证书</div>
               <ul>
                 <li v-for="skill in skillList" :key="skill.id">
-                  <span class="gray">{{skill.skillTime.slice(0,10)}}</span>
+                  <span class="gray">{{skill.skillTime.slice(0, 7)}}</span>
                   <span>{{skill.name}}</span>
                 </li>
               </ul>
