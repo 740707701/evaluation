@@ -114,7 +114,7 @@
         <h4>修改手机号</h4>
         <el-form :model="modifyForm" :rules="modifyRules" ref="modifyForm" label-width="0">
           <el-form-item label="" prop="phone">
-            <el-input v-model="modifyForm.phone" placeholder="手机号" :maxlength="11"></el-input>
+            <el-input v-model="modifyForm.phone" placeholder="新手机号" :maxlength="11"></el-input>
           </el-form-item>
           <el-form-item label="" prop="captcha">
             <el-row class="captcha-box">
@@ -272,71 +272,89 @@ export default {
   },
   methods: {
     doModifyPhoneAction(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-           this.$store.dispatch("VALIDAUTHCODE", {
-            "mobile": this.modifyForm.phone, 
-            "code": this.modifyForm.captcha
-          })
-          .then(res => {
-            this.$message({
-              type: "success",
-              message: "验证码校验通过"
+      const samePhone = this.judgeOriginalPhoneSameAsNewPhone()
+      if (!samePhone) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+             this.$store.dispatch("VALIDAUTHCODE", {
+              "mobile": this.modifyForm.phone, 
+              "code": this.modifyForm.captcha
             })
-          })
-          .then(res => {
-            const data = {
-              mobile: this.modifyForm.phone,
-              classes: this.personInfo.classes,
-              grade: this.personInfo.grade,
-              school: this.personInfo.school,
-            }
-            this.$store.dispatch("USERINFO", data)
-              .then(res => {
-                localStorage.setItem("userInfo", JSON.stringify(res.data.data));
-                this.$store.state.userInfo = res.data.data;
-                this.$message({
-                  type: "success",
-                  message: "手机号修改成功！"
+            .then(res => {
+              this.$message({
+                type: "success",
+                message: "验证码校验通过"
+              })
+            })
+            .then(res => {
+              const data = {
+                mobile: this.modifyForm.phone,
+                classes: this.personInfo.classes,
+                grade: this.personInfo.grade,
+                school: this.personInfo.school,
+              }
+              this.$store.dispatch("USERINFO", data)
+                .then(res => {
+                  localStorage.setItem("userInfo", JSON.stringify(res.data.data));
+                  this.$store.state.userInfo = res.data.data;
+                  this.$message({
+                    type: "success",
+                    message: "手机号修改成功！"
+                  })
+                  this.personInfo.mobile = this.modifyForm.phone
+                  this.isModifyPhone = false
+                  // 验证码还原
+                  this.modifyForm.sendMsgDisabled  = false
+                  this.modifyForm.reGet = false
+                  this.modifyForm.captcha = ''
+                  this.modifyForm.phone = ''
+                  if (this.interval) {
+                    window.clearInterval(this.interval);
+                  }
                 })
-                this.personInfo.mobile = this.modifyForm.phone
-                this.isModifyPhone = false
-              })
-              .catch(error => {
-                console.log(error)
-                if(error.data.msg) {
-                  this.$message({
-                    type: "error",
-                    message: error.data.msg
-                  })
-                }else {
-                  this.$message({
-                    type: "error",
-                    message: "手机号修改失败,请稍后重试"
-                  })
-                }
-                this.isModifyPhone = false
-              })
-          })
-          .catch(error => {
-            if(error.data.msg) {
-              this.$message({
-                type: "error",
-                message: error.data.msg
-              })
-            }else {
-              this.$message({
-                type: "warning",
-                message: "手机号更换失败，请检查验证码是否正确！"
-              })
-            }
-          })
-        }
-      })
+                .catch(error => {
+                  console.log(error)
+                  if(error.data.msg) {
+                    this.$message({
+                      type: "error",
+                      message: error.data.msg
+                    })
+                  }else {
+                    this.$message({
+                      type: "error",
+                      message: "手机号修改失败,请稍后重试"
+                    })
+                  }
+                  this.isModifyPhone = false
+                })
+            })
+            .catch(error => {
+              if(error.data.msg) {
+                this.$message({
+                  type: "error",
+                  message: error.data.msg
+                })
+              }else {
+                this.$message({
+                  type: "warning",
+                  message: "手机号更换失败，请检查验证码是否正确！"
+                })
+              }
+            })
+          }
+        })
+      }
     },
     openModifyPhoneDialog() {
       this.isModifyPhone = true
-      this.modifyForm.phone = this.personInfo.mobile
+    },
+    judgeOriginalPhoneSameAsNewPhone() {
+      if (this.personInfo.mobile === this.modifyForm.phone) {
+        this.$message.warning('新手机号与旧手机号相同！')
+        return true
+      }else {
+        return false
+      }
     },
     doModifyEmailAction(personInfo) {
       const regx = /^([a-zA-Z0-9]+[\-|_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[\-|_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
@@ -459,48 +477,51 @@ export default {
         });
     },
     getCaptcha: function(){
-      let reg = /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/
-      if(!this.modifyForm.phone){
-        this.$message({
-          type: "error",
-          message: "请输入手机号"
-        })
-        return
-      }
-      if(reg.test(this.modifyForm.phone)){
-        let data = {
-          mobile: this.modifyForm.phone
-        }
-        this.$store.dispatch('CAPTCHA', data).then(res => {
-            // 倒计时
-          let that = this;
-          that.modifyForm.sendMsgDisabled = true;
-          let rTime = that.modifyForm.rTime;
-          let interval = window.setInterval(() => {
-            if (--that.modifyForm.rTime <= 0) {
-              that.modifyForm.rTime = rTime;
-              that.modifyForm.sendMsgDisabled = false;
-              that.modifyForm.reGet = true; // 重新获取按钮
-              window.clearInterval(interval);
-            }
-          }, 1000);
+      const samePhone = this.judgeOriginalPhoneSameAsNewPhone()
+      if (!samePhone) {
+        let reg = /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/
+        if(!this.modifyForm.phone){
           this.$message({
-            message: "获取验证码成功",
-            type: "success"
+            type: "error",
+            message: "请输入手机号"
           })
-        }).catch(err => {
-          if(err.data.msg){
-              this.$message({
-                message: err.data.msg,
-                type: "error"
-              })
-            }else {
-              this.$message({
-                message: "获取验证码失败,请稍后重试",
-                type: "error"
-              })
-            }
-        })
+          return
+        }
+        if(reg.test(this.modifyForm.phone)){
+          let data = {
+            mobile: this.modifyForm.phone
+          }
+          this.$store.dispatch('CAPTCHA', data).then(res => {
+              // 倒计时
+            let that = this;
+            that.modifyForm.sendMsgDisabled = true;
+            let rTime = that.modifyForm.rTime;
+            this.interval = window.setInterval(() => {
+              if (--that.modifyForm.rTime <= 0) {
+                that.modifyForm.rTime = rTime;
+                that.modifyForm.sendMsgDisabled = false;
+                that.modifyForm.reGet = true; // 重新获取按钮
+                window.clearInterval(that.interval);
+              }
+            }, 1000);
+            this.$message({
+              message: "获取验证码成功",
+              type: "success"
+            })
+          }).catch(err => {
+            if(err.data.msg){
+                this.$message({
+                  message: err.data.msg,
+                  type: "error"
+                })
+              }else {
+                this.$message({
+                  message: "获取验证码失败,请稍后重试",
+                  type: "error"
+                })
+              }
+          })
+        }
       }
     },
     post: function(formName) {
