@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		<div class="pager" >
-			<router-link :to="`/template31/${resumeId}-${templateId}`">
+			<router-link :to="`/template3Next/${resumeId}-${templateId}`">
 				<i class="iconfont icon-arrow-right-line"></i>
 			</router-link>
 		</div>
