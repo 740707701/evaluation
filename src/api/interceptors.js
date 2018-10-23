@@ -15,7 +15,11 @@ if (sysbelong === 'www') {
 } else if(sysbelong === 'http://') {
   sysbelong = 'uwopai'
 }
-axios.defaults.headers.sysbelong = sysbelong
+if (process.env.NODE_ENV === 'production') {
+  axios.defaults.headers.sysbelong = sysbelong
+}else {
+  axios.defaults.headers.sysbelong = 'uwopai'
+}
 //http request 拦截器
 axios.interceptors.request.use(config => {
   if (store.getters.getToken) {
