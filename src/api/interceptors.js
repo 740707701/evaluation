@@ -13,7 +13,7 @@ let sysbelong = location.href.substring(location.href.lastIndexOf('://')+3,locat
 if (sysbelong === 'www') { 
   sysbelong = 'uwopai'
 } else if(sysbelong === 'http://') {
-  sysbelong = ''
+  sysbelong = 'uwopai'
 }
 if (process.env.NODE_ENV === 'production') {
   axios.defaults.headers.sysbelong = sysbelong

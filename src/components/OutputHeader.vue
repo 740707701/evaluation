@@ -58,6 +58,13 @@ export default {
         resumeId: this.resumeId,
         format: this.exportType
       };
+      let sysbelong = location.href.substring(location.href.lastIndexOf('://')+3,location.href.lastIndexOf('.uwopai.com'))
+      if (sysbelong === 'www') { 
+        sysbelong = 'uwopai'
+      } else if(sysbelong === 'http://') {
+        sysbelong = ''
+      }
+      axios.defaults.headers.sysbelong = sysbelong
       if (this.exportType == "word") {
         this.applicationType = "msword";
         axios

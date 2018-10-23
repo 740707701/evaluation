@@ -11,16 +11,12 @@
         <el-col :span="16">
           <div class="left-list">
             <el-tabs v-model="activeName" @tab-click="tabsClick" class="tabs-box">
-              <el-tab-pane label="专业选择" name="first">
+              <el-tab-pane :name="m.code" v-for="m in cepingItem" :key="m.id" :label="m.name">
                 <ul class="item">
                   <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                     <img :src="item.picAll" alt="">
                     <div class="info">
                       <p class="title">{{item.cepingName}}</p>
-                      <!-- <div class="gray">
-                        <span>适应：{{item.peopleScope}}</span>
-                        <span>难度： {{item.cepingLevel}}</span>
-                      </div> -->
                       <div class="price" v-if="item.price">¥ {{item.price}}</div>
                     </div>
                     <div class="desc" :title="item.simpleRemark">
@@ -28,60 +24,6 @@
                     </div>
                   </li>
                   <div class="clear"></div>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="自我认知" name="second">
-                <ul class="item">
-                  <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
-                    <img :src="item.picAll" alt="">
-                    <div class="info">
-                      <p class="title">{{item.cepingName}}</p>
-                      <!-- <div class="gray">
-                        <span>适应：{{item.peopleScope}}</span>
-                        <span>难度： {{item.cepingLevel}}</span>
-                      </div> -->
-                      <div class="price" v-if="item.price">¥ {{item.price}}</div>
-                    </div>
-                    <div class="desc" :title="item.simpleRemark">
-                      {{item.simpleRemark}}
-                    </div>
-                  </li>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="职业形象与风格" name="third">
-                <ul class="item">
-                  <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
-                    <img :src="item.picAll" alt="">
-                    <div class="info">
-                      <p class="title">{{item.cepingName}}</p>
-                      <!-- <div class="gray">
-                        <span>适应：{{item.peopleScope}}</span>
-                        <span>难度： {{item.cepingLevel}}</span>
-                      </div> -->
-                      <div class="price" v-if="item.price">¥ {{item.price}}</div>
-                    </div>
-                    <div class="desc" :title="item.simpleRemark">
-                      {{item.simpleRemark}}
-                    </div>
-                  </li>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="岗位分类" name="fourth">
-                <ul class="item">
-                  <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
-                    <img :src="item.picAll" alt="">
-                    <div class="info">
-                      <p class="title">{{item.cepingName}}</p>
-                      <!-- <div class="gray">
-                        <span>适应：{{item.peopleScope}}</span>
-                        <span>难度： {{item.cepingLevel}}</span>
-                      </div> -->
-                      <div class="price" v-if="item.price">¥ {{item.price}}</div>
-                    </div>
-                    <div class="desc" :title="item.simpleRemark">
-                      {{item.simpleRemark}}
-                    </div>
-                  </li>
                 </ul>
               </el-tab-pane>
               <div class="nodata" v-if="!evaluationList.length">还没有任何数据~</div>
@@ -117,17 +59,18 @@ export default {
   name: "courselist",
   data() {
     return {
-      activeName: "first",
+      activeName: '',
       tabIndex: 0,
       hideBanner: false,
       evaluationList: [],
-      hotList: []
+      hotList: [],
+      cepingItem: []
     };
   },
   computed: {},
   created: function() {
     let isLogin = decodeURIComponent(this.$route.query.isLogin);
-    this.getEvaluationList(0);
+    this.getCepingItem()
     this.getHotList();
   },
   methods: {
@@ -171,6 +114,19 @@ export default {
           }
         });
     },
+    getCepingItem() {
+      this.$store.dispatch('COURSE_ITEM').then(res => {
+        this.cepingItem = res.data
+        this.getEvaluationList(res.data[0].code - 0);
+        this.activeName = this.cepingItem[0].code
+      }).catch(err => {
+        if(err.data.msg){
+          this.$message({type: 'error', message: err.data.msg})
+        }else {
+          this.$message({type: 'error', message: '获取测评分类失败，请稍后重试！'})
+        }
+      })
+    },
     toDetail: function(cepingId) {
       if (this.$store.state.isLogin) {
         this.$router.push({ name: `coursedetail`, params: { cepingId: cepingId } });
@@ -184,8 +140,7 @@ export default {
     },
     tabsClick: function(tab, event) {
       this.hideBanner = true
-      this.tabIndex = Number(tab.index);
-      this.getEvaluationList(this.tabIndex);
+      this.getEvaluationList(this.cepingItem[tab.index - 0].code - 0);
     }
   },
   components: {

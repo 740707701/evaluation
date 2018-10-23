@@ -6,13 +6,7 @@
           <img src="../assets/images/logo.svg" alt="" class="logo">
         </div>
         <ul class="nav-center">
-          <li @click="changeLogin(1, '/')" v-bind:class="{'active':$route.path=='/'||$route.name=='coursedetail'}">职业测评</li>
-          <li @click="changeLogin(5, '/vocationCognize')" v-bind:class="{'active':$route.path=='/vocationCognize'}">行业与职业认知</li>
-          <li @click="changeLogin(2, '/termPlan')" v-bind:class="{'active':$route.path=='/careerplan'||$route.path=='/termPlan'||$route.path=='/planEntry'}">大学规划与管理</li>
-          <li @click="changeLogin(3, '/resume')" v-bind:class="{'active':$route.path=='/resume'}">我的简历</li>
-          <!-- <li @click="changeLogin(4, '/industryintro')" v-bind:class="{'active':$route.path=='/industryintro'}">书籍库</li> -->
-          <li @click="changeLogin(6, '/practiceEmployment')" v-bind:class="{'active':$route.path=='/practiceEmployment'}">实习与就业</li>
-
+          <li v-for="m in moduleList" :key="m.id" @click="changeLogin(m.id, m.routerPath)" v-bind:class="{'active':$route.name==m.routerName}">{{m.moduleName}}</li>
         </ul>
         <div class="nav-right">
           <router-link to="/cartDetail" v-if="isLogin" class="cart">
@@ -85,11 +79,13 @@ export default {
       showForgetPage: false,
       isBuyed: false,
       isNews: false,
-      cartList: []
+      cartList: [],
+      moduleList: []
     };
   },
   props: ["updateBuyed", "updateNews"],
   created() {
+    this.getModuleList()
     this.isBuyed =this.updateBuyed || false;
     this.isNews =this.updateNews || false;
     this.getCartCount();
@@ -153,7 +149,9 @@ export default {
       if(userInfo){
         if(id == 1){
           this.$router.push({ path: '/' })
-        }else if(id == 2){
+        }else if(id == 2) {
+          this.$router.push({ path: '/vocationCognize'})
+        }else if(id == 3){
           let params = {
             userId: userInfo.id
           }
@@ -177,7 +175,7 @@ export default {
               })
             }
           })
-        }else if (id == 3){
+        }else if (id == 4){
           this.$store.dispatch('CHECK_RESUME').then(res => {
             if(res.data == 0){
               this.$router.push({ path: '/resumeBg'})
@@ -197,11 +195,7 @@ export default {
               })
             }
           })
-        }else if(id == 4){
-          this.$router.push({ path: '/industryintro' })
         }else if(id == 5) {
-          this.$router.push({ path: '/vocationCognize'})
-        }else if (id == 6) {
           this.$router.push({ path: '/practiceEmployment'})
         }
       }else {
@@ -221,6 +215,31 @@ export default {
         this.$store.commit("setCartCount", count)
       }).catch(err => {
         console.log(err)
+      })
+    },
+    // 获取模块权限
+    getModuleList() {
+      this.$store.dispatch('PAGE_MODULE').then(res => {
+        this.moduleList = res.data
+        this.moduleList.map(item => {
+          if(item.id === 1){
+            item.routerName = 'courselist'
+          } else if(item.id === 2) {
+            item.routerName = 'vocationCognize'
+          } else if (item.id === 3) {
+            item.routerName = 'termPlan'
+          } else if(item.id === 4) {
+            item.routerName = 'resume'
+          } else if(item.id === 5){
+            item.routerName = 'practiceEmployment'
+          }
+        })
+      }).catch(err => {
+        if(err.data.msg){
+          this.$message({type: 'error', message: err.data.msg})
+          }else {
+          this.$message({type: 'error', message: '获取模块权限失败，请稍后重试！'})
+        }
       })
     }
   },
