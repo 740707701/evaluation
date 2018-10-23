@@ -1,64 +1,33 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import store from "../store";
+import Vue from "vue"
+import VueRouter from "vue-router"
+import store from "../store"
 
-import Home from "../views/Home.vue";
-import ResumeBg from "../views/ResumeBg.vue";
-import Resume from "../views/Resume.vue";
-import ResumePreview from "../views/ResumePreview.vue";
-import ViewResume from "../views/ViewResume";
-import CartDetail from "../views/CartDetail.vue";
-import Settlement from "../views/Settlement.vue";
-import CourseList from "../views/CourseList.vue";
-import CourseDetail from "../views/CourseDetail.vue";
-import Evaluation from "../views/Evaluation.vue";
-import PersonalCenter from "../views/PersonalCenter/PersonalCenter.vue";
-import MyEvaluation from "../views/PersonalCenter/MyEvaluation.vue";
-import MyResume from "../views/PersonalCenter/MyResume.vue";
-import MyPlan from "../views/PersonalCenter/MyPlan.vue";
-import MyBook from "../views/PersonalCenter/MyBook.vue";
-import Order from "../views/PersonalCenter/Order.vue";
-import PaySuccess from "../views/PaySuccess.vue";
-import Setting from "../views/PersonalCenter/Setting.vue";
-import Statistics from "../views/PersonalCenter/Statistics.vue";
-import News from "../views/PersonalCenter/News.vue";
-import CareerPlan from "../views/CareerPlan/CareerPlan.vue";
-import CareerPlanEntry from "../views/CareerPlan/PlanEntry.vue";
-import TermPlan from "../views/CareerPlan/TermPlan.vue";
-import PlanList from "../views/CareerPlan/PlanList.vue";
-import BookLibrary from "../views/BookLibrary.vue";
-import Agreement from "../views/Agreement.vue";
-import TemplateList from "../views/ResumeTemplate/TemplateList.vue";
-import Template1 from "../views/ResumeTemplate/template1.vue";
-import Template2 from "../views/ResumeTemplate/template2.vue";
-import Template3 from "../views/ResumeTemplate/template3.vue";
-import Template31 from "../views/ResumeTemplate/Template31.vue";
-import WechatPay from '../views/WechatPay.vue';
-import VocationCognize from '../views/VocationCognize/Index.vue'
-import PracticeEmployment from '../views/PracticeEmployment/Index.vue'
-
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/404',
+    component: () => import('@/views/errorPage/404')
+  },
+  {
     path: "/",
-    component: Home,
+    component: () => import('@/views/Home'),
     children: [
       {
         path: "/",
         name: "courselist",
-        component: CourseList
+        component: () => import('@/views/CourseList')
       },
       {
         path: "/coursedetail/:cepingId",
         name: "coursedetail",
-        component: CourseDetail
+        component: () => import('@/views/CourseDetail')
       }
     ]
   },
   {
     path: "/personalcenter/:activeName?",
-    component: PersonalCenter,
+    component: () => import('@/views/PersonalCenter/PersonalCenter'),
     meta: {
       requireAuth: true
     },
@@ -66,59 +35,59 @@ const routes = [
       {
         path: "/",
         name: "myevaluation",
-        component: MyEvaluation
+        component: () => import('@/views/PersonalCenter/MyEvaluation')
       },
       {
         path: "/myresume",
         name: "myresume",
-        component: MyResume
+        component: () => import('@/views/PersonalCenter/MyResume')
       },
       {
         path: "/myplan",
         name: "myplan",
-        component: MyPlan
+        component: () => import('@/views/PersonalCenter/MyPlan')
       },
       {
         path: "/mybook",
         name: "mybook",
-        component: MyBook
+        component: () => import('@/views/PersonalCenter/MyBook')
       },
       {
         path: "/news",
         name: "news",
-        component: News
+        component: () => import('@/views/PersonalCenter/News')
       },
       {
         path: "/statistics",
         name: "statistics",
-        component: Statistics
+        component: () => import('@/views/PersonalCenter/Statistics')
       },
       {
         path: "/setting",
         name: "setting",
-        component: Setting
+        component: () => import('@/views/PersonalCenter/Setting')
       },
       {
         path: "/order",
         name: "order",
-        component: Order
+        component: () => import('@/views/PersonalCenter/Order')
       }
     ]
   },
   {
     path: "/evaluation/:cepingId/:serialNo",
     name: "evaluation",
-    component: Evaluation
+    component: () => import('@/views/Evaluation')
   },
   {
     path: '/wechatPay',
     name: 'wechatPay',
-    component: WechatPay
+    component: () => import('@/views/WechatPay')
   },
   {
     path: "/careerplan",
     name: "careerplan",
-    component: CareerPlan,
+    component: () => import('@/views/CareerPlan/CareerPlan'),
     meta: {
       requireAuth: true
     }
@@ -126,7 +95,7 @@ const routes = [
   {
     path: "/planEntry",
     name: "planEntry",
-    component: CareerPlanEntry,
+    component: () => import('@/views/CareerPlan/PlanEntry'),
     meta: {
       requireAuth: true
     }
@@ -134,7 +103,7 @@ const routes = [
   {
     path: "/termPlan",
     name: "termPlan",
-    component: TermPlan,
+    component: () => import('@/views/CareerPlan/TermPlan'),
     meta: {
       requireAuth: true
     }
@@ -142,7 +111,7 @@ const routes = [
   {
     path: "/planList/:stage?",
     name: "planList",
-    component: PlanList,
+    component: () => import('@/views/CareerPlan/PlanList'),
     meta: {
       requireAuth: true
     }
@@ -150,7 +119,7 @@ const routes = [
   {
     path: "/BookLibrary",
     name: "bookLibrary",
-    component: BookLibrary,
+    component: () => import('@/views/BookLibrary'),
     meta: {
       requireAuth: true
     }
@@ -158,12 +127,12 @@ const routes = [
   {
     path: "/resumeBg",
     name: "resumeBg",
-    component: ResumeBg
+    component: () => import('@/views/ResumeBg')
   },
   {
     path: "/resume/:resumeId?",
     name: "resume",
-    component: Resume,
+    component: () => import('@/views/Resume'),
     meta: {
       requireAuth: true
     }
@@ -171,7 +140,7 @@ const routes = [
   {
     path: "/viewResume/:resumeId/:org?",
     name: "viewResume",
-    component: ViewResume,
+    component: () => import('@/views/ViewResume'),
     meta: {
       requireAuth: true
     }
@@ -179,22 +148,22 @@ const routes = [
   {
     path: "/cartdetail",
     name: "cartDetail",
-    component: CartDetail
+    component: () => import('@/views/CartDetail')
   },
   {
     path: "/settlement",
     name: "settlement",
-    component: Settlement
+    component: () => import('@/views/Settlement')
   },
   {
     path: "/paysuccess/:orderNo/:money",
     name: "paysuccess",
-    component: PaySuccess
+    component: () => import('@/views/PaySuccess')
   },
   {
     path: "/resumePreview",
     name: "resumePreview",
-    component: ResumePreview,
+    component: () => import('@/views/ResumePreview'),
     meta: {
       requireAuth: true
     }
@@ -202,37 +171,37 @@ const routes = [
   {
     path: "/agreement",
     name: "agreement",
-    component: Agreement
+    component: () => import('@/views/Agreement')
   },
   {
     path: "/templateList/:resumeId",
     name: "templateList",
-    component: TemplateList
+    component: () => import('@/views/ResumeTemplate/TemplateList')
   },
   {
     path: "/template1/:resumeId-:templateId",
     name: "template1",
-    component: Template1
+    component: () => import('@/views/ResumeTemplate/template1')
   },
   {
     path: "/template2/:resumeId-:templateId",
     name: "template2",
-    component: Template2
+    component: () => import('@/views/ResumeTemplate/template2')
   },
   {
     path: "/template3/:resumeId-:templateId",
     name: "template3",
-    component: Template3
+    component: () => import('@/views/ResumeTemplate/template3')
   },
   {
-    path: "/template31/:resumeId-:templateId",
-    name: "template31",
-    component: Template31
+    path: "/template3Next/:resumeId-:templateId",
+    name: "template3Next",
+    component: () => import('@/views/ResumeTemplate/template3Next')
   },
   {
     path: "/vocationCognize",
     name: "vocationCognize",
-    component: VocationCognize,
+    component: () => import('@/views/VocationCognize/Index'),
     meta: {
       requireAuth: true
     }
@@ -240,37 +209,41 @@ const routes = [
   {
     path: "/practiceEmployment",
     name: "practiceEmployment",
-    component: PracticeEmployment,
+    component: () => import('@/views/PracticeEmployment/Index'),
     meta: {
       requireAuth: true
     }
   },
-];
+  { 
+    path: '*',
+    redirect: '/404'
+  }
+]
 
 const router = new VueRouter({
   mode: "history",
   routes
   // fallback: false, //当浏览器不支持 history.pushState 控制路由是否应该回退到 hash 模式。默认值为 true。
   // scrollBehavior: () => ({ y: 0 }), 滚动行为
-});
+})
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {
     if (store.getters.getToken) {
-      next();
+      next()
     } else {
-      store.state.isLogin = false;
-      store.state.showLoginPage = true;
+      store.state.isLogin = false
+      store.state.showLoginPage = true
       next({
         path: "/",
         query: {
           redirect: to.fullPath,
           isLogin: false
         }
-      });
+      })
     }
   } else {
-    next();
+    next()
   }
-});
-export default router;
+})
+export default router

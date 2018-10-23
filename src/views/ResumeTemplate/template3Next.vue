@@ -1,5 +1,5 @@
 <template>
-	<div class="template31-page">
+	<div class="template3Next-page">
 		<output-header :resumeId="resumeId" :templateId="templateId" :resumeName="baseInfo.resumeName" :org="null"></output-header>
 		<div class="container" id="pdfDom">
 			<div class="head">
@@ -161,7 +161,7 @@
 <script>
 import outputHeader from '../../components/OutputHeader.vue'
 export default {
-	name: 'template31',
+	name: 'template3Next',
 	data() {
     return {
 			resumeId: '',
@@ -266,7 +266,7 @@ export default {
 </script>
 <style lang="less" scoped>
 	@import url("../../assets/css/colors.less");
-	.template31-page {
+	.template3Next-page {
 		.container {
 			width: 1020px;
 			margin: 20px auto;
