@@ -9,6 +9,7 @@ const FORGET = 'FORGET'
 const USERINFO = 'USERINFO'
 const GETAUTHMSG = 'GETAUTHMSG'
 const VALIDAUTHCODE = 'VALIDAUTHCODE'
+const PAGE_MODULE = 'PAGE_MODULE'
 
 export default {
   state: {
@@ -16,7 +17,8 @@ export default {
     registerInfo: {},
     forgetInfo: {},
     captchaInfo: {},
-    userInfo: {}
+    userInfo: {},
+    moduleList: []
   },
   mutations: {
     [USER_SET](state, data) {
@@ -80,6 +82,11 @@ export default {
           target: 'userInfo',
           data: res
         })
+        return res
+      })
+    },
+    [PAGE_MODULE]({ commit }, params) {
+      return api.get(config.url.pageModule, params).then(res => {
         return res
       })
     },

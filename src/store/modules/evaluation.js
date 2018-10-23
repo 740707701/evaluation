@@ -12,6 +12,7 @@ const CEPINGFREE = 'CEPINGFREE'
 const RECORDREPORT = 'RECORDREPORT'
 const BANNERLIST = 'BANNERLIST'
 const VALIDCEPING = 'VALIDCEPING'
+const COURSE_ITEM = 'COURSE_ITEM'
 
 export default {
   state: {
@@ -24,7 +25,8 @@ export default {
     tocaichu: {},
     cepingfree: {},
     report: {},
-    validCepingInfo: {}
+    validCepingInfo: {},
+    courseItemList: []
   },
   mutations: {
     [EVALUATION_SET](state, data) {
@@ -38,6 +40,11 @@ export default {
           target: 'bannerList',
           data: res.data
         })
+        return res
+      })
+    },
+    [COURSE_ITEM]({ commit }, params) {
+      return api.get(config.url.cepingItem, params).then(res => {
         return res
       })
     },
