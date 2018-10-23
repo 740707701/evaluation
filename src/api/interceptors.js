@@ -13,7 +13,7 @@ let sysbelong = location.href.substring(location.href.lastIndexOf('://')+3,locat
 if (sysbelong === 'www') { 
   sysbelong = 'uwopai'
 } else if(sysbelong === 'http://') {
-  sysbelong = ''
+  sysbelong = 'uwopai'
 }
 axios.defaults.headers.sysbelong = sysbelong
 //http request 拦截器

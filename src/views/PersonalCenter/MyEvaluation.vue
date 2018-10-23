@@ -84,28 +84,7 @@ export default {
       money: "98.76",
       rateValue: 3.7,
       range: "",
-      rangeList: [
-        {
-          id: '',
-          name: "全部"
-        },
-        {
-          id: 0,
-          name: "专业选择"
-        },
-        {
-          id: 1,
-          name: "自我认知"
-        },
-        {
-          id: 2,
-          name: "职业形象与风格"
-        },
-        {
-          id: 3,
-          name: '岗位分类'
-        }
-      ],
+      rangeList: [],
       finishCount: '',
       finishedList: [],
       unfinishedList: []
@@ -115,23 +94,35 @@ export default {
   created(){
     this.activeName = this.$route.params.activeName || "first";
     this.userInfo = this.$store.state.userInfo;
+    this.getCepingItem()
     this.getFinished()
     this.getUnFinished()
   },
   methods: {
     checkRange: function(range) {
-      let cepingItem = range.id;
+      let cepingItem = range.code - 0 >= 0 ? range.code - 0 : ''
       this.range = range.name;
       this.getUnFinished(cepingItem)
     },
     tabsClick: function(tab, event){
       let tabIndex = tab.index
-      // console.log(tab)
       if(tabIndex == 0){
         this.getFinished()
       }else if(tabIndex == 1){
         this.getUnFinished()
       }
+    },
+    getCepingItem() {
+      this.$store.dispatch('COURSE_ITEM').then(res => {
+        this.rangeList = res.data
+        this.rangeList.unshift({name: '全部', sort: 0, id: '000' })
+      }).catch(err => {
+        if(err.data.msg){
+          this.$message({type: 'error', message: err.data.msg})
+        }else {
+          this.$message({type: 'error', message: '获取测评分类失败，请稍后重试！'})
+        }
+      })
     },
     getFinished: function(){
       this.$store.dispatch('FINISHED').then(res => {

@@ -12,6 +12,10 @@ export default {
     classList: 'user/class',
     gradeList: 'user/grade',
 
+    // 根据学校获取模块
+    pageModule: '/user/modules',
+    cepingItem: '/cepingitem',
+
     //测评
     cepingList: 'index/cepinglist',
     hotList: 'index/hotlist',
