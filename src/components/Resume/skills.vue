@@ -11,7 +11,7 @@
         </div>
         <ul class="skill" v-if="skillList.length">
           <li v-for="skill in skillList" :key="skill.id">
-            <span class="gray">{{skill.skillTime.slice(0,10)}}</span>
+            <span class="gray">{{skill.skillTime.slice(0,7)}}</span>
             <span>{{skill.name}}</span>
             <span></span>
             <span class="icon-box">
@@ -42,9 +42,9 @@
               <el-form-item label="时间：" prop="skillTime" class="input-box">
                 <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                     v-model="skillInfo.skillTime"
-                    type="date"
+                    type="month"
                     placeholder="选择日期"
-                    value-format="yyyy-MM-dd">
+                    value-format="yyyy-MM">
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="证书名称：" prop="name" class="input-box">

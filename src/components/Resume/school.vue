@@ -18,9 +18,9 @@
                   <el-form-item label="时间：" prop="honorTime" class="input-box">
                     <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                         v-model="honorInfo.honorTime"
-                        type="date"
+                        type="month"
                         placeholder="选择日期"
-                        value-format="yyyy-MM-dd">
+                        value-format="yyyy-MM">
                       </el-date-picker>
                   </el-form-item>
                   <el-form-item label="奖项：" prop="honorPrize" class="input-box">
@@ -51,17 +51,17 @@
                   <el-form-item label="开始时间：" prop="startTime" class="input-box">
                     <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                         v-model="workInfo.startTime"
-                        type="date"
+                        type="month"
                         placeholder="选择日期"
-                        value-format="yyyy-MM-dd">
+                        value-format="yyyy-MM">
                       </el-date-picker>
                   </el-form-item>
                   <el-form-item label="结束时间：" prop="endTime" class="input-box">
                     <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                         v-model="workInfo.endTime"
-                        type="date"
+                        type="month"
                         placeholder="选择日期"
-                        value-format="yyyy-MM-dd">
+                        value-format="yyyy-MM">
                       </el-date-picker>
                   </el-form-item>
                   <el-form-item label="职务：" prop="schoolWorkName" class="input-box">
@@ -93,7 +93,7 @@
             <ul class="honor-list job-item" v-if="schoolHonorList.length">
               <li v-for="honor in schoolHonorList" :key="honor.id">
                 <div class="job-time">
-                  <span class="gray">{{honor.honorTime.slice(0, 10)}}</span>
+                  <span class="gray">{{honor.honorTime.slice(0, 7)}}</span>
                   <span>{{honor.honorPrize}}</span>
                   <span>{{honor.honorLevel}}</span>
                   <span class="icon-box">
@@ -122,7 +122,7 @@
             <ul class="post-list" v-if="schoolWorkList.length">
               <li class="job-item" v-for="work in schoolWorkList" :key="work.id">
                 <div class="job-time">
-                  <span class="gray">{{work.startTime.slice(0, 10)}} - {{work.endTime.slice(0, 10)}}</span>
+                  <span class="gray">{{work.startTime.slice(0, 7)}} - {{work.endTime.slice(0, 7)}}</span>
                   <span>{{work.schoolWorkName}}</span>
                   <span></span>
                   <span class="icon-box">

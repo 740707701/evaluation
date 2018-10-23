@@ -11,7 +11,7 @@
         </div>
         <div class="job-item" v-for="edu in eduList" :key="edu.id">
           <div class="job-time">
-            <span class="gray">{{edu.startTime.slice(0,10)}} - {{edu.endTime.slice(0,10)}}</span>
+            <span class="gray">{{edu.startTime.slice(0,7)}} - {{edu.endTime.slice(0,7)}}</span>
             <span>{{edu.schoolName}}</span>
             <span>{{edu.eduMajor}}（{{edu.degreeName}}）</span>
             <span class="icon-box">
@@ -58,7 +58,7 @@
               <el-form-item label="开始时间：" prop="startTime" class="input-box">
                 <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                     v-model="eduInfo.startTime"
-                    type="date"
+                    type="month"
                     placeholder="选择日期"
                     value-format="yyyy-MM-dd">
                   </el-date-picker>
@@ -66,7 +66,7 @@
               <el-form-item label="结束时间：" prop="endTime" class="input-box">
                 <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                     v-model="eduInfo.endTime"
-                    type="date"
+                    type="month"
                     placeholder="选择日期"
                     value-format="yyyy-MM-dd">
                   </el-date-picker>
