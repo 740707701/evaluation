@@ -6,7 +6,7 @@
           <img src="../assets/images/logo.svg" alt="" class="logo">
         </div>
         <ul class="nav-center">
-          <li v-for="m in moduleList" :key="m.id" @click="changeLogin(m.id, m.routerPath)" v-bind:class="{'active':$route.name==m.routerName}">{{m.moduleName}}</li>
+          <li v-for="m in moduleList" :key="m.id" @click="changeLogin(m.id, m.routerPath)" v-bind:class="{'active':$route.name==m.routerName || $route.name==m.routerName2 || $route.name==m.routerName3 || $route.name==m.routerName4}">{{m.moduleName}}</li>
         </ul>
         <div class="nav-right">
           <router-link to="/cartDetail" v-if="isLogin" class="cart">
@@ -224,12 +224,17 @@ export default {
         this.moduleList.map(item => {
           if(item.id === 1){
             item.routerName = 'courselist'
+            item.routerName2 = 'coursedetail'
           } else if(item.id === 2) {
             item.routerName = 'vocationCognize'
           } else if (item.id === 3) {
             item.routerName = 'termPlan'
+            item.routerName2 = 'careerplan'
+            item.routerName3 = 'planEntry'
+            item.routerName4 = 'planList'
           } else if(item.id === 4) {
             item.routerName = 'resume'
+            item.routerName2 = 'resumeBg'
           } else if(item.id === 5){
             item.routerName = 'practiceEmployment'
           }

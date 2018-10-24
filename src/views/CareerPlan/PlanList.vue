@@ -36,7 +36,7 @@
 											<span class="name">{{item.courseName}}</span>
 											<span class="score">计划分数：{{item.score}}分</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
 												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
@@ -70,7 +70,7 @@
 										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
 												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
@@ -105,7 +105,7 @@
 											<span class="name">{{item.name}}</span>
 											<span class="score">{{item.type}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
 												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
@@ -137,7 +137,7 @@
 										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
 												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
@@ -167,7 +167,7 @@
 										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
 												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
@@ -192,7 +192,7 @@
 									<div class="plan-box" v-if="plan.type=='internships'">
 										<div class="plan-top" v-if="!item.edit">
 											<div class="operation">
-												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
 												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click"  v-if="auth==1">
 													<span class="el-dropdown-link">
@@ -222,7 +222,7 @@
 										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
 												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
@@ -255,7 +255,7 @@
 										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.additionalName}}</span>
 											<div class="operation">
-												<i class="iconfont icon-bianji" title="编辑" v-if="auth===0" @click="edit(item,plan.type)"></i>
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
 												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
@@ -347,7 +347,7 @@
 									</div>
 								</div>
 								<!--编辑弹窗 -->
-								<div class="item-plan perfect" v-if="item.edit&&currentPlanId==item.id&&currentType==plan.type">
+								<!-- <div class="item-plan perfect" v-if="item.edit&&currentPlanId==item.id&&currentType==plan.type">
 									<div class="plan-box">
 										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='requireds'||plan.type=='options'||plan.type=='selfs'">
 											<el-form-item label="课程名称：">
@@ -457,7 +457,7 @@
 									</div>
 									<div class="plan-box" v-if="plan.type!='requireds'&&plan.type!='options'&&plan.type!='selfs'">
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
@@ -656,6 +656,7 @@
 				this.infoOptions.map(item => { item.showPlanList = true; })
         this.$store.dispatch('PLANINFO', params).then(res => {
 					this.planInfoList = res.data;
+					// auth 1:可完善、移交 3：不可编辑
 					this.auth = res.data.auth;
 					if(!this.planInfoList['requireds'] && !this.planInfoList['options'] && !this.planInfoList['selfs'] && 
 						!this.planInfoList['profs'] && !this.planInfoList['pread']){
@@ -684,6 +685,10 @@
             });
           }
         })
+			},
+			editPlan(item, type) {
+				console.log(item, type)
+				this.$router.push({path: '/careerplan', query: {planId: item.planId, termStage: this.stage}})
 			},
 			//编辑
 			edit(item, type){

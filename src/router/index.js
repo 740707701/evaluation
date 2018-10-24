@@ -75,7 +75,7 @@ const routes = [
     ]
   },
   {
-    path: "/evaluation/:cepingId/:serialNo",
+    path: "/evaluation/:cepingId/:serialNo?",
     name: "evaluation",
     component: () => import('@/views/Evaluation')
   },

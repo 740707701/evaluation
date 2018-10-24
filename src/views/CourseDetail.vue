@@ -21,6 +21,7 @@
           <div class="btn-box" v-if="!detail.showFree">
             <el-button size="small" class="buy-btn " @click="buy()">立即购买</el-button>
             <i class="iconfont icon-cart" @click="addCart"></i>
+            <el-button size="small" class="test-btn" @click="serialNoTest">序列号测试</el-button>
           </div>
           <div class="btn-box" v-if="detail.showFree">
             <el-button size="small" class="buy-btn eva-btn" @click="getFreeSerialNo()">进入测评</el-button>
@@ -179,6 +180,15 @@ export default {
       localStorage.setItem("cartData", JSON.stringify(cartData));
       this.$router.push({ name: "settlement" });
     },
+    // 序列号测试
+    serialNoTest() {
+      this.$router.push({
+        name: 'evaluation',
+        params: {
+          cepingId: this.$route.params.cepingId 
+        }
+      })
+    },
     //获取免费序列号
     getFreeSerialNo: function(){
       let data = {
@@ -298,6 +308,13 @@ export default {
             box-shadow: 0 0 0;
             border: none;
           }
+          .test-btn {
+            background-color: #f09d3d;
+            color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 0 0;
+            border: none;
+          }
           .eva-btn {
             border-radius: 4px;
           }
@@ -307,6 +324,7 @@ export default {
             height: 30px;
             line-height: 30px;
             text-align: center;
+            margin-right: 20px;
             color: #fff;
             background-color: #dc534d;
             cursor: pointer;

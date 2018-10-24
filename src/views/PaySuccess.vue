@@ -11,10 +11,16 @@
 			<p class="money">在线支付： {{money}}元</p>
 			<div class="link">
 				<router-link to="/personalcenter/second">去测评</router-link>
-				<router-link to="/">继续逛逛</router-link>
+				<a class="later" @click="showLaterBox=true">稍后测试</a>
 			</div>
 			<div class="tips">
 				重要提示：扶诚旗下测评平台及销售商不会以订单异常、系统升级为由，要求您点击任何链接进行退款。
+			</div>
+		</div>
+		<div class="later-box" @click.self="showLaterBox=false" v-if="showLaterBox">
+			<img src="../assets/images/success_step.jpg" alt="">
+			<div class="tips">
+				<router-link to="/">继续逛逛</router-link>
 			</div>
 		</div>
 	</div>
@@ -28,6 +34,7 @@ export default {
 			orderNo: '',
 			money: '',
 			buyed: false,
+			showLaterBox: false
 		}
 	},
 	created(){
@@ -77,11 +84,33 @@ export default {
 					color: @main-color-blue;
 					margin-right: 20px;
 					line-height: 30px;
+					cursor: pointer;
 				}
 			}
 			.tips {
 				color: @main-color-gray;
 				line-height: 26px;
+			}
+		}
+		.later-box {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0,0,0,0.3);
+			text-align: center;
+			position: fixed;
+			top: 0;
+			left: 0;
+			img {
+				width: 800px;
+				margin-top: 10%;
+			}
+			.tips {
+				width: 100%;
+				line-height: 30px;
+				margin-top: -35px;
+				a {
+					color: @main-color-blue;
+				}
 			}
 		}
 	}
