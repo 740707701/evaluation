@@ -3,10 +3,13 @@
     <el-tabs>
       <el-tab-pane label="实名认证">
         <div class="setting-content">
-          <el-form v-if="!isComplete" :model="personInfo" :rules="infoRules" ref="personInfo" label-width="100px" class="info-form">
+          <el-form v-if="!isComplete" :model="personInfo" :rules="infoRules" ref="personInfo" label-width="120px" class="info-form">
             <div class="title">基本资料</div>
-            <el-form-item label="姓名：" prop="userName">
-              <el-input size="small" v-model="personInfo.userName" placeholder="请输入真实姓名" :maxlength="20"></el-input>
+            <el-form-item label="用户名/昵称：" prop="userName">
+              <el-input size="small" v-model="personInfo.userName" placeholder="请输入用户名/昵称" :maxlength="20"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名：" prop="trueName">
+              <el-input size="small" v-model="personInfo.trueName" placeholder="请输入真实姓名" :maxlength="20"></el-input>
             </el-form-item>
             <el-form-item label="性别：" prop="sex">
               <div class="el-input sex-box" >
@@ -59,10 +62,13 @@
             </el-form-item>
             <div class="post-btn" @click="post('personInfo')">保存</div>
           </el-form>
-          <el-form v-if="isComplete" :model="personInfo" :rules="infoRules"  ref="personInfo" label-width="100px" class="info-form">
+          <el-form v-if="isComplete" :model="personInfo" :rules="infoRules"  ref="personInfo" label-width="120px" class="info-form">
             <div class="title">基本资料</div>
-            <el-form-item label="姓名：" prop="userName">
+            <el-form-item label="用户名/昵称：" prop="userName">
               <div>{{personInfo.userName}}</div>
+            </el-form-item>
+            <el-form-item label="姓名：" prop="trueName">
+              <div>{{personInfo.trueName}}</div>
             </el-form-item>
             <el-form-item label="性别：" prop="sex">
               <div class="el-input sex-box" >
@@ -252,6 +258,7 @@ export default {
     let userInfo = this.$store.state.userInfo;
     this.personInfo = {
       userName: userInfo.userName,
+      trueName: userInfo.trueName,
       sex: userInfo.sex,
       mobile: userInfo.mobile,
       email: userInfo.email,
