@@ -9,11 +9,13 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/reset.css'
 import './assets/css/reset.css'
 import ('!style-loader!css-loader!less-loader!./assets/css/colors.less')
+import VueClipboard  from 'vue-clipboard2'
 
 import htmlToPdf from '@/components/HtmltoPdf.js'
 Vue.use(htmlToPdf)
 
 Vue.use(ElementUI)
+Vue.use(VueClipboard )
 
 Vue.config.productionTip = false
 

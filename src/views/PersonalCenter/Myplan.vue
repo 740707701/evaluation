@@ -18,7 +18,7 @@
                 <div class="operation-btn view-btn" @click="viewPlan(plan.stage)">查看</div>
               </div>
             </div>
-            <div class="comment" v-if="plan.auditContent">评语：{{plan.auditContent}}</div>
+            <div class="comment" v-if="plan.auditContent" v-for="(content, index) in plan.auditContent" :key="index">评语：{{content}}</div>
           </div>
 				</div>
 			</el-tab-pane>

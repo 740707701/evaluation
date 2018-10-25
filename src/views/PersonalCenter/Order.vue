@@ -31,7 +31,7 @@
                 <td>
                   <div class="item">
                     <img :src="item.pic" alt="">
-                    <div class="name">{{item.cepingName}}</div>
+                    <div class="name">{{item.productName}}</div>
                   </div>
                 </td>
                 <td>¥{{item.purchasePrice}}</td>
@@ -62,7 +62,7 @@
                 <td>
                   <div class="item">
                     <img :src="item.pic" alt="">
-                    <div class="name">{{item.cepingName}}</div>
+                    <div class="name">{{item.productName}}</div>
                   </div>
                 </td>
                 <td>¥{{item.purchasePrice}}</td>
@@ -114,7 +114,7 @@
                 <td>
                   <div class="item">
                     <img :src="item.pic" alt="">
-                    <div class="name">{{item.cepingName}}</div>
+                    <div class="name">{{item.productName}}</div>
                   </div>
                 </td>
                 <td>¥{{item.purchasePrice}}</td>
@@ -492,6 +492,7 @@ export default {
                 margin-right: 15px;
               }
               .name {
+                padding-top: 20px;
                 margin-left: 115px;
                 line-height: 1.2;
                 text-align: left;
