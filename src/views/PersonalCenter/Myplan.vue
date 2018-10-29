@@ -18,7 +18,19 @@
                 <div class="operation-btn view-btn" @click="viewPlan(plan.stage)">查看</div>
               </div>
             </div>
-            <div class="comment" v-if="plan.auditContent" v-for="(content, index) in plan.auditContent" :key="index">评语：{{content}}</div>
+            <div class="comment-box" v-if="plan.auditContent.length">
+              <div class="comment-title">评语：</div>
+              <div class="comment-content" v-if="!plan.showMore" v-for="(content, index) in plan.auditContent" :key="index">
+                （{{index+1}}）{{content}}
+              </div>
+              <div class="comment-all-content" v-if="plan.showMore" v-for="(content, index) in plan.auditContent" :key="index">
+                （{{index+1}}）{{content}}
+              </div>
+              <div class="show-more" v-if="plan.auditContent[0].length>45">
+                <i class="iconfont icon-down" v-if="!plan.showMore" @click="showMoreText(plan)"></i>
+                <i class="iconfont icon-up" v-if="plan.showMore" @click="showMoreText(plan)"></i>
+              </div>
+            </div>
           </div>
 				</div>
 			</el-tab-pane>
@@ -32,7 +44,7 @@ export default {
     return {
       activeName: "first",
       userInfo: JSON.parse(localStorage.getItem("userInfo")),
-      planList: [],
+      planList: []
     }
   },
   created(){
@@ -54,6 +66,9 @@ export default {
     },
     viewPlan(stage){
       this.$router.push({name: 'planList', query: {stage: stage}})
+    },
+    showMoreText(plan) {
+      this.$set(plan, 'showMore', !plan.showMore)
     }
   }
 };
@@ -151,6 +166,31 @@ export default {
         line-height: 20px;
         color: #A2A9B8;
         border-top: 1px solid @main-color-border;
+      }
+      .comment-box {
+        .comment-title {
+          line-height: 20px;
+          color: #A2A9B8;
+        }
+        .comment-content, .comment-all-content {
+          width: 100%;
+          line-height: 20px;
+          color: #A2A9B8;
+        }
+        .comment-content {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .show-more {
+          width: 100%;
+          text-align: center;
+          margin-top: 5px;
+          i {
+            cursor: pointer;
+          }
+        }
       }
     }
   }
