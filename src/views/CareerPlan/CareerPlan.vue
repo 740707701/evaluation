@@ -408,7 +408,7 @@
     },
     methods: {
       checkPlan(){
-        console.log('plan_options',this.plan_options)
+        // console.log('plan_options',this.plan_options)
       },
       addPlanOption(plan){
         if(this.plan_options.length){
@@ -580,12 +580,16 @@
     },
     watch: {
       plan_options(val, oldVal){
-        console.log(val, oldVal)
+        // console.log(val, oldVal)
         if(val.length>=2){
           this.noNext = false
         }
         if(this.planIndex+1 >= oldVal.length && val.length<oldVal.length){
           this.planIndex = oldVal.length - 2
+          this.planItem = document.getElementsByClassName("plan-item");
+          if(this.planItem.length){
+            this.planItem[this.planItem.length-2].style.display = "block";
+          }
         }
         if(val.length == 1 ){
           this.noNext = true;
