@@ -16,7 +16,11 @@ if (sysbelong === 'www') {
   sysbelong = 'uwopai'
 }
 if (process.env.NODE_ENV === 'production') {
-  axios.defaults.headers.sysbelong = sysbelong
+  if(sysbelong === 'uwopai'){
+    axios.defaults.headers.sysbelong = sysbelong
+  } else {
+    axios.defaults.headers.sysbelong = 'uwopai' + sysbelong
+  }
 }else {
   axios.defaults.headers.sysbelong = 'uwopai'
 }
