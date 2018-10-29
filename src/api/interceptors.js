@@ -6,7 +6,7 @@ import router from '../router/index'
 axios.defaults.timeout = 5000
 axios.defaults.baseURL = 'http://101.132.166.37:8080/cepingweb'; //api测试环境地址
 // axios.defaults.baseURL = 'http://192.168.0.176:8089/cepingweb/'; //resume本机
-// axios.defaults.baseURL = 'http://192.168.0.191:8089/cepingweb/'; //plan本机
+// axios.defaults.baseURL = 'http://192.168.0.192:8089/cepingweb/'; //plan本机
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 // axios.defaults.withCredentials = true; //让ajax携带cookie
 let sysbelong = location.href.substring(location.href.lastIndexOf('://')+3,location.href.lastIndexOf('.uwopai.com'))

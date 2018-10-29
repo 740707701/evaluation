@@ -36,12 +36,12 @@ export default {
         if(err.data.msg){
           this.$message({
             type: "error",
-            message: errdata.msg
+            message: err.data.msg
           })
         }else {
           this.$message({
             type: "error",
-            message: "获取banner失败"
+            message: "获取轮播图失败，请稍后重试！"
           })
         }
       })
