@@ -35,7 +35,7 @@
                 消息&nbsp;<i class="el-icon-bell"></i>
               </el-badge>
             </router-link>
-            <div class="username">你好！{{userInfo.userName||userInfo.mobile}}</div>
+            <div class="username" :title="userInfo.userName||userInfo.mobile">你好！{{userInfo.userName||userInfo.mobile}}</div>
             <el-dropdown @command="dropdownEvent">
               <el-button class="avatar el-dropdown-link">
                 <el-badge :is-dot="isBuyed" >
@@ -85,6 +85,7 @@ export default {
   },
   props: ["updateBuyed", "updateNews"],
   created() {
+    console.log(this.$route)
     this.getModuleList()
     this.isBuyed =this.updateBuyed || false;
     this.isNews =this.updateNews || false;
@@ -275,7 +276,6 @@ export default {
     margin: 0 auto;
     .nav-left {
       float: left;
-      margin-right: 30px;
       .logo {
         width: 181px;
         height: 60px;
@@ -306,23 +306,30 @@ export default {
     .nav-right {
       float: right;
       height: 60px;
+      
       .cart {
         float: left;
-        margin-top: 12px;
         margin-right: 10px;
+        margin-top: 12px;
       }
       .el-icon-bell {
-        font-size: 20px;
+        font-size: 18px;
       }
       .news {
-        height: 30px;
-        line-height: 30px;
-        margin: 0 20px;
+        float: left;
+        margin: 0 10px;
       }
       .username {
-        line-height: 40px;
-        margin-right: 20px;
-        display: inline-block;
+        float: left;
+        margin-right: 10px;
+        min-width: 90px;
+        max-width: 174px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .el-dropdown {
+        float: right;
       }
       .avatar {
         width: 30px;
@@ -357,7 +364,7 @@ export default {
       }
       .login {
         height: 60px;
-        padding-top: 14px;
+        line-height:60px;
         display: inline-block;
       }
       .logout {
