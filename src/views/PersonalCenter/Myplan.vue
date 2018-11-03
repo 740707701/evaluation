@@ -58,10 +58,11 @@ export default {
       this.$store.dispatch('PLANLIST', params).then(res => {
         this.planList = res.data;
       }).catch(err => {
-        this.$message({
-          type: "error",
-          message: "获取规划列表失败，请稍后重试！"
-        })
+        if(err.data){
+          this.$message.error(err.data.msg)
+        } else {
+          this.$message.error("获取规划列表失败，请稍后重试！")
+        }
       })
     },
     viewPlan(stage){

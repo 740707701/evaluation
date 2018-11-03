@@ -8,6 +8,7 @@
             <img src="../../assets/images/resume_icon.svg" alt="">
             <div class="item-content">
               <div class="name">{{resume.resumeName}}-{{resume.updateDate.slice(0,10)}}</div>
+              <div class="score" v-if="resume.resumePoint">分数：<span>{{resume.resumePoint}}分</span></div>
               <div class="status">状态：
                 <span class="red" v-if="resume.state == 10">待审核</span>
                 <span class="green" v-if="resume.state == 20">审核通过</span>
@@ -180,6 +181,11 @@ import time from '../../api/time.js'
         line-height: 20px;
         padding-bottom: 32px;
         position: relative;
+        .score {
+          span {
+            color: red;
+          }
+        }
         .time {
           color: #DCDFE6;
         }

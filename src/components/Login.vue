@@ -20,9 +20,9 @@
           <i class="iconfont icon-qq-login"></i>
           <i class="iconfont icon-weixin-login"></i>
         </div> -->
-        <div class="register">
+        <!-- <div class="register">
           没有账号？<span @click="register">注册</span>
-        </div>
+        </div> -->
       </el-form-item>
     </el-form>
   </div>
@@ -54,12 +54,8 @@ export default {
       loginForm: {},
       redirect: "",
       rules: {
-        number: [{
-          required: true,
-          message: "请输入手机号或学号",
-          trigger: "blur"
-        }],
-        pwd: [{ required: true, validator: validatePwd, trigger: "blur" }]
+        number: [{required: true, message: "请输入手机号或学号", trigger: "blur"}],
+        pwd: [{ required: true, message: '密码不能为空', trigger: "blur" }]
       }
     };
   },
@@ -71,33 +67,35 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let loginInfo = {
-            userNum: this.loginForm.number,
-            password: this.loginForm.pwd
+            userName: this.loginForm.number,
+            userPassword: this.loginForm.pwd
           };
           this.$store
-            .dispatch("LOGIN", loginInfo)
+            .dispatch("SSO", loginInfo)
             .then(res => {
-              localStorage.setItem("userInfo",JSON.stringify(res.data.data));
-              localStorage.setItem("isLogin", true);
-              this.$store.commit("setUserInfo", res.data.data);
-              
-              //路由跳转 登录之前记录的路由
-              console.log(this.redirect)
-              this.$router.push({ path: this.redirect})
-              this.$emit("hideLogin");
+              const token = res.data.data.token
+              this.$store.dispatch('GETUSERINFO', token).then(res => {
+                localStorage.setItem("userInfo",JSON.stringify(res.data.data));
+                localStorage.setItem("isLogin", true);
+                this.$store.commit("setUserInfo", res.data.data);
+                this.getCartCount()
+                //路由跳转 登录之前记录的路由
+                this.$router.push({ path: this.redirect})
+                this.$emit("hideLogin");
+              }).catch(err => {
+                if(err.data){
+                  this.$message({type: 'error', message: res.data.msg})
+                  } else {
+                  this.$message({type: 'error', message: '获取用户信息失败，请稍后重试！'})
+                }
+              })
             })
             .catch(err => {
               console.log(err)
               if (err.data.msg) {
-                this.$message({
-                  message: err.data.msg,
-                  type: "error"
-                });
+                this.$message({type: "error", message: err.data.msg});
               } else {
-                this.$message({
-                  message: "登录失败，请稍后重试。",
-                  type: "error"
-                });
+                this.$message({type: "error",  message: "登录失败，请稍后重试！"});
               }
             });
         } else {
@@ -110,7 +108,17 @@ export default {
     },
     register: function() {
       this.$emit("showRegister");
-    }
+    },
+    //购物车
+    getCartCount(){
+      this.$store.dispatch('CARTLIST').then(res => {
+        // console.log(res)
+        let count = res.data.cartListNormal.length || 0;
+        this.$store.commit("setCartCount", count)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
   }
 };
 </script>

@@ -36,7 +36,7 @@ module.exports = {
         loader: 'vue-loader',
         options: vueLoaderConfig
       },
-      {
+      { // 使用less 需增加这段配置信息
         test: /\.less$/,
         loader: "style-loader!css-loader!less-loader",
       },

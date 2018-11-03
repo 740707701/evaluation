@@ -84,7 +84,7 @@ export default {
   },
   created(){
     this.userInfo = this.$store.state.userInfo
-    this.avatar = this.userInfo.avatar
+    this.avatar = this.userInfo.personHead
   },
   methods: {
     changeImage: function(e){
@@ -114,44 +114,25 @@ export default {
           console.log(res)
           this.file = '';
           let data = res.data.data;
-          this.userInfo.avatar = data.rootPath + data.headPic;
-          this.$store.dispatch("UPDATEHEAD", this.userInfo).then(res => {
+          this.userInfo.personHead = data.headPic;
+          this.$store.dispatch("UPDATE_HEADE", this.userInfo).then(res => {
             localStorage.setItem("userInfo", JSON.stringify(res.data.data))
             this.$store.state.userInfo = res.data.data
-            this.$message({
-                type: "success",
-                message: "保存个人头像成功"
-              })
+            this.$message({type: "success",message: "保存个人头像成功"})
           }).catch(err => {
             if(err.data.msg){
-              this.$message({
-                type: "error",
-                message: err.data.msg
-              })
+              this.$message({type: "error", message: err.data.msg})
             }else {
-              this.$message({
-                type: "error",
-                message: "保存个人头像失败"
-              })
+              this.$message({type: "error" ,message: "保存个人头像失败"})
             }
           })
           console.log(this.userInfo)
-          //  this.$message({
-          //     type: "success",
-          //     message: "上传成功！"
-          //   })
         }).catch(err => {
           console.log(err)
           if(err.data.msg){
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            })
+            this.$message({type: "error", message: err.data.msg})
           }else {
-            this.$message({
-              type: "error",
-              message: "上传失败"
-            })
+            this.$message({type: "error", message: "上传失败！"})
           }
         })
       }

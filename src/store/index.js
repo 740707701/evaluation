@@ -5,6 +5,7 @@ import evaluetion from './modules/evaluation'
 import resume from './modules/resume'
 import plan from './modules/plan'
 import user from './modules/user'
+import sso from './modules/sso'
 import metadata from './modules/metadata'
 import person from './modules/person'
 import order from './modules/order'
@@ -12,8 +13,8 @@ import order from './modules/order'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
-    isLogin: JSON.parse(localStorage.getItem("isLogin")) || false,
-    userInfo: JSON.parse(localStorage.getItem("userInfo")) || {},
+    isLogin: JSON.parse(localStorage.getItem("isLogin") || 0) || false,
+    userInfo: JSON.parse(localStorage.getItem("userInfo") || 0) || {},
     showLoginPage: false,
     cartCount: 0
   },
@@ -26,7 +27,7 @@ export default new Vuex.Store({
     setUserInfo: (state, data) => {
       console.log('setUserInfo', data)
       state.isLogin = JSON.parse(localStorage.getItem("isLogin"));
-      state.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      state.userInfo = JSON.parse(localStorage.getItem("userInfo") || 0);
     },
     logout: (state) => {
       state.userInfo = {}
@@ -51,6 +52,7 @@ export default new Vuex.Store({
     resume,
     plan,
     user,
+    sso,
     metadata,
     person,
     order

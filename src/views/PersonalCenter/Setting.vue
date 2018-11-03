@@ -19,8 +19,8 @@
                   <label>女</label> 
               </div>
             </el-form-item>
-            <el-form-item label="手机号：" prop="mobile">
-              <el-input size="small" v-model="personInfo.mobile" placeholder="请输入手机号" :maxlength="20"></el-input>
+            <el-form-item label="手机号：" prop="phoneNum">
+              <el-input size="small" v-model="personInfo.phoneNum" placeholder="请输入手机号" :maxlength="20"></el-input>
             </el-form-item>
             <el-form-item label="邮箱：" prop="email">
               <el-input size="small" v-model="personInfo.email" placeholder="请输入真实邮箱" :maxlength="30"></el-input>
@@ -40,9 +40,9 @@
                 :value="item"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="专业名称：" prop="classes">
-              <!-- <el-input size="small" v-model="personInfo.classes" placeholder="请输入专业名称" :maxlength="30"></el-input> -->
-              <el-select size="small" v-model="personInfo.classes" placeholder="请选择所在班级" :title="personInfo.classes">
+            <el-form-item label="专业名称：" prop="profession">
+              <!-- <el-input size="small" v-model="personInfo.profession" placeholder="请输入专业名称" :maxlength="30"></el-input> -->
+              <el-select size="small" v-model="personInfo.profession" placeholder="请选择所在班级" :title="personInfo.profession">
                 <el-option 
                   v-for="item in classList"
                   :key="item"
@@ -76,9 +76,9 @@
                   <label v-if="personInfo.sex==2">女</label> 
               </div>
             </el-form-item>
-            <el-form-item label="手机号：" prop="mobile">
+            <el-form-item label="手机号：" prop="phoneNum">
               <div>
-                <span>{{personInfo.mobile}}</span>
+                <span>{{personInfo.phoneNum}}</span>
                 <el-button v-if="!isModifyPhone" type="text" @click="openModifyPhoneDialog">修改</el-button>
               </div>
             </el-form-item>
@@ -98,8 +98,8 @@
             <el-form-item label="学校名称：" prop="school">
               {{personInfo.school}}
             </el-form-item>
-            <el-form-item label="专业名称：" prop="classes">
-              {{personInfo.classes}}
+            <el-form-item label="专业名称：" prop="profession">
+              {{personInfo.profession}}
             </el-form-item>
             <el-form-item label="年级：" prop="grade">
               {{personInfo.grade}}
@@ -113,7 +113,7 @@
       </el-tab-pane>
     </el-tabs>
     <div class="bg" v-if="showForgetPage" @click.self="showForgetPage = false">
-      <forget></forget>
+      <forget @hideLogin="showForgetPage=false"></forget>
     </div>
     <div class="bg" v-if="isModifyPhone" @click.self="isModifyPhone = false">
       <div class="modify-container">
@@ -179,7 +179,7 @@ export default {
       classList: [],
       gradeList: [],
       school: "",
-      classes: "",
+      profession: "",
       school_id: "",
       class_id: "",
       isComplete: false,
@@ -197,74 +197,29 @@ export default {
         captcha: [{required: true, message: "验证码不能为空", trigger: "blur"}],
       },
       infoRules: {
-        userName: [
-          {
-            required: true,
-            message: "请输入真实姓名",
-            trigger: "blur"
-          }
-        ],
-        sex: [
-          {
-            required: true,
-            message: "请选择性别",
-            trigger: "blur"
-          }
-        ],
-        email: [
-          {
-            required: true,
-            validator: validateEmail,
-            trigger: "blur"
-          }
-        ],
-        mobile: [
-          {
-            required: true,
-            validator: validatePhone,
-            trigger: "blur"
-          }
-        ],
-        userNum: [
-          {
-            required: true
-          }
-        ],
-        school: [
-          {
-            required: true,
-            message: "请输入学校",
-            trigger: "blur"
-          }
-        ],
-        classes: [
-          {
-            required: true,
-            message: "请输入专业",
-            trigger: "blur"
-          }
-        ],
-        grade: [
-          {
-            required: true,
-            message: "请输入年级",
-            trigger: "blur"
-          }
-        ]
+        userName: [{required: true, message: "请输入真实姓名", trigger: "blur"}],
+        sex: [{required: true, message: "请选择性别", trigger: "blur"}],
+        email: [{required: true, validator: validateEmail, trigger: "blur" }],
+        phoneNum: [{required: true, validator: validatePhone, trigger: "blur"}],
+        userNum: [{required: true }],
+        school: [{required: true, message: "请输入学校", trigger: "blur" }],
+        profession: [{required: true,message: "请输入专业",trigger: "blur"}],
+        grade: [{required: true,message: "请输入年级",trigger: "blur"}]
       }
     };
   },
   created() {
-    let userInfo = this.$store.state.userInfo;
+    this.getUserInfo()
+    let userInfo = this.$store.state.userInfo
     this.personInfo = {
       userName: userInfo.userName,
       trueName: userInfo.trueName,
       sex: userInfo.sex,
-      mobile: userInfo.mobile,
+      phoneNum: userInfo.phoneNum,
       email: userInfo.email,
       userNum: userInfo.userNum,
       school: userInfo.school,
-      classes: userInfo.classes,
+      profession: userInfo.profession,
       grade: userInfo.grade,
       id: userInfo.id,
       type: userInfo.type,
@@ -273,42 +228,45 @@ export default {
     if(this.personInfo.email){
       this.isComplete = true
     }
-    this.getGradeList();
-    this.getSchoolList();
-    this.getClassList();
+    this.getGradeList()
+    this.getSchoolList()
+    this.getClassList()
   },
   methods: {
+    getUserInfo() {
+      const token = this.$store.getters.getToken
+      this.$store.dispatch('SSO_USERINFO', token).then(res =>{
+        localStorage.setItem("userInfo",JSON.stringify(res.data.data))
+        this.$store.commit("setUserInfo", res.data.data)
+      }).catch(err =>{
+        this.$message.error(err.data.msg)
+      })
+    },
     doModifyPhoneAction(formName) {
       const samePhone = this.judgeOriginalPhoneSameAsNewPhone()
       if (!samePhone) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-             this.$store.dispatch("VALIDAUTHCODE", {
-              "mobile": this.modifyForm.phone, 
+             this.$store.dispatch("VERIFY_CODE", {
+              "phoneNum": this.modifyForm.phone, 
               "code": this.modifyForm.captcha
             })
             .then(res => {
-              this.$message({
-                type: "success",
-                message: "验证码校验通过"
-              })
+              this.$message({type: "success", message: "验证码校验通过"})
             })
             .then(res => {
               const data = {
-                mobile: this.modifyForm.phone,
-                classes: this.personInfo.classes,
+                phoneNum: this.modifyForm.phone,
+                profession: this.personInfo.profession,
                 grade: this.personInfo.grade,
                 school: this.personInfo.school,
               }
-              this.$store.dispatch("USERINFO", data)
+              this.$store.dispatch("UPDATE_PHONE_EMAIL", data)
                 .then(res => {
-                  localStorage.setItem("userInfo", JSON.stringify(res.data.data));
-                  this.$store.state.userInfo = res.data.data;
-                  this.$message({
-                    type: "success",
-                    message: "手机号修改成功！"
-                  })
-                  this.personInfo.mobile = this.modifyForm.phone
+                  this.personInfo.phoneNum = res.data.data.phoneNum
+                  this.getUserInfo()
+                  // this.$store.state.userInfo.phoneNum = res.data.data.phoneNum
+                  this.$message({type: "success", message: "手机号修改成功！"})
                   this.isModifyPhone = false
                   // 验证码还原
                   this.modifyForm.sendMsgDisabled  = false
@@ -322,25 +280,16 @@ export default {
                 .catch(error => {
                   console.log(error)
                   if(error.data.msg) {
-                    this.$message({
-                      type: "error",
-                      message: error.data.msg
-                    })
+                    this.$message({type: "error", message: error.data.msg})
                   }else {
-                    this.$message({
-                      type: "error",
-                      message: "手机号修改失败,请稍后重试"
-                    })
+                    this.$message({type: "error", message: "手机号修改失败,请稍后重试"})
                   }
                   this.isModifyPhone = false
                 })
             })
             .catch(error => {
               if(error.data.msg) {
-                this.$message({
-                  type: "error",
-                  message: error.data.msg
-                })
+                this.$message({type: "error", message: error.data.msg})
               }else {
                 this.$message({
                   type: "warning",
@@ -356,7 +305,7 @@ export default {
       this.isModifyPhone = true
     },
     judgeOriginalPhoneSameAsNewPhone() {
-      if (this.personInfo.mobile === this.modifyForm.phone) {
+      if (this.personInfo.phoneNum === this.modifyForm.phone) {
         this.$message.warning('新手机号与旧手机号相同！')
         return true
       }else {
@@ -374,32 +323,24 @@ export default {
       }
       const data = {
         email: this.personInfo.email,
-        classes: this.personInfo.classes,
+        profession: this.personInfo.profession,
         grade: this.personInfo.grade,
         school: this.personInfo.school
       }
-      this.$store.dispatch("USERINFO", data)
+      this.$store.dispatch("UPDATE_PHONE_EMAIL", data)
           .then(res => {
-            localStorage.setItem("userInfo", JSON.stringify(res.data.data));
-            this.$store.state.userInfo = res.data.data;
-            this.$message({
-              type: "success",
-              message: "邮箱信息修改成功！"
-            })
+            this.personInfo.email = res.data.data.email
+            this.getUserInfo()
+            // this.$store.state.userInfo.email = res.data.data.email
+            this.$message({type: "success",message: "邮箱信息修改成功！"})
             this.isModifyEmail = false
           })
           .catch(error => {
             console.log(error)
             if(error.data.msg) {
-              this.$message({
-                type: "error",
-                message: error.data.msg
-              })
+              this.$message({type: "error", message: error.data.msg})
             }else {
-              this.$message({
-                type: "error",
-                message: "邮箱修改失败,请稍后重试"
-              })
+              this.$message({type: "error", message: "邮箱修改失败,请稍后重试"})
             }
             this.isModifyEmail = false
           })
@@ -412,15 +353,9 @@ export default {
         })
         .catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.message
-            });
+            this.$message({type: "error", message: err.data.message});
           } else {
-            this.$message({
-              type: "error",
-              message: "获取个人资料信息失败,请稍后重试"
-            });
+            this.$message({type: "error", message: "获取个人资料信息失败,请稍后重试"});
           }
         });
     },
@@ -432,15 +367,9 @@ export default {
         })
         .catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.message
-            });
+            this.$message({type: "error", message: err.data.message});
           } else {
-            this.$message({
-              type: "error",
-              message: "获取个人资料信息失败,请稍后重试"
-            });
+            this.$message({type: "error",message: "获取个人资料信息失败,请稍后重试"});
           }
         });
     },
@@ -488,17 +417,14 @@ export default {
       if (!samePhone) {
         let reg = /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/
         if(!this.modifyForm.phone){
-          this.$message({
-            type: "error",
-            message: "请输入手机号"
-          })
+          this.$message({type: "error",message: "请输入手机号"})
           return
         }
         if(reg.test(this.modifyForm.phone)){
           let data = {
-            mobile: this.modifyForm.phone
+            phoneNum: this.modifyForm.phone
           }
-          this.$store.dispatch('CAPTCHA', data).then(res => {
+          this.$store.dispatch('VERIFICATION_CODE', data).then(res => {
               // 倒计时
             let that = this;
             that.modifyForm.sendMsgDisabled = true;
@@ -511,21 +437,12 @@ export default {
                 window.clearInterval(that.interval);
               }
             }, 1000);
-            this.$message({
-              message: "获取验证码成功",
-              type: "success"
-            })
+            // this.$message({type: "success", message: "获取验证码成功"})
           }).catch(err => {
             if(err.data.msg){
-                this.$message({
-                  message: err.data.msg,
-                  type: "error"
-                })
+                this.$message({type: "error", message: err.data.msg})
               }else {
-                this.$message({
-                  message: "获取验证码失败,请稍后重试",
-                  type: "error"
-                })
+                this.$message({type: "error",message: "获取验证码失败,请稍后重试"})
               }
           })
         }
@@ -535,28 +452,19 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$store
-            .dispatch("USERINFO", this.personInfo)
+            .dispatch("COMPLETE_USERINFO", this.personInfo)
             .then(res => {
               localStorage.setItem("userInfo", JSON.stringify(res.data.data));
               this.$store.state.userInfo = res.data.data;
               this.isComplete = true;
-              this.$message({
-                type: "success",
-                message: "个人资料信息保存成功!"
-              });
+              this.$message({type: "success", message: "个人资料信息保存成功!"});
             })
             .catch(err => {
               console.log(err);
               if (err.data.msg) {
-                this.$message({
-                  type: "error",
-                  message: err.data.msg
-                });
+                this.$message({type: "error", message: err.data.msg});
               } else {
-                this.$message({
-                  type: "error",
-                  message: "提交个人资料信息失败,请稍后重试"
-                });
+                this.$message({type: "error", message: "提交个人资料信息失败,请稍后重试"});
               }
             });
         } else {

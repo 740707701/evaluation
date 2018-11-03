@@ -8,6 +8,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/reset.css'
 import './assets/css/reset.css'
+// 引入全局的less文件
 import ('!style-loader!css-loader!less-loader!./assets/css/colors.less')
 import VueClipboard  from 'vue-clipboard2'
 

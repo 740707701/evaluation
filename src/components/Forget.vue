@@ -92,17 +92,14 @@
       getCaptcha: function(){
         let reg = /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/
         if(!this.forgetForm.phone){
-          this.$message({
-            type: "error",
-            message: "请输入手机号"
-          })
+          this.$message({type: "error", message: "请输入手机号"})
           return
         }
         if(reg.test(this.forgetForm.phone)){
           let data = {
-            mobile: this.forgetForm.phone
+            phoneNum: this.forgetForm.phone
           }
-          this.$store.dispatch('CAPTCHA', data).then(res => {
+          this.$store.dispatch('VERIFICATION_CODE', data).then(res => {
              // 倒计时
             let that = this;
             that.sendMsgDisabled = true;
@@ -115,21 +112,12 @@
                 window.clearInterval(interval);
               }
             }, 1000);
-            this.$message({
-              message: "获取验证码成功",
-              type: "success"
-            })
+            this.$message({message: "获取验证码成功！", type: "success"})
           }).catch(err => {
             if(err.data.msg){
-                this.$message({
-                  message: err.data.msg,
-                  type: "error"
-                })
+                this.$message({message: err.data.msg, type: "error"})
               }else {
-                this.$message({
-                  message: "获取验证码失败,请稍后重试",
-                  type: "error"
-                })
+                this.$message({message: "获取验证码失败,请稍后重试！", type: "error"})
               }
           })
         }
@@ -138,21 +126,15 @@
         this.resetForm.mobile = this.forgetForm.phone
         this.$refs[formName].validate(valid => {
           if(valid){
-            this.$store.dispatch("VALIDAUTHCODE", {
-              "mobile": this.forgetForm.phone, 
+            this.$store.dispatch("VERIFY_CODE", {
+              "phoneNum": this.forgetForm.phone, 
               "code": this.forgetForm.captcha
             })
             .then(res => {
-              this.$message({
-                type: "success",
-                message: "验证码校验通过"
-              })
+              this.$message({type: "success", message: "验证码校验通过！"})
               this.showReset = true;
             }).catch(error => {
-              this.$message({
-                type: "warning",
-                message: "验证码错误！"
-              })
+              this.$message({type: "warning", message: "验证码错误！"})
             })
           }
         })
@@ -161,27 +143,18 @@
         this.$refs[formName].validate(valid => {
           if(valid){
             let resetInfo = {
-              mobile: this.resetForm.mobile,
-              password: this.resetForm.pwd,
+              phoneNum: this.resetForm.mobile,
+              userPassword: this.resetForm.pwd,
               code: this.forgetForm.captcha
             }
-            this.$store.dispatch('FORGET', resetInfo).then(res => {
+            this.$store.dispatch('UPDATE_PASSWORD', resetInfo).then(res => {
               this.$emit("hideLogin")
-              this.$message({
-                  message: "修改成功",
-                  type: "success"
-                })
+              this.$message({message: "修改成功！", type: "success"})
             }).catch(err => {
               if(err.data.msg){
-                this.$message({
-                  message: err.data.msg,
-                  type: "error"
-                })
+                this.$message({message: err.data.msg, type: "error"})
               }else {
-                this.$message({
-                  message: "修改密码失败,请稍后重试",
-                  type: "error"
-                })
+                this.$message({message: "修改密码失败,请稍后重试！", type: "error"})
               }
             })
           }

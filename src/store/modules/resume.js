@@ -1,6 +1,5 @@
 import api from '../../api/index'
 import config from '../../api/config'
-import axios from 'axios'
 
 const RESUME_SET = 'RESUME_SET'
 const RESUME_INFO = 'RESUME_INFO'

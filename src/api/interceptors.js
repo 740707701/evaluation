@@ -4,9 +4,6 @@ import router from '../router/index'
 
 //axios 默认值
 axios.defaults.timeout = 5000
-axios.defaults.baseURL = 'http://101.132.166.37:8080/cepingweb'; //api测试环境地址
-// axios.defaults.baseURL = 'http://192.168.0.176:8089/cepingweb/'; //resume本机
-// axios.defaults.baseURL = 'http://192.168.0.192:8089/cepingweb/'; //plan本机
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 // axios.defaults.withCredentials = true; //让ajax携带cookie
 let sysbelong = location.href.substring(location.href.lastIndexOf('://')+3,location.href.lastIndexOf('.uwopai.com'))
@@ -28,7 +25,6 @@ if (process.env.NODE_ENV === 'production') {
 axios.interceptors.request.use(config => {
   if (store.getters.getToken) {
     config.headers.Authorization = `${store.getters.getToken}`
-      // config.headers.Authorization = `aaa`
   }
   return config
 }, err => {
@@ -37,31 +33,24 @@ axios.interceptors.request.use(config => {
 
 //http response 拦截器
 axios.interceptors.response.use(function(response) {
-    // console.log('------', response)
-    if (response.data.code == 1) {
+    if (response.data.code === 1) {
       return Promise.resolve(response)
-    } else if (response.data.code == 401 || response.data.code == 402) {
-      store.commit('logout')
-      router.replace({
-        path: '/',
-        query: { redirect: router.currentRoute.fullPath } //router.history.current.fullPath
-      })
     } else {
+      if (response.data.code === 401) {
+        store.commit('logout')
+        router.replace({
+          path: '/',
+          query: { redirect: router.currentRoute.fullPath } //router.history.current.fullPath
+        })
+      } else if(response.data.code === 402){
+        store.commit('logout')
+        router.replace({path: '/'})
+      }
       return Promise.reject(response)
     }
   }, function(error) {
-    console.log('拦截器', error)
-    if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          store.commit('logout')
-          router.replace({
-            path: '/',
-            query: { redirect: router.currentRoute.fullPath } //router.history.current.fullPath
-          })
-      }
-    }
-    return Promise.reject(error.response)
+    // console.log('拦截器', error)
+    return Promise.reject(error)
   })
   //判断登录状态
   // router.beforeEach((to, from, next) => {

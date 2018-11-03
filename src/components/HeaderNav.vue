@@ -25,9 +25,9 @@
             <li>
               <div class="name" @click="login">登录</div>
             </li>
-            <li>
+            <!-- <li>
               <div class="name" @click="register">注册</div>
-            </li>
+            </li> -->
           </ul>
           <div class="login" v-if="isLogin">
             <router-link to="/news" class="news">
@@ -39,8 +39,8 @@
             <el-dropdown @command="dropdownEvent">
               <el-button class="avatar el-dropdown-link">
                 <el-badge :is-dot="isBuyed" >
-                  <i class="iconfont icon-user" v-if="!userInfo.avatar"></i>
-                  <img class="avatar-img" v-if="userInfo.avatar" :src="userInfo.avatar" alt="">
+                  <i class="iconfont icon-user" v-if="!userInfo.personHead"></i>
+                  <img class="avatar-img" v-if="userInfo.personHead" :src="userInfo.personHead" alt="">
                 </el-badge>
                 <i class="el-icon-arrow-down"></i>
               </el-button>
@@ -85,11 +85,15 @@ export default {
   },
   props: ["updateBuyed", "updateNews"],
   created() {
-    console.log(this.$route)
+    if(this.$route.query.token){
+      this.getUserInfo()
+    }
     this.getModuleList()
     this.isBuyed =this.updateBuyed || false;
     this.isNews =this.updateNews || false;
-    this.getCartCount();
+    if(this.$store.state.isLogin){
+      this.getCartCount();
+    }
   },
   computed: {
     // isLogin (){
@@ -103,6 +107,16 @@ export default {
     })
   },
   methods: {
+    getUserInfo() {
+      const token = this.$route.query.token
+      this.$store.dispatch('GETUSERINFO', token).then(res =>{
+        localStorage.setItem("userInfo",JSON.stringify(res.data.data));
+        localStorage.setItem("isLogin", true);
+        this.$store.commit("setUserInfo", res.data.data);
+      }).catch(err =>{
+        this.$message.error(err.data.msg)
+      })
+    },
     login: function() {
       this.$store.commit("setShowLoginPage", true);
       this.showRegisterPage = false;
@@ -165,15 +179,9 @@ export default {
             }
           }).catch(err => {
             if(err.data.msg){
-              this.$message({
-                type: "error",
-                message: err.data.msg
-              })
+              this.$message({type: "error", message: err.data.msg})
             }else {
-              this.$message({
-                type: "error",
-                message: "检查是否添加过规划失败，请稍后重试！"
-              })
+              this.$message({type: "error", message: "检查是否添加过规划失败，请稍后重试！"})
             }
           })
         }else if (id == 4){
@@ -185,15 +193,9 @@ export default {
             }
           }).catch(err => {
             if(err.data.msg){
-              this.$message({
-                type: "error",
-                message: err.data.msg
-              })
+              this.$message({type: "error", message: err.data.msg})
             }else {
-              this.$message({
-                type: "error",
-                message: "检查是否制作简历失败，请稍后重试"
-              })
+              this.$message({type: "error", message: "检查是否制作简历失败，请稍后重试"})
             }
           })
         }else if(id == 5) {

@@ -11,7 +11,7 @@
             <el-input
               class="input-item auth-code-input"
               v-model="registerForm.authCode"
-              placeholder="验证码"></el-input>
+              placeholder="验证码" :maxlength="6"></el-input>
           </el-col>
           <el-col :span="10">
             <el-button
@@ -100,7 +100,7 @@ export default {
             });
           } else {
             this.$message({
-              message: "登录失败，请稍后重试。",
+              message: "登录失败，请稍后重试！",
               type: "error"
             });
           }
@@ -193,7 +193,7 @@ export default {
                   });
                 } else {
                   this.$message({
-                    message: "注册失败。",
+                    message: "注册失败！",
                     type: "error"
                   });
                 }
