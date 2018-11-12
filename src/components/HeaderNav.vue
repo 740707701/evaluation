@@ -2,9 +2,11 @@
   <el-container>
     <el-header class="header">
       <nav class="navbar">
-        <div class="nav-left">
-          <img src="../assets/images/logo.svg" alt="" class="logo">
-        </div>
+        <router-link to="/">
+          <div class="nav-left">
+            <img src="../assets/images/logo.svg" alt="" class="logo">
+          </div>
+        </router-link>
         <ul class="nav-center">
           <li v-for="m in moduleList" :key="m.id" @click="changeLogin(m.id, m.routerPath)" v-bind:class="{'active':$route.name==m.routerName || $route.name==m.routerName2 || $route.name==m.routerName3 || $route.name==m.routerName4}">{{m.moduleName}}</li>
         </ul>
@@ -123,7 +125,6 @@ export default {
       this.showForgetPage = false;
     },
     hideLogin: function() {
-      console.log('hide')
       this.$store.commit("setShowLoginPage", false);
       this.showRegisterPage = false;
       this.showForgetPage = false;
@@ -171,7 +172,6 @@ export default {
             userId: userInfo.id
           }
           this.$store.dispatch('PLANLIST', params).then(res => {
-            console.log(res)
             if(res.data.length){
               this.$router.push({ path: '/termPlan' })
             }else {

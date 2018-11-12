@@ -184,33 +184,28 @@ export default {
           this.dialogVisible = false;
           this.currentCart.isChecked = false;
           this.currentCart.purchaseNum = 0; //购买的数量 目前默认为1
-          let index = this.checkedIdList.indexOf(this.currentCart.cepingId);
-          this.checkedIdList.splice(index, 1);
-          this.checkedItemList.splice(index, 1);
-          this.totalPrice -= Number(this.currentCart.price);
+          if(this.checkedIdList.length) {
+            let index = this.checkedIdList.indexOf(this.currentCart.cepingId);
+            if(index !== -1) {
+              this.checkedIdList.splice(index, 1);
+              this.checkedItemList.splice(index, 1);
+              this.totalPrice -= Number(this.currentCart.price);
+            }
+          }
           this.cepingList.forEach((item, index) => {
             if(item.cartId == this.currentCart.cartId){
               this.cepingList.splice(index, 1)
             }
           })
-          this.$message({
-            type: "success",
-            message: "删除成功"
-          });
+          this.$message({type: "success", message: "删除成功"});
           this.cartCount = this.cartCount - 1;
           this.$store.commit("setCartCount", this.cartCount)
         })
         .catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message({type: "error", message: err.data.msg});
           } else {
-            this.$message({
-              type: "error",
-              message: "删除失败，请稍后重试"
-            });
+            this.$message({type: "error", message: "删除失败，请稍后重试"});
           }
         });
     },
@@ -274,7 +269,7 @@ export default {
     width: 1200px;
     margin: 0 auto;
     margin-top: 45px;
-    height: calc(100% - 45px);
+    height: calc(100% - 105px);
     position: absolute;
     left: 50%;
     margin-left: -600px;
@@ -295,10 +290,9 @@ export default {
     }
     .intro-box {
       width: 1200px;
-      min-height: calc(100% - 200px);
+      min-height: calc(100% - 105px);
       margin: 0 auto;
       margin-top: 40px;
-      margin-bottom: 20px;
       padding: 20px;
       background-color: #fff;
       border-radius: 8px;

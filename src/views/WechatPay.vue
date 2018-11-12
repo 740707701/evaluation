@@ -36,6 +36,9 @@ export default {
 		//dom渲染之后 再生成二维码
 		this.createCode();
 	},
+	beforeDestroy() {
+		clearInterval(this.timer)
+	},
 	methods: {
 		createCode(){
 			let qrCode = new QRCode(document.getElementById("qrcode"),{

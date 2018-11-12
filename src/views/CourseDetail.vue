@@ -33,7 +33,7 @@
         </div>
         <div class="hot">热门测评</div>
         <table class="table">
-          <tr v-for="(item, index) in hotList" :key="item.cepingId">
+          <tr v-for="(item, index) in hotList" :key="item.cepingId" @click="linktoDetail(item.cepingId)">
             <td class="name">{{index+1}}</td>
             <td class="name">{{item.cepingName}}</td>
             <td>{{item.num||0}}题</td>
@@ -72,33 +72,29 @@ export default {
   data() {
     return {
       showDialog: false,
+      cepingId: '',
       detail: {},
       hotList: [],
       serialNo: ''
     };
   },
   created: function() {
-    this.evaluationDetail();
-    this.getHotList();
+    this.cepingId = this.$route.params.cepingId
+    this.evaluationDetail(this.cepingId)
+    this.getHotList()
   },
   methods: {
-    evaluationDetail: function() {
+    evaluationDetail: function(cepingId) {
       this.$store
-        .dispatch("EVALUATION_DETAIL", { cepingId: this.$route.params.cepingId })
+        .dispatch("EVALUATION_DETAIL", { cepingId: cepingId })
         .then(res => {
           this.detail = res.data;
         })
         .catch(err => {
           if(err.data.msg){
-            this.$message({
-            type: "error",
-            message: err.data.msg
-          })
+            this.$message({type: "error", message: err.data.msg})
           }else{
-            this.$message({
-              type: "error",
-              message: "获取测评详情失败，请稍后重试"
-            })
+            this.$message({type: "error", message: "获取测评详情失败，请稍后重试！"})
           }
         });
     },
@@ -110,15 +106,9 @@ export default {
         })
         .catch(err => {
           if(err.data.msg){
-            this.$message({
-            type: "error",
-            message: err.data.msg
-          })
+            this.$message({type: "error", message: err.data.msg})
           }else{
-            this.$message({
-              type: "error",
-              message: "获取热门测评失败，请稍后重试"
-            })
+            this.$message({type: "error", message: "获取热门测评失败，请稍后重试！"})
           }
         });
     },
@@ -150,7 +140,6 @@ export default {
     //获取购物车数量
     getCartCount(){
       this.$store.dispatch('CARTLIST').then(res => {
-        console.log(res)
         let count = res.data.cartListNormal.length || 0;
         this.$store.commit("setCartCount", count)
       }).catch(err => {
@@ -180,6 +169,10 @@ export default {
       localStorage.setItem("cartData", JSON.stringify(cartData));
       this.$router.push({ name: "settlement" });
     },
+    // 进入测评详情
+    linktoDetail: function(cepingId) {
+      this.evaluationDetail(cepingId)
+    },
     // 序列号测试
     serialNoTest() {
       this.$router.push({
@@ -202,32 +195,19 @@ export default {
       }).catch(err => {
         console.log(err)
         if(err.data.msg){
-            this.$message({
-            type: "error",
-            message: err.data.msg
-          })
+            this.$message({type: "error", message: err.data.msg})
           }else{
-            this.$message({
-              type: "error",
-              message: "获取序列号失败，请稍后重试！"
-            })
+            this.$message({type: "error", message: "获取序列号失败，请稍后重试！"})
           }
       })
     },
     onCopy: function (e) {
-      this.$message({
-        message: "复制序列号成功",
-        type: "success"
-      });
+      this.$message({type: "success", message: "复制序列号成功"})
     },
     onError: function (e) {
-      this.$message({
-        message: "复制序列号失败",
-        type: "error"
-      });
+      this.$message({type: "error", message: "复制序列号失败"})
     },
-  },
-  components: { }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -352,6 +332,7 @@ export default {
         font-family: "微软雅黑";
         font-size: 14px;
         tr {
+          cursor: pointer;
           td {
             padding: 10px;
             line-height: 20px;

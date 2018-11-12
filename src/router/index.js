@@ -222,9 +222,8 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
+  scrollBehavior: () => ({ y: 0 }), // 滚动行为
   routes
-  // fallback: false, //当浏览器不支持 history.pushState 控制路由是否应该回退到 hash 模式。默认值为 true。
-  // scrollBehavior: () => ({ y: 0 }), 滚动行为
 })
 
 router.beforeEach((to, from, next) => {

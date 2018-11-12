@@ -195,7 +195,6 @@ export default {
   min-height: 100%;
   background-color: @main-color-bg;
   padding-top: 60px;
-  padding-bottom: 25px;
   position: relative;
   z-index: 1;
   .red {
@@ -216,7 +215,10 @@ export default {
     width: 1200px;
     margin: 0 auto;
     margin-top: 45px;
-    height: calc(100% - 45px);
+    height: calc(100% - 105px);
+    position: absolute;
+    left: 50%;
+    margin-left: -600px;
     .top {
       height: 30px;
       line-height: 30px;
@@ -234,7 +236,7 @@ export default {
     }
     .intro-box {
       width: 1200px;
-      // height: calc(100% - 200px);
+      min-height: calc(100% - 105px);
       margin: 0 auto;
       margin-top: 40px;
       margin-bottom: 20px;
@@ -249,12 +251,12 @@ export default {
       }
       .goodslist {
         width: 100%;
-        padding: 10px 20px;
         background-color: @main-color-bg;
         .item {
           width: 100%;
-          margin-bottom: 20px;
           display: inline-block;
+          padding: 10px 20px;
+          border-bottom: 1px solid #fff;
           img {
             float: left;
             width: 160px;
@@ -332,6 +334,7 @@ export default {
       }
       .total-box {
         float: right;
+        margin-bottom: 30px;
         .total-money {
           .red {
             color: red;
