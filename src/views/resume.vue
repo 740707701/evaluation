@@ -41,6 +41,13 @@
                   <i class="el-icon-check" v-if="baseInfo.expectSalary"></i>
                 </a>
               </li>
+              <li :class="{'active':tabIndex==6}" @click="tabIndex=6">
+                <a href="#evaluate">
+                  <i class="iconfont icon-evaluate"></i>
+                  <span>自我评价</span>
+                  <i class="el-icon-check" v-if="baseInfo.evaluate"></i>
+                </a>
+              </li>
               <li :class="{'active':tabIndex==2}" @click="tabIndex=2">
                 <a href="#work">
                   <i class="iconfont icon-work"></i>
@@ -67,13 +74,6 @@
                   <i class="iconfont icon-skill"></i>
                   <span>技能证书</span>
                   <i class="el-icon-check" v-if="skillList.length"></i>
-                </a>
-              </li>
-              <li :class="{'active':tabIndex==6}" @click="tabIndex=6">
-                <a href="#evaluate">
-                  <i class="iconfont icon-evaluate"></i>
-                  <span>自我评价</span>
-                  <i class="el-icon-check" v-if="baseInfo.evaluate"></i>
                 </a>
               </li>
             </ul>
