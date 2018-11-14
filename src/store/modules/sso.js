@@ -149,7 +149,7 @@ export default {
 		// sso 修改密码
 		[UPDATE_PASSWORD]({commit}, data){
 			return new Promise((resolve, reject) => {
-				axios.post(Apiurl + '/user/updatepwd', data).then(res => {
+				axios.post(Apiurl + '/forgetpwd', data).then(res => {
 					if(res.data.code === 1) {
 						resolve(res)
 					} else {
