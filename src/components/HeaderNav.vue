@@ -8,7 +8,7 @@
           </div>
         </router-link>
         <ul class="nav-center">
-          <li v-for="m in moduleList" :key="m.id" @click="changeLogin(m.id, m.routerPath)" v-bind:class="{'active':$route.name==m.routerName || $route.name==m.routerName2 || $route.name==m.routerName3 || $route.name==m.routerName4}">{{m.moduleName}}</li>
+          <li v-for="m in moduleList" :key="m.id" @click="changeLogin(m.id,m)" v-bind:class="{'active':$route.name==m.routerName || $route.name==m.routerName2 || $route.name==m.routerName3 || $route.name==m.routerName4}">{{m.moduleName}}</li>
         </ul>
         <div class="nav-right">
           <router-link to="/cartDetail" v-if="isLogin" class="cart">
@@ -33,8 +33,9 @@
           </ul>
           <div class="login" v-if="isLogin">
             <router-link to="/news" class="news">
-              <el-badge :is-dot="isNews">
-                消息&nbsp;<i class="el-icon-bell"></i>
+              <el-badge :is-dot="isNews" class="news-badge">
+                消息&nbsp;
+                <i class="el-icon-bell"></i>
               </el-badge>
             </router-link>
             <div class="username" :title="userInfo.userName||userInfo.mobile">你好！{{userInfo.userName||userInfo.mobile}}</div>
@@ -94,7 +95,8 @@ export default {
     this.isBuyed =this.updateBuyed || false;
     this.isNews =this.updateNews || false;
     if(this.$store.state.isLogin){
-      this.getCartCount();
+      this.getCartCount()
+      this.getNewsList()
     }
   },
   computed: {
@@ -160,52 +162,71 @@ export default {
       this.showRegisterPage = false;
       this.showForgetPage = false;
     },
-    changeLogin: function(id, router){
+    changeLogin: function(id, item){
       let userInfo = JSON.parse(localStorage.getItem("userInfo"))
       if(userInfo){
-        if(id == 1){
-          this.$router.push({ path: '/' })
-        }else if(id == 2) {
-          this.$router.push({ path: '/vocationCognize'})
-        }else if(id == 3){
-          let params = {
-            userId: userInfo.id
+        if(id == 1){ // type: 1：免费, 0：收费
+          if(item.type === 0){
+            this.$router.push({ path: '/forbidden' })
+          } else if(item.type === 1) {
+            this.$router.push({ path: '/' })
           }
-          this.$store.dispatch('PLANLIST', params).then(res => {
-            if(res.data.length){
-              this.$router.push({ path: '/termPlan' })
-            }else {
-              this.$router.push({ path: '/planEntry' })
+        }else if(id == 2) {
+          if(item.type === 0){
+            this.$router.push({ path: '/forbidden' })
+          } else if(item.type === 1) {
+            this.$router.push({ path: '/vocationCognize'})
+          }
+        }else if(id == 3){
+          if(item.type === 0){
+            this.$router.push({ path: '/forbidden' })
+          } else if(item.type === 1) {
+            let params = {
+              userId: userInfo.id
             }
-          }).catch(err => {
-            if(err.data.msg){
-              this.$message({type: "error", message: err.data.msg})
-            }else {
-              this.$message({type: "error", message: "检查是否添加过规划失败，请稍后重试！"})
-            }
-          })
+            this.$store.dispatch('PLANLIST', params).then(res => {
+              if(res.data.length){
+                this.$router.push({ path: '/termPlan' })
+              }else {
+                this.$router.push({ path: '/planEntry' })
+              }
+            }).catch(err => {
+              if(err.data.msg){
+                this.$message({type: "error", message: err.data.msg})
+              }else {
+                this.$message({type: "error", message: "检查是否添加过规划失败，请稍后重试！"})
+              }
+            })
+          }
         }else if (id == 4){
-          this.$store.dispatch('CHECK_RESUME').then(res => {
-            if(res.data == 0){
-              this.$router.push({ path: '/resumeBg'})
-            }else {
-              this.$router.push({ path: '/resume' })
-            }
-          }).catch(err => {
-            if(err.data.msg){
-              this.$message({type: "error", message: err.data.msg})
-            }else {
-              this.$message({type: "error", message: "检查是否制作简历失败，请稍后重试"})
-            }
-          })
+          if(item.type === 0){
+            this.$router.push({ path: '/forbidden' })
+          } else if(item.type === 1) {
+            this.$store.dispatch('CHECK_RESUME').then(res => {
+              if(res.data == 0){
+                this.$router.push({ path: '/resumeBg'})
+              }else {
+                this.$router.push({ path: '/resume' })
+              }
+            }).catch(err => {
+              if(err.data.msg){
+                this.$message({type: "error", message: err.data.msg})
+              }else {
+                this.$message({type: "error", message: "检查是否制作简历失败，请稍后重试"})
+              }
+            })
+          }
         }else if(id == 5) {
-          this.$router.push({ path: '/practiceEmployment'})
+          if(item.type === 0){
+            this.$router.push({ path: '/forbidden' })
+          } else if(item.type === 1) {
+            this.$router.push({ path: '/practiceEmployment'})
+          }
         }
       }else {
         if(id == 1){
           this.$router.push({ path: '/' })
         }else {
-          this.$router.push({ path: '/' , query: {redirect: router}})
           this.$store.commit("setShowLoginPage", true)
         }
       }
@@ -247,6 +268,15 @@ export default {
           this.$message({type: 'error', message: err.data.msg})
           }else {
           this.$message({type: 'error', message: '获取模块权限失败，请稍后重试！'})
+        }
+      })
+    },
+    // 获取消息列表
+    getNewsList() {
+      this.$store.dispatch('MSG_LIST').then(res => {
+        const newsList = res.data
+        if(newsList.length) {
+          this.isNews = true
         }
       })
     }
@@ -308,7 +338,6 @@ export default {
     .nav-right {
       float: right;
       height: 60px;
-      
       .cart {
         float: left;
         margin-right: 10px;
@@ -320,6 +349,10 @@ export default {
       .news {
         float: left;
         margin: 0 10px;
+        .el-badge {
+          height: 22px;
+          line-height: 15px;
+        }
       }
       .username {
         float: left;
