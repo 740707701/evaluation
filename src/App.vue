@@ -7,7 +7,18 @@
 <script>
 export default {
   name: "App",
-  components: {}
+  components: {},
+  created() {
+    if (location.href.indexOf('localhost') > -1) {
+      return
+    }
+    // 非U我派域名，跳转到指定登录页面
+    if (location.href.indexOf('uwopai') === -1) {
+      this.$router.push({
+       path: '/AssetLogin'
+      })
+    }
+  }
 };
 </script>
  

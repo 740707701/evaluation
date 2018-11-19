@@ -9,6 +9,10 @@ const routes = [
     path: '/404',
     component: () => import('@/views/ErrorPage/404')
   },
+  // {
+  //   path: '',
+  //   redirect: '/AssetLogin'
+  // },
   {
     path: "/",
     component: () => import('@/views/Home'),

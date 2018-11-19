@@ -77,6 +77,12 @@ export default {
   },
   created() {
     this.redirect = decodeURIComponent(this.$route.query.redirect || "/");
+    // const isUwoPaiDomain = location.href.indexOf('uwopai') > -1 
+    //                        ||
+    //                        location.href.indexOf('localhost') > -1
+    // if (isUwoPaiDomain) {
+    //   this.$router.push('/')
+    // }
     this.getConfigs()
   },
   methods: {
