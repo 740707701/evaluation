@@ -28,6 +28,7 @@
   </div>
 </template>
 <script>
+import { setLoginChannel } from '@/utils/login-channel'
 export default {
   name: "login",
   data() {
@@ -78,6 +79,9 @@ export default {
                 localStorage.setItem("userInfo",JSON.stringify(res.data.data));
                 localStorage.setItem("isLogin", true);
                 this.$store.commit("setUserInfo", res.data.data);
+                // 设置官方登录标识
+                setLoginChannel(true)
+                
                 this.getCartCount()
                 //路由跳转 登录之前记录的路由
                 this.$router.push({ path: this.redirect})

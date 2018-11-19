@@ -73,6 +73,7 @@ import login from "./Login.vue";
 import register from "./Register.vue";
 import forget from "./Forget.vue";
 import { mapState } from 'vuex';
+import { getLoginChannel, removeLoginChannel } from '@/utils/login-channel'
 export default {
   name: "headerNav",
   data() {
@@ -109,6 +110,9 @@ export default {
     })
   },
   methods: {
+    getLoginChannel() {
+      return getLoginChannel()
+    },
     getUserInfo() {
       const token = this.$route.query.token
       this.$store.dispatch('GETUSERINFO', token).then(res =>{
@@ -142,7 +146,16 @@ export default {
     dropdownEvent: function(command){
       if(command == 'logout'){
         this.$store.commit("logout")
-        this.$router.push({path: '/'})
+        // getLoginChannel()
+        // "true" 表示从官方登录进来的渠道退出
+        // "false" 表示非官方登录进来的渠道退出
+        if (getLoginChannel() === "false") {
+          this.$router.push({path: '/AssetLogin'})
+        }else {
+          this.$router.push({path: '/'})
+        }
+        // 移除登录渠道
+        removeLoginChannel()
       }else if(command == 'personalcenter'){
         this.$router.push({ path: '/personalcenter'})
       }else if(command == 'myresume'){

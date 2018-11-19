@@ -125,6 +125,11 @@ const routes = [
     }
   },
   {
+    path: "/AssetLogin",
+    name: "assetLogin",
+    component: () => import('@/views/AssetLogin'),
+  },
+  {
     path: "/resumeBg",
     name: "resumeBg",
     component: () => import('@/views/ResumeBg')
