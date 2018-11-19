@@ -155,6 +155,7 @@
   </div>
 </template>
 <script>
+import { compareDate } from '@/utils/index' 
 export default {
   name: "school",
   data() {
@@ -224,6 +225,9 @@ export default {
   },
   props: ["schoolHonorList", "schoolWorkList", "baseParams"],
   methods: {
+    compareDate(arg1, arg2) {
+      return compareDate(arg1, arg2)
+    },
     addSchoolHonor: function() {
       if (!this.baseParams.resumeId) {
         this.$message({
@@ -324,6 +328,12 @@ export default {
       this.showSchoolWorkEdit = true;
     },
     saveSchoolWork: function(formName) {
+      let startTime = this.workInfo.startTime
+      let endTime = this.workInfo.endTime
+      if(compareDate(startTime, endTime)) {
+        this.workInfo.startTime = endTime
+        this.workInfo.endTime = startTime
+      }
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$store

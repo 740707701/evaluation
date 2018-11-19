@@ -41,6 +41,13 @@
                   <i class="el-icon-check" v-if="baseInfo.expectSalary"></i>
                 </a>
               </li>
+              <li :class="{'active':tabIndex==6}" @click="tabIndex=6">
+                <a href="#evaluate">
+                  <i class="iconfont icon-evaluate"></i>
+                  <span>自我评价</span>
+                  <i class="el-icon-check" v-if="baseInfo.evaluate"></i>
+                </a>
+              </li>
               <li :class="{'active':tabIndex==2}" @click="tabIndex=2">
                 <a href="#work">
                   <i class="iconfont icon-work"></i>
@@ -67,13 +74,6 @@
                   <i class="iconfont icon-skill"></i>
                   <span>技能证书</span>
                   <i class="el-icon-check" v-if="skillList.length"></i>
-                </a>
-              </li>
-              <li :class="{'active':tabIndex==6}" @click="tabIndex=6">
-                <a href="#evaluate">
-                  <i class="iconfont icon-evaluate"></i>
-                  <span>自我评价</span>
-                  <i class="el-icon-check" v-if="baseInfo.evaluate"></i>
                 </a>
               </li>
             </ul>
@@ -121,7 +121,7 @@
     <!-- 提交简历弹框 -->
     <div class="dialog" v-if="showSuccessDialog" @click.self="showSuccessDialog=false">
       <div class="post-box">
-        <img src="../assets/images/resume_success.png" alt="" class="post-success">
+        <img src="../../assets/images/resume_success.png" alt="" class="post-success">
         <div class="title">简历提交成功</div>
         <div class="date">{{submitDate}}</div>
         <el-button size="small" round class="back-btn" @click="viewResume">查看</el-button>
@@ -142,17 +142,17 @@
   </div>
 </template>
 <script>
-import headerNav from "../components/HeaderNav.vue";
-import baseBox from "../components/Resume/base.vue";
-import expectBox from "../components/Resume/expect.vue";
-import evaluateBox from "../components/Resume/evaluate.vue";
-import workExperBox from "../components/Resume/workexper.vue";
-import eduBox from "../components/Resume/edu.vue";
-import schoolBox from "../components/Resume/school.vue";
-import skillBox from "../components/Resume/skills.vue";
-import preview from "../components/Resume/preview.vue";
+import headerNav from "@/components/HeaderNav.vue";
+import baseBox from "@/components/Resume/base.vue";
+import expectBox from "@/components/Resume/expect.vue";
+import evaluateBox from "@/components/Resume/evaluate.vue";
+import workExperBox from "@/components/Resume/workexper.vue";
+import eduBox from "@/components/Resume/edu.vue";
+import schoolBox from "@/components/Resume/school.vue";
+import skillBox from "@/components/Resume/skills.vue";
+import preview from "@/components/Resume/preview.vue";
 import { mapState } from "vuex";
-import tags from "../api/tags";
+import tags from "../../api/tags";
 
 export default {
   name: "resume",
@@ -377,7 +377,7 @@ export default {
 };
 </script>
 <style lang="less" scope>
-@import url("../assets/css/colors.less");
+@import "../../assets/css/colors.less";
 .resume-page {
   width: 100%;
   background-color: @main-color-bg;

@@ -2,7 +2,7 @@
   <div class="cart-page">
     <headerNav></headerNav>
     <div class="banner-bg">
-      <img src="../assets/images/bg_02.png" alt="">
+      <img src="../../assets/images/bg_02.png" alt="">
     </div>
     <div class="container">
       <div class="top">
@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-import headerNav from "../components/HeaderNav";
+import headerNav from "@/components/HeaderNav";
 export default {
   name: "cart",
   data() {
@@ -236,7 +236,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../assets/css/colors.less";
+@import "../../assets/css/colors.less";
 .cart-page {
   width: 100%;
   min-height: 100%;
@@ -346,7 +346,7 @@ export default {
             border: 1px solid @main-color-border;
             margin: 0;
             -webkit-appearance: none; //清除复选框默认样式
-            background: #fff url(../assets/images/checkbox.png); //复选框的背景图，就是上图
+            background: #fff url(../../assets/images/checkbox.png); //复选框的背景图，就是上图
             vertical-align: middle;
           }
           input[type="checkbox"]:checked {

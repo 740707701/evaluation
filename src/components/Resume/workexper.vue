@@ -153,6 +153,7 @@
   </div>
 </template>
 <script>
+import { compareDate } from '@/utils/index'
 export default {
   name: "workExper",
   data() {
@@ -253,6 +254,9 @@ export default {
   },
   props: ["workExperList", "workExperData", "baseParams"],
   methods: {
+    compareDate(arg1, arg2) {
+      return compareDate(arg1, arg2)
+    },
     changeFun: function(e){
       this.workExperInfo.funList = e;
     },
@@ -280,6 +284,12 @@ export default {
       this.showWorkExperiencedEdit = true;
     },
     saveWorkExper: function(formName) {
+      let startTime = this.workExperInfo.startTime
+      let endTime = this.workExperInfo.endTime
+      if(compareDate(startTime, endTime)) {
+        this.workExperInfo.startTime = endTime
+        this.workExperInfo.endTime = startTime
+      }
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$store

@@ -130,6 +130,7 @@
   </div>
 </template>
 <script>
+import { compareDate } from '@/utils/index'
 export default {
   name: "edu",
   data() {
@@ -202,6 +203,9 @@ export default {
   },
   props: ["eduList", "eduData", "baseParams"],
   methods: {
+    compareDate(arg1, arg2) {
+      return compareDate(arg1, arg2)
+    },
     addEdu: function() {
       if(!this.baseParams.resumeId){
         this.$message({
@@ -223,6 +227,12 @@ export default {
       this.showEducationEdit = true;
     },
     saveEdu: function(formName) {
+      let startTime = this.eduInfo.startTime
+      let endTime = this.eduInfo.endTime
+      if(compareDate(startTime, endTime)) {
+        this.eduInfo.startTime = endTime
+        this.eduInfo.endTime = startTime
+      }
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$store

@@ -2,7 +2,7 @@
   <div class="evaluation-page">
     <headerNav></headerNav>
     <div class="banner-bg">
-      <img src="../assets/images/bg_01.png" alt="">
+      <img src="../../assets/images/bg_01.png" alt="">
     </div>
     <div class="container" v-if="detail.baseInfo">
       <div class="intro-box">
@@ -49,7 +49,7 @@
   </div>
 </template>
 <script>
-import headerNav from "../components/HeaderNav.vue";
+import headerNav from "@/components/HeaderNav.vue";
 import { mapState } from 'vuex'
 export default {
   name: "evaluation",
@@ -135,7 +135,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../assets/css/colors.less';
+@import '../../assets/css/colors.less';
 .evaluation-page {
   // height: 100%;
   min-height: 100%;

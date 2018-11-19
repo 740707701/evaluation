@@ -1,7 +1,7 @@
 import axios from './interceptors'
 axios.defaults.baseURL = 'http://101.132.166.37:8080/cepingweb'; //api测试环境地址
 // axios.defaults.baseURL = 'http://192.168.0.177:9088/cepingweb/'; //resume本机
-// axios.defaults.baseURL = 'http://192.168.0.192:8089/cepingweb/'; //plan本机
+// axios.defaults.baseURL = 'http://192.168.0.191:8089/cepingweb/'; //plan本机
 
 class Api {
   constructor() {}

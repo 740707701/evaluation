@@ -237,7 +237,7 @@ import api from '../api/index'
 import config from '../api/config'
 export default {
   name: 'plan',
-  props: ["plan", "planId", "noNext", "noPrev"],
+  props: ["plan", "planId", "termStage", "noNext", "noPrev"],
   data(){
     return { 
       userInfo: JSON.parse(localStorage.getItem("userInfo")),
@@ -611,13 +611,8 @@ export default {
       }
       this.$store.dispatch('SUBMITPLAN', data).then(res => {
         this.submitDialog = false;
-        this.$message({
-          type: "success",
-          message: "提交成功！"
-        })
-        this.$router.push({
-          name: 'planList'
-        })
+        this.$message({type: "success", message: "提交成功！"})
+        this.$router.push({name: 'planList', query: {stage: this.termStage}})
       }).catch(err => {
         if (err.data.msg) {
           this.$message({

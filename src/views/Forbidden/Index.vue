@@ -1,8 +1,8 @@
 <template>
-  <div class="practice-employment">
+  <div class="forbidden">
     <headerNav></headerNav>
     <div class="container">
-      <span>正在建设中...</span>
+      <span>收费模块，付费后可使用</span>
     </div>
   </div>
 </template>
@@ -10,8 +10,8 @@
 <script>
 import headerNav from "@/components/HeaderNav.vue";
 export default {
-  name: 'practiceEmployment',
-   components: {
+  name: 'forbidden',
+  components: {
     headerNav
   }
 }
@@ -19,7 +19,7 @@ export default {
 
 <style lang="less">
 @import "../../assets/css/colors.less";
-  .practice-employment {
+  .forbidden {
     width: 100%;
     min-height: 100%;
     background-color: @main-color-bg;

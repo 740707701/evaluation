@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<div class="later-box" @click.self="showLaterBox=false" v-if="showLaterBox">
-			<img src="../assets/images/success_step.jpg" alt="">
+			<img src="../../assets/images/success_step.jpg" alt="">
 			<div class="tips">
 				<router-link to="/">继续逛逛</router-link>
 			</div>
@@ -26,7 +26,7 @@
 	</div>
 </template>
 <script>
-import headerNav from '../components/HeaderNav'
+import headerNav from '@/components/HeaderNav'
 export default {
 	name: 'paysuccess',
 	data(){
@@ -49,7 +49,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-	@import "../assets/css/colors.less";
+	@import "../../assets/css/colors.less";
 	.pay-success {
 		width: 100%;
 		min-height: 100%;

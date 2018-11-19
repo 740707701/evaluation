@@ -1424,7 +1424,7 @@
 	}
 </script>
 <style lang="less" scoped>
-	@import url("../../assets/css/colors.less");
+	@import "../../assets/css/colors.less";
 	.planlist-page {
 		width: 100%;
 		min-height: 100%;

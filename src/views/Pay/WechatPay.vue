@@ -88,7 +88,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import url("../assets/css/colors.less");
+@import url("../../assets/css/colors.less");
 .webcatpay-page {
 	min-height: 100%;
 	background-color: @main-color-bg;

@@ -45,7 +45,7 @@
       <div class="dialog" v-if="showDialog" @click.self="showDialog=false" >
         <div class="success-box">
           <div class="header">
-            <img src="../assets/images/buy_bg.png" alt="">
+            <img src="../../assets/images/buy_bg.png" alt="">
           </div>
           <div class="content">
             <!-- <p class="title">付款成功</p> -->
@@ -211,7 +211,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../assets/css/colors.less";
+@import "../../assets/css/colors.less";
 .coursedetail-page {
   height: 100%;
   .container {

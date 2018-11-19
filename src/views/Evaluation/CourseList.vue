@@ -53,7 +53,7 @@
   </div>
 </template>
 <script>
-import Banner from "../components/Banner.vue";
+import Banner from "@/components/Banner.vue";
 import { mapState } from "vuex";
 export default {
   name: "courselist",
@@ -149,7 +149,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../assets/css/colors.less";
+@import "../../assets/css/colors.less";
 .courselist-page {
   height: 100%;
   .clear {

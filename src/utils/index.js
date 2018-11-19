@@ -1,8 +1,4 @@
-/**
- * This is just a simple version of deep copy
- * Has a lot of edge cases bug
- * If you want to use a perfect deep copy, use lodash's _.cloneDeep
- */
+
 export function deepClone(source) {
   if (!source && typeof source !== 'object') {
     throw new Error('error arguments', 'shallowClone')
@@ -17,3 +13,14 @@ export function deepClone(source) {
   })
   return targetObj
 }
+
+export function compareDate(date1, date2) {
+  var oDate1 = new Date(date1);
+  var oDate2 = new Date(date2);
+  if(oDate1.getTime() > oDate2.getTime()){
+      return true
+  } else {
+      return false
+  }
+}
+

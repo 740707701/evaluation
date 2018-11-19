@@ -55,7 +55,7 @@
                   <div class="tips">请在左侧列表勾选所需要的规划计划</div>
                 </div>
                 <div class="plan-item" v-for="(item,index) in plan_options" :key="index">
-                  <plan :plan="item" :planId="planId" @prev="prev" @next="next" :noPrev="noPrev" :noNext="noNext"></plan>
+                  <plan :plan="item" :termStage="termStage" :planId="planId" @prev="prev" @next="next" :noPrev="noPrev" :noNext="noNext"></plan>
                 </div>
               </div>
             </div>
@@ -66,8 +66,8 @@
   </div>
 </template>
 <script>
-  import headerNav from "../../components/HeaderNav.vue";
-  import plan from '../../components/Plan.vue';
+  import headerNav from "@/components/HeaderNav.vue";
+  import plan from '@/components/Plan.vue';
   export default {
     name: "careerplan",
     data() {
