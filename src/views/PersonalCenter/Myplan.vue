@@ -26,7 +26,7 @@
               <div class="comment-all-content" v-if="plan.showMore" v-for="(content, index) in plan.auditContent" :key="index">
                 <span v-if="content!=null">（{{index+1}}）{{content}}</span>
               </div>
-              <div class="show-more" v-if="plan.auditContent[0].length>45">
+              <div class="show-more" v-if="plan.auditContent[0]!=null&&plan.auditContent[0].length>45">
                 <i class="iconfont icon-down" v-if="!plan.showMore" @click="showMoreText(plan)"></i>
                 <i class="iconfont icon-up" v-if="plan.showMore" @click="showMoreText(plan)"></i>
               </div>

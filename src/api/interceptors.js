@@ -5,19 +5,16 @@ import router from '../router/index'
 //axios 默认值
 axios.defaults.timeout = 5000
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.plat = 'uwopai';
 // axios.defaults.withCredentials = true; //让ajax携带cookie
 let sysbelong = location.href.substring(location.href.lastIndexOf('://')+3,location.href.lastIndexOf('.uwopai.com'))
-if (sysbelong === 'http://') { 
+if (sysbelong === 'www' || sysbelong === 'http://') { 
   sysbelong = 'uwopai'
 }
 if (process.env.NODE_ENV === 'production') {
-  if(sysbelong === 'uwopai'){
-    axios.defaults.headers.sysbelong = sysbelong
-  } else {
-    axios.defaults.headers.sysbelong = 'uwopai' + sysbelong
-  }
+  axios.defaults.headers.sysbelong = sysbelong
 }else {
-  axios.defaults.headers.sysbelong = 'uwopai'
+  axios.defaults.headers.sysbelong = 'uwopai' // 'imun'
 }
 //http request 拦截器
 axios.interceptors.request.use(config => {

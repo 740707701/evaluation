@@ -22,7 +22,7 @@
                 <span v-if="resume.time_solt.second&&!resume.time_solt.minute&&!resume.time_solt.hour&&!resume.time_solt.day&&!resume.time_solt.month&&!resume.time_solt.year">{{resume.time_solt.second}}秒前</span>
               </div>
               <div class="btn-box">
-                <div class="operation-btn edit-btn" @click="edit(resume.id)">修改</div>
+                <div class="operation-btn edit-btn" v-if="!resume.resumePoint" @click="edit(resume.id)">修改</div>
                 <div class="operation-btn view-btn">
                   <router-link target="_blank" :to="`/viewResume/${resume.id}`">查看</router-link>
                 </div>

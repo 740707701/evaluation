@@ -81,6 +81,7 @@
                <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                   v-model="base.birth"
                   type="date"
+                  :picker-options="pickerOptions"
                   placeholder="选择日期"
                   value-format="yyyy-MM-dd">
                 </el-date-picker>
@@ -159,7 +160,7 @@
             </el-form-item>
             <el-form-item label="民族：" prop="nation" class="input-box">
               <el-input size="small" v-model="base.nation" placeholder="请输入民族" :maxlength="40" @focus="showNationMsg=true" @blur="showNationMsg=false"></el-input>
-              <div class="msg" v-if="showNationMsg">请确认与民族与身份证一致</div>
+              <div class="msg" v-if="showNationMsg">请确认民族信息与身份证保持一致</div>
             </el-form-item>
             <el-form-item label="现居住：" prop="address" class="input-box">
               <el-input size="small" v-model="base.address" placeholder="请输入现居住地址" :maxlength="40" @focus="showAddressMsg=true" @blur="showAddressMsg=false"></el-input>
@@ -206,6 +207,12 @@ export default {
       }
     };
     return {
+      // 选中时间大于等于今天 不可选
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now() - 8.64e7;
+        }
+      },
       phone: '',
       showNameMsg: false,
       showSexMsg: false,
