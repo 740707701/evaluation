@@ -9,7 +9,8 @@
  */
 import axios from '../../api/interceptors'
 
-const Apiurl = 'http://101.132.166.37:8080/saasplat'
+// const Apiurl = 'http://101.132.166.37:8080/saasplat' // 线上环境 其他学校调用地址 部署在37文件下
+const Apiurl = 'http://101.132.100.21:8080/saasplat' // 线上环境 收费学校调用地址 部署在21文件夹下
 // const Apiurl = 'http://192.168.0.177:9088/saasplat' // resume本地
 // const Apiurl = 'http://192.168.0.191:8091/saasplat' // plan本地
 
@@ -24,6 +25,7 @@ const VERIFICATION_CODE = 'VERIFICATION_CODE'
 const VERIFY_CODE = 'VERIFY_CODE'
 const UPDATE_PHONE_EMAIL = 'UPDATE_PHONE_EMAIL'
 const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
+const SCHOOL_LOGIN_INFO = 'SCHOOL_LOGIN_INFO'
 
 export default {
 	state: {
@@ -151,6 +153,20 @@ export default {
 		[UPDATE_PASSWORD]({commit}, data){
 			return new Promise((resolve, reject) => {
 				axios.post(Apiurl + '/forgetpwd', data).then(res => {
+					if(res.data.code === 1) {
+						resolve(res)
+					} else {
+						reject(res)
+					}
+				}).catch(err => {
+					reject(err)
+				})
+			})
+		},
+		// 学校title登录页面 获取登录页title、logo、bg接口
+		[SCHOOL_LOGIN_INFO]({commit}, params) {
+			return new Promise((resolve, reject) => {
+				axios.get(Apiurl + '/domain').then(res => {
 					if(res.data.code === 1) {
 						resolve(res)
 					} else {

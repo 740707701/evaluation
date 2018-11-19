@@ -16,7 +16,7 @@
       <p class="welcome-sub-title">
         欢迎您登录
         <span class="school-title">{{configs.schoolTitle}}</span>
-        职业与性格测评系统
+        职业测评与大学规划管理系统
       </p>
 
       <div class="item-container">
@@ -34,7 +34,7 @@
         <p class="item-title">密码</p>
         <el-input 
           class="item-content"
-          type="text"
+          type="password"
           max="30"
           v-model="loginForm.password"></el-input>
       </div>
@@ -71,7 +71,7 @@ export default {
   computed: {
     getBackgroundStyle() {
       if (this.configs.schoolLoginbgpic) {
-        return `background: url(${this.configs.schoolLoginbgpic}) cover`;
+        return `background-image: url(${this.configs.schoolLoginbgpic})`;
       }
     }
   },
@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     getConfigs() {
-      this.$store.dispatch('ASSET_LOGIN_CONFIG').then(responseTxt => {
+      this.$store.dispatch('SCHOOL_LOGIN_INFO').then(responseTxt => {
         this.configs = responseTxt.data.data
       })
     },
@@ -170,8 +170,8 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
-    background: url('/static/assetLogin/bg.png');
-    background-size: cover;
+    background-image: url('/static/assetLogin/bg.png');
+    background-size: 100% 100%;
     .logo-container {
       width: 120px;
       height: 120px;
@@ -184,6 +184,7 @@ export default {
         font-size: 75px;
         font-weight: 800;
         margin-top: 20px;
+        letter-spacing: 6px;
       }
       .sub-title {
         font-size: 30px;

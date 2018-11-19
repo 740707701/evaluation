@@ -1,6 +1,5 @@
 import api from '../../api/index'
 import config from '../../api/config'
-import {getLoginConfig} from '../../api/asset-login'
 
 const USER_SET = 'USER_SET'
 const LOGIN = 'LOGIN'
@@ -11,7 +10,6 @@ const USERINFO = 'USERINFO'
 const GETAUTHMSG = 'GETAUTHMSG'
 const VALIDAUTHCODE = 'VALIDAUTHCODE'
 const PAGE_MODULE = 'PAGE_MODULE'
-const ASSET_LOGIN_CONFIG = 'ASSET_LOGIN_CONFIG'
 
 export default {
   state: {
@@ -35,11 +33,6 @@ export default {
           target: 'loginInfo',
           data: res
         })
-        return res
-      })
-    },
-    [ASSET_LOGIN_CONFIG]({commit}) {
-      return getLoginConfig().then(res => {
         return res
       })
     },

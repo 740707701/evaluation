@@ -14,7 +14,7 @@ if (sysbelong === 'www' || sysbelong === 'http://') {
 if (process.env.NODE_ENV === 'production') {
   axios.defaults.headers.sysbelong = sysbelong
 }else {
-  axios.defaults.headers.sysbelong = 'uwopai' // 'imun'
+  axios.defaults.headers.sysbelong =  'uwopai' // 'cfxy' 'imun'
 }
 //http request 拦截器
 axios.interceptors.request.use(config => {
