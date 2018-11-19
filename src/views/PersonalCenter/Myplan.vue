@@ -21,10 +21,10 @@
             <div class="comment-box" v-if="plan.auditContent.length">
               <div class="comment-title">评语：</div>
               <div class="comment-content" v-if="!plan.showMore" v-for="(content, index) in plan.auditContent" :key="index">
-                （{{index+1}}）{{content}}
+                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
               </div>
               <div class="comment-all-content" v-if="plan.showMore" v-for="(content, index) in plan.auditContent" :key="index">
-                （{{index+1}}）{{content}}
+                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
               </div>
               <div class="show-more" v-if="plan.auditContent[0].length>45">
                 <i class="iconfont icon-down" v-if="!plan.showMore" @click="showMoreText(plan)"></i>

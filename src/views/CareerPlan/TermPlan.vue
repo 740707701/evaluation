@@ -19,8 +19,8 @@
 						<div class="item">
 							<img src="../../assets/images/term.png" alt="">
 							<div class="title">{{term.title}}</div>
-							<el-button v-if="term.state=='10'||term.state=='20'" @click="toPlanList(term.stage)" size="small">进入预览</el-button>
-							<el-button v-if="term.state!='10'&&term.state!='20'" @click="toPlan(term)" size="small">进入制作</el-button>
+							<el-button v-if="term.state=='10'||term.state=='20'||term.state=='30'" @click="toPlanList(term.stage)" size="small">进入预览</el-button>
+							<el-button v-if="term.state!='10'&&term.state!='20'&&term.state!='30'" @click="toPlan(term)" size="small">进入制作</el-button>
 						</div>
 					</el-col>
 				</el-row>
@@ -29,8 +29,8 @@
 						<div class="item">
 							<img src="../../assets/images/term.png" alt="">
 							<div class="title">{{term.title}}</div>
-							<el-button v-if="term.state=='10'||term.state=='20'" @click="toPlanList(term.stage)" size="small">进入预览</el-button>
-							<el-button v-if="term.state!='10'&&term.state!='20'" @click="toPlan(term)" size="small">进入制作</el-button>
+							<el-button v-if="term.state=='10'||term.state=='20'||term.state=='30'" @click="toPlanList(term.stage)" size="small">进入预览</el-button>
+							<el-button v-if="term.state!='10'&&term.state!='20'&&term.state!='30'" @click="toPlan(term)" size="small">进入制作</el-button>
 						</div>
 					</el-col>
 				</el-row>
@@ -109,7 +109,7 @@ import headerNav from '../../components/HeaderNav'
 				this.$store.dispatch('PLANLIST', params).then(res => {
 					this.planList = res.data
 					this.planList.map((plan, index) => {
-						this.termPlan.map((term, aubIndex) => {
+						this.termPlan.map((term, subIndex) => {
 							if(plan.stage == term.stage){
 								term.isOpen = true
 								this.$set(term, 'state', plan.state)
@@ -161,7 +161,7 @@ import headerNav from '../../components/HeaderNav'
 				if(!this.planList.length){
 					this.openPlan(term.stage)
 				}else {
-					if(term.isOpen){
+					if(term.isOpen){ // 30:审核不通过被打回 10：已提交, 20:审核通过 -1：未提交过
 						this.planList.map((item, index) => {
 							if(item.stage == term.stage){
 								if(item.state == '10'){
@@ -169,10 +169,11 @@ import headerNav from '../../components/HeaderNav'
 									return
 								}else if(item.state == '-1'){
 									this.$router.push({	name: 'careerplan',	query: { planId: item.id, termStage: item.stage } })
-								}else {
-									this.$message({	type: "error", 	message: "修改权限尚未开放！"	})
-									return
 								}
+								// else {
+								// 	this.$message({	type: "error", 	message: "修改权限尚未开放！"	})
+								// 	return
+								// }
 							}
 						})
 					}else{
