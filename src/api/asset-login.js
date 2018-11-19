@@ -6,9 +6,6 @@ export function getLoginConfig() {
   return axios.request({
     baseURL: 'http://192.168.0.177:9088/saasplat',
     url: '/domain',
-    method: 'get',
-    headers: {
-      sysbelong: 'imun'
-    }
+    method: 'get'
   })
 }
