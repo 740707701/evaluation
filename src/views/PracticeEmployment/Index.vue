@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import headerNav from "../../components/HeaderNav.vue";
+import headerNav from "@/components/HeaderNav.vue";
 export default {
   name: 'practiceEmployment',
    components: {

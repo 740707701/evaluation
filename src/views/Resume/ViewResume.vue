@@ -5,7 +5,7 @@
       <div class="pdf-content" id="pdfDom">
         <div class="base-content">
           <div class="avatar" >
-            <img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../assets/images/man.png')" >
+            <img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" >
           </div>
           <div class="info-list">
             <div class="name">
@@ -223,9 +223,9 @@
   </div>
 </template>
 <script>
-import time from "../api/time.js";
+import time from "@/api/time.js";
 import axios from "axios";
-import outputHeader from '../components/OutputHeader.vue'
+import outputHeader from '@/components/OutputHeader.vue'
 export default {
   name: "viewResume",
   data() {
@@ -315,7 +315,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../assets/css/colors.less";
+@import "../../assets/css/colors.less";
 .view-resume {
   padding-bottom: 30px;
   .container {

@@ -215,7 +215,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import url("../assets/css/colors.less");
+@import "../assets/css/colors.less";
 .register-form {
   width: 420px;
   background-color: #fff;

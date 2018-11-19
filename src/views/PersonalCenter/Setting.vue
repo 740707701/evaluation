@@ -145,7 +145,7 @@
   </div>
 </template>
 <script>
-import forget from "../../components/Forget.vue";
+import forget from "@/components/Forget.vue";
 export default {
   name: "setting",
   data() {

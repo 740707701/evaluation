@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/404',
-    component: () => import('@/views/errorPage/404')
+    component: () => import('@/views/ErrorPage/404')
   },
   {
     path: "/",
@@ -16,12 +16,12 @@ const routes = [
       {
         path: "/",
         name: "courselist",
-        component: () => import('@/views/CourseList')
+        component: () => import('@/views/Evaluation/CourseList')
       },
       {
         path: "/coursedetail/:cepingId",
         name: "coursedetail",
-        component: () => import('@/views/CourseDetail')
+        component: () => import('@/views/Evaluation/CourseDetail')
       }
     ]
   },
@@ -77,12 +77,12 @@ const routes = [
   {
     path: "/evaluation/:cepingId/:serialNo?",
     name: "evaluation",
-    component: () => import('@/views/Evaluation')
+    component: () => import('@/views/Evaluation/Evaluation')
   },
   {
     path: '/wechatPay',
     name: 'wechatPay',
-    component: () => import('@/views/WechatPay')
+    component: () => import('@/views/Pay/WechatPay')
   },
   {
     path: "/careerplan",
@@ -127,12 +127,12 @@ const routes = [
   {
     path: "/resumeBg",
     name: "resumeBg",
-    component: () => import('@/views/ResumeBg')
+    component: () => import('@/views/Resume/ResumeBg')
   },
   {
     path: "/resume/:resumeId?",
     name: "resume",
-    component: () => import('@/views/Resume'),
+    component: () => import('@/views/Resume/Resume'),
     meta: {
       requireAuth: true
     }
@@ -140,7 +140,15 @@ const routes = [
   {
     path: "/viewResume/:resumeId/:org?",
     name: "viewResume",
-    component: () => import('@/views/ViewResume'),
+    component: () => import('@/views/Resume/ViewResume'),
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: "/resumePreview",
+    name: "resumePreview",
+    component: () => import('@/views/Resume/ResumePreview'),
     meta: {
       requireAuth: true
     }
@@ -148,30 +156,23 @@ const routes = [
   {
     path: "/cartdetail",
     name: "cartDetail",
-    component: () => import('@/views/CartDetail')
+    component: () => import('@/views/Cart/CartDetail')
   },
   {
     path: "/settlement",
     name: "settlement",
-    component: () => import('@/views/Settlement')
+    component: () => import('@/views/Settlement/Settlement')
   },
   {
     path: "/paysuccess/:orderNo/:money",
     name: "paysuccess",
-    component: () => import('@/views/PaySuccess')
+    component: () => import('@/views/Pay/PaySuccess')
   },
-  {
-    path: "/resumePreview",
-    name: "resumePreview",
-    component: () => import('@/views/ResumePreview'),
-    meta: {
-      requireAuth: true
-    }
-  },
+  
   {
     path: "/agreement",
     name: "agreement",
-    component: () => import('@/views/Agreement')
+    component: () => import('@/views/Agreement/Agreement')
   },
   {
     path: "/templateList/:resumeId",
@@ -210,6 +211,14 @@ const routes = [
     path: "/practiceEmployment",
     name: "practiceEmployment",
     component: () => import('@/views/PracticeEmployment/Index'),
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/forbidden',
+    name: 'forbidden',
+    component: () => import('@/views/Forbidden/Index'),
     meta: {
       requireAuth: true
     }

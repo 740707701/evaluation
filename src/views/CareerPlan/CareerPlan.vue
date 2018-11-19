@@ -66,8 +66,8 @@
   </div>
 </template>
 <script>
-  import headerNav from "../../components/HeaderNav.vue";
-  import plan from '../../components/Plan.vue';
+  import headerNav from "@/components/HeaderNav.vue";
+  import plan from '@/components/Plan.vue';
   export default {
     name: "careerplan",
     data() {

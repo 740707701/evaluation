@@ -69,7 +69,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import url("../assets/css/colors.less");
+@import "../../assets/css/colors.less";
 .agreement {
   background-color: #fff;
   .container {

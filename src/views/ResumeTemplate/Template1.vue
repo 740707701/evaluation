@@ -182,7 +182,7 @@
 	</div>
 </template>
 <script>
-import outputHeader from '../../components/OutputHeader.vue'
+import outputHeader from '@/components/OutputHeader.vue'
 export default {
 	name: 'template1',
 	data(){
@@ -288,7 +288,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-	@import url("../../assets/css/colors.less");
+	@import "../../assets/css/colors.less";
 	.template1-page {
 		position: relative;
 		.container {

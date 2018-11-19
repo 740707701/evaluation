@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import headerNav from '../components/HeaderNav'
+import headerNav from '../../components/HeaderNav'
   export default {
     name: 'resumeBg',
     data(){
@@ -30,7 +30,7 @@ import headerNav from '../components/HeaderNav'
   }
 </script>
 <style lang="less" scoped>
-  @import "../assets/css/colors.less";
+  @import "../../assets/css/colors.less";
   .resume-bg {
     width: 100%;
     height: 100%;
@@ -38,7 +38,7 @@ import headerNav from '../components/HeaderNav'
     .img-bg {
       width: 100%;
       height: 100%;
-      background-image: url("../assets/images/resume_bg.jpg");
+      background-image: url("../../assets/images/resume_bg.jpg");
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center center;

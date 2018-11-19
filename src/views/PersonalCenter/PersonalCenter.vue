@@ -71,7 +71,7 @@
   </div>
 </template>
 <script>
-import headerNav from "../../components/HeaderNav"
+import headerNav from "@/components/HeaderNav"
 export default {
   name: "personalcenter",
   data() {

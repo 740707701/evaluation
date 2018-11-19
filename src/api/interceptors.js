@@ -7,9 +7,7 @@ axios.defaults.timeout = 5000
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 // axios.defaults.withCredentials = true; //让ajax携带cookie
 let sysbelong = location.href.substring(location.href.lastIndexOf('://')+3,location.href.lastIndexOf('.uwopai.com'))
-if (sysbelong === 'www') { 
-  sysbelong = 'uwopai'
-} else if(sysbelong === 'http://') {
+if (sysbelong === 'http://') { 
   sysbelong = 'uwopai'
 }
 if (process.env.NODE_ENV === 'production') {
@@ -25,7 +23,7 @@ if (process.env.NODE_ENV === 'production') {
 axios.interceptors.request.use(config => {
   if (store.getters.getToken) {
     config.headers.Authorization = `${store.getters.getToken}`
-  }
+  }    
   return config
 }, err => {
   return Promise.reject(err)

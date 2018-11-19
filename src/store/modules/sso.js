@@ -10,7 +10,8 @@
 import axios from '../../api/interceptors'
 
 const Apiurl = 'http://101.132.166.37:8080/saasplat'
-// const Apiurl = 'http://192.168.0.177:9088/saasplat' // 本地
+// const Apiurl = 'http://192.168.0.177:9088/saasplat' // resume本地
+// const Apiurl = 'http://192.168.0.191:8091/saasplat' // plan本地
 
 const SSO_SET = 'SSO_SET'
 

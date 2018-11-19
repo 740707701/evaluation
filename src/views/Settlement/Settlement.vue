@@ -2,7 +2,7 @@
   <div class="settlement-page">
     <headerNav></headerNav>
     <div class="banner-bg">
-      <img src="../assets/images/bg_02.png" alt="">
+      <img src="../../assets/images/bg_02.png" alt="">
     </div>
     <div class="container">
       <div class="top">
@@ -49,7 +49,7 @@
   </div>  
 </template>
 <script>
-import headerNav from "../components/HeaderNav";
+import headerNav from "@/components/HeaderNav";
 import axios from "axios";
 export default {
   name: "settlement",
@@ -189,7 +189,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../assets/css/colors.less";
+@import "../../assets/css/colors.less";
 .settlement-page {
   width: 100%;
   min-height: 100%;
@@ -300,7 +300,7 @@ export default {
             cursor: pointer;
             margin: 0;
             -webkit-appearance: none;
-            background: url("../assets/images/icon-normal.png") no-repeat;
+            background: url("../../assets/images/icon-normal.png") no-repeat;
             background-position: top right;
             z-index: 1;
             position: absolute;
@@ -308,7 +308,7 @@ export default {
             left: 0;
           }
           input[type="radio"]:checked {
-            background: url("../assets/images/icon-select.png") no-repeat;
+            background: url("../../assets/images/icon-select.png") no-repeat;
             background-position: top right;
             z-index: 1;
             border: 1px solid lightgreen;

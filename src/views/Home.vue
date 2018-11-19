@@ -5,8 +5,8 @@
 </div>
 </template>
 <script>
-import headerNav from "../components/HeaderNav.vue";
-// import Banner from "../components/Banner.vue";
+import headerNav from "@/components/HeaderNav.vue";
+// import Banner from "@/components/Banner.vue";
 export default {
   name: "home",
   data() {

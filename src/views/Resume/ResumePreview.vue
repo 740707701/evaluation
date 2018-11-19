@@ -12,7 +12,7 @@
                 </div>
                 <div class="base-content">
                   <div class="avtar">
-                    <img src="../assets/images/man.png" alt="">
+                    <img src="../../assets/images/man.png" alt="">
                   </div>
                   <div class="info-list">
                     <div class="name">
@@ -292,7 +292,7 @@ export default {
 };
 </script>
 <style lang="less" scope>
-@import url("../assets/css/colors.less");
+@import "../../assets/css/colors.less";
 .resume-preview {
   width: 100%;
   background-color: @main-color-bg;
