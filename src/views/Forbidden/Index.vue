@@ -2,7 +2,7 @@
   <div class="forbidden">
     <headerNav></headerNav>
     <div class="container">
-      <span>收费模块，付费后可使用</span>
+      <span>本模块暂未开放</span>
     </div>
   </div>
 </template>
