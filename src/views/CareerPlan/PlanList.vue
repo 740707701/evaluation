@@ -13,7 +13,7 @@
 				<div class="banner">
 					<img src="../../assets/images/plan_bg.jpg" alt="">
 					<div class="banner-text">
-						<div class="term-title" v-for="term in planList" :key="term.stage" v-if="termIndex+1==term.stage">{{term.stageName}}</div>
+						<div class="term-title" v-for="term in planList" :key="term.stage" v-if="planList[termIndex].stage==term.stage">{{term.stageName}}</div>
 						<div class="term-split"></div>
 						<div class="sub-title">Freshman last semester planning</div>
 					</div>
@@ -489,9 +489,9 @@
 	</div>
 </template>
 <script>
-	import headerNav from '../../components/HeaderNav.vue'
+	import headerNav from '@/components/HeaderNav.vue'
 	import axios from 'axios'
-	import store from '../../store/index'
+	import store from '@/store/index'
 	export default {
 		name: 'planList',
 		data(){
@@ -1394,25 +1394,19 @@
 				console.log(res, file)
 				this.imageUrl = res.data.rootPath + res.data.headPic
         // this.imageUrl = URL.createObjectURL(file.raw);
-      },
+			},
 			nextTerm(){
-				this.termIndex++;
 				if(this.termIndex <= this.planList.length-1){
+					this.termIndex++
 					this.getPlanInfo(this.planList[this.termIndex].id)
 				}else {
-					this.$message({
-						type: "error",
-						message: "没有了"
-					})
+					this.$message({type: "error", message: "没有了"})
 				}
 			},
 			prevTerm(){
-				this.termIndex--;
+				this.termIndex--
 				if(this.termIndex == this.planList.length-1){
-					this.$message({
-						type: "error",
-						message: "没有了"
-					})
+					this.$message({type: "error", message: "没有了"})
 				}else {
 					this.getPlanInfo(this.planList[this.termIndex].id)
 				}
