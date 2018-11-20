@@ -42,7 +42,7 @@
             <el-dropdown @command="dropdownEvent">
               <el-button class="avatar el-dropdown-link">
                 <el-badge :is-dot="isBuyed" >
-                  <i class="iconfont icon-user" v-if="!userInfo.personHead"></i>
+                <i class="iconfont icon-user-outline" v-if="!userInfo.personHead"></i>
                   <img class="avatar-img" v-if="userInfo.personHead" :src="userInfo.personHead" alt="">
                 </el-badge>
                 <i class="el-icon-arrow-down"></i>
@@ -312,8 +312,8 @@ export default {
   left: 0;
   z-index: 20;
   a {
+    float: left;
     color: @main-color-text;
-    display: inline-block;
   }
   .navbar {
     width: 1200px;
@@ -327,7 +327,7 @@ export default {
       }
     }
     .nav-center {
-      display: inline-block;
+      float: left;
       li {
         float: left;
         font-size: 16px;
@@ -386,8 +386,8 @@ export default {
         padding: 0;
         border: none;
         background-color: #fff;
-        .icon-user {
-          font-size: 28px;
+        .icon-user-outline {
+          font-size: 22px;
           color: #5497d5;
           border-radius: 50%;
         }
@@ -406,7 +406,10 @@ export default {
       }
       .avatar:hover,
       .avatar:active,
-      .avatar:visited {
+      .avatar:visited
+      .icon-user:hover,
+      .icon-user:active,
+      .icon-user:visited {
         background-color: transparent;
         font-weight: bold;
       }

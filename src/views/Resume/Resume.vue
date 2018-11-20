@@ -916,6 +916,9 @@ export default {
         .title {
           color: #82b0ff;
           padding-bottom: 10px;
+          .icon-prompt {
+            font-weight: bold;
+          }
           span {
             padding-left: 10px;
           }
