@@ -29,7 +29,7 @@
             <ul class="tabs">
               <li :class="{'active':tabIndex==0}" @click="tabIndex=0">
                 <a href="#base">
-                  <i class="iconfont icon-user"></i>
+                  <i class="iconfont icon-user-outline"></i>
                   <span>基本信息</span>
                   <i class="el-icon-check" v-if="baseInfo.jobStatus"></i>
                 </a>

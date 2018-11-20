@@ -164,7 +164,7 @@ export default {
           }
         }
       }).catch(err => {
-        if (err.data.msg) {
+        if (err.data) {
           this.$message({
             message: err.data.msg,
             type: "error"

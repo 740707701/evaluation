@@ -2,7 +2,7 @@
   <div class="vocation-cognize">
     <headerNav></headerNav>
     <div class="container">
-      <span>正在建设中...</span>
+      <span>本模块正在建设中，敬请期待...</span>
     </div>
   </div>
 </template>

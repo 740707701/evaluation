@@ -4,10 +4,10 @@
       <h4>忘记密码</h4>
       <el-form :model="forgetForm" :rules="forgetRules" ref="forgetForm" label-width="0" class="demo-ruleForm">
         <el-form-item label="" prop="phone">
-          <el-input v-model="forgetForm.phone" placeholder="手机号" :maxlength="11"></el-input>
+          <el-input v-model="forgetForm.phone" placeholder="请输入手机号" :maxlength="11"></el-input>
         </el-form-item>
         <el-form-item label="" prop="captcha" class="captcha-box">
-          <el-input class="captcha-input" v-model="forgetForm.captcha" placeholder="验证码" :maxlength="6"></el-input>
+          <el-input class="captcha-input" v-model="forgetForm.captcha" placeholder="请输入验证码" :maxlength="6"></el-input>
           <div class="captcha-btn" @click="getCaptcha">
             <span  class="tip" v-if="!sendMsgDisabled && !reGet">发送验证码</span>
             <span  class="tip" v-if="!sendMsgDisabled && reGet">重新获取</span>
@@ -23,7 +23,7 @@
       <h4>重置密码</h4>
       <el-form :model="resetForm" :rules="resetRules" ref="resetForm" label-width="0" class="demo-ruleForm">
         <el-form-item label="" prop="mobile">
-          <el-input v-model="resetForm.mobile" placeholder="手机号" :maxlength="11" disabled></el-input>
+          <el-input v-model="resetForm.mobile" placeholder="请输入手机号" :maxlength="11" disabled></el-input>
         </el-form-item>
         <el-form-item label="" prop="pwd">
           <el-input type="password" v-model="resetForm.pwd" placeholder="请设置新密码" :maxlength="20"></el-input>

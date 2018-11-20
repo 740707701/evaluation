@@ -18,13 +18,30 @@
         <span class="school-title">{{configs.schoolTitle}}</span>
         职业测评与大学规划管理系统
       </p>
-
+      <!-- <el-form>
+        <el-form-item label="账号" label-width="50px">
+          <el-input class="item-content" type="text" placeholder="请输入手机号/学号"  max="30" size="small" v-model="loginForm.account">
+          <i slot="suffix" v-if="loginForm.account && loginForm.account.indexOf(' ') === -1" 
+          style="color: #54cb9c;" class="el-icon-success el-input__icon"></i>  
+        </el-input>
+        </el-form-item>
+        <el-form-item label="密码" label-width="50px">
+          <el-input class="item-content" type="password" placeholder="请输入密码" max="30" size="small" v-model="loginForm.password"></el-input>
+        </el-form-item>
+        <el-form-item label-width="0">
+          <el-checkbox v-model="loginForm.remember">记住密码</el-checkbox>
+        </el-form-item>
+        <el-form-item label-width="0">
+          <el-button class="login-btn" type="primary"  @click="submitForm">登录</el-button>
+        </el-form-item>
+      </el-form> -->
       <div class="item-container">
         <p class="item-title">账号</p>
         <el-input 
           class="item-content"
           type="text" 
           max="30"
+          placeholder="请输入手机号/学号"
           v-model="loginForm.account">
           <i slot="suffix" v-if="loginForm.account && loginForm.account.indexOf(' ') === -1" style="color: #54cb9c;" class="el-icon-success el-input__icon"></i>  
         </el-input>
@@ -36,6 +53,7 @@
           class="item-content"
           type="password"
           max="30"
+          placeholder="请输入密码"
           v-model="loginForm.password"></el-input>
       </div>
 
@@ -141,7 +159,7 @@ export default {
             // 设置非官方登录标识
             setLoginChannel(false)
 
-            this.getCartCount()
+            // this.getCartCount()
             //路由跳转 登录之前记录的路由
             this.$router.push({ path: this.redirect})
           }).catch(err => {
@@ -172,6 +190,7 @@ export default {
     position: fixed;
     background-image: url('/static/assetLogin/bg.png');
     background-size: 100% 100%;
+    overflow: auto;
     .logo-container {
       width: 120px;
       height: 120px;
@@ -191,17 +210,29 @@ export default {
         margin-top: 30px;
       }
     }
+    /*
+    & /deep/ .el-form-item {
+      margin-bottom: 5px;
+    }
+    & /deep/ .el-form-item__label {
+      height: 32px;
+      line-height: 32px;
+      text-align: left;
+      margin-top: 6px;
+    }
+    */
     .login-container {
-      width: 380px;
-      margin: 30px auto 0 auto;
+      width: 380px; // 460px;
+      margin: 30px auto 20px auto; // 30px auto 30px auto;
       background:rgba(255,255,255,.8);
-      padding: 10px 20px;
+      padding: 10px 20px; // 10px 50px;
       border-radius: 4px;
       .welcome-title {
         color:#111A39;
       }
       .welcome-sub-title {
         color: #999999;
+        // margin-bottom: 5px;
         .school-title {
           color: #318ef2;
         }

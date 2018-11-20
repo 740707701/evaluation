@@ -15,13 +15,13 @@
           <p>难度：{{detail.baseInfo.cepingLevel}}</p>
           <p>数量：{{detail.baseInfo.num}}题</p>
           <p class="red" v-if="detail.baseInfo.price>0">价格： ¥{{detail.baseInfo.price}}</p>
-          <div class="btn-box" v-if="detail.baseInfo.price>0">
-            <!-- <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button> -->
-          </div>
+          <!-- <div class="btn-box" v-if="detail.baseInfo.price>0">
+            <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button>
+          </div> -->
           <div class="btn-box" v-if="!detail.showFree">
-            <el-button size="small" class="buy-btn " @click="buy()">立即购买</el-button>
-            <i class="iconfont icon-cart" @click="addCart"></i>
-            <el-button size="small" class="test-btn" @click="serialNoTest">序列号测试</el-button>
+            <div class="operation-btn test-btn" @click="serialNoTest">使用序列号测试</div>
+            <!-- <i class="iconfont icon-cart" @click="addCart"></i> -->
+            <div class="operation-btn buy-btn" @click="buy()">付费测试</div>
           </div>
           <div class="btn-box" v-if="detail.showFree">
             <el-button size="small" class="buy-btn eva-btn" @click="getFreeSerialNo()">进入测评</el-button>
@@ -278,22 +278,27 @@ export default {
         .btn-box {
           margin-top: 10px;
           display: inline-block;
-          .buy-btn {
+          .operation-btn {
             float: left;
+            width: 112px;
             height: 30px;
-            color: #fff;
+            line-height: 30px;
+            text-align: center;
             margin: 0;
-            background-color: #DB3523;
-            border-radius: 4px 0 0 4px;
-            box-shadow: 0 0 0;
-            border: none;
-          }
-          .test-btn {
-            background-color: #f09d3d;
-            color: #fff;
+            font-size: 12px;
             border-radius: 4px;
             box-shadow: 0 0 0;
+            cursor: pointer;
             border: none;
+          }
+          .buy-btn {
+            color: #666;
+            background-color: #E2E2E2;
+          }
+          .test-btn {
+            background-color: #C84430;
+            color: #fff;
+            margin-right: 32px;
           }
           .eva-btn {
             border-radius: 4px;

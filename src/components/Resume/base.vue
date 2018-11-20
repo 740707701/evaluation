@@ -3,7 +3,7 @@
   <div id="base" class="grid-content info-box" v-if="!showBaseInfoEdit">
     <div class="base-info">
       <div class="title">
-        <i class="iconfont icon-user"></i>
+        <i class="iconfont icon-user-outline"></i>
         <span>基本信息</span>
         <span class="red-tag"></span>
       </div>
@@ -57,7 +57,7 @@
   <div class="grid-content info-box edit-border" v-if="showBaseInfoEdit">
     <div class="base-info">
       <div class="title">
-        <i class="iconfont icon-user"></i>
+        <i class="iconfont icon-user-outline"></i>
         <span>基本信息</span>
       </div>
       <div class="base-content">

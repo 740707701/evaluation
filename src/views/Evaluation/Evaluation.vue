@@ -198,7 +198,8 @@ export default {
         }
         .intro-text {
           line-height: 1.6;
-          font-size: 12px;
+          font-size: 14px;
+          padding-top: 5px;
         }
       }
     }

@@ -11,7 +11,10 @@
           <li v-for="m in moduleList" :key="m.id" @click="changeLogin(m.id,m)" v-bind:class="{'active':$route.name==m.routerName || $route.name==m.routerName2 || $route.name==m.routerName3 || $route.name==m.routerName4}">{{m.moduleName}}</li>
         </ul>
         <div class="nav-right">
-          <router-link to="/cartDetail" v-if="isLogin" class="cart">
+          <router-link to="/order" class="order-btn" v-if="isLogin">
+            <el-button round size="small" icon="iconfont icon-myorder">我的订单</el-button>
+          </router-link>
+          <!-- <router-link to="/cartDetail" v-if="isLogin" class="cart-btn">
             <el-badge v-if="cartCount" :value="cartCount" :max="99">
               <el-button class="cart-btn" round size="small">
                 <i class="iconfont icon-cart"></i>
@@ -22,7 +25,7 @@
               <i class="iconfont icon-cart"></i>
               购物车
             </el-button>
-          </router-link>
+          </router-link> -->
           <ul class="logout" v-if="!isLogin">
             <li>
               <div class="name" @click="login">登录</div>
@@ -34,11 +37,10 @@
           <div class="login" v-if="isLogin">
             <router-link to="/news" class="news">
               <el-badge :is-dot="isNews" class="news-badge">
-                消息&nbsp;
-                <i class="el-icon-bell"></i>
+                消息<i class="iconfont icon-newslist"></i>
               </el-badge>
             </router-link>
-            <div class="username" :title="userInfo.userName||userInfo.mobile">你好！{{userInfo.userName||userInfo.mobile}}</div>
+            <div class="username" :title="userInfo.userName||userInfo.mobile">你好，{{userInfo.userName||userInfo.mobile}}</div>
             <el-dropdown @command="dropdownEvent">
               <el-button class="avatar el-dropdown-link">
                 <el-badge :is-dot="isBuyed" >
@@ -96,7 +98,7 @@ export default {
     this.isBuyed =this.updateBuyed || false;
     this.isNews =this.updateNews || false;
     if(this.$store.state.isLogin){
-      this.getCartCount()
+      // this.getCartCount()
       this.getNewsList()
     }
   },
@@ -151,7 +153,9 @@ export default {
         // getLoginChannel()
         // "true" 表示从官方登录进来的渠道退出
         // "false" 表示非官方登录进来的渠道退出
-        if (getLoginChannel() === "false") {
+        // console.log('getLoginChannel', getLoginChannel(), typeof(getLoginChannel()))
+        
+        if (location.href.indexOf('www.uwopai') === -1) {
           this.$router.push({path: '/AssetLogin'})
         }else {
           this.$router.push({path: '/'})
@@ -351,20 +355,34 @@ export default {
     .nav-right {
       float: right;
       height: 60px;
-      .cart {
+      .cart-btn, .order-btn {
         float: left;
         margin-right: 10px;
+      }
+      .order-btn {
+        margin-top: 10px;
+      }
+      & /deep/ .icon-myorder {
+        color: #999;
+        margin-right: 2px;
+      }
+      .cart-btn {
         margin-top: 12px;
       }
-      .el-icon-bell {
+      .icon-newslist {
+        color: #999;
         font-size: 18px;
       }
       .news {
         float: left;
         margin: 0 10px;
         .el-badge {
-          height: 22px;
-          line-height: 15px;
+          height: 25px;
+          line-height: 20px;
+          & /deep/ .el-badge__content.is-fixed.is-dot {
+            top: 2px;
+            right: 8px;
+          }
         }
       }
       .username {
@@ -406,10 +424,7 @@ export default {
       }
       .avatar:hover,
       .avatar:active,
-      .avatar:visited
-      .icon-user:hover,
-      .icon-user:active,
-      .icon-user:visited {
+      .avatar:visited {
         background-color: transparent;
         font-weight: bold;
       }
@@ -419,6 +434,7 @@ export default {
         display: inline-block;
       }
       .logout {
+        float: right;
         height: 60px;
         li {
           float: left;
