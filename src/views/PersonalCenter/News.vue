@@ -7,7 +7,7 @@
           <div class="notice" v-if="noticeList.length">
             <div class="item" v-for="msg in noticeList" :key="msg.id" v-if="msg.type==1" @click="updateStatus(msg.id)">
               <div class="logo" v-if="msg.user">
-                <img :src="msg.user.avatar" alt="">
+                <img class="avatar" :src="msg.user.avatar" alt="">
               </div>
               <div class="content">
                 <div class="title">
@@ -35,7 +35,7 @@
           <div class="system">
             <div class="item" v-for="msg in systemList" :key="msg.id" v-if="msg.type==0" @click="updateStatus(msg.id)">
               <div class="logo" v-if="msg.user">
-                <img :src="msg.user.avatar" alt="">
+                <img class="avatar" :src="msg.user.avatar" alt="">
               </div>
               <div class="content">
                 <div class="title">
@@ -138,15 +138,14 @@ export default {
       // padding-top: 10px;
       .logo {
         float: left;
-        width: 40px;
-        height: 40px;
+        background-color: @main-color-imgbg;
         border-radius: 20px;
-        background-color: gray;
-        margin-top: 10px;
-        img {
+        margin-top: 8px;
+        .avatar {
           width: 40px;
           height: 40px;
           border-radius: 20px;
+          display: inline-block;
         }
       }
       .content {

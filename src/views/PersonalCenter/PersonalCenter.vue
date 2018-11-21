@@ -172,6 +172,8 @@ export default {
           .img-box {
             position: relative;
             display: inline-block;
+            border-radius: 40px;
+            background-color: @main-color-imgbg;
             .img-input-file {
               width: 80px;
               height: 80px;
@@ -185,15 +187,7 @@ export default {
             width: 80px;
             height: 80px;
             border-radius: 40px;
-            // margin-left: 25px;
-            background-color: #eaeaea;
             display: inline-block;
-            img {
-              width: 80px;
-              height: 80px;
-              border-radius: 40px;
-              display: inline-block;
-            }
           }
           .text {
             text-align: center;
