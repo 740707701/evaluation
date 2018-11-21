@@ -2,10 +2,8 @@
   <div class="courselist-page">
     <Banner :hideBanner="hideBanner"></Banner>
     <div class="container">
-      <div class="category">
-        <p class="title">
-          <i class="iconfont icon-star"></i>
-          测试分类</p>
+      <div class="category-title">
+        <i class="iconfont icon-star"></i>测试分类
       </div>
       <el-row :gutter="20">
         <el-col :span="16">
@@ -71,7 +69,7 @@ export default {
   created: function() {
     let isLogin = decodeURIComponent(this.$route.query.isLogin);
     this.getCepingItem()
-    this.getHotList();
+    this.getHotList()
   },
   methods: {
     getEvaluationList: function(index) {
@@ -82,15 +80,9 @@ export default {
         })
         .catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message({type: "error", message: err.data.msg});
           } else {
-            this.$message({
-              type: "error",
-              message: "获取数据失败"
-            });
+            this.$message({type: "error", message: "获取数据失败"});
           }
         });
     },
@@ -102,28 +94,22 @@ export default {
         })
         .catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message({ type: "error", message: err.data.msg})
           } else {
-            this.$message({
-              type: "error",
-              message: "获取热门测评失败"
-            });
+            this.$message({ type: "error", message: "获取热门测评失败"});
           }
         });
     },
     getCepingItem() {
       this.$store.dispatch('COURSE_ITEM').then(res => {
-        this.cepingItem = res.data
+        this.cepingItem = res.data;
         this.getEvaluationList(res.data[0].code - 0);
-        this.activeName = this.cepingItem[0].code
+        this.activeName = this.cepingItem[0].code;
       }).catch(err => {
         if(err.data.msg){
-          this.$message({type: 'error', message: err.data.msg})
+          this.$message({type: 'error', message: err.data.msg});
         }else {
-          this.$message({type: 'error', message: '获取测评分类失败，请稍后重试！'})
+          this.$message({type: 'error', message: '获取测评分类失败，请稍后重试！'});
         }
       })
     },
@@ -172,20 +158,17 @@ export default {
     .el-col {
       height: 100%;
     }
-    .category {
-      .title {
-        font-size: 16px;
-        line-height: 3;
-        margin-bottom: 6px;
-        i {
-          color: @main-color-blue;
-          margin-right: 10px;
-        }
+    .category-title {
+      font-size: 16px;
+      line-height: 3;
+      i {
+        color: @main-color-blue;
+        margin-right: 10px;
       }
     }
     .left-list {
       background-color: #fff;
-      height: calc(100% - 30px);
+      min-height: calc(100vh - 135px);
       border-radius: 10px;
       padding: 0 20px;
       .tabs-box {
@@ -249,7 +232,7 @@ export default {
       background-color: #fff;
       border-radius: 10px;
       padding-bottom: 4px;
-      height: calc(100% - 30px);
+      min-height: calc(100vh - 135px);
       .title {
         font-size: 14px;
         font-weight: 600;

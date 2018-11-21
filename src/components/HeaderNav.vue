@@ -4,7 +4,7 @@
       <nav class="navbar">
         <router-link to="/">
           <div class="nav-left">
-            <img src="../assets/images/logo.svg" alt="" class="logo">
+            <img src="../assets/images/logo.png" alt="" class="logo">
           </div>
         </router-link>
         <ul class="nav-center">
@@ -325,9 +325,11 @@ export default {
     margin: 0 auto;
     .nav-left {
       float: left;
+      margin-right: 40px;
       .logo {
-        width: 181px;
-        height: 60px;
+        width: 93px;
+        height: auto;
+        margin-top: 3px;
       }
     }
     .nav-center {

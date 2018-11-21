@@ -2,7 +2,10 @@
   <div class="practice-employment">
     <headerNav></headerNav>
     <div class="container">
-      <span>本模块正在建设中，敬请期待...</span>
+      <div class="forbidden-box">
+        <img class="forbidden-img" src="../../assets/images/building.png" alt="">
+        <div class="forbidden-text">本模块正在建设中，敬请期待...</div>
+      </div>
     </div>
   </div>
 </template>
@@ -27,11 +30,28 @@ export default {
     padding-bottom: 25px;
     .container {
       width: 1200px;
-      height: 100%;
-      margin: 0 auto;
+      min-height: calc(100vh - 165px); // 80+60+25
+      margin: 40px auto;
       box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
       text-align: center;
-      padding: 200px;
+      border-radius: 10px;
+      background-color: #fff;
+      position: relative;
+      .forbidden-box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        .forbidden-img {
+          width: 200px;
+          height: auto;
+        }
+        .forbidden-text {
+          font-size: 24px;
+          text-align: center;
+          margin-top: 30px;
+        }
+      }
     }
   }
 </style>

@@ -31,7 +31,7 @@
           <p class="title">简介：</p>
           <div class="intro-text">{{detail.baseInfo.remark}}</div>
         </div>
-        <div class="hot">热门测评</div>
+        <div class="hot" v-if="hotList.length">热门测评</div>
         <table class="table">
           <tr v-for="(item, index) in hotList" :key="item.cepingId" @click="linktoDetail(item.cepingId)">
             <td class="name">{{index+1}}</td>
@@ -42,7 +42,7 @@
           </tr>
         </table>
       </div>
-      <div class="dialog" v-if="showDialog" @click.self="showDialog=false" >
+      <div class="success-dialog" v-if="showDialog" @click.self="showDialog=false" >
         <div class="success-box">
           <div class="header">
             <img src="../../assets/images/buy_bg.png" alt="">
@@ -63,10 +63,12 @@
         </div>
       </div>
     </div>
+    <evaDialog v-if="dialogInfo.title" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="dialogConfirmEvent"></evaDialog>
   </div>
 </template>
 <script>
 import axios from "axios";
+import evaDialog from '@/components/EvaluationDialog';
 export default {
   name: "coursedetail",
   data() {
@@ -75,7 +77,8 @@ export default {
       cepingId: '',
       detail: {},
       hotList: [],
-      serialNo: ''
+      serialNo: '',
+      dialogInfo: {}
     };
   },
   created: function() {
@@ -175,6 +178,17 @@ export default {
     },
     // 序列号测试
     serialNoTest() {
+      this.dialogInfo = {
+        title: '温馨提示',
+        message: '每一个序列号可以测试本网站的任何一个测试，但是只能测试一次，请同学们选择感兴趣的测试。',
+        confirmButtonText: '确定使用序列号测试',
+        cancelButtonText: '重新选择题目'
+      }
+    },
+    dialogCancelEvent() {
+      this.$router.push({ path: '/'})
+    },
+    dialogConfirmEvent() {
       this.$router.push({
         name: 'evaluation',
         params: {
@@ -207,6 +221,9 @@ export default {
     onError: function (e) {
       this.$message({type: "error", message: "复制序列号失败"})
     },
+  },
+  components: {
+    evaDialog
   }
 };
 </script>
@@ -217,8 +234,9 @@ export default {
   .container {
     width: 1200px;
     height: 100%;
+    min-height: calc(100vh - 95px);
     margin: 0 auto;
-    margin-top: 6px;
+    margin-top: 10px;
     background-color: #fff;
     border-radius: 10px;
     position: relative;
@@ -346,7 +364,7 @@ export default {
         }
       }
     }
-    .dialog {
+    .success-dialog {
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.3);
