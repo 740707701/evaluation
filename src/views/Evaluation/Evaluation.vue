@@ -107,7 +107,9 @@ export default {
       } else {
         this.dialogInfo = {
           title: '温馨提示',
-          message: '每一个序列号仅限使用一次，在测试过程中不能中途退出，一旦退出，序列号即会失效，测试时间为30分钟，请保证时间充裕与网络畅通，因为一旦断网，序列号即会失效！',
+          message: `1、本测试题目共计${this.detail.baseInfo.num}道，均为选择题，用时约${this.detail.baseInfo.cepingHaoshi || ''}。 <br>
+                  2、本测试一旦开始，则不能中断或退出，若测试未完成则测试无效，序列码也会失效，需要重新购买序列码进行测试。请使用电脑端进行测试，且使用google浏览器。 <br> 
+                  3、测试题的答案没有对错之分，测试的目的是反映最真实的自己，而不是别人所期待的你。请根据你当下最真实的状态进行选择，这样得到的测评报告也是最准确的。`,
           cancelButtonText: '暂不测试，取消',
           confirmButtonText: '我知道了，确认开始'
         }

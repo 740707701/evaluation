@@ -82,7 +82,6 @@ export default {
                 // 设置官方登录标识
                 setLoginChannel(true)
                 
-                this.getCartCount()
                 //路由跳转 登录之前记录的路由
                 this.$router.push({ path: this.redirect})
                 this.$emit("hideLogin");

@@ -4,7 +4,7 @@
     <div class="container">
       <div class="forbidden-box">
         <img class="forbidden-img" src="../../assets/images/no-open.png" alt="">
-        <div class="forbidden-text">本模块暂未开放</div>
+        <div class="forbidden-text">本模块暂未开放~</div>
       </div>
     </div>
   </div>

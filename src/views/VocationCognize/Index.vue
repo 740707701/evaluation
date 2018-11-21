@@ -3,8 +3,8 @@
     <headerNav></headerNav>
     <div class="container">
       <div class="forbidden-box">
-        <img class="forbidden-img" src="../../assets/images/building.png" alt="">
-        <div class="forbidden-text">本模块正在建设中，敬请期待...</div>
+        <img class="forbidden-img" src="../../assets/images/no-open.png" alt="">
+        <div class="forbidden-text">本模块暂未开放~</div>
       </div>
     </div>
   </div>

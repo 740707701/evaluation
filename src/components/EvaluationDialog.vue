@@ -3,7 +3,7 @@
 		<div class="dialog-bg">
       <div class="prompt-dialog">
         <div class="title">{{dialogInfo.title}}</div>
-        <div class="prompt-text">{{dialogInfo.message}}</div>
+        <div class="prompt-text" v-html="dialogInfo.message"></div>
         <div class="btn-box">
           <div class="operation-btn cancel-btn" v-if="dialogInfo.cancelButtonText" @click="cancel">{{dialogInfo.cancelButtonText}}</div>
           <div class="operation-btn confirm-btn" v-if="dialogInfo.confirmButtonText" @click="confirm">{{dialogInfo.confirmButtonText}}</div>
@@ -41,7 +41,7 @@ export default {
 		z-index: 21;
 		.prompt-dialog {
 			width: 35%;
-			height: 270px;
+			min-height: 270px;
 			padding: 40px;
 			background-color: #fff;
 			border-radius: 8px;
@@ -59,6 +59,7 @@ export default {
 				font-size: 16px;
 				color: #666;
 				line-height: 24px;
+				margin-bottom: 50px;
 			}
 			.btn-box {
 				width: 100%;
