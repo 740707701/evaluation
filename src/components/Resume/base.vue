@@ -114,6 +114,7 @@
               <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
                   v-model="base.workYear"
                   type="year"
+                  :picker-options="pickerOptions"
                   placeholder="选择日期"
                   value-format="yyyy">
                 </el-date-picker>
