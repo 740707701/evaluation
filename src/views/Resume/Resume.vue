@@ -111,7 +111,7 @@
               <div class="tag-box" v-for="item in tagList" :key="item.name" v-if="item.type == tagType">
                 <div class="tag-title">{{item.name}}</div>
                 <div class="tag-split"></div>
-                <div class="tag-content">{{item.msg}}</div>
+                <div class="tag-content" v-html="item.msg"></div>
               </div>
             </div>
           </div>
@@ -953,7 +953,7 @@ export default {
           }
           .tag-content {
             font-size: 14px;
-            line-height: 1.3;
+            line-height: 1.4;
             color: @main-color-gray;
             padding: 5px 0;
           }
