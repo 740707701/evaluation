@@ -14,7 +14,7 @@
           <p>适应人群：{{detail.baseInfo.peopleScope}}</p>
           <p>难度：{{detail.baseInfo.cepingLevel}}</p>
           <p>数量：{{detail.baseInfo.num}}题</p>
-          <p class="red" v-if="detail.baseInfo.price>0">价格： ¥{{detail.baseInfo.price}}</p>
+          <!-- <p class="red" v-if="detail.baseInfo.price>0">价格： ¥{{detail.baseInfo.price}}</p> -->
           <!-- <div class="btn-box" v-if="detail.baseInfo.price>0">
             <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button>
           </div> -->
@@ -37,7 +37,7 @@
             <td class="name">{{index+1}}</td>
             <td class="name">{{item.cepingName}}</td>
             <td>{{item.num||0}}题</td>
-            <td>价格：¥{{item.price||0}}</td>
+            <!-- <td>价格：¥{{item.price||0}}</td> -->
             <td>{{item.browseCount||0}}人</td>
           </tr>
         </table>
@@ -267,20 +267,20 @@ export default {
       }
       img {
         float: left;
-        width: 300px;
-        height: 160px;
+        width: 260px;
+        height: 170px;
         border-radius: 10px;
         background-color: #fafafa;
       }
       .info-box {
-        margin-left: 330px;
-        height: 160px;
+        margin-left: 290px;
+        height: 170px;
         .title {
           font-size: 16px;
           font-weight: bold;
         }
         p {
-          line-height: 1.7;
+          line-height: 2;
           font-size: 14px;
         }
         .gray {
@@ -294,7 +294,7 @@ export default {
           cursor: no-drop!important;
         }
         .btn-box {
-          margin-top: 10px;
+          margin-top: 18px;
           display: inline-block;
           .operation-btn {
             float: left;

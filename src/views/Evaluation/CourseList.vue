@@ -14,8 +14,9 @@
                   <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                     <img :src="item.picAll" alt="">
                     <div class="info">
-                      <p class="title">{{item.cepingName}}</p>
-                      <div class="price" v-if="item.price">¥ {{item.price}}</div>
+                      <p class="title" :class="{'middle-text': splitTitle(item.cepingName).length===1}"
+                        v-for="n in splitTitle(item.cepingName.trim())" :key="n">{{n}}</p>
+                      <!-- <div class="price" v-if="item.price">¥ {{item.price}}</div> -->
                     </div>
                     <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
@@ -40,7 +41,7 @@
                       <p class="item-title">{{item.cepingName}}</p>
                       <p class="gray">难度：{{item.cepingLevel}}</p>
                     </div>
-                    <el-button round size="small" class="price-btn" item.price>¥ {{item.price}}</el-button>
+                    <!-- <el-button round size="small" class="price-btn" item.price>¥ {{item.price}}</el-button> -->
                   </div>
               </li>
             </ul>
@@ -53,6 +54,7 @@
 <script>
 import Banner from "@/components/Banner.vue";
 import { mapState } from "vuex";
+import { splitTitle } from '@/utils/index';
 export default {
   name: "courselist",
   data() {
@@ -72,6 +74,9 @@ export default {
     this.getHotList()
   },
   methods: {
+    splitTitle(str, tag1, tag2) {
+      return splitTitle(str, tag1, tag2)
+    },
     getEvaluationList: function(index) {
       this.$store
         .dispatch("EVALUATION_LIST", { cepingItem: index })
@@ -178,7 +183,7 @@ export default {
           li {
             float: left;
             width: 168px;
-            height: 260px;
+            height: 230px;
             overflow: hidden;
             font-size: 14px;
             margin-bottom: 10px;
@@ -192,10 +197,15 @@ export default {
             }
             .info {
               padding: 5px;
+              min-height: 46px;
+              .middle-text {
+                padding-top: 10px;
+              }
               .title {
                 line-height: 1.2;
                 font-size: 15px;
                 font-weight: 600;
+                text-align: center;
               }
               // .gray {
               //   color: #a2a9b8;

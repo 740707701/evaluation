@@ -24,3 +24,17 @@ export function compareDate(date1, date2) {
   }
 }
 
+export function splitTitle(str) {
+  const strArr = []
+  const pattern = /[()（）]/
+  if(pattern.test(str)){
+    str = str.replace(new RegExp('[(（]', 'gm'), '（')
+    str = str.replace(new RegExp('[)）]', 'gm'), '）')
+    strArr[0] = str.substr(0, str.indexOf('（'))
+    strArr[1] = str.substr(str.indexOf('（'), str.indexOf('）'))
+  } else {
+    strArr[0] = str
+  }
+  return strArr
+}
+
