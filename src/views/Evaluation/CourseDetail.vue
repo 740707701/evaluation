@@ -174,7 +174,8 @@ export default {
     },
     // 进入测评详情
     linktoDetail: function(cepingId) {
-      this.evaluationDetail(cepingId)
+      this.cepingId = cepingId
+      this.evaluationDetail(this.cepingId)
     },
     // 序列号测试
     serialNoTest() {
@@ -192,7 +193,7 @@ export default {
       this.$router.push({
         name: 'evaluation',
         params: {
-          cepingId: this.$route.params.cepingId 
+          cepingId: this.cepingId 
         }
       })
     },
