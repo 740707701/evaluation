@@ -148,9 +148,17 @@ export default {
     },
     dialogCancelEvent() {
       this.cancelTestDialog = true
+      let message = ''
+      let serialNoMessage = `您已取消本次测试，请您在时间充裕时，重新使用序列号进行测试。`
+      let buyMessage = `您已取消本次测试，请您在时间充裕时，在“我的订单”或者“我的测评”中“未完成测评”模块进行测试。`
+      if(this.$route.query.org === 'order'){
+        message = buyMessage
+      } else {
+        message = serialNoMessage
+      }
       this.dialogInfo = {
         title: '取消成功',
-        message: '您已取消本次测试，请您在时间充裕时，在“我的订单”或者“我的测评”中“未完成测评”模块进行测试。',
+        message: message,
         confirmButtonText: '我知道了'
       }
     },
