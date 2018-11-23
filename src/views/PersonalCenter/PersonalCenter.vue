@@ -47,7 +47,7 @@
                   </li> -->
                   <li>
                     <span class="point" v-if="$route.name==`order`"></span>
-                    <router-link to="/order">订单中心</router-link>
+                    <router-link to="/order">我的订单</router-link>
                   </li>
                   <!-- <li>
                     <span class="point" v-if="$route.name==`statistics`"></span>

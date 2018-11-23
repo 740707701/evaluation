@@ -100,6 +100,20 @@ export default {
     },
     test: function(){
       this.hideDialog = false
+      let message = ''
+      let serialNoMessage = `1、本测试题目共计${this.detail.baseInfo.num||''}道，均为选择题，用时约${this.detail.baseInfo.cepingHaoshi || ''}。 <br>
+            2、本测试一旦开始，则不能中断或退出，若测试未完成则序列号失效，需要重新购买进行测试。请使用电脑端进行测试，且使用google浏览器。 <br> 
+            3、测试题的答案没有对错之分，测试的目的是反映最真实的自己，而不是别人所期待的你。请根据你当下最真实的状态进行选择，这样得到的测评报告也是最准确的。
+            `
+      let buyMessage = `1、本测试题目共计${this.detail.baseInfo.num||''}道，均为选择题，用时约${this.detail.baseInfo.cepingHaoshi || ''}。<br> 
+            2、本测试一旦开始，则不能中断或退出，若测试未完成则需要重新购买进行测试。请使用电脑端进行测试，且使用google浏览器。<br>
+            3、测试题的答案没有对错之分，测试的目的是反映最真实的自己，而不是别人所期待的你。请根据你当下最真实的状态进行选择，这样得到的测评报告也是最准确的。
+            `
+      if(this.$route.query.org === 'order'){
+        message = buyMessage
+      } else {
+        message = serialNoMessage
+      }
       if(!this.caichuCode){
         this.$message({type: 'error', message: "未查找到量表版本，请稍后重试！"})
         return
@@ -109,9 +123,7 @@ export default {
       } else {
         this.dialogInfo = {
           title: '温馨提示',
-          message: `1、本测试题目共计${this.detail.baseInfo.num}道，均为选择题，用时约${this.detail.baseInfo.cepingHaoshi || ''}。 <br>
-                  2、本测试一旦开始，则不能中断或退出，若测试未完成则测试无效，序列码也会失效，需要重新购买序列码进行测试。请使用电脑端进行测试，且使用google浏览器。 <br> 
-                  3、测试题的答案没有对错之分，测试的目的是反映最真实的自己，而不是别人所期待的你。请根据你当下最真实的状态进行选择，这样得到的测评报告也是最准确的。`,
+          message: message,
           cancelButtonText: '暂不测试，取消',
           confirmButtonText: '我知道了，确认开始'
         }
@@ -138,7 +150,7 @@ export default {
       this.cancelTestDialog = true
       this.dialogInfo = {
         title: '取消成功',
-        message: '您已取消本次测试，请您在时间充裕时，在“我的订单”中使用序列号进行测试。',
+        message: '您已取消本次测试，请您在时间充裕时，在“我的订单”或者“我的测评”中“未完成测评”模块进行测试。',
         confirmButtonText: '我知道了'
       }
     },

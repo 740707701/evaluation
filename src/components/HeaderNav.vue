@@ -55,7 +55,7 @@
                 </el-dropdown-item>
                 <el-dropdown-item command="myresume">我的简历</el-dropdown-item>
                 <el-dropdown-item command="myplan">我的规划</el-dropdown-item>
-                <el-dropdown-item command="order">订单中心</el-dropdown-item>
+                <el-dropdown-item command="order">我的订单</el-dropdown-item>
                 <el-dropdown-item command="setting">个人资料</el-dropdown-item>
                 <el-dropdown-item command="logout">退出账号</el-dropdown-item>
               </el-dropdown-menu>

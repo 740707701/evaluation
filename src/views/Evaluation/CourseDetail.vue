@@ -21,7 +21,7 @@
           <div class="btn-box" v-if="!detail.showFree">
             <div class="operation-btn test-btn" @click="serialNoTest">使用序列号测试</div>
             <!-- <i class="iconfont icon-cart" @click="addCart"></i> -->
-            <div class="operation-btn buy-btn" @click="buy()">付费测试</div>
+            <div class="operation-btn buy-btn" @click="buy">付费测试</div>
           </div>
           <div class="btn-box" v-if="detail.showFree">
             <el-button size="small" class="buy-btn eva-btn" @click="getFreeSerialNo()">进入测评</el-button>
@@ -63,7 +63,8 @@
         </div>
       </div>
     </div>
-    <evaDialog v-if="dialogInfo.title" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="dialogConfirmEvent"></evaDialog>
+    <evaDialog v-if="dialogInfo.title&&!showConfirmBuyDialog" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="dialogConfirmEvent"></evaDialog>
+    <evaDialog v-if="dialogInfo.title&&showConfirmBuyDialog" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="buyConfirmEvent"></evaDialog>
   </div>
 </template>
 <script>
@@ -78,7 +79,9 @@ export default {
       detail: {},
       hotList: [],
       serialNo: '',
-      dialogInfo: {}
+      dialogInfo: {},
+      showConfirmBuyDialog: false
+
     };
   },
   created: function() {
@@ -160,7 +163,16 @@ export default {
       });
     },
     //立即购买
-    buy(){
+    buy() {
+      this.showConfirmBuyDialog = true
+      this.dialogInfo = {
+        title: '温馨提示',
+        message: `每一个序列号可以测试本网站的任何一个测试，但是只能测试一次，请同学们选择感兴趣的测试。`,
+        confirmButtonText: '确定付费测试',
+        cancelButtonText: '重新选择题目'
+      }
+    },
+    confirmBuy(){
       let cartData = {
         rootPath: '',
         totalPrice: this.detail.baseInfo.price
@@ -181,7 +193,7 @@ export default {
     serialNoTest() {
       this.dialogInfo = {
         title: '温馨提示',
-        message: '每一个序列号可以测试本网站的任何一个测试，但是只能测试一次，请同学们选择感兴趣的测试。',
+        message: `每一个序列号可以测试本网站的任何一个测试，但是只能测试一次，请同学们选择感兴趣的测试。`,
         confirmButtonText: '确定使用序列号测试',
         cancelButtonText: '重新选择题目'
       }
@@ -196,6 +208,9 @@ export default {
           cepingId: this.cepingId 
         }
       })
+    },
+    buyConfirmEvent() {
+      this.confirmBuy()
     },
     //获取免费序列号
     getFreeSerialNo: function(){
