@@ -415,7 +415,7 @@ export default {
     // 进入测试
     toTest(cepingId, serialNo) {
       this.$router.push({
-        path: `evaluation/${cepingId}/${serialNo}`,
+        path: `/evaluation/${cepingId}/${serialNo}`,
         query: {
           org: 'order'
         }

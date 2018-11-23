@@ -195,7 +195,7 @@ export default {
       }
       this.$store.dispatch('VALIDCEPING', data).then(res => {
         this.$router.push({
-          path: `evaluation/${cepingId}/${serialNo}`,
+          path: `/evaluation/${cepingId}/${serialNo}`,
           query: {org: 'order' },
         });
       }).catch(err => {
