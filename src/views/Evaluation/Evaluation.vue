@@ -167,7 +167,10 @@ export default {
       this.toCaichu()
     },
     cancelTest() {
-      this.$router.push({path: '/'})
+      this.hideDialog = true
+      this.cancelTestDialog = false
+      this.dialogInfo.title = ''
+      // this.$router.push({path: '/'})
     }
   },
   components: {
@@ -211,7 +214,7 @@ export default {
       img {
         float: left;
         width: 300px;
-        height: 160px;
+        height: 197px;
         border-radius: 10px;
       }
       .intro-top {

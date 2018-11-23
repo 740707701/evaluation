@@ -50,7 +50,7 @@
                   <div v-if="item.state==0" class="operation-btn pay-btn" @click="pay(order)">立即付款</div>
                   <div v-if="item.serialNo!='-1'&&item.state==3">序列号</div>
                   <p  v-if="item.serialNo!='-1'&&item.state==3">{{item.serialNo}}</p>
-                    <div class="operation-btn copy-btn" v-if="item.serialNo!='-1'&&item.state==3" @click="toTest(item.productId)">进入测试</div>
+                    <div class="operation-btn copy-btn" v-if="item.serialNo!='-1'&&item.state==3" @click="toTest(item.productId,item.serialNo)">进入测试</div>
                   <!-- <div class="operation-btn copy-btn"  v-if="item.serialNo!='-1'&&item.state==3"
                     v-clipboard:copy="item.serialNo"
                     v-clipboard:success="onCopy"
@@ -73,7 +73,7 @@
                   <div v-if="item.state==0" class="operation-btn pay-btn" @click="pay(order)">立即付款</div>
                   <div v-if="item.serialNo!='-1'&&item.state==3">序列号</div>
                   <p v-if="item.serialNo!='-1'&&item.state==3">{{item.serialNo}}</p>
-                  <div class="operation-btn copy-btn"  v-if="item.serialNo!='-1'&&item.state==3" @click="toTest(item.productId)">进入测试</div>
+                  <div class="operation-btn copy-btn"  v-if="item.serialNo!='-1'&&item.state==3" @click="toTest(item.productId,item.serialNo)">进入测试</div>
                   <!-- <div class="operation-btn copy-btn"  v-if="item.serialNo!='-1'&&item.state==3"
                     v-clipboard:copy="item.serialNo"
                     v-clipboard:success="onCopy"
@@ -413,9 +413,9 @@ export default {
       })
     },
     // 进入测试
-    toTest(cepingId) {
+    toTest(cepingId, serialNo) {
       this.$router.push({
-        path: `evaluation/${cepingId}`,
+        path: `evaluation/${cepingId}/${serialNo}`,
         query: {
           org: 'order'
         }
@@ -498,7 +498,7 @@ export default {
               img {
                 float: left;
                 width: 100px;
-                height: 70px;
+                height: 65px;
                 background-color: lightgreen;
                 margin-right: 15px;
               }

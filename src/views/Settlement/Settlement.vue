@@ -260,7 +260,7 @@ export default {
           img {
             float: left;
             width: 160px;
-            height: 80px;
+            height: 105px;
             border-radius: 4px;
             margin-right: 20px;
           }
@@ -271,7 +271,7 @@ export default {
           .price {
             float: right;
             color: red;
-            line-height: 80px;
+            line-height: 105px;
             margin-right: 100px;
           }
         }

@@ -63,8 +63,7 @@
         </div>
       </div>
     </div>
-    <evaDialog v-if="dialogInfo.title&&!showConfirmBuyDialog" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="dialogConfirmEvent"></evaDialog>
-    <evaDialog v-if="dialogInfo.title&&showConfirmBuyDialog" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="buyConfirmEvent"></evaDialog>
+    <evaDialog v-if="dialogInfo.title" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="dialogConfirmEvent"></evaDialog>
   </div>
 </template>
 <script>
@@ -79,8 +78,7 @@ export default {
       detail: {},
       hotList: [],
       serialNo: '',
-      dialogInfo: {},
-      showConfirmBuyDialog: false
+      dialogInfo: {}
 
     };
   },
@@ -163,16 +161,7 @@ export default {
       });
     },
     //立即购买
-    buy() {
-      this.showConfirmBuyDialog = true
-      this.dialogInfo = {
-        title: '温馨提示',
-        message: `每一个序列号可以测试本网站的任何一个测试，但是只能测试一次，请同学们选择感兴趣的测试。`,
-        confirmButtonText: '确定付费测试',
-        cancelButtonText: '重新选择题目'
-      }
-    },
-    confirmBuy(){
+    buy(){
       let cartData = {
         rootPath: '',
         totalPrice: this.detail.baseInfo.price
@@ -199,7 +188,8 @@ export default {
       }
     },
     dialogCancelEvent() {
-      this.$router.push({ path: '/'})
+      this.dialogInfo.title = ''
+      // this.$router.push({ path: '/'})
     },
     dialogConfirmEvent() {
       this.$router.push({
@@ -208,9 +198,6 @@ export default {
           cepingId: this.cepingId 
         }
       })
-    },
-    buyConfirmEvent() {
-      this.confirmBuy()
     },
     //获取免费序列号
     getFreeSerialNo: function(){

@@ -50,11 +50,11 @@
                       <el-rate v-model="course.rate" disabled class="rate"></el-rate>
                     </div>
                     <div class="gray">
-                      <div class="serial-number">序列号：{{course.cepingSerialno}}</div>
-                      <i class="el-icon-document copy-icon"
+                      <div class="serial-number" :title="course.cepingSerialno">序列号：{{course.cepingSerialno}}</div>
+                      <!-- <i class="el-icon-document copy-icon"
                         v-clipboard:copy="course.cepingSerialno"
                         v-clipboard:success="onCopy"
-                        v-clipboard:error="onError"></i>
+                        v-clipboard:error="onError"></i> -->
                     </div>
                     <div class="test-box">
                       <el-button class="test-btn" size="small" @click="toEvaluation(course.cepingId,course.cepingSerialno)">进入测试</el-button>
@@ -195,8 +195,8 @@ export default {
       }
       this.$store.dispatch('VALIDCEPING', data).then(res => {
         this.$router.push({
-          name: `evaluation`,
-          params: { cepingId: cepingId, serialNo: serialNo }
+          path: `evaluation/${cepingId}/${serialNo}`,
+          query: {org: 'order' },
         });
       }).catch(err => {
         if (err.data.msg) {
@@ -380,7 +380,7 @@ export default {
         position: relative;
         img {
           width: 210px;
-          height: 120px;
+          height: 137px;
           border-radius: 8px 8px 0 0;
         }
         .course-info {
@@ -401,6 +401,7 @@ export default {
             }
             .serial-number {
               float: left;
+              width: 190px;
               overflow: hidden;
               white-space: nowrap;
               text-overflow: ellipsis;
