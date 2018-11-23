@@ -13,11 +13,11 @@
                 <ul class="item">
                   <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                     <img :src="item.picAll" alt="">
-                    <div class="info">
+                    <!-- <div class="info">
                       <p class="title" :class="{'middle-text': splitTitle(item.cepingName).length===1}"
                         v-for="n in splitTitle(item.cepingName.trim())" :key="n">{{n}}</p>
-                      <!-- <div class="price" v-if="item.price">¥ {{item.price}}</div> -->
-                    </div>
+                      <div class="price" v-if="item.price">¥ {{item.price}}</div>
+                    </div> -->
                     <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
                     </div>
@@ -183,7 +183,7 @@ export default {
           li {
             float: left;
             width: 168px;
-            height: 230px;
+            height: 180px;
             overflow: hidden;
             font-size: 14px;
             margin-bottom: 10px;
@@ -191,7 +191,7 @@ export default {
             img {
               width: 100%;
               height: 110px;
-              border-radius: 10px;
+              border-radius: 6px;
               background-color: #fafafa;
               display: inline-block;
             }
@@ -224,6 +224,7 @@ export default {
             .desc {
               font-size: 14px;
               // height: 45px;
+              margin-top: 10px;
               overflow: hidden;
               line-height: 1.5;
               padding: 0 5px;
