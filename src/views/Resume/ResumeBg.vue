@@ -1,22 +1,28 @@
 <template>
   <div class="resume-bg">
     <headerNav></headerNav>
-    <div class="img-bg">
+    <div class="img-bg" v-if="permission!='forbidden'">
       <div class="btn" @click="toResume">
         <i class="iconfont icon-qianbi"></i>
         免费创建简历
       </div>
     </div>
+    <forbidden v-if="permission=='forbidden'"></forbidden>
   </div>
 </template>
 <script>
+import forbidden from '@/components/Forbidden.vue'
 import headerNav from '../../components/HeaderNav'
   export default {
     name: 'resumeBg',
     data(){
-      return {}
+      return {
+        permission: ''
+      }
     },
-    created(){},
+    created(){
+      this.permission = this.$route.query.permission
+    },
     methods: {
       toResume(){
         this.$router.push({
@@ -25,7 +31,8 @@ import headerNav from '../../components/HeaderNav'
       }
     },
     components: {
-      headerNav
+      headerNav,
+      forbidden
     }
   }
 </script>
@@ -35,6 +42,7 @@ import headerNav from '../../components/HeaderNav'
     width: 100%;
     height: 100%;
     padding-top: 60px;
+    background-color: #f8fafc;
     .img-bg {
       width: 100%;
       height: 100%;

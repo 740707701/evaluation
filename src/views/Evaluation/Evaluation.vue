@@ -46,10 +46,13 @@
         </div>
       </div>
     </div>
+    <eva-dialog v-if="!hideDialog&&dialogInfo.title&&!cancelTestDialog" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="dialogConfirmEvent"></eva-dialog>
+    <eva-dialog v-if="!hideDialog&&cancelTestDialog" :dialogInfo="dialogInfo" @dialogConfirmEvent="cancelTest"></eva-dialog>
   </div>
 </template>
 <script>
-import headerNav from "@/components/HeaderNav.vue";
+import headerNav from "@/components/HeaderNav.vue"
+import evaDialog from '@/components/EvaluationDialog.vue'
 import { mapState } from 'vuex'
 export default {
   name: "evaluation",
@@ -62,6 +65,9 @@ export default {
       showCaichuBox: false,
       detail: {},
       caichu: {},
+      dialogInfo: {},
+      cancelTestDialog: false,
+      hideDialog: false
     };
   },
   computed: {},
@@ -93,43 +99,80 @@ export default {
       })
     },
     test: function(){
+      this.hideDialog = false
+      let message = ''
+      let serialNoMessage = `1、本测试题目共计${this.detail.baseInfo.num||''}道，均为选择题，用时约${this.detail.baseInfo.cepingHaoshi || ''}。 <br>
+            2、本测试一旦开始，则不能中断或退出，若测试未完成则序列号失效，需要重新购买进行测试。请使用电脑端进行测试，且使用google浏览器。 <br> 
+            3、测试题的答案没有对错之分，测试的目的是反映最真实的自己，而不是别人所期待的你。请根据你当下最真实的状态进行选择，这样得到的测评报告也是最准确的。
+            `
+      let buyMessage = `1、本测试题目共计${this.detail.baseInfo.num||''}道，均为选择题，用时约${this.detail.baseInfo.cepingHaoshi || ''}。<br> 
+            2、本测试一旦开始，则不能中断或退出，若测试未完成则需要重新购买进行测试。请使用电脑端进行测试，且使用google浏览器。<br>
+            3、测试题的答案没有对错之分，测试的目的是反映最真实的自己，而不是别人所期待的你。请根据你当下最真实的状态进行选择，这样得到的测评报告也是最准确的。
+            `
+      if(this.$route.query.org === 'order'){
+        message = buyMessage
+      } else {
+        message = serialNoMessage
+      }
       if(!this.caichuCode){
-        this.$message({
-          type: 'error',
-          message: "未查找到量表版本，请稍后重试"
-        })
+        this.$message({type: 'error', message: "未查找到量表版本，请稍后重试！"})
         return
       }
-      if(this.serialNumber){
-        let data = {
-          cepingId: this.$route.params.cepingId,
-          serialno: this.serialNumber
+      if(!this.serialNumber){
+        this.$message({type: "error", message:"请输入序列号！"})
+      } else {
+        this.dialogInfo = {
+          title: '温馨提示',
+          message: message,
+          cancelButtonText: '暂不测试，取消',
+          confirmButtonText: '我知道了，确认开始'
         }
-        this.$store.dispatch('TOCAICHU', data).then(res => {
-          this.test_name = res.data.data.test_name,
-          this.test_email = res.data.data.test_email
-          console.log('name',this.test_name, this.test_email)
-          this.showCaichuBox = true;
-        }).catch(err => {
-          console.log(err)
-          if(err.data.msg){
-            this.$message({
-              type: 'error',
-              message: err.data.msg
-            })
-          }
-        })
-      }else {
-        this.$message({
-          type: "error",
-          message:"请输入序列号",
-          trigger: "blur"
-        })
       }
+    },
+    // 进入才储测试
+    toCaichu() {
+      let data = {
+        cepingId: this.$route.params.cepingId,
+        serialno: this.serialNumber
+      }
+      this.$store.dispatch('TOCAICHU', data).then(res => {
+        this.test_name = res.data.data.test_name
+        this.test_email = res.data.data.test_email
+        console.log('name',this.test_name, this.test_email)
+        this.showCaichuBox = true
+      }).catch(err => {
+        if(err.data){
+          this.$message({type: 'error', message: err.data.msg})
+        }
+      })
+    },
+    dialogCancelEvent() {
+      this.cancelTestDialog = true
+      let message = ''
+      let serialNoMessage = `您已取消本次测试，请您在时间充裕时，重新使用序列号进行测试。`
+      let buyMessage = `您已取消本次测试，请您在时间充裕时，在“我的订单”或者“我的测评”中“未完成测评”模块进行测试。`
+      if(this.$route.query.org === 'order'){
+        message = buyMessage
+      } else {
+        message = serialNoMessage
+      }
+      this.dialogInfo = {
+        title: '取消成功',
+        message: message,
+        confirmButtonText: '我知道了'
+      }
+    },
+    dialogConfirmEvent() {
+      this.hideDialog = true
+      this.toCaichu()
+    },
+    cancelTest() {
+      this.$router.push({path: '/'})
     }
   },
   components: {
-    headerNav
+    headerNav,
+    evaDialog
   },
   mounted(){}
 }
@@ -159,7 +202,7 @@ export default {
     width: 1200px;
     margin: 0 auto;
     margin-top: 70px;
-    height: calc(100% - 70px);
+    min-height: calc(100vh - 160px);
     .disabled {
       cursor: no-drop!important;
     }
@@ -207,7 +250,7 @@ export default {
       background-color: #fff;
       border-radius: 10px;
       margin-top: 20px;
-      height: calc(100% - 180px);
+      min-height: calc(100vh - 380px); // 390
       .warn {
         line-height: 30px;
         text-align: center;

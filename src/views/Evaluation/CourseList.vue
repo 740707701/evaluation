@@ -2,10 +2,8 @@
   <div class="courselist-page">
     <Banner :hideBanner="hideBanner"></Banner>
     <div class="container">
-      <div class="category">
-        <p class="title">
-          <i class="iconfont icon-star"></i>
-          测试分类</p>
+      <div class="category-title">
+        <i class="iconfont icon-star"></i>测试分类
       </div>
       <el-row :gutter="20">
         <el-col :span="16">
@@ -16,8 +14,9 @@
                   <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                     <img :src="item.picAll" alt="">
                     <div class="info">
-                      <p class="title">{{item.cepingName}}</p>
-                      <div class="price" v-if="item.price">¥ {{item.price}}</div>
+                      <p class="title" :class="{'middle-text': splitTitle(item.cepingName).length===1}"
+                        v-for="n in splitTitle(item.cepingName.trim())" :key="n">{{n}}</p>
+                      <!-- <div class="price" v-if="item.price">¥ {{item.price}}</div> -->
                     </div>
                     <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
@@ -42,7 +41,7 @@
                       <p class="item-title">{{item.cepingName}}</p>
                       <p class="gray">难度：{{item.cepingLevel}}</p>
                     </div>
-                    <el-button round size="small" class="price-btn" item.price>¥ {{item.price}}</el-button>
+                    <!-- <el-button round size="small" class="price-btn" item.price>¥ {{item.price}}</el-button> -->
                   </div>
               </li>
             </ul>
@@ -55,6 +54,7 @@
 <script>
 import Banner from "@/components/Banner.vue";
 import { mapState } from "vuex";
+import { splitTitle } from '@/utils/index';
 export default {
   name: "courselist",
   data() {
@@ -71,9 +71,12 @@ export default {
   created: function() {
     let isLogin = decodeURIComponent(this.$route.query.isLogin);
     this.getCepingItem()
-    this.getHotList();
+    this.getHotList()
   },
   methods: {
+    splitTitle(str, tag1, tag2) {
+      return splitTitle(str, tag1, tag2)
+    },
     getEvaluationList: function(index) {
       this.$store
         .dispatch("EVALUATION_LIST", { cepingItem: index })
@@ -82,15 +85,9 @@ export default {
         })
         .catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message({type: "error", message: err.data.msg});
           } else {
-            this.$message({
-              type: "error",
-              message: "获取数据失败"
-            });
+            this.$message({type: "error", message: "获取数据失败"});
           }
         });
     },
@@ -102,28 +99,22 @@ export default {
         })
         .catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message({ type: "error", message: err.data.msg})
           } else {
-            this.$message({
-              type: "error",
-              message: "获取热门测评失败"
-            });
+            this.$message({ type: "error", message: "获取热门测评失败"});
           }
         });
     },
     getCepingItem() {
       this.$store.dispatch('COURSE_ITEM').then(res => {
-        this.cepingItem = res.data
+        this.cepingItem = res.data;
         this.getEvaluationList(res.data[0].code - 0);
-        this.activeName = this.cepingItem[0].code
+        this.activeName = this.cepingItem[0].code;
       }).catch(err => {
         if(err.data.msg){
-          this.$message({type: 'error', message: err.data.msg})
+          this.$message({type: 'error', message: err.data.msg});
         }else {
-          this.$message({type: 'error', message: '获取测评分类失败，请稍后重试！'})
+          this.$message({type: 'error', message: '获取测评分类失败，请稍后重试！'});
         }
       })
     },
@@ -172,20 +163,17 @@ export default {
     .el-col {
       height: 100%;
     }
-    .category {
-      .title {
-        font-size: 16px;
-        line-height: 3;
-        margin-bottom: 6px;
-        i {
-          color: @main-color-blue;
-          margin-right: 10px;
-        }
+    .category-title {
+      font-size: 16px;
+      line-height: 3;
+      i {
+        color: @main-color-blue;
+        margin-right: 10px;
       }
     }
     .left-list {
       background-color: #fff;
-      height: calc(100% - 30px);
+      min-height: calc(100vh - 135px);
       border-radius: 10px;
       padding: 0 20px;
       .tabs-box {
@@ -195,7 +183,7 @@ export default {
           li {
             float: left;
             width: 168px;
-            height: 260px;
+            height: 230px;
             overflow: hidden;
             font-size: 14px;
             margin-bottom: 10px;
@@ -209,10 +197,15 @@ export default {
             }
             .info {
               padding: 5px;
+              min-height: 46px;
+              .middle-text {
+                padding-top: 10px;
+              }
               .title {
                 line-height: 1.2;
                 font-size: 15px;
                 font-weight: 600;
+                text-align: center;
               }
               // .gray {
               //   color: #a2a9b8;
@@ -249,7 +242,7 @@ export default {
       background-color: #fff;
       border-radius: 10px;
       padding-bottom: 4px;
-      height: calc(100% - 30px);
+      min-height: calc(100vh - 135px);
       .title {
         font-size: 14px;
         font-weight: 600;

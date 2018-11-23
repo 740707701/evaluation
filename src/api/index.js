@@ -3,6 +3,7 @@ import axios from './interceptors'
 // axios.defaults.baseURL = 'http://101.132.100.21:8080/cepingweb' // 线上环境 收费学校调用地址 部署在21文件夹下
 axios.defaults.baseURL = 'http://192.168.0.177:9088/cepingweb/' //resume本机
 // axios.defaults.baseURL = 'http://192.168.0.191:8089/cepingweb/' //plan本机
+// axios.defaults.baseURL = 'http://192.168.0.177:9090/cepingweb/' //plan本机
 
 class Api {
   constructor() {}

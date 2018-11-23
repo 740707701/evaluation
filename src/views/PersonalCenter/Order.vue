@@ -50,11 +50,12 @@
                   <div v-if="item.state==0" class="operation-btn pay-btn" @click="pay(order)">立即付款</div>
                   <div v-if="item.serialNo!='-1'&&item.state==3">序列号</div>
                   <p  v-if="item.serialNo!='-1'&&item.state==3">{{item.serialNo}}</p>
-                  <div class="operation-btn copy-btn"  v-if="item.serialNo!='-1'&&item.state==3"
+                    <div class="operation-btn copy-btn" v-if="item.serialNo!='-1'&&item.state==3" @click="toTest(item.productId)">进入测试</div>
+                  <!-- <div class="operation-btn copy-btn"  v-if="item.serialNo!='-1'&&item.state==3"
                     v-clipboard:copy="item.serialNo"
                     v-clipboard:success="onCopy"
                     v-clipboard:error="onError">复制
-                  </div>
+                  </div> -->
                   <i class="iconfont icon-delete" v-if="item.state==4" @click="deleteOrder(item)"></i>
                 </td>
               </tr>
@@ -72,11 +73,12 @@
                   <div v-if="item.state==0" class="operation-btn pay-btn" @click="pay(order)">立即付款</div>
                   <div v-if="item.serialNo!='-1'&&item.state==3">序列号</div>
                   <p v-if="item.serialNo!='-1'&&item.state==3">{{item.serialNo}}</p>
-                  <div class="operation-btn copy-btn"  v-if="item.serialNo!='-1'&&item.state==3"
+                  <div class="operation-btn copy-btn"  v-if="item.serialNo!='-1'&&item.state==3" @click="toTest(item.productId)">进入测试</div>
+                  <!-- <div class="operation-btn copy-btn"  v-if="item.serialNo!='-1'&&item.state==3"
                     v-clipboard:copy="item.serialNo"
                     v-clipboard:success="onCopy"
                     v-clipboard:error="onError">复制
-                  </div>
+                  </div> -->
                   <i class="iconfont icon-delete" v-if="item.state==4" @click="deleteOrder(item)"></i>
                 </td>
               </tr>
@@ -407,6 +409,15 @@ export default {
             type: "error",
             message: "订单删除失败，请稍后重试！"
           })
+        }
+      })
+    },
+    // 进入测试
+    toTest(cepingId) {
+      this.$router.push({
+        path: `evaluation/${cepingId}`,
+        query: {
+          org: 'order'
         }
       })
     }

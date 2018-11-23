@@ -14,14 +14,14 @@
           <p>适应人群：{{detail.baseInfo.peopleScope}}</p>
           <p>难度：{{detail.baseInfo.cepingLevel}}</p>
           <p>数量：{{detail.baseInfo.num}}题</p>
-          <p class="red" v-if="detail.baseInfo.price>0">价格： ¥{{detail.baseInfo.price}}</p>
+          <!-- <p class="red" v-if="detail.baseInfo.price>0">价格： ¥{{detail.baseInfo.price}}</p> -->
           <!-- <div class="btn-box" v-if="detail.baseInfo.price>0">
             <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button>
           </div> -->
           <div class="btn-box" v-if="!detail.showFree">
             <div class="operation-btn test-btn" @click="serialNoTest">使用序列号测试</div>
             <!-- <i class="iconfont icon-cart" @click="addCart"></i> -->
-            <div class="operation-btn buy-btn" @click="buy()">付费测试</div>
+            <div class="operation-btn buy-btn" @click="buy">付费测试</div>
           </div>
           <div class="btn-box" v-if="detail.showFree">
             <el-button size="small" class="buy-btn eva-btn" @click="getFreeSerialNo()">进入测评</el-button>
@@ -31,18 +31,18 @@
           <p class="title">简介：</p>
           <div class="intro-text">{{detail.baseInfo.remark}}</div>
         </div>
-        <div class="hot">热门测评</div>
+        <div class="hot" v-if="hotList.length">热门测评</div>
         <table class="table">
           <tr v-for="(item, index) in hotList" :key="item.cepingId" @click="linktoDetail(item.cepingId)">
             <td class="name">{{index+1}}</td>
             <td class="name">{{item.cepingName}}</td>
             <td>{{item.num||0}}题</td>
-            <td>价格：¥{{item.price||0}}</td>
+            <!-- <td>价格：¥{{item.price||0}}</td> -->
             <td>{{item.browseCount||0}}人</td>
           </tr>
         </table>
       </div>
-      <div class="dialog" v-if="showDialog" @click.self="showDialog=false" >
+      <div class="success-dialog" v-if="showDialog" @click.self="showDialog=false" >
         <div class="success-box">
           <div class="header">
             <img src="../../assets/images/buy_bg.png" alt="">
@@ -63,10 +63,13 @@
         </div>
       </div>
     </div>
+    <evaDialog v-if="dialogInfo.title&&!showConfirmBuyDialog" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="dialogConfirmEvent"></evaDialog>
+    <evaDialog v-if="dialogInfo.title&&showConfirmBuyDialog" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="buyConfirmEvent"></evaDialog>
   </div>
 </template>
 <script>
 import axios from "axios";
+import evaDialog from '@/components/EvaluationDialog';
 export default {
   name: "coursedetail",
   data() {
@@ -75,7 +78,10 @@ export default {
       cepingId: '',
       detail: {},
       hotList: [],
-      serialNo: ''
+      serialNo: '',
+      dialogInfo: {},
+      showConfirmBuyDialog: false
+
     };
   },
   created: function() {
@@ -157,7 +163,16 @@ export default {
       });
     },
     //立即购买
-    buy(){
+    buy() {
+      this.showConfirmBuyDialog = true
+      this.dialogInfo = {
+        title: '温馨提示',
+        message: `每一个序列号可以测试本网站的任何一个测试，但是只能测试一次，请同学们选择感兴趣的测试。`,
+        confirmButtonText: '确定付费测试',
+        cancelButtonText: '重新选择题目'
+      }
+    },
+    confirmBuy(){
       let cartData = {
         rootPath: '',
         totalPrice: this.detail.baseInfo.price
@@ -171,16 +186,31 @@ export default {
     },
     // 进入测评详情
     linktoDetail: function(cepingId) {
-      this.evaluationDetail(cepingId)
+      this.cepingId = cepingId
+      this.evaluationDetail(this.cepingId)
     },
     // 序列号测试
     serialNoTest() {
+      this.dialogInfo = {
+        title: '温馨提示',
+        message: `每一个序列号可以测试本网站的任何一个测试，但是只能测试一次，请同学们选择感兴趣的测试。`,
+        confirmButtonText: '确定使用序列号测试',
+        cancelButtonText: '重新选择题目'
+      }
+    },
+    dialogCancelEvent() {
+      this.$router.push({ path: '/'})
+    },
+    dialogConfirmEvent() {
       this.$router.push({
         name: 'evaluation',
         params: {
-          cepingId: this.$route.params.cepingId 
+          cepingId: this.cepingId 
         }
       })
+    },
+    buyConfirmEvent() {
+      this.confirmBuy()
     },
     //获取免费序列号
     getFreeSerialNo: function(){
@@ -207,6 +237,9 @@ export default {
     onError: function (e) {
       this.$message({type: "error", message: "复制序列号失败"})
     },
+  },
+  components: {
+    evaDialog
   }
 };
 </script>
@@ -217,8 +250,9 @@ export default {
   .container {
     width: 1200px;
     height: 100%;
+    min-height: calc(100vh - 95px);
     margin: 0 auto;
-    margin-top: 6px;
+    margin-top: 10px;
     background-color: #fff;
     border-radius: 10px;
     position: relative;
@@ -249,20 +283,20 @@ export default {
       }
       img {
         float: left;
-        width: 300px;
-        height: 160px;
+        width: 260px;
+        height: 170px;
         border-radius: 10px;
         background-color: #fafafa;
       }
       .info-box {
-        margin-left: 330px;
-        height: 160px;
+        margin-left: 290px;
+        height: 170px;
         .title {
           font-size: 16px;
           font-weight: bold;
         }
         p {
-          line-height: 1.7;
+          line-height: 2;
           font-size: 14px;
         }
         .gray {
@@ -276,7 +310,7 @@ export default {
           cursor: no-drop!important;
         }
         .btn-box {
-          margin-top: 10px;
+          margin-top: 18px;
           display: inline-block;
           .operation-btn {
             float: left;
@@ -346,7 +380,7 @@ export default {
         }
       }
     }
-    .dialog {
+    .success-dialog {
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.3);

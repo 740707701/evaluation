@@ -4,7 +4,7 @@
       <nav class="navbar">
         <router-link to="/">
           <div class="nav-left">
-            <img src="../assets/images/logo.svg" alt="" class="logo">
+            <img src="../assets/images/logo.png" alt="" class="logo">
           </div>
         </router-link>
         <ul class="nav-center">
@@ -55,7 +55,7 @@
                 </el-dropdown-item>
                 <el-dropdown-item command="myresume">我的简历</el-dropdown-item>
                 <el-dropdown-item command="myplan">我的规划</el-dropdown-item>
-                <el-dropdown-item command="order">订单中心</el-dropdown-item>
+                <el-dropdown-item command="order">我的订单</el-dropdown-item>
                 <el-dropdown-item command="setting">个人资料</el-dropdown-item>
                 <el-dropdown-item command="logout">退出账号</el-dropdown-item>
               </el-dropdown-menu>
@@ -184,58 +184,66 @@ export default {
       if(userInfo){
         if(id == 1){ // type: 1：免费, 0：收费
           if(item.type === 0){
-            this.$router.push({ path: '/forbidden' })
+            this.$router.push({ path: '/', query: {permission: 'forbidden'} })
           } else if(item.type === 1) {
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: '/'})
           }
         }else if(id == 2) {
           if(item.type === 0){
-            this.$router.push({ path: '/forbidden' })
+            this.$router.push({ path: '/vocationCognize', query: {permission: 'forbidden'}})
           } else if(item.type === 1) {
             this.$router.push({ path: '/vocationCognize'})
           }
         }else if(id == 3){
-          if(item.type === 0){
-            this.$router.push({ path: '/forbidden' })
-          } else if(item.type === 1) {
-            let params = {
-              userId: userInfo.id
-            }
-            this.$store.dispatch('PLANLIST', params).then(res => {
-              if(res.data.length){
+          let params = {
+            userId: userInfo.id
+          }
+          this.$store.dispatch('PLANLIST', params).then(res => {
+            if(res.data.length){
+              if(item.type === 0){
+                this.$router.push({ path: '/termPlan', query: {permission: 'forbidden'} })
+              } else {
                 this.$router.push({ path: '/termPlan' })
-              }else {
+              }
+            }else {
+              if(item.type === 0) {
+                this.$router.push({ path: '/planEntry', query: {permission: 'forbidden'} })
+              } else {
                 this.$router.push({ path: '/planEntry' })
               }
-            }).catch(err => {
-              if(err.data.msg){
-                this.$message({type: "error", message: err.data.msg})
-              }else {
-                this.$message({type: "error", message: "检查是否添加过规划失败，请稍后重试！"})
-              }
-            })
-          }
+            }
+          }).catch(err => {
+            if(err.data.msg){
+              this.$message({type: "error", message: err.data.msg})
+            }else {
+              this.$message({type: "error", message: "检查是否添加过规划失败，请稍后重试！"})
+            }
+          })
         }else if (id == 4){
-          if(item.type === 0){
-            this.$router.push({ path: '/forbidden' })
-          } else if(item.type === 1) {
-            this.$store.dispatch('CHECK_RESUME').then(res => {
-              if(res.data == 0){
+          this.$store.dispatch('CHECK_RESUME').then(res => {
+            if(res.data == 0){
+              if(item.type === 0) {
+                this.$router.push({ path: '/resumeBg', query: {permission: 'forbidden'}})
+              } else {
                 this.$router.push({ path: '/resumeBg'})
-              }else {
-                this.$router.push({ path: '/resume' })
               }
-            }).catch(err => {
-              if(err.data.msg){
-                this.$message({type: "error", message: err.data.msg})
-              }else {
-                this.$message({type: "error", message: "检查是否制作简历失败，请稍后重试"})
+            }else {
+              if(item.type === 0) {
+                this.$router.push({ path: '/resume', query: {permission: 'forbidden'}})
+              } else {
+                this.$router.push({ path: '/resume'})
               }
-            })
-          }
+            }
+          }).catch(err => {
+            if(err.data.msg){
+              this.$message({type: "error", message: err.data.msg})
+            }else {
+              this.$message({type: "error", message: "检查是否制作简历失败，请稍后重试"})
+            }
+          })
         }else if(id == 5) {
           if(item.type === 0){
-            this.$router.push({ path: '/forbidden' })
+            this.$router.push({ path: '/practiceEmployment', query: {permission: 'forbidden'} })
           } else if(item.type === 1) {
             this.$router.push({ path: '/practiceEmployment'})
           }
@@ -325,9 +333,11 @@ export default {
     margin: 0 auto;
     .nav-left {
       float: left;
+      margin-right: 40px;
       .logo {
-        width: 181px;
-        height: 60px;
+        width: 93px;
+        height: auto;
+        margin-top: 3px;
       }
     }
     .nav-center {
