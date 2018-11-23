@@ -10,8 +10,8 @@
 import axios from '../../api/interceptors'
 
 // const Apiurl = 'http://101.132.166.37:8080/saasplat' // 线上环境 其他学校调用地址 部署在37文件下
-const Apiurl = 'http://101.132.100.21:8080/saasplat' // 线上环境 收费学校调用地址 部署在21文件夹下
-// const Apiurl = 'http://192.168.0.177:9088/saasplat' // resume本地
+// const Apiurl = 'http://101.132.100.21:8080/saasplat' // 线上环境 收费学校调用地址 部署在21文件夹下
+const Apiurl = 'http://192.168.0.177:9088/saasplat' // resume本地
 // const Apiurl = 'http://192.168.0.191:8091/saasplat' // plan本地
 
 const SSO_SET = 'SSO_SET'

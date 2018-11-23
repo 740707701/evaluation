@@ -1,7 +1,12 @@
 <template>
-  <div class="asset-login-container" :style="getBackgroundStyle">
+  <div class="asset-login-container" 
+    :style="getBackgroundStyle">
     <div class="logo-container">
-      <img :src="configs.schoolLogo" width="100%" height="100%" alt="">
+      <img 
+        :src="configs.schoolLogo" 
+        width="100%" 
+        height="100%" 
+        alt="">
     </div>
     <div class="title-container">
       <div class="main-title">
@@ -18,62 +23,63 @@
         <span class="school-title">{{configs.schoolTitle}}</span>
         职业测评与大学规划管理系统
       </p>
-      <!-- <el-form>
-        <el-form-item label="账号" label-width="50px">
-          <el-input class="item-content" type="text" placeholder="请输入手机号/学号"  max="30" size="small" v-model="loginForm.account">
-          <i slot="suffix" v-if="loginForm.account && loginForm.account.indexOf(' ') === -1" 
-          style="color: #54cb9c;" class="el-icon-success el-input__icon"></i>  
+      <el-form>
+        <el-form-item
+          label-width="50px">
+          <div 
+            slot="label" 
+            class="item-title">账号</div>
+          <br>
+          <el-input 
+            class="item-content" 
+            type="text" 
+            placeholder="请输入手机号/学号"  
+            max="30" 
+            size="small" 
+            v-model="loginForm.account">
+          <i 
+            slot="suffix" 
+            v-if="loginForm.account && loginForm.account.indexOf(' ') === -1" 
+            style="color: #54cb9c;" 
+            class="el-icon-success el-input__icon"></i>  
         </el-input>
         </el-form-item>
-        <el-form-item label="密码" label-width="50px">
-          <el-input class="item-content" type="password" placeholder="请输入密码" max="30" size="small" v-model="loginForm.password"></el-input>
+        <el-form-item 
+          label-width="50px">
+          <div 
+            slot="label" 
+            class="item-title">密码</div>
+          <el-input 
+            class="item-content" 
+            type="password" 
+            placeholder="请输入密码" 
+            max="30" 
+            size="small" 
+            v-model="loginForm.password"
+            @keyup.enter.native="submitForm"></el-input>
         </el-form-item>
         <el-form-item label-width="0">
-          <el-checkbox v-model="loginForm.remember">记住密码</el-checkbox>
+          <el-checkbox 
+            v-model="loginForm.remember">记住密码</el-checkbox>
+          <span class="forgot-pwd" @click="showForget">忘记密码?</span>
         </el-form-item>
         <el-form-item label-width="0">
-          <el-button class="login-btn" type="primary"  @click="submitForm">登录</el-button>
+          <el-button 
+            class="login-btn" 
+            type="primary"  
+            @click="submitForm">登录</el-button>
         </el-form-item>
-      </el-form> -->
-      <div class="item-container">
-        <p class="item-title">账号</p>
-        <el-input 
-          class="item-content"
-          type="text" 
-          max="30"
-          placeholder="请输入手机号/学号"
-          v-model="loginForm.account">
-          <i slot="suffix" v-if="loginForm.account && loginForm.account.indexOf(' ') === -1" style="color: #54cb9c;" class="el-icon-success el-input__icon"></i>  
-        </el-input>
-      </div>
-
-      <div class="item-container">
-        <p class="item-title">密码</p>
-        <el-input 
-          class="item-content"
-          type="password"
-          max="30"
-          placeholder="请输入密码"
-          v-model="loginForm.password"></el-input>
-      </div>
-
-      <div class="item-container">
-        <el-checkbox v-model="loginForm.remember">记住密码</el-checkbox>
-      </div>
-
-      <div class="item-container">
-        <el-button 
-          class="login-btn"
-          type="primary" 
-          @click="submitForm">登录</el-button>
-      </div>
-
+      </el-form>
+    </div>
+    <div class="mask-bg" @click.self="showForgetPage = false" v-if="showForgetPage">
+      <forget @hideLogin="hideForgot"></forget>
     </div>
   </div>
 </template>
 
 <script>
 import{ setLoginChannel } from '@/utils/login-channel'
+import Forget from "@/components/Forget.vue";
 export default {
   name: 'AssetLogin',
   data() {
@@ -81,8 +87,9 @@ export default {
       loginForm: {
         account: '',
         password: '',
-        remember: true
+        remember: false
       },
+      showForgetPage: false,
       configs: {}
     }
   },
@@ -104,6 +111,12 @@ export default {
     this.getConfigs()
   },
   methods: {
+    hideForgot() {
+      this.showForgetPage = false;
+    },
+    showForget() {
+      this.showForgetPage = true
+    },
     getConfigs() {
       this.$store.dispatch('SCHOOL_LOGIN_INFO').then(responseTxt => {
         this.configs = responseTxt.data.data
@@ -179,6 +192,9 @@ export default {
           }
         });
     }
+  },
+  components: {
+    Forget
   }
 }
 </script>
@@ -210,49 +226,49 @@ export default {
         margin-top: 30px;
       }
     }
-    /*
-    & /deep/ .el-form-item {
-      margin-bottom: 5px;
-    }
-    & /deep/ .el-form-item__label {
-      height: 32px;
-      line-height: 32px;
-      text-align: left;
-      margin-top: 6px;
-    }
-    */
     .login-container {
-      width: 380px; // 460px;
-      margin: 30px auto 20px auto; // 30px auto 30px auto;
+      width: 380px;
+      margin: 30px auto 20px auto;
       background:rgba(255,255,255,.8);
-      padding: 10px 20px; // 10px 50px;
+      padding: 10px 20px;
       border-radius: 4px;
+      & /deep/ .el-form-item {
+        margin-bottom: 0px;
+      }
+      & /deep/ .el-form-item__content {
+        margin-left: 0 !important;
+      }
+      & /deep/ .el-form-item__label {
+        text-align: left;
+        color: #999999;
+      }
       .welcome-title {
         color:#111A39;
       }
       .welcome-sub-title {
         color: #999999;
-        // margin-bottom: 5px;
         .school-title {
           color: #318ef2;
         }
       }
-      .item-container {
-        margin-top: 14px;
-        .item-title {
-          color: #999999;
-          margin-bottom: 10px;
-        }
-        .item-content {
-          & /deep/ .el-input__inner {
-            height: 36px;
-          }
-        }
-        .login-btn {
-          margin-top: 20px;
-          padding: 10px 40px;
-        }
+      .forgot-pwd {
+        float: right;
+        color: #333;
+        cursor: pointer;
       }
+      .login-btn {
+        margin-top: 10px;
+        padding: 10px 40px;
+      }
+    }
+    .mask-bg {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 21;
     }
   }
 </style>
