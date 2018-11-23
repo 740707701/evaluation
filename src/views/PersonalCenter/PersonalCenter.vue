@@ -89,53 +89,56 @@ export default {
   methods: {
     changeImage: function(e){
       let file = e.target.files[0];
-      this.file = file
-      console.log(this.file)
-      let reader = new FileReader()
-      let that = this
-      reader.readAsDataURL(file)
-      reader.onload= function(e){
-        that.avatar = this.result
+      if(file) {
+        this.file = file
+        // console.log(this.file)
+        let reader = new FileReader()
+        let that = this
+        reader.readAsDataURL(file)
+        reader.onload= function(e){
+          that.avatar = this.result
+        }
       }
     },
     upload: function(){
-      let inputFile = []
-      if(this.$refs.imgInput.files&&this.$refs.imgInput.files.length){
-        inputFile.push(this.$refs.imgInput.files[0])
-      }else if(this.$refs.btnInput.files&&this.$refs.btnInput.files.length){
-        inputFile.push(this.$refs.btnInput.files[0])
+      let fileData = {}
+      let imgInputFiles = this.$refs.imgInput.files
+      let btnInputFiles = this.$refs.btnInput.files
+      let files = imgInputFiles.length ? imgInputFiles : btnInputFiles
+      if(files instanceof Array) {
+        fileData = files[0]
+      } else {
+        fileData = this.file
       }
-      if(inputFile.length !== 0){
-        let data = new FormData()
-        data.append('multfile', inputFile[0])
-        data.append('operaType', this.uploadType)
-        this.$store.dispatch('UPLOAD_HEAD', data)
-        .then(res => {
-          console.log(res)
-          this.file = '';
-          let data = res.data.data;
-          this.userInfo.personHead = data.headPic;
-          this.$store.dispatch("UPDATE_HEADE", this.userInfo).then(res => {
-            localStorage.setItem("userInfo", JSON.stringify(res.data.data))
-            this.$store.state.userInfo = res.data.data
-            this.$message({type: "success",message: "保存个人头像成功"})
-          }).catch(err => {
-            if(err.data.msg){
-              this.$message({type: "error", message: err.data.msg})
-            }else {
-              this.$message({type: "error" ,message: "保存个人头像失败"})
-            }
-          })
-          console.log(this.userInfo)
+      let data = new FormData()
+      data.append('multfile', fileData)
+      data.append('operaType', this.uploadType)
+      this.$store.dispatch('UPLOAD_HEAD', data)
+      .then(res => {
+        // console.log(res)
+        this.file = '';
+        let data = res.data.data;
+        this.userInfo.personHead = data.headPic;
+        this.$store.dispatch("UPDATE_HEADE", this.userInfo).then(res => {
+          localStorage.setItem("userInfo", JSON.stringify(res.data.data))
+          this.$store.state.userInfo = res.data.data
+          this.$message({type: "success",message: "保存个人头像成功"})
         }).catch(err => {
-          console.log(err)
           if(err.data.msg){
             this.$message({type: "error", message: err.data.msg})
           }else {
-            this.$message({type: "error", message: "上传失败！"})
+            this.$message({type: "error" ,message: "保存个人头像失败"})
           }
         })
-      }
+        console.log(this.userInfo)
+      }).catch(err => {
+        console.log(err)
+        if(err.data.msg){
+          this.$message({type: "error", message: err.data.msg})
+        }else {
+          this.$message({type: "error", message: "上传失败！"})
+        }
+      })
     }
   },
   components: {
