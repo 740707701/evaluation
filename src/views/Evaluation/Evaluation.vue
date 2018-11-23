@@ -46,8 +46,8 @@
         </div>
       </div>
     </div>
-    <eva-dialog v-if="dialogInfo.title&&!cancelTestDialog" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="dialogConfirmEvent"></eva-dialog>
-    <eva-dialog v-if="cancelTestDialog" :dialogInfo="dialogInfo" @dialogConfirmEvent="cancelTest"></eva-dialog>
+    <eva-dialog v-if="!hideDialog&&dialogInfo.title&&!cancelTestDialog" :dialogInfo="dialogInfo" @dialogCancelEvent="dialogCancelEvent" @dialogConfirmEvent="dialogConfirmEvent"></eva-dialog>
+    <eva-dialog v-if="!hideDialog&&cancelTestDialog" :dialogInfo="dialogInfo" @dialogConfirmEvent="cancelTest"></eva-dialog>
   </div>
 </template>
 <script>
@@ -66,7 +66,8 @@ export default {
       detail: {},
       caichu: {},
       dialogInfo: {},
-      cancelTestDialog: false
+      cancelTestDialog: false,
+      hideDialog: false
     };
   },
   computed: {},
@@ -98,6 +99,7 @@ export default {
       })
     },
     test: function(){
+      this.hideDialog = false
       if(!this.caichuCode){
         this.$message({type: 'error', message: "未查找到量表版本，请稍后重试！"})
         return
@@ -122,10 +124,10 @@ export default {
         serialno: this.serialNumber
       }
       this.$store.dispatch('TOCAICHU', data).then(res => {
-        this.test_name = res.data.data.test_name,
+        this.test_name = res.data.data.test_name
         this.test_email = res.data.data.test_email
         console.log('name',this.test_name, this.test_email)
-        this.showCaichuBox = true;
+        this.showCaichuBox = true
       }).catch(err => {
         if(err.data){
           this.$message({type: 'error', message: err.data.msg})
@@ -141,6 +143,7 @@ export default {
       }
     },
     dialogConfirmEvent() {
+      this.hideDialog = true
       this.toCaichu()
     },
     cancelTest() {
