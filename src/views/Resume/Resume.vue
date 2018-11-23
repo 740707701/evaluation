@@ -1,12 +1,12 @@
 <template>
   <div class="resume-page">
     <headerNav></headerNav>
-    <div class="container">
+    <div class="container" v-if="permission!='forbidden'">
       <el-alert
-    title="不会填写？请参阅右边HR视角！"
-    center
-    type="error">
-  </el-alert>
+        title="不会填写？请参阅右边HR视角！"
+        center
+        type="error">
+      </el-alert>
       <el-row :gutter="10" class="el-content">
         <el-col :span="3" class="left-content">
           <div class="grid-content">
@@ -127,6 +127,7 @@
         <el-button size="small" round class="back-btn" @click="viewResume">查看</el-button>
       </div>
     </div>
+    <forbidden v-if="permission=='forbidden'"></forbidden>
     <!-- 简历预览弹框 -->
     <!-- <div class="dialog" v-if="showPreview" @click.self="showPreview=false">
       <div class="resume-preview">
@@ -142,6 +143,7 @@
   </div>
 </template>
 <script>
+import forbidden from '@/components/Forbidden.vue';
 import headerNav from "@/components/HeaderNav.vue";
 import baseBox from "@/components/Resume/base.vue";
 import expectBox from "@/components/Resume/expect.vue";
@@ -158,6 +160,7 @@ export default {
   name: "resume",
   data() {
     return {
+      permission: '',
       updator: "",
       creator: "",
       resumeId: "",
@@ -191,6 +194,7 @@ export default {
   computed: {},
   beforeCreate: function() {},
   created: function() {
+    this.permission = this.$route.query.permission
     this.resumeId = this.$route.params.resumeId
     this.getResumeInfo();
     this.getData();
@@ -364,6 +368,7 @@ export default {
   },
   watch: {},
   components: {
+    forbidden,
     headerNav,
     baseBox,
     expectBox,

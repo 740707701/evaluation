@@ -1,7 +1,7 @@
 <template>
 	<div class="termplan-page">
 		<headerNav></headerNav>
-		<div class="termplan-container">
+		<div class="termplan-container" v-if="permission!='forbidden'">
 			<div class="top">
 				<span>规划表</span>
 				<div class="switch-box" v-if="!isOpen&&!confirmOpenBox">
@@ -46,15 +46,18 @@
 				<div class="fold-angle"></div>
 			</div>
 		</div>
+		<forbidden v-if="permission=='forbidden'"></forbidden>
 	</div>
 </template>
 
 <script>
-import headerNav from '../../components/HeaderNav'
+import headerNav from '@/components/HeaderNav'
+import forbidden from '@/components/Forbidden'
 	export default {
 		name: 'termPlan',
 		data(){
 			return {
+				permission: '',
 				showOpenBox: false,
 				confirmOpenBox: false,
 				userInfo: JSON.parse(localStorage.getItem("userInfo")),
@@ -98,6 +101,7 @@ import headerNav from '../../components/HeaderNav'
 			}
 		},
 		created(){
+			this.permission = this.$route.query.permission
 			this.queryOpenPlan()
 			this.getPlanList()
 		},
@@ -214,7 +218,8 @@ import headerNav from '../../components/HeaderNav'
 			}
 		},
 		components: {
-			headerNav
+			headerNav,
+			forbidden
 		}
 	}
 </script>

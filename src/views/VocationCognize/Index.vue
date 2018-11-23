@@ -1,21 +1,32 @@
 <template>
   <div class="vocation-cognize">
     <headerNav></headerNav>
-    <div class="container">
+    <div class="container" v-if="permission!='forbidden'">
       <div class="forbidden-box">
-        <img class="forbidden-img" src="../../assets/images/no-open.png" alt="">
-        <div class="forbidden-text">本模块暂未开放~</div>
+        <img class="forbidden-img" src="../../assets/images/building.png" alt="">
+        <div class="forbidden-text">本模块正在建设中，敬请期待...</div>
       </div>
     </div>
+    <forbidden v-if="permission=='forbidden'"></forbidden>
   </div>
 </template>
 
 <script>
 import headerNav from "@/components/HeaderNav.vue"
+import forbidden from '@/components/Forbidden.vue'
 export default {
   name: 'vocationCognize',
+  data() {
+    return {
+      permission: ''
+    }
+  },
+  created() {
+    this.permission = this.$route.query.permission
+  },
   components: {
-    headerNav
+    headerNav,
+    forbidden
   }
 }
 </script>

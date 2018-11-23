@@ -1,27 +1,33 @@
 <template>
 	<div class="planentry-page">
 		<headerNav></headerNav>
-		<div class="img-bg">
+		<div class="img-bg" v-if="permission!='forbidden'">
 			<p>未开启大学职业规划与管理</p>
 			<router-link to="/termPlan">
 				<el-button size="small" type="primary">开启规划</el-button>
 			</router-link>
 		</div>
+		<forbidden v-if="permission=='forbidden'"></forbidden>
 	</div>
 </template>
 <script>
-import headerNav from '../../components/HeaderNav'
+import headerNav from '@/components/HeaderNav'
+import forbidden from '@/components/Forbidden'
 export default {
 	name: 'planEntry',
 	data() {
 		return {
+			permission: '',
 			title: "计划入口页面"
 		}
 	},
-	created(){},
+	created(){
+		this.permission = this.$route.query.permission
+	},
 	methods: {},
 	components: {
-		headerNav
+		headerNav,
+		forbidden
 	}
 }
 </script>
