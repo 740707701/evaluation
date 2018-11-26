@@ -13,11 +13,12 @@
                 <ul class="item">
                   <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                     <img :src="item.picAll" alt="">
-                    <!-- <div class="info">
-                      <p class="title" :class="{'middle-text': splitTitle(item.cepingName).length===1}"
-                        v-for="n in splitTitle(item.cepingName.trim())" :key="n">{{n}}</p>
+                    <div class="info">
+                      <p class="title">{{item.cepingName}}</p>
+                      <!-- <p class="title" :class="{'middle-text': splitTitle(item.cepingName).length===1}"
+                        v-for="n in splitTitle(item.cepingName.trim())" :key="n">{{n}}</p> -->
                       <div class="price" v-if="item.price">¥ {{item.price}}</div>
-                    </div> -->
+                    </div>
                     <div class="desc" :title="item.simpleRemark">
                       {{item.simpleRemark}}
                     </div>
@@ -41,7 +42,7 @@
                       <p class="item-title">{{item.cepingName}}</p>
                       <p class="gray">难度：{{item.cepingLevel}}</p>
                     </div>
-                    <!-- <el-button round size="small" class="price-btn" item.price>¥ {{item.price}}</el-button> -->
+                    <el-button round size="small" class="price-btn" item.price>¥ {{item.price}}</el-button>
                   </div>
               </li>
             </ul>
@@ -183,7 +184,7 @@ export default {
           li {
             float: left;
             width: 168px;
-            height: 180px;
+            height: 230px; // 180
             overflow: hidden;
             font-size: 14px;
             margin-bottom: 10px;
@@ -196,8 +197,8 @@ export default {
               display: inline-block;
             }
             .info {
-              padding: 5px;
-              min-height: 46px;
+              // padding: 5px;
+              // min-height: 46px;
               .middle-text {
                 padding-top: 10px;
               }
@@ -205,16 +206,8 @@ export default {
                 line-height: 1.2;
                 font-size: 15px;
                 font-weight: 600;
-                text-align: center;
+                // text-align: center;
               }
-              // .gray {
-              //   color: #a2a9b8;
-              //   font-size: 12px;
-              //   line-height: 1.5;
-              //   display: flex;
-              //   display: -webkit-flex;
-              //   justify-content: space-between;
-              // }
               .price {
                 font-size: 15px;
                 font-weight: 600;
@@ -223,8 +216,7 @@ export default {
             }
             .desc {
               font-size: 14px;
-              // height: 45px;
-              margin-top: 10px;
+              // margin-top: 10px;
               overflow: hidden;
               line-height: 1.5;
               padding: 0 5px;
