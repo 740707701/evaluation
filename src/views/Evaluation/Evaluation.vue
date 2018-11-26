@@ -25,6 +25,12 @@
         </div>
       </div>
       <div class="caichu-box">
+        <div class="back">
+          <router-link :to="`/coursedetail/${$route.params.cepingId}`">
+            <i class="el-icon-arrow-left"></i>
+            <span>返回</span>
+          </router-link>
+        </div>
         <p class="warn" v-if="!showCaichuBox">请注意：若你现在不打算完成测试请不要使用序列号登陆，一旦登陆就会消耗掉序列号使用限额。	序列号只有一次使用机会。</p>
         <p class="warn warn-sub" v-if="!showCaichuBox">***&nbsp;&nbsp;请不要修改测评页面里已填入的邮箱账号，以免丢失测试报告。***</p>
         <div class="caichu-form" v-if="!showCaichuBox">
@@ -205,12 +211,12 @@ export default {
     width: 1200px;
     margin: 0 auto;
     margin-top: 70px;
-    min-height: calc(100vh - 160px);
+    min-height: calc(100vh - 197px);
     .disabled {
       cursor: no-drop!important;
     }
     .intro-box {
-      min-height: 160px;
+      min-height: 197px;
       img {
         float: left;
         width: 300px;
@@ -254,6 +260,21 @@ export default {
       border-radius: 10px;
       margin-top: 20px;
       min-height: calc(100vh - 380px); // 390
+      .back {
+        padding-left: 20px;
+        line-height: 40px;
+        border-bottom: 1px solid @main-color-border;
+        i {
+          color: @main-color-blue;
+          font-size: 16px;
+          font-weight: 600;
+        }
+        span {
+          font-weight: bold;
+          margin-left: 5px;
+          color: @main-color-text;
+        }
+      }
       .warn {
         line-height: 30px;
         text-align: center;
