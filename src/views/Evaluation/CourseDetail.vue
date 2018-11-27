@@ -14,7 +14,7 @@
           <p>适应人群：{{detail.baseInfo.peopleScope}}</p>
           <p>难度：{{detail.baseInfo.cepingLevel}}</p>
           <p>数量：{{detail.baseInfo.num}}题</p>
-          <p class="red" v-if="detail.baseInfo.price>0">价格： ¥{{detail.baseInfo.price}}</p>
+          <p class="red" v-if="detail.baseInfo.price>0&&showPrice()">价格： ¥{{detail.baseInfo.price}}</p>
           <!-- <div class="btn-box" v-if="detail.baseInfo.price>0">
             <el-button size="small" class="buy-btn" @click="showDialog=true">立即购买</el-button>
           </div> -->
@@ -37,7 +37,7 @@
             <td class="name">{{index+1}}</td>
             <td class="name">{{item.cepingName}}</td>
             <td>{{item.num||0}}题</td>
-            <td>价格：¥{{item.price||0}}</td>
+            <td v-if="showPrice()">价格：¥{{item.price||0}}</td>
             <td>{{item.browseCount||0}}人</td>
           </tr>
         </table>
@@ -69,6 +69,7 @@
 <script>
 import axios from "axios";
 import evaDialog from '@/components/EvaluationDialog';
+import { showPrice } from '@/utils/index'
 export default {
   name: "coursedetail",
   data() {
@@ -88,6 +89,9 @@ export default {
     this.getHotList()
   },
   methods: {
+    showPrice() {
+      return showPrice()
+    },
     evaluationDetail: function(cepingId) {
       this.$store
         .dispatch("EVALUATION_DETAIL", { cepingId: cepingId })
@@ -278,12 +282,14 @@ export default {
       .info-box {
         margin-left: 290px;
         height: 170px;
+        position: relative;
+        padding-bottom: 35px;
         .title {
           font-size: 16px;
           font-weight: bold;
         }
         p {
-          line-height: 1.8;
+          line-height: 1.9;
           font-size: 14px;
         }
         .gray {
@@ -297,8 +303,9 @@ export default {
           cursor: no-drop!important;
         }
         .btn-box {
-          margin-top: 10px;
-          display: inline-block;
+          position: absolute;
+          left: 0;
+          bottom: 0;
           .operation-btn {
             float: left;
             width: 112px;

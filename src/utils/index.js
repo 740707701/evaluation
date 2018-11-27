@@ -13,7 +13,9 @@ export function deepClone(source) {
   })
   return targetObj
 }
-
+/**
+ * 比较日期大小
+ */
 export function compareDate(date1, date2) {
   var oDate1 = new Date(date1);
   var oDate2 = new Date(date2);
@@ -23,7 +25,11 @@ export function compareDate(date1, date2) {
       return false
   }
 }
-
+/**
+ * 测评名称 两行显示
+ * 先处理测评名称里的左右括号，统一替换为中文符号的括号
+ * 通过左括号分割 换行显示
+ */
 export function splitTitle(str) {
   const strArr = []
   const pattern = /[()（）]/
@@ -36,5 +42,22 @@ export function splitTitle(str) {
     strArr[0] = str
   }
   return strArr
+}
+
+/**
+ * 根据域名判断是否显示价格字段
+ * uwopai为一级域名时 显示价格
+ * uwopai为二级域名时 不显示价格
+ */
+export function showPrice() {
+  let sysbelong = location.href.substring(location.href.lastIndexOf('://')+3,location.href.lastIndexOf('.uwopai.com'))
+  if (sysbelong === 'www' || sysbelong === 'http://') { 
+    sysbelong = 'uwopai'
+  }
+  if (sysbelong === 'uwopai') {
+    return true
+  } else {
+    return false
+  }
 }
 

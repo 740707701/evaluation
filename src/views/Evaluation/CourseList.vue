@@ -14,13 +14,10 @@
                   <li v-for="item in evaluationList" :key="item.cepingId" @click="toDetail(item.cepingId)">
                     <img :src="item.picAll" alt="">
                     <div class="info">
-                      <p class="title">{{item.cepingName}}</p>
-                      <!-- <p class="title" :class="{'middle-text': splitTitle(item.cepingName).length===1}"
-                        v-for="n in splitTitle(item.cepingName.trim())" :key="n">{{n}}</p> -->
-                      <div class="price" v-if="item.price">¥ {{item.price}}</div>
-                    </div>
-                    <div class="desc" :title="item.simpleRemark">
-                      {{item.simpleRemark}}
+                      <div class="price" v-if="showPrice()">¥ {{item.price}}</div>
+                      <div class="desc" :title="item.simpleRemark">
+                        {{item.simpleRemark}}
+                      </div>
                     </div>
                   </li>
                   <div class="clear"></div>
@@ -39,10 +36,10 @@
                   <div class="item">
                     <img :src="item.picAll" alt="">
                     <div class="item-center">
-                      <p class="item-title">{{item.cepingName}}</p>
+                      <p class="item-title" :title="item.cepingName">{{item.cepingName}}</p>
                       <p class="gray">难度：{{item.cepingLevel}}</p>
                     </div>
-                    <el-button round size="small" class="price-btn" item.price>¥ {{item.price}}</el-button>
+                    <el-button round size="small" class="price-btn" v-if="showPrice()">¥ {{item.price}}</el-button>
                   </div>
               </li>
             </ul>
@@ -55,7 +52,7 @@
 <script>
 import Banner from "@/components/Banner.vue";
 import { mapState } from "vuex";
-import { splitTitle } from '@/utils/index';
+import { splitTitle, showPrice } from '@/utils/index';
 export default {
   name: "courselist",
   data() {
@@ -77,6 +74,9 @@ export default {
   methods: {
     splitTitle(str, tag1, tag2) {
       return splitTitle(str, tag1, tag2)
+    },
+    showPrice() {
+      return showPrice()
     },
     getEvaluationList: function(index) {
       this.$store
@@ -184,7 +184,7 @@ export default {
           li {
             float: left;
             width: 168px;
-            height: 230px; // 180
+            height: 180px; // 180
             overflow: hidden;
             font-size: 14px;
             margin-bottom: 10px;
@@ -197,8 +197,7 @@ export default {
               display: inline-block;
             }
             .info {
-              // padding: 5px;
-              // min-height: 46px;
+              padding: 5px;
               .middle-text {
                 padding-top: 10px;
               }
@@ -216,10 +215,8 @@ export default {
             }
             .desc {
               font-size: 14px;
-              // margin-top: 10px;
               overflow: hidden;
               line-height: 1.5;
-              padding: 0 5px;
               color: #333;
               text-overflow: ellipsis;
               -webkit-line-clamp: 3;
@@ -266,6 +263,10 @@ export default {
               float: left;
               margin-left: 20px;
               .item-title {
+                width: 206px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 font-weight: bold;
               }
               .gray {
