@@ -2,7 +2,7 @@
 	<div class="output-header">
 		<div class="header-content">
       <router-link to="/">
-        <img src="../assets/images/logo.svg" alt="" class="logo">
+        <img src="../assets/images/logo.png" alt="" class="logo">
       </router-link>
 			<router-link class="template" v-if="!isPreview" :to="`/templateList/${resumeId}`">模板商城</router-link>
 			<div class="output" v-if="!isPreview" @click="dialogVisible=true">
@@ -119,8 +119,8 @@ export default {
       height: 60px;
       .logo {
         float: left;
-        width: 181px;
-        height: 60px;
+        width: 95px;
+        height: auto;
         margin-right: 10px;
       }
       .template {

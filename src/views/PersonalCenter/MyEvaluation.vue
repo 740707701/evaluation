@@ -12,12 +12,9 @@
             </div>
             <div class="item-row">
               <div class="item" v-for="item in finish.applyList" :key="item.cepingSerialno">
-                <img :src="item.baseInfo.pic" alt="">
-                <div class="mask">
-                  <a :href="item.cepingReportPath" target="_blank">
-                    <div  class="ceping-name">{{item.baseInfo.cepingName}}</div>
-                  </a>
-                </div>
+                <a :href="item.cepingReportPath" target="_blank">
+                  <img :src="item.baseInfo.pic" alt="">
+                </a>
               </div>
             </div>
             <!-- <div class="page-box" @click="next()">
@@ -44,7 +41,7 @@
                 <div class="course-box">
                   <img :src="course.baseInfo.pic" alt="">
                   <div class="course-info">
-                    <div class="title">{{course.baseInfo.cepingName}}</div>
+                    <!-- <div class="title">{{course.baseInfo.cepingName}}</div> -->
                     <div class="gray">
                       <span>难度：{{course.baseInfo.cepingLevel}}</span>
                       <el-rate v-model="course.rate" disabled class="rate"></el-rate>
@@ -242,18 +239,18 @@ export default {
       .date-box {
         float: left;
         width: 110px;
-        height: 120px;
+        height: 101px;
         text-align: center;
         background-color: #5E99FF;
         color: #fff;
         border-radius: 4px;
         .day {
           font-size: 40px;
-          padding-top: 25px;
+          padding-top: 18px;
         }
         .year {
           font-size: 14px;
-          line-height: 40px;
+          line-height: 30px;
         }
       }
       .item-row {
@@ -265,63 +262,14 @@ export default {
           margin-left: 10px;
           margin-bottom: 10px;
           position: relative;
+          a {
+            width: 100%;
+            display: inline-block;
+          }
           img {
             width: 100%;
-            height: 120px;
+            height: 101px;
             border-radius: 4px;
-          }
-          .mask {
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.3);
-            border-radius: 4px;
-            // display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            a {
-              width: 100%;
-              height: 100%;
-              display: inline-block;
-            }
-            .ceping-name {
-              color: #fff;
-              font-weight: 600;
-              padding: 50px 10px 0px 10px;
-              text-align: center;
-              line-height: 1.5;
-            }
-            .preview {
-              width: 100%;
-              height: 60px;
-              background-color: #fff;
-              box-shadow: 2px 2px 4px #eee; 
-              cursor: pointer;
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              .circle {
-                width: 40px;
-                height: 40px;
-                position: absolute;
-                top: -20px;
-                left: 50%;
-                margin-left: -20px;
-              }
-              img {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-              }
-              .title {
-                padding-top: 25px;
-                text-align: center;
-              }
-              .preview-text {
-                width: 100%;
-                display: inline-block;
-              }
-            }
           }
         }
         .item:hover{
@@ -373,7 +321,7 @@ export default {
       padding: 10px 0;
       .course-box {
         width: 210px;
-        height: 250px;
+        height: 236px;
         box-shadow: 4px 0px 8px rgba(56, 127, 246, 0.15);
         border-radius: 8px;
         margin-bottom: 15px;
@@ -384,7 +332,7 @@ export default {
           border-radius: 8px 8px 0 0;
         }
         .course-info {
-          padding: 5px 10px;
+          padding: 8px 10px;
           .title {
             line-height: 1.6;
             font-size: 13px;
