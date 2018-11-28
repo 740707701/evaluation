@@ -39,7 +39,7 @@
                   </li>
                   <li>
                     <span class="point" v-if="$route.name==`myplan`"></span>
-                    <router-link to="/myplan">职业规划</router-link>
+                    <router-link to="/myplan">我的规划</router-link>
                   </li>
                   <!-- <li>
                     <span class="point" v-if="$route.name==`mybook`"></span>

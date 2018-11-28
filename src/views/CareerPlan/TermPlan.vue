@@ -143,7 +143,8 @@ import forbidden from '@/components/Forbidden'
 					this.$router.push({
 						name: 'careerplan',
 						query: {
-							planId: this.planId
+							planId: this.planId,
+							termStage: stage
 						}
 					})
 				}).catch(err => {

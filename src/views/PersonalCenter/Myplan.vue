@@ -11,6 +11,7 @@
               <div class="status">状态：
                 <span class="red" v-if="plan.state == '-1'">待提交</span>
                 <span class="red" v-if="plan.state == 10">待审核</span>
+                <span class="red" v-if="plan.state == 30">审核未通过</span>
                 <span class="red" v-if="plan.auditScore">{{plan.auditScore}}分</span>
               </div>
               <div class="time">{{plan.updateDate.slice(0,10)}}</div>
