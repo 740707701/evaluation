@@ -148,8 +148,15 @@
               code: this.forgetForm.captcha
             }
             this.$store.dispatch('UPDATE_PASSWORD', resetInfo).then(res => {
-              this.$emit("hideLogin")
               this.$message({message: "修改成功！", type: "success"})
+              this.$emit("hideLogin")
+              this.$store.commit("logout")
+              // 根据域名判断 退出之后跳转的页面
+              if (location.href.indexOf('www.uwopai') === -1) {
+                this.$router.push({path: '/AssetLogin'})
+              }else {
+                this.$router.push({path: '/'})
+              }
             }).catch(err => {
               if(err.data.msg){
                 this.$message({message: err.data.msg, type: "error"})
