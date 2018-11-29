@@ -299,7 +299,7 @@ export default {
     // 获取消息列表
     getNewsList() {
       this.$store.dispatch('MSG_LIST').then(res => {
-        const newsList = res.data
+        const newsList = res.data.list
         if(newsList.length) {
           this.isNews = true
         }

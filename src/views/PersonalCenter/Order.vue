@@ -515,7 +515,7 @@ export default {
               }
             }
             .operation-btn {
-              width: 60px;
+              width: 80px;
               height: 28px;
               line-height: 28px;
               font-size: 12px;

@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="caichu-box">
-        <div class="back">
+        <div class="back" v-if="!showCaichuBox">
           <router-link :to="`/coursedetail/${$route.params.cepingId}`">
             <i class="el-icon-arrow-left"></i>
             <span>返回</span>

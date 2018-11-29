@@ -219,7 +219,7 @@ export default {
               line-height: 1.5;
               color: #333;
               text-overflow: ellipsis;
-              -webkit-line-clamp: 3;
+              -webkit-line-clamp: 2;
               -webkit-box-orient: vertical;
               word-break: break-all;
               display: -webkit-box;

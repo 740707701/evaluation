@@ -7,11 +7,11 @@
           <div class="notice" v-if="noticeList.length">
             <div class="item" v-for="msg in noticeList" :key="msg.id" v-if="msg.type==1" @click="updateStatus(msg.id)">
               <div class="logo" v-if="msg.user">
-                <img class="avatar" :src="msg.user.avatar" alt="">
+                <img class="avatar" :src="rootPath + msg.user.avatar" alt="">
               </div>
               <div class="content">
                 <div class="title">
-                  <span>公告</span>
+                  <span>{{msg.user.userName}}</span>
                   <span class="time">{{msg.createTime}}</span>
                 </div>
                 <div class="message">{{msg.content}}</div>
@@ -39,7 +39,7 @@
               </div>
               <div class="content">
                 <div class="title">
-                  <span>系统</span>
+                  <span>公告</span>
                   <span class="time">{{msg.createTime}}</span>
                 </div>
                 <div class="message">{{msg.content}}
@@ -57,6 +57,7 @@ export default {
   name: "news",
   data() {
     return {
+      rootPath: '',
       activeName: 'first',
       msgList: [],
       noticeList: [],
@@ -69,7 +70,8 @@ export default {
   methods: {
     getMsgList: function(){
       this.$store.dispatch('MSG_LIST').then(res => {
-        this.msgList = res.data;
+        this.msgList = res.data.list || []
+        this.rootPath = res.data.rootPath
         this.systemList = this.msgList.filter( item => {
           return item.type == 0
         })
@@ -136,6 +138,7 @@ export default {
     padding: 10px 20px;
     .item {
       // padding-top: 10px;
+      cursor: pointer;
       .logo {
         float: left;
         background-color: @main-color-imgbg;
