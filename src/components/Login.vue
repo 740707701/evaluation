@@ -7,7 +7,7 @@
       </el-form-item>
     
       <el-form-item label="" prop="pwd">
-        <el-input type="password" v-model="loginForm.pwd" placeholder="请输入密码" :maxlength="20"></el-input>
+        <el-input type="password" v-model="loginForm.pwd" placeholder="请输入密码" :maxlength="20" @keyup.enter.native="login('loginForm')"></el-input>
       </el-form-item>
       <el-form-item label="" prop="">
         <p class="forget" @click="forget">忘记密码</p>

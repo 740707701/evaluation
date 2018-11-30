@@ -20,7 +20,7 @@
             </div>
           </div>
           <div class="page-box">
-            <el-pagination layout="prev, pager, next" :total="pageCount"
+            <el-pagination layout="prev, pager, next" :total="total"
             :current-page="currentPage"
             :page-size="pageSize"
             @current-change="handleCurrentChange"
@@ -42,7 +42,7 @@ export default {
       pageIndex: 1,
       pageSize: 6,
       currentPage: 1,
-      pageCount: 0
+      total: 0
     };
   },
   created(){
@@ -57,7 +57,7 @@ export default {
       this.$store.dispatch('MSG_LIST', params).then(res => {
         this.rootPath = res.data.rootPath
         this.msgList = res.data.page.list || []
-        this.pageCount =  Math.ceil(Number(res.data.page.total) / this.pageSize) || 1 
+        this.total = res.data.page.total
       }).catch(err => {
         if(err.data.msg){
           this.$message.error(err.data.msg)

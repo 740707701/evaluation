@@ -29,7 +29,7 @@
           <el-input type="password" v-model="resetForm.pwd" placeholder="请设置新密码" :maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="" prop="repwd">
-          <el-input type="password" v-model="resetForm.repwd" placeholder="确认新密码" :maxlength="20"></el-input>
+          <el-input type="password" v-model="resetForm.repwd" placeholder="确认新密码" :maxlength="20" @keyup.enter.native="post('resetForm')"></el-input>
         </el-form-item>
         <el-form-item label="" prop="">
           <div class="next-btn" @click="post('resetForm')">提交</div>
@@ -152,11 +152,11 @@
               this.$emit("hideLogin")
               this.$store.commit("logout")
               // 根据域名判断 退出之后跳转的页面
-              if (location.href.indexOf('www.uwopai') === -1) {
-                this.$router.push({path: '/AssetLogin'})
-              }else {
-                this.$router.push({path: '/'})
-              }
+              // if (location.href.indexOf('www.uwopai') === -1) {
+              //   this.$router.push({path: '/AssetLogin'})
+              // }else {
+              //   this.$router.push({path: '/'})
+              // }
             }).catch(err => {
               if(err.data.msg){
                 this.$message({message: err.data.msg, type: "error"})

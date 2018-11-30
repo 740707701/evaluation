@@ -112,8 +112,9 @@
         </div>
       </el-tab-pane>
     </el-tabs>
-    <div class="bg" v-if="showForgetPage" @click.self="showForgetPage = false">
-      <forget @hideLogin="showForgetPage=false"></forget>
+    <div class="bg" v-if="showForgetPage || showLoginPage" @click.self="showForgetPage = false;showLoginPage=false">
+      <forget @hideLogin="showForgetPage=false;showLoginPage=true"></forget>
+      <login v-if="showLoginPage"></login>
     </div>
     <div class="bg" v-if="isModifyPhone" @click.self="isModifyPhone = false">
       <div class="modify-container">
@@ -146,6 +147,7 @@
 </template>
 <script>
 import forget from "@/components/Forget.vue";
+import login from '@/components/Login'
 export default {
   name: "setting",
   data() {
@@ -175,6 +177,7 @@ export default {
     return {
       personInfo: {},
       showForgetPage: false,
+      showLoginPage: false,
       schoolList: [],
       classList: [],
       gradeList: [],
@@ -477,7 +480,8 @@ export default {
     }
   },
   components: {
-    forget
+    forget,
+    login
   }
 };
 </script>
