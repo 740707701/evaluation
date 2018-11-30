@@ -34,7 +34,7 @@
             class="item-content" 
             type="text" 
             placeholder="请输入手机号/学号"  
-            max="30" 
+            maxlength="30" 
             size="small" 
             v-model="loginForm.account">
           <i 
@@ -53,7 +53,7 @@
             class="item-content" 
             type="password" 
             placeholder="请输入密码" 
-            max="30" 
+            maxlength="30" 
             size="small" 
             v-model="loginForm.password"
             @keyup.enter.native="submitForm"></el-input>
