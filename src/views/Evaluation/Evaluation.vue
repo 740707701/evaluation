@@ -12,7 +12,7 @@
             <p class="title">{{detail.baseInfo.cepingName}}</p>
             <ul class="tab">
               <li><span class="name">难度：</span><span class="value">{{detail.baseInfo.cepingLevel}}</span></li>
-              <!-- <li><span class="name">时长：</span><span class="value">{{detail.baseInfo.timeLength}}</span></li> -->
+              <li><span class="name">时长：</span><span class="value">{{detail.baseInfo.cepingHaoshi}}</span></li>
               <li><span class="name">学习人数：</span><span class="value">{{detail.baseInfo.browseCount || 0}}</span></li>
               <li><span class="name">题目数量：</span><span class="value">{{detail.baseInfo.num || 0}}</span></li>
               <li><span class="name">适应人群：</span><span class="value">{{detail.baseInfo.peopleScope}}</span></li>
