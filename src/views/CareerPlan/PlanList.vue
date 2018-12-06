@@ -18,6 +18,11 @@
 						<div class="sub-title">Freshman last semester planning</div>
 					</div>
 				</div>
+				<div class="edit-box" v-if="auth!==3">
+					<span @click="editPlan()">
+						<i class="iconfont icon-bianji" title="编辑"></i>编辑
+					</span>
+				</div>
 				<div class="plan-list">
 					<div class="options-item" v-for="(options,index) in infoOptions" :key="index" v-if="options.showPlanList">
 						<div class="en">{{options.en}}</div>
@@ -515,6 +520,7 @@
 				curEditPlanInfo: {},
 				currentType: '',
 				currentPlanId: '',
+				currentStage: '',
 				termIndex: 0,
 				stage: 1,
 				currentTerm: '',
@@ -643,13 +649,16 @@
 					})
 					this.getPlanInfo(this.planList[this.termIndex].id);
 				}).catch(err => {
-					this.$message({
-						type: "error",
-						message: "获取规划列表失败，请稍后重试！"
-					})
+					if(res.data) {
+						this.$message.error(res.data.msg)
+					} else {
+						this.$message.error('获取规划列表失败，请稍后重试！')
+					}
 				})
 			},
-			getPlanInfo(planId){
+			getPlanInfo(planId, stage){
+				this.currentPlanId = planId
+				this.currentStage = stage
         let params = {
           id: planId
 				}
@@ -687,8 +696,10 @@
         })
 			},
 			editPlan(item, type) {
-				console.log(item, type)
-				this.$router.push({path: '/careerplan', query: {planId: item.planId, termStage: this.stage}})
+				let planId, stage
+				planId = item ? item.planId : '' || this.currentPlanId
+				stage = this.currentStage || this.stage
+				this.$router.push({path: '/careerplan', query: {planId: planId, termStage: stage}})
 			},
 			//编辑
 			edit(item, type){
@@ -1398,7 +1409,7 @@
 			nextTerm(){
 				if(this.termIndex <= this.planList.length-1){
 					this.termIndex++
-					this.getPlanInfo(this.planList[this.termIndex].id)
+					this.getPlanInfo(this.planList[this.termIndex].id, this.planList[this.termIndex].stage)
 				}else {
 					this.$message({type: "error", message: "没有了"})
 				}
@@ -1408,7 +1419,7 @@
 				if(this.termIndex == this.planList.length-1){
 					this.$message({type: "error", message: "没有了"})
 				}else {
-					this.getPlanInfo(this.planList[this.termIndex].id)
+					this.getPlanInfo(this.planList[this.termIndex].id, this.planList[this.termIndex].stage)
 				}
 			}
 		},
@@ -1475,8 +1486,25 @@
 						}
 					}
 				}
+				.edit-box {
+					line-height: 30px;
+					border-top: 10px solid @main-color-bg;
+					text-align: right;
+					padding-right: 50px;
+					span {
+						line-height: 30px;
+						padding: 0 10px;
+						cursor: pointer;
+						display: inline-block;
+					}
+					i {
+						color: @main-color-blue;
+						margin-right: 5px;
+					}
+				}
 				.plan-list {
-					padding: 10px 50px;
+					padding: 0 50px;
+					margin-top: 10px;
 					.red {
 						color: red!important;
 					}
