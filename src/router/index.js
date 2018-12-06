@@ -9,10 +9,6 @@ const routes = [
     path: '/404',
     component: () => import('@/views/ErrorPage/404')
   },
-  // {
-  //   path: '',
-  //   redirect: '/AssetLogin'
-  // },
   {
     path: "/",
     component: () => import('@/views/Home'),
@@ -87,6 +83,40 @@ const routes = [
     path: '/wechatPay',
     name: 'wechatPay',
     component: () => import('@/views/Pay/WechatPay')
+  },
+  {
+    path: '/generalPlan',
+    component: () => import('@/views/GeneralPlan/Index'),
+    meta:{
+      requireAuth: true
+    },
+    children: [
+      {
+        path: '/',
+        name: 'preface',
+        component: () => import('@/views/GeneralPlan/Preface'),
+      },
+      {
+        path: '/videoList',
+        name: 'videoList',
+        component: () => import('@/views/GeneralPlan/VideoList')
+      },
+      {
+        path: '/generalPlanDetail',
+        name: 'generalPlanDetail',
+        component: () => import('@/views/GeneralPlan/GeneralPlanDetail')
+      },
+      {
+        path: '/generalPlanEntry',
+        name: 'generalPlanEntry',
+        component: () => import('@/views/GeneralPlan/GeneralPlanEntry')
+      },
+      {
+        path: '/generalPlanInfo',
+        name: 'generalPlanInfo',
+        component: () => import('@/views/GeneralPlan/GeneralPlanInfo')
+      }
+    ]
   },
   {
     path: "/careerplan",

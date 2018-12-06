@@ -111,6 +111,21 @@ export default {
 
     //大学规划与管理
 
+    // 总规划
+    // 查看总规划paper 默认数据格式
+    findGeneralPlanPaper: '/plan/findGeneralPlanPaper',
+    // 查看个人总规划
+    generalPlanInfo: '/plan/findGeneralPlanByUserId',
+    // 添加、修改个人总规划
+    saveGeneralPlan: '/plan/saveGeneralPlan',
+
+    // 开启总规划视频
+    insertVideoOpen: '/plan/insertVideoOpen',
+    // 查询是否已查看过总规划视频
+    findVideoOpen: '/plan/findVideoOpen',
+    // 查看总规划video视频列表
+    videoList: '/plan/videoList',
+
     //字典
     certificateData: 'plan/certificateList',
     categoryData: 'plan/category',

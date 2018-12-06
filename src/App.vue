@@ -41,6 +41,7 @@ export default {
   }
   textarea, .textarea {
     width: 100%;
+    min-height: 80px;
     padding: 10px 15px;
     border-radius: 4px;
     border: 1px solid @main-color-border;

@@ -11,12 +11,15 @@ import './assets/css/reset.css'
 // 引入全局的less文件
 import ('!style-loader!css-loader!less-loader!./assets/css/colors.less')
 import VueClipboard  from 'vue-clipboard2'
+import VideoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.css'
 
 import htmlToPdf from '@/components/HtmltoPdf.js'
 Vue.use(htmlToPdf)
 
 Vue.use(ElementUI)
 Vue.use(VueClipboard )
+Vue.use(VideoPlayer)
 
 Vue.config.productionTip = false
 

@@ -91,6 +91,7 @@ export default {
   },
   props: ["updateBuyed", "updateNews"],
   created() {
+    console.log('route', this.$route)
     if(this.$route.query.token){
       this.getUserInfo()
     }
@@ -195,6 +196,20 @@ export default {
             this.$router.push({ path: '/vocationCognize'})
           }
         }else if(id == 3){
+          this.$store.dispatch('GENERALPLAN_INFO').then(res => {
+            if(Object.keys(res.data).length) {
+              this.$router.push({path: '/generalPlanEntry'})
+            } else {
+              this.$router.push({path: '/generalPlan'})
+            }
+          }).catch(err => {
+            if(err.data) {
+              this.$message.error(err.data.msg)
+            } else {
+              this.$message.error('获取总规划信息失败，请稍后重试！')
+            }
+          })
+          /*
           let params = {
             userId: userInfo.id
           }
@@ -219,6 +234,7 @@ export default {
               this.$message({type: "error", message: "检查是否添加过规划失败，请稍后重试！"})
             }
           })
+          */
         }else if (id == 4){
           this.$store.dispatch('CHECK_RESUME').then(res => {
             if(res.data == 0){
