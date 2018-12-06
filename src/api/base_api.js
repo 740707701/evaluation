@@ -5,4 +5,5 @@
  */
 export const BASE_API = process.env.NODE_ENV === 'development' ? 'http://101.132.166.37:8080' // 'http://192.168.0.177:9088'
  : process.env.NODE_ENV === 'production' && process.env.ENV_CONFIG === 'prod21' ? 'http://101.132.100.21:8080'
-  : process.env.NODE_ENV === 'production' && process.env.ENV_CONFIG === 'prod37' ? 'http://101.132.166.37:8080' : ''
+  : process.env.NODE_ENV === 'production' && process.env.ENV_CONFIG === 'prod37' ? 'http://101.132.166.37:8080'
+   : process.env.NODE_ENV === 'production' && process.env.ENV_CONFIG === 'prodtest' ? 'http://192.168.0.177:9088' : ''
