@@ -4,13 +4,24 @@
 			<div class="top">学习课程</div>
 			<div class="course-list">
 				<div class="video-box" v-for="video in videoList" :key="video.id">
-					<video-player :options="getVideoOptions(video.videoUrl, video.module)" :playsinline="true" @play="onPlayerPlay(video, $event)" class="video-player"></video-player>
+					<div class="video-player" @click="showPlayer(video)">
+						<img :src="video.module" alt="">
+					</div>
 					<div class="name">{{video.videoName}}</div>
 					<div class="time">时长：{{video.videoLong}}</div>
 				</div>
 			</div>
 			<div class="btn-box">
 				<div class="open-btn" @click="openGeneralPlan">制定总规划</div>
+			</div>
+		</div>
+		<div class="bg" v-if="showPlayerBigger">
+			<div class="video-box">
+				<video-player class="video-player" 
+				:options="getVideoOptions(currentVideo.videoUrl, currentVideo.module)"
+				@play="onPlayerPlay(currentVideo, $event)"
+				:playsinline="true" ></video-player>
+				<div class="close" @click="close">×</div>
 			</div>
 		</div>
 	</div>
@@ -22,7 +33,9 @@ export default {
 		return {
 			videoList: [],
 			isOpenVideo: false,
-			videoName: ''
+			videoName: '',
+			currentVideo: {},
+			showPlayerBigger: false
 		}
 	},
 	created() {
@@ -30,6 +43,10 @@ export default {
 		this.findVideoOpen()
 	},
 	methods: {
+		showPlayer(video) {
+			this.currentVideo = video
+			this.showPlayerBigger = true
+		},
 		getVideoList() {
 			this.$store.dispatch('VIDEO_LIST').then(res => {
 				this.videoList = res.data
@@ -103,6 +120,9 @@ export default {
 			} else {
 				this.$message.error(`请先查看${this.videoName}视频之后再来制定总规划吧！`)
 			}
+		},
+		close() {
+			this.showPlayerBigger = false
 		}
 	}
 }
@@ -132,27 +152,9 @@ export default {
 				width: 280px;
 				.video-player {
 					margin-bottom: 15px;
-					position: relative;
-					& /deep/ .video-js .vjs-big-play-button {
-						width: 36px;
-						height: 36px;
-						line-height: 32px;
-						border-radius: 50%;
-						// background-color: #fff;
-						position: absolute;
-						top: 50%;
-						left: 50%;
-						transform: translate(-50%, -50%);
-						.vjs-icon-placeholder {
-							font-size: 24px;
-							// color: #666;
-						}
-					}
-					&:hover {
-						background-color: rgba(0,0,0,0.3);
-						// & /deep/ .video-js .vjs-big-play-button {
-						// 	background-color: red;
-						// }
+					img {
+						width: 100%;
+						height: auto;
 					}
 				}
 				.name,.time {
@@ -179,6 +181,56 @@ export default {
 				display: inline-block;
 			}
 		}
+	}
+	.bg {
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0,0,0,0.3);
+		position: fixed;
+		top: 0;
+		left: 0;
+		.video-box {
+			width: 50%;
+			background-color: #fff;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			.video-player {
+				width: 100%;
+				& /deep/ .video-js .vjs-big-play-button {
+					width: 36px;
+					height: 36px;
+					line-height: 32px;
+					border-radius: 50%;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					.vjs-icon-placeholder {
+						font-size: 24px;
+					}
+				}
+				&:hover {
+					background-color: rgba(0,0,0,0.3);
+					// & /deep/ .video-js .vjs-big-play-button {
+					// 	background-color: red;
+					// }
+				}
+			}
+			.close {
+				width: 30px;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				cursor: pointer;
+				font-size: 26px;
+				position: absolute;
+				right: 10px;
+				top: 10px;
+			}
+		}
+
 	}
 }
 </style>
