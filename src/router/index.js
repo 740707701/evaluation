@@ -16,12 +16,18 @@ const routes = [
       {
         path: "/",
         name: "courselist",
-        component: () => import('@/views/Evaluation/CourseList')
+        component: () => import('@/views/Evaluation/CourseList'),
+        meta: {
+          routerType: 'ceping'
+        }
       },
       {
         path: "/coursedetail/:cepingId",
         name: "coursedetail",
-        component: () => import('@/views/Evaluation/CourseDetail')
+        component: () => import('@/views/Evaluation/CourseDetail'),
+        meta: {
+          routerType: 'ceping'
+        }
       }
     ]
   },
@@ -77,7 +83,10 @@ const routes = [
   {
     path: "/evaluation/:cepingId/:serialNo?",
     name: "evaluation",
-    component: () => import('@/views/Evaluation/Evaluation')
+    component: () => import('@/views/Evaluation/Evaluation'),
+    meta: {
+      routerType: 'ceping'
+    }
   },
   {
     path: '/wechatPay',
@@ -88,33 +97,49 @@ const routes = [
     path: '/generalPlan',
     component: () => import('@/views/GeneralPlan/Index'),
     meta:{
-      requireAuth: true
+      requireAuth: true,
+      routerType: 'plan'
     },
     children: [
       {
         path: '/',
         name: 'preface',
         component: () => import('@/views/GeneralPlan/Preface'),
+        meta: {
+          routerType: 'plan'
+        }
       },
       {
         path: '/videoList',
         name: 'videoList',
-        component: () => import('@/views/GeneralPlan/VideoList')
+        component: () => import('@/views/GeneralPlan/VideoList'),
+        meta: {
+          routerType: 'plan'
+        }
       },
       {
         path: '/generalPlanDetail',
         name: 'generalPlanDetail',
-        component: () => import('@/views/GeneralPlan/GeneralPlanDetail')
+        component: () => import('@/views/GeneralPlan/GeneralPlanDetail'),
+        meta: {
+          routerType: 'plan'
+        }
       },
       {
         path: '/generalPlanEntry',
         name: 'generalPlanEntry',
-        component: () => import('@/views/GeneralPlan/GeneralPlanEntry')
+        component: () => import('@/views/GeneralPlan/GeneralPlanEntry'),
+        meta: {
+          routerType: 'plan'
+        }
       },
       {
         path: '/generalPlanInfo',
         name: 'generalPlanInfo',
-        component: () => import('@/views/GeneralPlan/GeneralPlanInfo')
+        component: () => import('@/views/GeneralPlan/GeneralPlanInfo'),
+        meta: {
+          routerType: 'plan'
+        }
       }
     ]
   },
@@ -123,7 +148,8 @@ const routes = [
     name: "careerplan",
     component: () => import('@/views/CareerPlan/CareerPlan'),
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      routerType: 'plan'
     }
   },
   {
@@ -131,7 +157,8 @@ const routes = [
     name: "planEntry",
     component: () => import('@/views/CareerPlan/PlanEntry'),
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      routerType: 'plan'
     }
   },
   {
@@ -139,7 +166,8 @@ const routes = [
     name: "termPlan",
     component: () => import('@/views/CareerPlan/TermPlan'),
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      routerType: 'plan'
     }
   },
   {
@@ -147,7 +175,8 @@ const routes = [
     name: "planList",
     component: () => import('@/views/CareerPlan/PlanList'),
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      routerType: 'plan'
     }
   },
   {
@@ -166,14 +195,18 @@ const routes = [
   {
     path: "/resumeBg",
     name: "resumeBg",
-    component: () => import('@/views/Resume/ResumeBg')
+    component: () => import('@/views/Resume/ResumeBg'),
+    meta: {
+      routerType: 'resume'
+    }
   },
   {
     path: "/resume/:resumeId?",
     name: "resume",
     component: () => import('@/views/Resume/Resume'),
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      routerType: 'resume'
     }
   },
   {
@@ -243,7 +276,8 @@ const routes = [
     name: "vocationCognize",
     component: () => import('@/views/VocationCognize/Index'),
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      routerType: 'vocation'
     }
   },
   {
@@ -251,7 +285,8 @@ const routes = [
     name: "practiceEmployment",
     component: () => import('@/views/PracticeEmployment/Index'),
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      routerType: 'practice'
     }
   },
   {

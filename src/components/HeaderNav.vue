@@ -8,7 +8,8 @@
           </div>
         </router-link>
         <ul class="nav-center">
-          <li v-for="m in moduleList" :key="m.id" @click="changeLogin(m.id,m)" v-bind:class="{'active':$route.name==m.routerName || $route.name==m.routerName2 || $route.name==m.routerName3 || $route.name==m.routerName4}">{{m.moduleName}}</li>
+          <!-- <li v-for="m in moduleList" :key="m.id" @click="changeLogin(m.id,m)" v-bind:class="{'active':$route.name==m.routerName || $route.name==m.routerName2 || $route.name==m.routerName3 || $route.name==m.routerName4}">{{m.moduleName}}</li> -->
+          <li v-for="m in moduleList" :key="m.id" @click="changeLogin(m.id,m)" v-bind:class="{'active':$route.meta.routerType == m.routerType}">{{m.moduleName}}</li>
         </ul>
         <div class="nav-right">
           <router-link to="/order" class="order-btn" v-if="isLogin">
@@ -91,7 +92,6 @@ export default {
   },
   props: ["updateBuyed", "updateNews"],
   created() {
-    console.log('route', this.$route)
     if(this.$route.query.token){
       this.getUserInfo()
     }
@@ -182,25 +182,22 @@ export default {
     },
     changeLogin: function(id, item){
       let userInfo = JSON.parse(localStorage.getItem("userInfo"))
+      let query = {}
+      if (item.type === 0) {
+        query = { permission: 'forbidden' }
+      }
       if(userInfo){
         if(id == 1){ // type: 1：免费, 0：收费
-          if(item.type === 0){
-            this.$router.push({ path: '/', query: {permission: 'forbidden'} })
-          } else if(item.type === 1) {
-            this.$router.push({ path: '/'})
-          }
+          this.$router.push({ path: '/', query: query })
         }else if(id == 2) {
-          if(item.type === 0){
-            this.$router.push({ path: '/vocationCognize', query: {permission: 'forbidden'}})
-          } else if(item.type === 1) {
-            this.$router.push({ path: '/vocationCognize'})
-          }
+          this.$router.push({ path: '/vocationCognize', query: query})
         }else if(id == 3){
+          // 总规划查询
           this.$store.dispatch('GENERALPLAN_INFO').then(res => {
             if(Object.keys(res.data).length) {
-              this.$router.push({path: '/generalPlanEntry'})
+              this.$router.push({path: '/generalPlanEntry', query: query})
             } else {
-              this.$router.push({path: '/generalPlan'})
+              this.$router.push({path: '/generalPlan', query: query})
             }
           }).catch(err => {
             if(err.data) {
@@ -209,23 +206,16 @@ export default {
               this.$message.error('获取总规划信息失败，请稍后重试！')
             }
           })
-          /*
+          
+          /* 每学期规划列表查询
           let params = {
             userId: userInfo.id
           }
           this.$store.dispatch('PLANLIST', params).then(res => {
             if(res.data.length){
-              if(item.type === 0){
-                this.$router.push({ path: '/termPlan', query: {permission: 'forbidden'} })
-              } else {
-                this.$router.push({ path: '/termPlan' })
-              }
+              this.$router.push({ path: '/termPlan', query: query })
             }else {
-              if(item.type === 0) {
-                this.$router.push({ path: '/planEntry', query: {permission: 'forbidden'} })
-              } else {
-                this.$router.push({ path: '/planEntry' })
-              }
+              this.$router.push({ path: '/planEntry', query: query })
             }
           }).catch(err => {
             if(err.data.msg){
@@ -238,17 +228,9 @@ export default {
         }else if (id == 4){
           this.$store.dispatch('CHECK_RESUME').then(res => {
             if(res.data == 0){
-              if(item.type === 0) {
-                this.$router.push({ path: '/resumeBg', query: {permission: 'forbidden'}})
-              } else {
-                this.$router.push({ path: '/resumeBg'})
-              }
+              this.$router.push({ path: '/resumeBg', query: query})
             }else {
-              if(item.type === 0) {
-                this.$router.push({ path: '/resume', query: {permission: 'forbidden'}})
-              } else {
-                this.$router.push({ path: '/resume'})
-              }
+              this.$router.push({ path: '/resume', query: query})
             }
           }).catch(err => {
             if(err.data.msg){
@@ -258,11 +240,7 @@ export default {
             }
           })
         }else if(id == 5) {
-          if(item.type === 0){
-            this.$router.push({ path: '/practiceEmployment', query: {permission: 'forbidden'} })
-          } else if(item.type === 1) {
-            this.$router.push({ path: '/practiceEmployment'})
-          }
+          this.$router.push({ path: '/practiceEmployment', query: query })
         }
       }else {
         if(id == 1){
@@ -287,6 +265,20 @@ export default {
       this.$store.dispatch('PAGE_MODULE').then(res => {
         this.moduleList = res.data
         this.moduleList.map(item => {
+          if(item.id === 1) {
+            item.routerType = 'ceping'
+          } else if (item.id === 2) {
+            item.routerType = 'vocation'
+          } else if(item.id === 3) {
+            item.routerType = 'plan'
+          } else if(item.id === 4) {
+            item.routerType = 'resume'
+          } else if(item.id === 5) {
+            item.routerType = 'practice'
+          }
+        })
+        /*
+        this.moduleList.map(item => {
           if(item.id === 1){
             item.routerName = 'courselist'
             item.routerName2 = 'coursedetail'
@@ -304,6 +296,7 @@ export default {
             item.routerName = 'practiceEmployment'
           }
         })
+        */
       }).catch(err => {
         if(err.data.msg){
           this.$message({type: 'error', message: err.data.msg})
