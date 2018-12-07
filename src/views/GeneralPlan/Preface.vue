@@ -1,7 +1,7 @@
 <template>
 	<div class="generalplan-preface">
+		<img class="img-banner" src="../../assets/images/preface-banner.png" alt="">
 		<div class="content">
-			<img class="img-banner" src="../../assets/images/preface-banner.png" alt="">
 			<div class="container">
 				<div class="title">大学规划与管理</div>
 				<div class="title preface">序</div>
@@ -70,23 +70,23 @@ export default {
 <style lang="less" scoped>
 @import url('../../assets/css/colors.less');
 .generalplan-preface {
+	.img-banner {
+		width: 100%;
+		height: auto;
+	}
 	.content {
+		width: 1200px;
+		margin: 0 auto;
 		position: relative;
-		.img-banner {
-			width: 100%;
-			height: auto;
-		}
 		.container {
-			width: 1200px;
-			min-height: calc(100vh - 360px);
-			margin: 0 auto;
+			width: 100%;
 			padding: 30px;
 			background-color: #fff;
 			border-radius: 18px;
 			box-shadow:0px 4px 24px 0px rgba(181,181,181,0.2);
 			position: absolute;
 			left: 50%;
-			margin-left: -600px;
+			margin-left: -50%;
 			margin-top: -50px;
 			margin-bottom: 40px;
 			.title {

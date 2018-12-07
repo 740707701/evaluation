@@ -218,7 +218,7 @@ export default {
     height: calc(100% - 105px);
     position: absolute;
     left: 50%;
-    margin-left: -600px;
+    margin-left: -50%;
     .top {
       height: 30px;
       line-height: 30px;

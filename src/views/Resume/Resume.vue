@@ -1,122 +1,124 @@
 <template>
   <div class="resume-page">
     <headerNav></headerNav>
-    <div class="container" v-if="permission!='forbidden'">
-      <el-alert
-        title="不会填写？请参阅右边HR视角！"
-        center
-        type="error">
-      </el-alert>
-      <el-row :gutter="10" class="el-content">
-        <el-col :span="3" class="left-content">
-          <div class="grid-content">
-            <div class="name-box" v-if="baseInfo">
-              <div class="title" v-if="baseInfo.name">{{baseInfo.name}} <span class="resume-text">(简历)</span></div>
-              <div class="time" v-if="baseInfo.updateDate">时间: {{baseInfo.updateDate.slice(0,10)}}</div>
-              <div class="operation">
-                <div class="icon-box refresh" @click="getResumeInfo">
-                  <i class="iconfont icon-refresh"></i>
-                  <div class="icon-text">刷新</div>
-                </div>
-                <router-link v-if="resumeId" target="_blank" :to="`/viewResume/${resumeId}/preview`">
-                  <div class="icon-box preview">
-                    <i class="iconfont icon-yulan"></i>
-                    <div class="icon-text">预览</div>
+    <div class="content">
+      <div class="container" v-if="permission!='forbidden'">
+        <el-alert
+          title="不会填写？请参阅右边HR视角！"
+          center
+          type="error">
+        </el-alert>
+        <el-row :gutter="10" class="el-content">
+          <el-col :span="3" class="left-content">
+            <div class="grid-content">
+              <div class="name-box" v-if="baseInfo">
+                <div class="title" v-if="baseInfo.name">{{baseInfo.name}} <span class="resume-text">(简历)</span></div>
+                <div class="time" v-if="baseInfo.updateDate">时间: {{baseInfo.updateDate.slice(0,10)}}</div>
+                <div class="operation">
+                  <div class="icon-box refresh" @click="getResumeInfo">
+                    <i class="iconfont icon-refresh"></i>
+                    <div class="icon-text">刷新</div>
                   </div>
-                </router-link>
+                  <router-link v-if="resumeId" target="_blank" :to="`/viewResume/${resumeId}/preview`">
+                    <div class="icon-box preview">
+                      <i class="iconfont icon-yulan"></i>
+                      <div class="icon-text">预览</div>
+                    </div>
+                  </router-link>
+                </div>
               </div>
+              <ul class="tabs">
+                <li :class="{'active':tabIndex==0}" @click="tabIndex=0">
+                  <a href="#base">
+                    <i class="iconfont icon-user-outline"></i>
+                    <span>基本信息</span>
+                    <i class="el-icon-check" v-if="baseInfo.jobStatus"></i>
+                  </a>
+                </li>
+                <li :class="{'active':tabIndex==1}" @click="tabIndex=1">
+                  <a href="#job">
+                    <i class="iconfont icon-job"></i>
+                    <span>求职意向</span>
+                    <i class="el-icon-check" v-if="baseInfo.expectSalary"></i>
+                  </a>
+                </li>
+                <li :class="{'active':tabIndex==6}" @click="tabIndex=6">
+                  <a href="#evaluate">
+                    <i class="iconfont icon-evaluate"></i>
+                    <span>自我评价</span>
+                    <i class="el-icon-check" v-if="baseInfo.evaluate"></i>
+                  </a>
+                </li>
+                <li :class="{'active':tabIndex==2}" @click="tabIndex=2">
+                  <a href="#work">
+                    <i class="iconfont icon-work"></i>
+                    <span>工作经验</span>
+                    <i class="el-icon-check" v-if="workExperList.length"></i>
+                  </a>
+                </li>
+                <li :class="{'active':tabIndex==3}" @click="tabIndex=3">
+                  <a href="#education">
+                    <i class="iconfont icon-edu"></i>
+                    <span>教育经历</span>
+                    <i class="el-icon-check" v-if="eduList.length"></i>
+                  </a>
+                </li>
+                <li :class="{'active':tabIndex==4}" @click="tabIndex=4">
+                  <a href="#school">
+                    <i class="iconfont icon-school"></i>
+                    <span>在校情况</span>
+                    <i class="el-icon-check" v-if="schoolHonorList.length&&schoolWorkList.length"></i>
+                  </a>
+                </li>
+                <li :class="{'active':tabIndex==5}" @click="tabIndex=5">
+                  <a href="#skill">
+                    <i class="iconfont icon-skill"></i>
+                    <span>技能证书</span>
+                    <i class="el-icon-check" v-if="skillList.length"></i>
+                  </a>
+                </li>
+              </ul>
             </div>
-            <ul class="tabs">
-              <li :class="{'active':tabIndex==0}" @click="tabIndex=0">
-                <a href="#base">
-                  <i class="iconfont icon-user-outline"></i>
-                  <span>基本信息</span>
-                  <i class="el-icon-check" v-if="baseInfo.jobStatus"></i>
-                </a>
-              </li>
-              <li :class="{'active':tabIndex==1}" @click="tabIndex=1">
-                <a href="#job">
-                  <i class="iconfont icon-job"></i>
-                  <span>求职意向</span>
-                  <i class="el-icon-check" v-if="baseInfo.expectSalary"></i>
-                </a>
-              </li>
-              <li :class="{'active':tabIndex==6}" @click="tabIndex=6">
-                <a href="#evaluate">
-                  <i class="iconfont icon-evaluate"></i>
-                  <span>自我评价</span>
-                  <i class="el-icon-check" v-if="baseInfo.evaluate"></i>
-                </a>
-              </li>
-              <li :class="{'active':tabIndex==2}" @click="tabIndex=2">
-                <a href="#work">
-                  <i class="iconfont icon-work"></i>
-                  <span>工作经验</span>
-                  <i class="el-icon-check" v-if="workExperList.length"></i>
-                </a>
-              </li>
-              <li :class="{'active':tabIndex==3}" @click="tabIndex=3">
-                <a href="#education">
-                  <i class="iconfont icon-edu"></i>
-                  <span>教育经历</span>
-                  <i class="el-icon-check" v-if="eduList.length"></i>
-                </a>
-              </li>
-              <li :class="{'active':tabIndex==4}" @click="tabIndex=4">
-                <a href="#school">
-                  <i class="iconfont icon-school"></i>
-                  <span>在校情况</span>
-                  <i class="el-icon-check" v-if="schoolHonorList.length&&schoolWorkList.length"></i>
-                </a>
-              </li>
-              <li :class="{'active':tabIndex==5}" @click="tabIndex=5">
-                <a href="#skill">
-                  <i class="iconfont icon-skill"></i>
-                  <span>技能证书</span>
-                  <i class="el-icon-check" v-if="skillList.length"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </el-col>
-        <el-col :span="15" class="center-content">
+          </el-col>
+          <el-col :span="15" class="center-content">
+            
+            <baseBox :baseInfo="baseInfo" :baseData="baseData" :baseParams="baseParams" @saved="updateInfo"></baseBox>
+            <expectBox :expectInfo="expectInfo" :expectData="expectData" :baseParams="baseParams" @saved="updateInfo"></expectBox>
+            <evaluateBox :evaluateInfo="evaluateInfo"  @saved="updateInfo" :baseParams="baseParams"></evaluateBox>
+            <workExperBox :workExperList="workExperList" :workExperData="workExperData" :baseParams="baseParams" @saved="updateInfo"></workExperBox>
+            <eduBox :eduList="eduList" :eduData="eduData" :baseParams="baseParams" @saved="updateInfo"></eduBox>
+            <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" :baseParams="baseParams" @saved="updateInfo"></schoolBox>
+            <skillBox :skillList="skillList" :baseParams="baseParams" @saved="updateInfo"></skillBox>
           
-          <baseBox :baseInfo="baseInfo" :baseData="baseData" :baseParams="baseParams" @saved="updateInfo"></baseBox>
-          <expectBox :expectInfo="expectInfo" :expectData="expectData" :baseParams="baseParams" @saved="updateInfo"></expectBox>
-          <evaluateBox :evaluateInfo="evaluateInfo"  @saved="updateInfo" :baseParams="baseParams"></evaluateBox>
-          <workExperBox :workExperList="workExperList" :workExperData="workExperData" :baseParams="baseParams" @saved="updateInfo"></workExperBox>
-          <eduBox :eduList="eduList" :eduData="eduData" :baseParams="baseParams" @saved="updateInfo"></eduBox>
-          <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" :baseParams="baseParams" @saved="updateInfo"></schoolBox>
-          <skillBox :skillList="skillList" :baseParams="baseParams" @saved="updateInfo"></skillBox>
-         
-          <div class="post-resume">
-            <el-button size="small" class="resume-btn" @click="postResume">提交简历</el-button>
-          </div>
-        </el-col>
-        <el-col :span="6" class="right-content">
-          <div class="grid-content">
-            <div class="hr-tag">
-              <div class="title">
-                <i class="iconfont icon-prompt"></i>
-                <span>HR视角小提示</span>
-              </div>
-              <el-select size="small" v-model="tag" filterable :filter-method="filterTag(tag)" readonly placeholder="基本信息" class="tag">
-                <el-option
-                  v-for="item in tags"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-              <div class="tag-box" v-for="item in tagList" :key="item.name" v-if="item.type == tagType">
-                <div class="tag-title">{{item.name}}</div>
-                <div class="tag-split"></div>
-                <div class="tag-content" v-html="item.msg"></div>
+            <div class="post-resume">
+              <el-button size="small" class="resume-btn" @click="postResume">提交简历</el-button>
+            </div>
+          </el-col>
+          <el-col :span="6" class="right-content">
+            <div class="grid-content">
+              <div class="hr-tag">
+                <div class="title">
+                  <i class="iconfont icon-prompt"></i>
+                  <span>HR视角小提示</span>
+                </div>
+                <el-select size="small" v-model="tag" filterable :filter-method="filterTag(tag)" readonly placeholder="基本信息" class="tag">
+                  <el-option
+                    v-for="item in tags"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <div class="tag-box" v-for="item in tagList" :key="item.name" v-if="item.type == tagType">
+                  <div class="tag-title">{{item.name}}</div>
+                  <div class="tag-split"></div>
+                  <div class="tag-content" v-html="item.msg"></div>
+                </div>
               </div>
             </div>
-          </div>
-        </el-col>
-      </el-row>
+          </el-col>
+        </el-row>
+      </div>
     </div>
     <!-- 提交简历弹框 -->
     <div class="dialog" v-if="showSuccessDialog" @click.self="showSuccessDialog=false">
@@ -391,14 +393,20 @@ export default {
   top: 0;
   left: 0;
   bottom: 0;
-  .container {
+  overflow: auto;
+  .content {
     width: 1200px;
+    min-height: 100%;
     margin: 20px auto;
+    position: relative;
+  }
+  .container {
+    width: 100%;
     position: absolute;
     top: 60px;
     left: 50%;
     bottom: 50px;
-    margin-left: -600px;
+    margin-left: -50%;
     .el-alert {
       letter-spacing: 2px;
       margin-bottom: 10px;
