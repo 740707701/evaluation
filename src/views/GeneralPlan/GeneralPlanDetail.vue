@@ -90,8 +90,12 @@ export default {
 		}
 	},
 	created() {
-		this.getGeneralPlanPaper()
-		// this.getGeneralPlanInfo()
+		this.generalPlanId = this.$route.query.planId
+		if(this.generalPlanId) {
+			this.getGeneralPlanInfo()
+		} else {
+			this.getGeneralPlanPaper()
+		}
 	},
 	methods: {
 		getGeneralPlanPaper() {
@@ -109,8 +113,7 @@ export default {
 		getGeneralPlanInfo() {
 			this.$store.dispatch('GENERALPLAN_INFO').then(res => {
 				this.generalPlanPaper = JSON.parse(res.data.content)
-				this.generalPlanId = res.data.id
-				console.log(this.generalPlanPaper)
+				// console.log(this.generalPlanPaper)
 			}).catch(err => {
 				if(err.data) {
 					this.$message.error(err.data.msg)

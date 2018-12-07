@@ -13,9 +13,9 @@
 				<p>成为最好的自己，永远在路上——从大学规划开始！去遇见更美好的自己！</p>
 				<div class="btn-box">
 					<router-link to="/videoList">
-						<el-button class="study-btn">学习课程</el-button>
+						<div class="btn study-btn">学习课程</div>
 					</router-link>
-					<el-button class="open-btn" @click="openGeneralPlan">制定总规划</el-button>
+					<div class="btn open-btn" @click="openGeneralPlan">制定总规划</div>
 				</div>
 			</div>
 		</div>
@@ -108,11 +108,13 @@ export default {
 				margin-top: 30px;
 				text-align: center;
 				.btn {
-					width: 120px;
-					height: 28px;
-					line-height: 38px;
+					width: 110px;
+					height: 33px;
+					line-height: 33px;
 					text-align: center;
 					border-radius: 4px;
+					cursor: pointer;
+					display: inline-block;
 				}
 				.study-btn {
 					background-color: #E3E3E3;

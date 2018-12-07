@@ -4,6 +4,9 @@
       <div class="forbidden-box">
         <img class="forbidden-img" src="../../assets/images/generalPlan.png" alt="">
         <div class="forbidden-text">去开启大学各学期的规划与管理</div>
+				<router-link to="/videoList">
+					<div class="btn video-btn">学习课程</div>
+				</router-link>
 				<router-link to="/generalPlanInfo">
 					<div class="btn generalplan-btn">查看总规划</div>
 				</router-link>
@@ -67,11 +70,14 @@ export default {
 			.generalplan-btn {
 				background-color: #E3E3E3;
 				color: #666;
-				margin-right: 50px;
+				margin: 0 30px;
 			}
 			.open-btn {
 				background-color: @main-color-blue;
 				color: #fff;
+			}
+			.video-btn {
+				border: 1px solid @main-color-blue;
 			}
 		}
 	}

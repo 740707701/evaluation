@@ -12,10 +12,14 @@
 				</div>
 				<div class="back">
 					<router-link to="/generalPlanEntry">
-						<span>
+						<span class="back-btn">
 							<i class="el-icon-arrow-left"></i>返回
 						</span>
 					</router-link>
+					<div class="edit-btn" @click="editPlan()">
+						<i class="iconfont icon-bianji" title="编辑"></i>
+						<span class="text">编辑</span>
+					</div>
 				</div>
 				<div class="generalplan">
 						<div class="item" v-for="(item,index) in generalPlanInfo"  :key="index">
@@ -53,7 +57,8 @@ export default {
 	name: 'generalPlanInfo',
 	data() {
 		return {
-			generalPlanInfo: []
+			generalPlanInfo: [],
+			generalPlanId: ''
 		}
 	},
 	created() {
@@ -64,6 +69,7 @@ export default {
 		getGeneralPlanInfo() {
 			this.$store.dispatch('GENERALPLAN_INFO').then(res => {
 				this.generalPlanInfo = JSON.parse(res.data.content)
+				this.generalPlanId = res.data.id
 				console.log(this.generalPlanInfo)
 			}).catch(err => {
 				if(err.data) {
@@ -72,6 +78,9 @@ export default {
 					this.$message.error('获取总规划信息失败，请稍后重试！')
 				}
 			})
+		},
+		editPlan() {
+			this.$router.push({path: '/generalPlanDetail', query: {planId: this.generalPlanId}})
 		}
 	}
 }
@@ -124,14 +133,21 @@ export default {
 				padding-left: 20px;
 				border-top: 10px solid @main-color-bg;
 				border-bottom: 1px solid @main-color-border;
-				span {
+				.back-btn, .edit-btn {
 					padding: 0 10px;
 					line-height: 40px;
 					display: inline-block;
 					cursor: pointer;
 				}
 				i {
-					margin-right: 10px;
+					margin-right: 5px;
+				}
+				.edit-btn {
+					float: right;
+					margin-right: 30px;
+					.text {
+						color: @main-color-blue;
+					}
 				}
 			}
 			.generalplan {

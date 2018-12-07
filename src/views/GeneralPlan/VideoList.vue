@@ -224,6 +224,9 @@ export default {
 				height: 30px;
 				line-height: 30px;
 				text-align: center;
+				background-color: #b9b9b9;
+				border-radius: 50%;
+				color: #fff;
 				cursor: pointer;
 				font-size: 26px;
 				position: absolute;
