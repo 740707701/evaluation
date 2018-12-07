@@ -1,7 +1,7 @@
 <template>
 	<div class="generalplan-detail">
+		<img src="../../assets/images/generalplan-banner.png" alt="" class="img-banner">
 		<div class="content">
-			<img src="../../assets/images/generalplan-banner.png" alt="" class="img-banner">
 			<div class="container">
 				<div class="title">大学四年总规划</div>
 				<div class="item-list">
@@ -23,10 +23,13 @@
 									<span v-if="sub.remark" class="tag" slot="reference">说明与建议</span>
 								</el-popover>
 							</div>
-							<div class="item-checkbox" v-if="sub.choiceList">
+							<div class="item-checkbox" v-if="sub.choiceList&&sub.questionTypeId!==1">
 								<el-checkbox-group v-model="sub.value" :max="sub.questionTypeId===1?1:Object.keys(sub.choiceList).length">
 									<el-checkbox v-for="(label,index) in sub.choiceList" :key="index" :label="label"></el-checkbox>
 								</el-checkbox-group>
+							</div>
+							<div class="item-checkbox" v-if="sub.choiceList&&sub.questionTypeId===1">
+								<el-radio v-model="sub.value[0]"  v-for="(label,index) in sub.choiceList" :key="index" :label="label">{{label}}</el-radio>
 							</div>
 							<div class="textarea-box" v-if="sub.inputChoiceList">
 								<div class="item-checkbox">
@@ -117,6 +120,37 @@ export default {
 			})
 		},
 		post() {
+			for(let i = 0;i < this.generalPlanPaper.length;i++) {
+				let item = this.generalPlanPaper[i]
+				if(item.required === 1){
+					if(!item.value.length){
+						if(item.value instanceof Array) {
+							this.$message.error(`请选择${item.title.slice(2)}`)
+							return false
+						} else if(typeof item.value === 'string') {
+							this.$message.error(`请输入${item.title.slice(2)}`)
+							return false
+						}
+					}
+				}
+				if(item.subtitleList) {
+					let subPaper= item.subtitleList
+					for(let j=0; j<subPaper.length;j++) {
+						let subItem = subPaper[j]
+						if(subItem.required === 1) {
+							if(!subItem.value.length) {
+								if(subItem.value instanceof Array) {
+									this.$message.error(`请选择${subItem.title.indexOf('：')===-1?subItem.title:subItem.title.slice(0,subItem.title.length-1)}`)
+									return false
+								} else if(typeof subItem.value === 'string') {
+									this.$message.error(`请输入${subItem.title.indexOf('：')===-1?subItem.title:subItem.title.slice(0,subItem.title.length-1)}`)
+									return false
+								}
+							}
+						}
+					}
+				}
+			}
 			const data = {
 				id: this.generalPlanId,
 				content: JSON.stringify(this.generalPlanPaper)
@@ -138,23 +172,23 @@ export default {
 <style lang="less" scoped>
 @import url('../../assets/css/colors.less');
 .generalplan-detail {
+	.img-banner {
+		width: 100%;
+		height: auto;
+	}
 	.content {
+		width: 1200px;
+		margin: 0 auto;
 		position: relative;
-		.img-banner {
-			width: 100%;
-			height: auto;
-		}
 		.container {
-			width: 1200px;
-			min-height: calc(100vh - 360px);
-			margin: 0 auto;
+			width: 100%;
 			padding: 30px;
 			background-color: #fff;
 			border-radius: 18px;
 			box-shadow:0px 4px 24px 0px rgba(181,181,181,0.2);
 			position: absolute;
 			left: 50%;
-			margin-left: -600px;
+			margin-left: -50%;
 			margin-top: -50px;
 			margin-bottom: 40px;
 			.title {
