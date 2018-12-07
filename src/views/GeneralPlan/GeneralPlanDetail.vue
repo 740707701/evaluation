@@ -34,7 +34,12 @@
 										<el-checkbox v-for="(choice,index) in sub.inputChoiceList" :key="index" :label="choice.name"></el-checkbox>
 									</el-checkbox-group>
 								</div>
-								<div v-for="(s,index) in sub.inputChoiceList" :key="index">
+								<!-- 
+									sub.value.indexOf(sub.inputChoiceList[sub.inputChoiceList.length-1].name)!='-1'
+									总规划选项 根据是否勾选最后一项来显示最后一项下面的多行文本框
+									（当出现有多个选项下面都有多行文本框时候 此段代码不兼容
+								-->
+								<div v-for="(s,index) in sub.inputChoiceList" :key="index" v-if="sub.value.indexOf(sub.inputChoiceList[sub.inputChoiceList.length-1].name)!='-1'">
 									<div v-if="s.subchoiceInput" v-for="(subInput,index) in s.subchoiceInput" :key="index">
 										<div class="textarea-title">{{subInput.title}}</div>
 										<textarea :placeholder="subInput.placeholder"  v-model="subInput.value" :maxlength="500"></textarea>
@@ -49,7 +54,12 @@
 									<el-checkbox v-for="(choice,index) in item.inputChoiceList" :key="index" :label="choice.name"></el-checkbox>
 								</el-checkbox-group>
 							</div>
-							<div class="textarea-box">
+							<!-- 
+									item.value.indexOf(item.inputChoiceList[item.inputChoiceList.length-1].name)!='-1'
+									总规划选项 根据是否勾选最后一项来显示最后一项下面的多行文本框
+									（当出现有多个选项下面都有多行文本框时候 此段代码不兼容
+								-->
+							<div class="textarea-box" v-if="item.value.indexOf(item.inputChoiceList[item.inputChoiceList.length-1].name)!='-1'">
 									<div v-for="(s,index) in item.inputChoiceList" :key="index">
 										<div v-if="s.subchoiceInput" v-for="(subInput,index) in s.subchoiceInput" :key="index">
 											<textarea :placeholder="subInput.placeholder" v-model="subInput.value" :maxlength="500"></textarea>
