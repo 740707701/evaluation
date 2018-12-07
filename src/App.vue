@@ -48,8 +48,7 @@ export default {
     color: @main-color-text;
     font-family: "微软雅黑";
   }
-  textarea:-moz-placeholder,
-  textarea::-webkit-input-placeholder {
+  input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
     color: @main-color-gray;
   }
   //element-ui input边线
