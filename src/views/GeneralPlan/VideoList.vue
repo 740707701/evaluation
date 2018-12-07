@@ -69,6 +69,7 @@ export default {
 		},
 		openVideo() {
 			this.$store.dispatch('INSERT_VIDEO_OPEN').then(res => {
+				this.isOpenVideo = true
 				// console.log(res)
 			}).catch(err =>{
 				if(err.data) {
