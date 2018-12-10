@@ -50,7 +50,7 @@
               </div>
               <div class="time">{{plan.updateDate.slice(0,10)}}</div>
               <div class="btn-box">
-                <div class="operation-btn view-btn" @click="viewGeneralPlan()">查看</div>
+                <div class="operation-btn view-btn" @click="viewPlan(plan.stage)">查看</div>
               </div>
             </div>
             <div class="comment-box" v-if="plan.auditContent.length">

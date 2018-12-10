@@ -60,4 +60,14 @@ export function showPrice() {
     return false
   }
 }
+/**
+ * 根据域名判断请求头sysbelong,plat传参的值
+ */
+export function sysbelong() {
+  let sysbelong = location.href.substring(location.href.lastIndexOf('://')+3,location.href.lastIndexOf('.uwopai.com'))
+  if (sysbelong === 'www' || sysbelong === 'http://') { 
+    sysbelong = 'uwopai'
+  }
+  return sysbelong
+}
 

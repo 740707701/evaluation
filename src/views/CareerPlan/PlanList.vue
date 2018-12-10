@@ -42,7 +42,7 @@
 											<span class="score">计划分数：{{item.score}}分</span>
 											<div class="operation">
 												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
-												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao" title="移交"></i>
@@ -60,14 +60,14 @@
 										</div>
 										<div class="plan-content perfect-content" v-if="item.sscore">
 											<div class="content-title">实际分数：</div>
-											<div class="content-text red">{{item.sscore}}分</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.sscore}}分</div>
 											<div class="plan-content perfect-content" v-if="item.finish">
 												<div class="content-title">课程总结：</div>
-												<div class="content-text red">{{item.finish}}</div>
+												<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
 											</div>
 											<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 												<div class="content-title">是否完成目标：</div>
-												<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+												<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 											</div>
 										</div>
 									</div>
@@ -76,7 +76,7 @@
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
 												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
-												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao" title="移交"></i>
@@ -98,11 +98,11 @@
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
 											<div class="content-title">大赛总结：</div>
-											<div class="content-text red">{{item.finish}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
-											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='pread'">
@@ -111,7 +111,7 @@
 											<span class="score">{{item.type}}</span>
 											<div class="operation">
 												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
-												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao" title="移交"></i>
@@ -129,7 +129,7 @@
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
 											<div class="content-title">阅读感想：</div>
-											<div class="content-text red">{{item.finish}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.progress">
 											<div class="content-title">阅读进度：</div>
@@ -137,13 +137,17 @@
 												<el-progress :percentage="Number(item.progress)"></el-progress>
 											</div>
 										</div>
+										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
+											<div class="content-title">是否完成目标：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='officeSkills'">
 										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
 												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
-												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao" title="移交"></i>
@@ -161,11 +165,11 @@
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
 											<div class="content-title">计划总结：</div>
-											<div class="content-text red">{{item.finish}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
-											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='vocations'">
@@ -173,7 +177,7 @@
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
 												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
-												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao" title="移交"></i>
@@ -191,14 +195,18 @@
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
 											<div class="content-title">计划总结：</div>
-											<div class="content-text red">{{item.finish}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
+											<div class="content-title">是否完成目标：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='internships'">
 										<div class="plan-top" v-if="!item.edit">
 											<div class="operation">
 												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
-												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click"  v-if="auth==1">
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao" title="移交"></i>
@@ -220,7 +228,11 @@
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
 											<div class="content-title">计划总结：</div>
-											<div class="content-text red">{{item.finish}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
+											<div class="content-title">是否完成目标：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='certificates'">
@@ -228,7 +240,7 @@
 											<span class="name">{{item.name}}</span>
 											<div class="operation">
 												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
-												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao" title="移交"></i>
@@ -244,13 +256,13 @@
 											<div class="content-title">计划内容：</div>
 											<div class="content-text">{{item.content}}</div>
 										</div>
-										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
+										<div class="plan-content perfect-content">
 											<div class="content-title">是否完成目标：</div>
-											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
-										<div class="plan-content perfect-content" v-if="item.pic">
+										<div class="plan-content perfect-content" v-if="item.pic&&(item.isEnd==1||item.isEnd==0)">
 											<div class="content-title" v-if="item.isEnd=='1'">证书图片：</div>
-											<div class="content-title" v-if="item.isEnd!='1'">分数图片：</div>
+											<div class="content-title" v-if="item.isEnd=='0'">分数图片：</div>
 											<div class="content-text">
 												<img :src="item.pic" alt="">
 											</div>
@@ -261,7 +273,7 @@
 											<span class="name">{{item.additionalName}}</span>
 											<div class="operation">
 												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
-												<i class="iconfont icon-perfect" title="完善" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
 												<el-dropdown trigger="click" v-if="auth==1">
 													<span class="el-dropdown-link">
 														<i class="iconfont icon-yijiao" title="移交"></i>
@@ -279,11 +291,11 @@
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
 											<div class="content-title">计划总结：</div>
-											<div class="content-text red">{{item.finish}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
-											<div class="content-text red">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
 									</div>
 								</div>
@@ -320,17 +332,25 @@
 											<el-form-item label="阅读感想：" v-if="plan.type=='pread'">
 												<el-input type="textarea" v-model="form.finish" size="small" placeholder="请输入总结(150个字以内)" :maxlength="150"></el-input>
 											</el-form-item>
-											<el-form-item label="是否完成目标：" v-if="plan.type=='certificates'||plan.type=='officeSkills'">
+											<el-form-item label="阅读进度" class="progress-box" v-if="plan.type=='pread'">
+												<el-input placeholder="请输入阅读进度(百分比)"  v-model="form.progress"></el-input>
+												<el-progress :percentage="Number(form.progress)" color="#8e71c7"></el-progress>
+											</el-form-item>
+											
+											<el-form-item label="是否完成目标：" v-if="plan.type!='certificates'">
 												<el-radio-group v-model="form.isEnd" size="small">
 													<el-radio class="radio-end" label="1" border>已完成</el-radio>
 													<el-radio class="radio-end" label="0" border >未完成</el-radio>
 												</el-radio-group>
 											</el-form-item>
-											<el-form-item label="阅读进度" class="progress-box" v-if="plan.type=='pread'">
-												<el-input placeholder="请输入阅读进度(百分比)"  v-model="form.progress"></el-input>
-												<el-progress :percentage="Number(form.progress)" color="#8e71c7"></el-progress>
+											<el-form-item label="是否完成目标：" v-if="plan.type==='certificates'">
+												<el-radio-group v-model="form.isEnd" size="small">
+													<el-radio class="radio-end" label="1" border>考试通过</el-radio>
+													<el-radio class="radio-end" label="0" border >考试未通过</el-radio>
+													<el-radio class="radio-end" label="2" border >未参加考试</el-radio>
+												</el-radio-group>
 											</el-form-item>
-											<el-form-item :label="form.isEnd==1?'上传证书图片':'上传分数图片'" v-if="plan.type=='certificates'" class="upload-box">
+											<el-form-item :label="form.isEnd==1?'上传证书图片':'上传分数图片'" v-if="plan.type=='certificates'&&(form.isEnd==='1'||form.isEnd==='0')" class="upload-box">
 												<el-upload
 													class="avatar-uploader"
 													:action="uploadUrl"
@@ -495,6 +515,7 @@
 </template>
 <script>
 	import headerNav from '@/components/HeaderNav.vue'
+	import { sysbelong } from '@/utils/index'
 	import axios from 'axios'
 	import store from '@/store/index'
 	export default {
@@ -504,7 +525,9 @@
 				imageUrl: '',
 				uploadUrl: axios.defaults.baseURL + '/file/headpic',
 				uploadHeaders: {
-					Authorization: store.getters.getToken
+					Authorization: store.getters.getToken,
+					plat: 'uwopai',
+					sysbelong: sysbelong()
 				},
 				uploadData: {
 					operaType: 'certificates'
@@ -613,6 +636,9 @@
 		},
 		mounted(){},
 		methods: {
+			sysbelong() {
+				return sysbelong()
+			},
 			getMetaData(){
         Promise.all([
           this.$store.dispatch("CERTIFICATE_DATA"), //证书列表
@@ -624,15 +650,9 @@
 					this.vocationsData = res[2].data
         }).catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message({type: "error", message: err.data.msg});
           } else {
-            this.$message({
-              type: "error",
-              message: "获取字典数据失败！"
-            });
+            this.$message({type: "error", message: "获取字典数据失败！"});
           }
         })
 			},
@@ -666,7 +686,7 @@
         this.$store.dispatch('PLANINFO', params).then(res => {
 					this.planInfoList = res.data;
 					// auth 1:可完善、移交 3：不可编辑
-					this.auth = res.data.auth;
+					this.auth = 1 // res.data.auth;
 					if(!this.planInfoList['requireds'] && !this.planInfoList['options'] && !this.planInfoList['selfs'] && 
 						!this.planInfoList['profs'] && !this.planInfoList['pread']){
 							this.infoOptions[0].showPlanList = false;
@@ -683,15 +703,9 @@
         }).catch(err => {
           console.log(err)
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message({type: "error", message: err.data.msg});
           } else {
-            this.$message({
-              type: "error",
-              message: "获取规划信息失败！"
-            });
+            this.$message({type: "error", message: "获取规划信息失败！"});
           }
         })
 			},
@@ -725,6 +739,7 @@
 				this.currentPlanInfo = item;
 				this.currentType = type;
 				this.currentPlanId = item.id;
+				this.imageUrl = '';
 				this.form = {
 					sscore: '',
 					finish: '',
@@ -755,7 +770,7 @@
 						sscore: this.form.sscore,
 						finish: this.form.finish,
 						progress: this.form.progress,
-						isEnd: this.form.isEnd
+						isEnd: Number(this.form.isEnd)
 					}
 					errMessage = '完善信息失败，请稍后重试！'
 					successMessage = '完善信息成功！'
@@ -765,27 +780,27 @@
 					if(org == 'prefect'){
 						if(data.sscore == "" ) {
 							this.$message({type: "error", message:"请输入实际分数！"})
-							return;
+							return false;
 						}else if(Number(data.sscore) != data.sscore || Number(data.sscore)>100 || Number(data.sscore)<0){
 							this.$message({type: "error", message:"请输入0~100范围内的数字！"})
-							return;
+							return false;
 						}else if(data.finish == ""){
 							this.$message({type: "error", message:"请输入课程总结！"})
-							return;
+							return false;
 						}else if(data.isEnd === ""){
 							this.$message({type: "error", message:"请选择是否完成目标！"})
-							return;
+							return false;
 						}
 					}else if(org == 'edit'){
 						if(data.courseName == ""){
 							this.$message({type: "error", message:"请输入课程名称！"})
-							return;
+							return false;
 						}else if(data.score == ""){
 							this.$message({type: "error", message:"请输入计划分数！"})
-							return;
+							return false;
 						}else if(Number(data.score) != data.score || Number(data.score)>100 || Number(data.score)<0){
 							this.$message({type: "error", message:"计划分数，请输入0~100范围内的数字！"})
-							return;
+							return false;
 						}
 					}
 				}
@@ -795,21 +810,12 @@
 						this.currentPlanId = '';
 						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
-						this.$message({
-							type: "success",
-							message: successMessage
-						})
+						this.$message({type: "success", message: successMessage})
 					}).catch(err => {
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: errMessage
-							});
+							this.$message({type: "error", message: errMessage});
 						}
 					})
 				}
@@ -818,21 +824,12 @@
 						this.currentPlanId = '';
 						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
-						this.$message({
-							type: "success",
-							message: successMessage
-						})
+						this.$message({type: "success", message: successMessage})
 					}).catch(err => {
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: errMessage
-							});
+							this.$message({type: "error", message: errMessage});
 						}
 					})
 				}
@@ -841,21 +838,12 @@
 						this.currentPlanId = '';
 						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
-						this.$message({
-							type: "success",
-							message: successMessage
-						})
+						this.$message({type: "success", message: successMessage})
 					}).catch(err => {
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: errMessage
-							});
+							this.$message({type: "error", message: errMessage});
 						}
 					})
 				}
@@ -863,39 +851,30 @@
 					if(org == 'prefect'){
 						if(data.finish == "" ) {
 							this.$message({type: "error", message:"请输入计划总结！"})
-							return;
+							return false;
 						}
 					}else if(org == 'edit'){
 						if(data.name == ""){
 							this.$message({type: "error", message:"请输入大赛名称！"})
-							return;
+							return false;
 						}else if(data.goal == ""){
 							this.$message({type: "error", message:"请输入大赛目标！"})
-							return;
+							return false;
 						}else if(data.desc == ""){
 							this.$message({type: "error", message:"请输入参赛计划！"})
-							return;
+							return false;
 						}
 					}
 					this.$store.dispatch('UPDATE_PROF', data).then(res => {
 						this.currentPlanId = '';
 						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
-						this.$message({
-							type: "success",
-							message: successMessage
-						})
+						this.$message({type: "success", message: successMessage})
 					}).catch(err => {
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: errMessage
-							});
+							this.$message({type: "error", message: errMessage});
 						}
 					})
 				}
@@ -903,45 +882,36 @@
 					if(org == 'prefect'){
 						if(data.finish == "" ) {
 							this.$message({type: "error", message:"请输入计划总结！"})
-							return;
+							return false;
 						}else if(data.progress == ''){
 							this.$message({type: "error", message:"请输入阅读进度！"})
-							return;
+							return false;
 						}else if(Number(data.progress) != data.progress || Number(data.progress)>100 || Number(data.progress)<0){
 							this.$message({type: "error", message:"请输入0~100范围内的数字！"})
-							return;
+							return false;
 						}
 					}else if(org == 'edit'){
 						if(data.name == ""){
 							this.$message({type: "error", message:"请选择书籍名称！"})
-							return;
+							return false;
 						}else if(data.type == ""){
 							this.$message({type: "error", message:"请选择书籍类型！"})
-							return;
+							return false;
 						}else if(data.content == ""){
 							this.$message({type: "error", message:"请输入阅读计划！"})
-							return;
+							return false;
 						}
 					}
 					this.$store.dispatch('UPDATE_PREAD', data).then(res => {
 						this.currentPlanId = '';
 						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
-						this.$message({
-							type: "success",
-							message: successMessage
-						})
+						this.$message({type: "success", message: successMessage})
 					}).catch(err => {
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: errMessage
-							});
+							this.$message({type: "error", message: errMessage});
 						}
 					})
 				}
@@ -949,39 +919,30 @@
 					if(org == 'prefect'){
 						if(data.finish == ""){
 							this.$message({type: "error", message:"请输入计划总结！"})
-							return;
+							return false;
 						}else if(data.isEnd === ""){
 							this.$message({type: "error", message:"请选择是否完成目标！"})
-							return;
+							return false;
 						}
 					}else if(org == 'edit'){
 						if(data.name == ""){
 							this.$message({type: "error", message:"请选择技能名称！"})
-							return;
+							return false;
 						}else if(data.desc == ""){
 							this.$message({type: "error", message:"请输入计划内容！"})
-							return;
+							return false;
 						}
 					}
 					this.$store.dispatch('UPDATE_OFFICE', data).then(res => {
 						this.currentPlanId = '';
 						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
-						this.$message({
-							type: "success",
-							message: successMessage
-						})
+						this.$message({type: "success", message: successMessage})
 					}).catch(err => {
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: errMessage
-							});
+							this.$message({type: "error", message: errMessage});
 						}
 					})
 				}
@@ -989,36 +950,27 @@
 					if(org == 'prefect'){
 						if(data.finish == ""){
 							this.$message({type: "error", message:"请输入计划总结！"})
-							return;
+							return false;
 						}
 					}else if(org == 'edit'){
 						if(data.name == ""){
 							this.$message({type: "error", message:"请选择职业技能名称！"})
-							return;
+							return false;
 						}else if(data.goal == ""){
 							this.$message({type: "error", message:"请输入计划内容！"})
-							return;
+							return false;
 						}
 					}
 					this.$store.dispatch('UPDATE_VOCATION', data).then(res => {
 						this.currentPlanId = '';
 						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
-						this.$message({
-							type: "success",
-							message: successMessage
-						})
+						this.$message({type: "success", message: successMessage})
 					}).catch(err => {
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: errMessage
-							});
+							this.$message({type: "error", message: errMessage});
 						}
 					})
 				}
@@ -1026,77 +978,59 @@
 					if(org == 'prefect') {
 						if(data.finish == ""){
 							this.$message({type: "error", message:"请输入计划总结！"})
-							return;
+							return false;
 						}
 					}else if(org == 'edit'){
 						if(data.content == ""){
 							this.$message({type: "error", message:"请输入计划内容！"})
-							return;
+							return false;
 						}else if(data.score == ""){
 							this.$message({type: "error", message:"请输入实习实践目标！"})
-							return;
+							return false;
 						}
 					}
 					this.$store.dispatch('UPDATE_INTERNSHIP', data).then(res => {
 						this.currentPlanId = '';
 						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
-						this.$message({
-							type: "success",
-							message: successMessage
-						})
+						this.$message({type: "success", message: successMessage})
 					}).catch(err => {
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: errMessage
-							});
+							this.$message({type: "error", message: errMessage});
 						}
 					})
 				}
 				else if(this.currentType == 'certificates'){
 					if(org == 'prefect'){
-						data.pic = this.imageUrl;
+						data.pic = data.isEnd === 2 ? '' : this.imageUrl;
 						if(data.isEnd === ""){
 							this.$message({type: "error", message:"请选择是否完成目标！"})
-							return;
-						}else if(data.pic == ''){
+							return false;
+						}else if(data.pic == '' && data.isEnd !== 2){
 							this.$message({type: "error", message:"请上传证书或分数图片！"})
-							return;
+							return false;
 						}
 					}else if(org == 'edit'){
 						if(data.name == ""){
 							this.$message({type: "error", message:"请选择证书名称！"})
-							return;
+							return false;
 						}else if(data.content == ""){
 							this.$message({type: "error", message:"请输入计划内容！"})
-							return;
+							return false;
 						}
 					}
 					this.$store.dispatch('UPDATE_CERTIFICATE', data).then(res => {
 						this.currentPlanId = '';
 						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
-						this.$message({
-							type: "success",
-							message: successMessage
-						})
+						this.$message({type: "success", message: successMessage})
 					}).catch(err => {
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: errMessage
-							});
+							this.$message({type: "error", message: errMessage});
 						}
 					})
 				}
@@ -1104,36 +1038,27 @@
 					if(org == 'prefect') {
 						if(data.finish == ""){
 							this.$message({type: "error", message:"请输入计划总结！"})
-							return;
+							return false;
 						}
 					}else if(org == 'edit'){
 						if(data.additionalName == ""){
 							this.$message({type: "error", message:"请输入计划名称！"})
-							return;
+							return false;
 						}else if(data.additionalDesc == ""){
 							this.$message({type: "error", message:"请输入计划内容！"})
-							return;
+							return false;
 						}
 					}
 					this.$store.dispatch('UPDATE_ADDITIONAL', data).then(res => {
 						this.currentPlanId = '';
 						this.transferDialog = false;
 						this.getPlanInfo(this.planList[this.termIndex].id);
-						this.$message({
-							type: "success",
-							message: successMessage
-						})
+						this.$message({type: "success", message: successMessage})
 					}).catch(err => {
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: errMessage
-							});
+							this.$message({type: "error", message: errMessage});
 						}
 					})
 				}
@@ -1160,22 +1085,13 @@
 					this.$store.dispatch('DELETE_REQUIRED', data).then(res => {
 						this.dialogVisible = false;
 						this.getPlanList();
-						this.$message({
-							type: "success",
-							message: "删除成功!"
-						})
+						this.$message({type: "success",message: "删除成功!"})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error",message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: "删除失败，请稍后重试！"
-							});
+							this.$message({type: "error", message: "删除失败，请稍后重试！"});
 						}
 					})
 				}
@@ -1183,22 +1099,13 @@
 					this.$store.dispatch('DELETE_OPTIONAL', data).then(res => {
 						this.dialogVisible = false;
 						this.getPlanList();
-						this.$message({
-							type: "success",
-							message: "删除成功!"
-						})
+						this.$message({type: "success", message: "删除成功!"})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: "删除失败，请稍后重试！"
-							});
+							this.$message({type: "error", message: "删除失败，请稍后重试！"});
 						}
 					})
 				}
@@ -1206,22 +1113,13 @@
 					this.$store.dispatch('DELETE_SELF', data).then(res => {
 						this.dialogVisible = false;
 						this.getPlanList();
-						this.$message({
-							type: "success",
-							message: "删除成功!"
-						})
+						this.$message({type: "success", message: "删除成功!"})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: "删除失败，请稍后重试！"
-							});
+							this.$message({type: "error", message: "删除失败，请稍后重试！"});
 						}
 					})
 				}
@@ -1230,22 +1128,13 @@
 					this.$store.dispatch('DELETE_PROF', data).then(res => {
 						this.dialogVisible = false;
 						this.getPlanList();
-						this.$message({
-							type: "success",
-							message: "删除成功!"
-						})
+						this.$message({type: "success", message: "删除成功!"})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: "删除失败，请稍后重试！"
-							});
+							this.$message({type: "error", message: "删除失败，请稍后重试！"});
 						}
 					})
 				}
@@ -1254,22 +1143,13 @@
 					this.$store.dispatch('DELETE_PREAD', data).then(res => {
 						this.dialogVisible = false;
 						this.getPlanList();
-						this.$message({
-							type: "success",
-							message: "删除成功!"
-						})
+						this.$message({type: "success", message: "删除成功!"})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: "删除失败，请稍后重试！"
-							});
+							this.$message({type: "error", message: "删除失败，请稍后重试！"});
 						}
 					})
 				}
@@ -1278,22 +1158,13 @@
 					this.$store.dispatch('DELETE_OFFICE', data).then(res => {
 						this.dialogVisible = false;
 						this.getPlanList();
-						this.$message({
-							type: "success",
-							message: "删除成功!"
-						})
+						this.$message({type: "success", message: "删除成功!"})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: "删除失败，请稍后重试！"
-							});
+							this.$message({type: "error", message: "删除失败，请稍后重试！"});
 						}
 					})
 				}
@@ -1302,22 +1173,13 @@
 					this.$store.dispatch('DELETE_VOCATION', data).then(res => {
 						this.dialogVisible = false;
 						this.getPlanList();
-						this.$message({
-							type: "success",
-							message: "删除成功!"
-						})
+						this.$message({type: "success", message: "删除成功!"})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: "删除失败，请稍后重试！"
-							});
+							this.$message({type: "error", message: "删除失败，请稍后重试！"});
 						}
 					})
 				}
@@ -1326,22 +1188,13 @@
 					this.$store.dispatch('DELETE_INTERNSHIP', data).then(res => {
 						this.dialogVisible = false;
 						this.getPlanList();
-						this.$message({
-							type: "success",
-							message: "删除成功!"
-						})
+						this.$message({type: "success", message: "删除成功!"})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: "删除失败，请稍后重试！"
-							});
+							this.$message({type: "error", message: "删除失败，请稍后重试！"});
 						}
 					})
 				}
@@ -1350,22 +1203,13 @@
 					this.$store.dispatch('DELETE_CERTIFICATE', data).then(res => {
 						this.dialogVisible = false;
 						this.getPlanList();
-						this.$message({
-							type: "success",
-							message: "删除成功!"
-						})
+						this.$message({type: "success", message: "删除成功!"})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: "删除失败，请稍后重试！"
-							});
+							this.$message({type: "error", message: "删除失败，请稍后重试！"});
 						}
 					})
 				}
@@ -1374,22 +1218,13 @@
 					this.$store.dispatch('DELETE_ADDITIONAL', data).then(res => {
 						this.dialogVisible = false;
 						this.getPlanList();
-						this.$message({
-							type: "success",
-							message: "删除成功!"
-						})
+						this.$message({type: "success", message: "删除成功!"})
 					}).catch(err =>{
 						console.log(err)
 						if (err.data.msg) {
-							this.$message({
-								type: "error",
-								message: err.data.msg
-							});
+							this.$message({type: "error", message: err.data.msg});
 						} else {
-							this.$message({
-								type: "error",
-								message: "删除失败，请稍后重试！"
-							});
+							this.$message({type: "error", message: "删除失败，请稍后重试！"});
 						}
 					})
 				}
@@ -1452,6 +1287,12 @@
 						margin-left: 20px;
 					}
 				}
+			}
+			.unfinish {
+				color: red!important;
+			}
+			.finish {
+				color: #A2A9B8!important;
 			}
 			.content {
 				width: 100%;
