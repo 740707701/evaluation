@@ -1,7 +1,41 @@
 <template>
   <div class="myplan-page">
-		<el-tabs v-model="activeName" >
-			<el-tab-pane label="职业规划" name="first">
+		<el-tabs v-model="activeName" @tab-click="tabsClick">
+      <el-tab-pane label="总规划" name="first">
+        <div class="plan-list">
+					<div class="nodata" v-if="!Object.keys(generalPlanData).length">还没有大学职业总规划~</div> 
+          <div class="item modify-item">
+            <img src="../../assets/images/term.png" alt="">
+            <div class="item-content">
+              <div class="name">大学四年总规划</div>
+              <div class="status">状态：
+                <span class="red" v-if="generalPlanData.state === '10'">待审核</span>
+                <span class="red" v-if="generalPlanData.state === '20'">审核通过</span>
+                <span class="red" v-if="generalPlanData.state === '30'">审核未通过</span>
+                <span class="red" v-if="generalPlanData.auditScore">{{generalPlanData.auditScore}}分</span>
+              </div>
+              <div class="time" v-if="generalPlanData.updateDate">{{generalPlanData.updateDate.slice(0,10)}}</div>
+              <div class="btn-box">
+                <div class="operation-btn view-btn" @click="viewGeneralPlan()">查看</div>
+              </div>
+            </div>
+            <div class="comment-box" v-if="generalPlanAuditContent.length">
+              <div class="comment-title">评语：</div>
+              <div class="comment-content" v-for="(content, index) in generalPlanAuditContent" :key="index" v-if="!generalPlanData.showMore">
+                <span v-if="content!=null">（{{index+1}}）{{content.auditContent}}</span>
+              </div>
+              <div class="comment-all-content" v-for="(content, index) in generalPlanAuditContent" :key="index" v-if="generalPlanData.showMore">
+                <span v-if="content!=null">（{{index+1}}）{{content.auditContent}}</span>
+              </div>
+              <div class="show-more" v-if="generalPlanAuditContent[0]!=null&&generalPlanAuditContent[0].auditContent.length>45">
+                <i class="iconfont icon-down" v-if="!generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
+                <i class="iconfont icon-up" v-if="generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
+              </div>
+            </div>
+          </div>
+				</div>
+      </el-tab-pane>
+			<el-tab-pane label="职业规划" name="second">
 				<div class="plan-list">
 					<div class="nodata" v-if="!planList.length">还没有任何数据~</div> 
           <div class="item modify-item" v-for="plan in planList" :key="plan.stage">
@@ -16,7 +50,7 @@
               </div>
               <div class="time">{{plan.updateDate.slice(0,10)}}</div>
               <div class="btn-box">
-                <div class="operation-btn view-btn" @click="viewPlan(plan.stage)">查看</div>
+                <div class="operation-btn view-btn" @click="viewGeneralPlan()">查看</div>
               </div>
             </div>
             <div class="comment-box" v-if="plan.auditContent.length">
@@ -45,11 +79,14 @@ export default {
     return {
       activeName: "first",
       userInfo: JSON.parse(localStorage.getItem("userInfo")),
-      planList: []
+      planList: [],
+      generalPlanData: {},
+      generalPlanAuditContent: []
+
     }
   },
   created(){
-    this.getPlanList()
+    this.getGeneralPlanInfo()
   },
   methods: {
     getPlanList(){
@@ -66,12 +103,35 @@ export default {
         }
       })
     },
+    getGeneralPlanInfo() {
+			this.$store.dispatch('GENERALPLAN_INFO').then(res => {
+        this.generalPlanData = res.data
+        this.generalPlanAuditContent = res.data.auditContent
+			}).catch(err => {
+				if(err.data) {
+					this.$message.error(err.data.msg)
+				} else {
+					this.$message.error('获取总规划信息失败，请稍后重试！')
+				}
+			})
+		},
     viewPlan(stage){
       this.$router.push({name: 'planList', query: {stage: stage}})
     },
+    viewGeneralPlan() {
+			this.$router.push({path: '/generalPlanInfo', query: {planId: this.generalPlanData.id}})
+		},
     showMoreText(plan) {
       this.$set(plan, 'showMore', !plan.showMore)
-    }
+    },
+    tabsClick: function(tab, event){
+      let tabIndex = tab.index
+      if(tabIndex == 0){
+        this.getGeneralPlanInfo()
+      }else if(tabIndex == 1){
+        this.getPlanList()
+      }
+    },
   }
 };
 </script>
@@ -118,6 +178,7 @@ export default {
       .item-content {
         margin-left: 65px;
         line-height: 20px;
+        min-height: 72px;
         position: relative;
         .name, .time, .status {
           line-height: 24px;
