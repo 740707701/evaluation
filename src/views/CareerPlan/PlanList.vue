@@ -686,7 +686,7 @@
         this.$store.dispatch('PLANINFO', params).then(res => {
 					this.planInfoList = res.data;
 					// auth 1:可完善、移交 3：不可编辑
-					this.auth = 1 // res.data.auth;
+					this.auth = res.data.auth;
 					if(!this.planInfoList['requireds'] && !this.planInfoList['options'] && !this.planInfoList['selfs'] && 
 						!this.planInfoList['profs'] && !this.planInfoList['pread']){
 							this.infoOptions[0].showPlanList = false;

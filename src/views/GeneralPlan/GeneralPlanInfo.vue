@@ -16,7 +16,7 @@
 							<i class="el-icon-arrow-left"></i>返回
 						</span>
 					</router-link>
-					<div class="edit-btn" @click="editPlan()">
+					<div class="edit-btn" @click="editPlan()" v-if="generalPlanData.state!='20'">
 						<i class="iconfont icon-bianji" title="编辑"></i>
 						<span class="text">编辑</span>
 					</div>
@@ -57,17 +57,18 @@ export default {
 	name: 'generalPlanInfo',
 	data() {
 		return {
+			generalPlanData: {},
 			generalPlanInfo: [],
 			generalPlanId: ''
 		}
 	},
 	created() {
-		// console.log(this.$route)
 		this.getGeneralPlanInfo()
 	},
 	methods: {
 		getGeneralPlanInfo() {
 			this.$store.dispatch('GENERALPLAN_INFO').then(res => {
+				this.generalPlanData = res.data || {}
 				this.generalPlanInfo = JSON.parse(res.data.content)
 				this.generalPlanId = res.data.id
 				console.log(this.generalPlanInfo)

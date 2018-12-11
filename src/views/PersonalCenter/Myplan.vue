@@ -4,13 +4,13 @@
       <el-tab-pane label="总规划" name="first">
         <div class="plan-list">
 					<div class="nodata" v-if="!Object.keys(generalPlanData).length">还没有大学职业总规划~</div> 
-          <div class="item modify-item">
+          <div class="item modify-item" v-if="Object.keys(generalPlanData).length">
             <img src="../../assets/images/term.png" alt="">
             <div class="item-content">
               <div class="name">大学四年总规划</div>
               <div class="status">状态：
                 <span class="red" v-if="generalPlanData.state === '10'">待审核</span>
-                <span class="red" v-if="generalPlanData.state === '20'">审核通过</span>
+                <!-- <span class="red" v-if="generalPlanData.state === '20'">审核通过</span> -->
                 <span class="red" v-if="generalPlanData.state === '30'">审核未通过</span>
                 <span class="red" v-if="generalPlanData.auditScore">{{generalPlanData.auditScore}}分</span>
               </div>
@@ -22,12 +22,12 @@
             <div class="comment-box" v-if="generalPlanAuditContent.length">
               <div class="comment-title">评语：</div>
               <div class="comment-content" v-for="(content, index) in generalPlanAuditContent" :key="index" v-if="!generalPlanData.showMore">
-                <span v-if="content!=null">（{{index+1}}）{{content.auditContent}}</span>
+                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
               </div>
               <div class="comment-all-content" v-for="(content, index) in generalPlanAuditContent" :key="index" v-if="generalPlanData.showMore">
-                <span v-if="content!=null">（{{index+1}}）{{content.auditContent}}</span>
+                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
               </div>
-              <div class="show-more" v-if="generalPlanAuditContent[0]!=null&&generalPlanAuditContent[0].auditContent.length>45">
+              <div class="show-more" v-if="generalPlanAuditContent[0]!=null&&generalPlanAuditContent[0].length>45">
                 <i class="iconfont icon-down" v-if="!generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
                 <i class="iconfont icon-up" v-if="generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
               </div>
@@ -99,14 +99,14 @@ export default {
         if(err.data){
           this.$message.error(err.data.msg)
         } else {
-          this.$message.error("获取规划列表失败，请稍后重试！")
+          this.$message.error("获取学期规划列表失败，请稍后重试！")
         }
       })
     },
     getGeneralPlanInfo() {
 			this.$store.dispatch('GENERALPLAN_INFO').then(res => {
-        this.generalPlanData = res.data
-        this.generalPlanAuditContent = res.data.auditContent
+        this.generalPlanData = res.data || {}
+        this.generalPlanAuditContent = res.data.auditContent || []
 			}).catch(err => {
 				if(err.data) {
 					this.$message.error(err.data.msg)

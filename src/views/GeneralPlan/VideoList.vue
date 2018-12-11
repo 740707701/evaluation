@@ -12,7 +12,8 @@
 				</div>
 			</div>
 			<div class="btn-box">
-				<div class="open-btn" @click="openGeneralPlan">制定总规划</div>
+				<div class="open-btn" v-if="!generalPlanId" @click="openGeneralPlan">制定总规划</div>
+				<div class="open-btn" v-if="generalPlanId&&generalPlanData.state!='20'" @click="openGeneralPlan">完善总规划</div>
 			</div>
 		</div>
 		<div class="bg" v-if="showPlayerBigger">
@@ -35,17 +36,32 @@ export default {
 			isOpenVideo: false,
 			videoName: '',
 			currentVideo: {},
-			showPlayerBigger: false
+			showPlayerBigger: false,
+			generalPlanId: '',
+			generalPlanData: {}
 		}
 	},
 	created() {
 		this.getVideoList()
 		this.findVideoOpen()
+		this.getGeneralPlanInfo()
 	},
 	methods: {
 		showPlayer(video) {
 			this.currentVideo = video
 			this.showPlayerBigger = true
+		},
+		getGeneralPlanInfo() {
+			this.$store.dispatch('GENERALPLAN_INFO').then(res => {
+				this.generalPlanData = res.data || {}
+				this.generalPlanId = res.data.id
+			}).catch(err => {
+				if(err.data) {
+					this.$message.error(err.data.msg)
+				} else {
+					this.$message.error('获取总规划信息失败，请稍后重试！')
+				}
+			})
 		},
 		getVideoList() {
 			this.$store.dispatch('VIDEO_LIST').then(res => {
@@ -117,7 +133,7 @@ export default {
 		},
 		openGeneralPlan() {
 			if(this.isOpenVideo) {
-				this.$router.push({ path: '/generalPlanDetail'})
+				this.$router.push({ path: '/generalPlanDetail', query: {planId: this.generalPlanId}})
 			} else {
 				this.$message.error(`请先查看${this.videoName}视频之后再来制定总规划吧！`)
 			}
@@ -220,9 +236,9 @@ export default {
 				}
 			}
 			.close {
-				width: 30px;
-				height: 30px;
-				line-height: 30px;
+				width: 24px;
+				height: 24px;
+				line-height: 24px;
 				text-align: center;
 				background-color: #b9b9b9;
 				border-radius: 50%;
