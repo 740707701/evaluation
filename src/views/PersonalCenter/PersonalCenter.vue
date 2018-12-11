@@ -96,6 +96,7 @@ export default {
         let that = this
         reader.readAsDataURL(file)
         reader.onload= function(e){
+          // 这里的this 指向reader
           that.avatar = this.result
         }
       }
