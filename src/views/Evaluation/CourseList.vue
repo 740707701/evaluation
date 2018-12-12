@@ -51,7 +51,6 @@
 </template>
 <script>
 import Banner from "@/components/Banner.vue";
-import { mapState } from "vuex";
 import { splitTitle, showPrice } from '@/utils/index';
 export default {
   name: "courselist",

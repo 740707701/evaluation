@@ -5,10 +5,7 @@ import store from "../store"
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/404',
-    component: () => import('@/views/ErrorPage/404')
-  },
+  // 测评
   {
     path: "/",
     component: () => import('@/views/Home'),
@@ -28,9 +25,18 @@ const routes = [
         meta: {
           routerType: 'ceping'
         }
-      }
+      },
+      {
+        path: "/evaluation/:cepingId/:serialNo?",
+        name: "evaluation",
+        component: () => import('@/views/Evaluation/Evaluation'),
+        meta: {
+          routerType: 'ceping'
+        }
+      },
     ]
   },
+  // 个人中心
   {
     path: "/personalcenter/:activeName?",
     component: () => import('@/views/PersonalCenter/PersonalCenter'),
@@ -80,19 +86,7 @@ const routes = [
       }
     ]
   },
-  {
-    path: "/evaluation/:cepingId/:serialNo?",
-    name: "evaluation",
-    component: () => import('@/views/Evaluation/Evaluation'),
-    meta: {
-      routerType: 'ceping'
-    }
-  },
-  {
-    path: '/wechatPay',
-    name: 'wechatPay',
-    component: () => import('@/views/Pay/WechatPay')
-  },
+  // 大学总规划
   {
     path: '/generalPlan',
     component: () => import('@/views/GeneralPlan/Index'),
@@ -143,6 +137,7 @@ const routes = [
       }
     ]
   },
+  // 分学期规划
   {
     path: "/careerplan",
     component: () => import('@/views/CareerPlan/Index'),
@@ -185,19 +180,7 @@ const routes = [
       },
     ]
   },
-  {
-    path: "/BookLibrary",
-    name: "bookLibrary",
-    component: () => import('@/views/BookLibrary'),
-    meta: {
-      requireAuth: true
-    }
-  },
-  {
-    path: "/AssetLogin",
-    name: "assetLogin",
-    component: () => import('@/views/AssetLogin'),
-  },
+  // 简历与面试
   {
     path: "/resumeBg",
     name: "resumeBg",
@@ -242,6 +225,11 @@ const routes = [
     component: () => import('@/views/Settlement/Settlement')
   },
   {
+    path: '/wechatPay',
+    name: 'wechatPay',
+    component: () => import('@/views/Pay/WechatPay')
+  },
+  {
     path: "/paysuccess/:orderNo/:money",
     name: "paysuccess",
     component: () => import('@/views/Pay/PaySuccess')
@@ -277,6 +265,16 @@ const routes = [
     name: "template3Next",
     component: () => import('@/views/ResumeTemplate/template3Next')
   },
+  // 书籍库
+  {
+    path: "/BookLibrary",
+    name: "bookLibrary",
+    component: () => import('@/views/BookLibrary'),
+    meta: {
+      requireAuth: true
+    }
+  },
+  // 行业与职业认知
   {
     path: "/vocationCognize",
     name: "vocationCognize",
@@ -286,6 +284,7 @@ const routes = [
       routerType: 'vocation'
     }
   },
+  // 实习与就业
   {
     path: "/practiceEmployment",
     name: "practiceEmployment",
@@ -296,12 +295,21 @@ const routes = [
     }
   },
   {
+    path: "/AssetLogin",
+    name: "assetLogin",
+    component: () => import('@/views/AssetLogin'),
+  },
+  {
     path: '/forbidden',
     name: 'forbidden',
     component: () => import('@/views/Forbidden/Index'),
     meta: {
       requireAuth: true
     }
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/ErrorPage/404')
   },
   { 
     path: '*',

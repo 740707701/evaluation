@@ -1,6 +1,5 @@
 <template>
   <div class="evaluation-page">
-    <headerNav></headerNav>
     <div class="banner-bg">
       <img src="../../assets/images/bg_01.png" alt="">
     </div>
@@ -57,9 +56,7 @@
   </div>
 </template>
 <script>
-import headerNav from "@/components/HeaderNav.vue"
 import evaDialog from '@/components/EvaluationDialog.vue'
-import { mapState } from 'vuex'
 export default {
   name: "evaluation",
   data() {
@@ -76,7 +73,6 @@ export default {
       hideDialog: false
     };
   },
-  computed: {},
   created: function(){
     this.serialNumber = this.$route.params.serialNo
     this.evaluationDetail()
@@ -180,7 +176,6 @@ export default {
     }
   },
   components: {
-    headerNav,
     evaDialog
   },
   mounted(){}
@@ -189,16 +184,13 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/css/colors.less';
 .evaluation-page {
-  // height: 100%;
   min-height: 100%;
   background-color: @main-color-bg;
-  padding-top: 60px;
-  padding-bottom: 25px;
   position: relative;
   z-index: 1;
   .banner-bg {
     width: 100%;
-    margin-top: 0;
+    margin-top: -70px;
     position: absolute;
     // top: 50px;
     z-index: -1;
@@ -259,7 +251,7 @@ export default {
       background-color: #fff;
       border-radius: 10px;
       margin-top: 20px;
-      min-height: calc(100vh - 380px); // 390
+      height: calc(100vh - 380px); // 390
       .back {
         padding-left: 20px;
         line-height: 40px;

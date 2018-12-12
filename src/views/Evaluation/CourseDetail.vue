@@ -67,7 +67,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import evaDialog from '@/components/EvaluationDialog';
 import { showPrice } from '@/utils/index'
 export default {
