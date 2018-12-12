@@ -91,6 +91,7 @@ export default {
 .generalplan-info {
 	width: 100%;
 	min-height: calc(100vh - 60px);
+	padding-bottom: 25px;
 	background-color: @main-color-bg;
 	.container {
 		width: 1200px;
@@ -153,6 +154,9 @@ export default {
 			}
 			.generalplan {
 				padding: 0 20px;
+				.item:last-child {
+					border: none;
+				}
 				.item {
 					padding: 10px 30px;
 					border-bottom: 1px solid @main-color-border;

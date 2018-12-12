@@ -1,6 +1,5 @@
 <template>
 	<div class="planlist-page">
-		<headerNav></headerNav>
 		<div class="container">
 			<div class="top">
 				<span>规划表</span>
@@ -514,7 +513,6 @@
 	</div>
 </template>
 <script>
-	import headerNav from '@/components/HeaderNav.vue'
 	import { sysbelong } from '@/utils/index'
 	import axios from 'axios'
 	import store from '@/store/index'
@@ -1257,9 +1255,6 @@
 					this.getPlanInfo(this.planList[this.termIndex].id, this.planList[this.termIndex].stage)
 				}
 			}
-		},
-		components: {
-			headerNav
 		}
 	}
 </script>
@@ -1267,19 +1262,20 @@
 	@import "../../assets/css/colors.less";
 	.planlist-page {
 		width: 100%;
-		min-height: 100%;
-		padding-top: 60px;
+		min-height: calc(100vh - 60px);
+		padding-bottom: 25px;
 		background-color: @main-color-bg;
 		.container {
 			width: 1200px;
 			margin: 0 auto;
+			padding-top: 20px;
 			.top {
 				width: 100%;
 				height: 30px;
 				line-height: 30px;
 				padding-left: 20px;
 				border-left: 2px solid @main-color-blue;
-				margin: 20px 0;
+				margin-bottom: 20px;
 				background-color: #fff;
 				.btn-box {
 					float: right;
@@ -1344,6 +1340,7 @@
 					}
 				}
 				.plan-list {
+					height: 100%;
 					padding: 0 50px;
 					margin-top: 10px;
 					.red {

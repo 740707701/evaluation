@@ -1,6 +1,5 @@
 <template>
   <div class="careerplan-page">
-    <headerNav></headerNav>
     <div class="container">
       <el-container>
         <el-aside width="205px">
@@ -66,7 +65,6 @@
   </div>
 </template>
 <script>
-  import headerNav from "@/components/HeaderNav.vue";
   import plan from '@/components/Plan.vue';
   export default {
     name: "careerplan",
@@ -601,7 +599,6 @@
       }
     },
     components: {
-      headerNav,
       plan
     }
   };
@@ -610,9 +607,8 @@
 @import "../../assets/css/colors.less";
 .careerplan-page {
   width: 100%;
-  min-height: 100%;
+  min-height: calc(100vh - 60px);
   background-color: @main-color-bg;
-  padding-top: 60px;
   padding-bottom: 25px;
   .container {
     width: 1200px;

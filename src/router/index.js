@@ -145,39 +145,45 @@ const routes = [
   },
   {
     path: "/careerplan",
-    name: "careerplan",
-    component: () => import('@/views/CareerPlan/CareerPlan'),
+    component: () => import('@/views/CareerPlan/Index'),
     meta: {
       requireAuth: true,
       routerType: 'plan'
-    }
-  },
-  {
-    path: "/planEntry",
-    name: "planEntry",
-    component: () => import('@/views/CareerPlan/PlanEntry'),
-    meta: {
-      requireAuth: true,
-      routerType: 'plan'
-    }
-  },
-  {
-    path: "/termPlan",
-    name: "termPlan",
-    component: () => import('@/views/CareerPlan/TermPlan'),
-    meta: {
-      requireAuth: true,
-      routerType: 'plan'
-    }
-  },
-  {
-    path: "/planList/:stage?",
-    name: "planList",
-    component: () => import('@/views/CareerPlan/PlanList'),
-    meta: {
-      requireAuth: true,
-      routerType: 'plan'
-    }
+    },
+    children: [
+      {
+        path: '/',
+        name: "careerplan",
+        component: () => import('@/views/CareerPlan/CareerPlan'),
+        meta: {
+          routerType: 'plan'
+        }
+      },
+      {
+        path: "/planEntry",
+        name: "planEntry",
+        component: () => import('@/views/CareerPlan/PlanEntry'),
+        meta: {
+          routerType: 'plan'
+        }
+      },
+      {
+        path: "/termPlan",
+        name: "termPlan",
+        component: () => import('@/views/CareerPlan/TermPlan'),
+        meta: {
+          routerType: 'plan'
+        }
+      },
+      {
+        path: "/planList/:stage?",
+        name: "planList",
+        component: () => import('@/views/CareerPlan/PlanList'),
+        meta: {
+          routerType: 'plan'
+        }
+      },
+    ]
   },
   {
     path: "/BookLibrary",

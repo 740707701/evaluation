@@ -1,6 +1,5 @@
 <template>
 	<div class="termplan-page">
-		<headerNav></headerNav>
 		<div class="termplan-container" v-if="permission!='forbidden'">
 			<div class="top">
 				<span>规划表</span>
@@ -51,7 +50,6 @@
 </template>
 
 <script>
-import headerNav from '@/components/HeaderNav'
 import forbidden from '@/components/Forbidden'
 	export default {
 		name: 'termPlan',
@@ -173,7 +171,7 @@ import forbidden from '@/components/Forbidden'
 									this.$message({	type: "error", 	message: "当前规划已提交，等待审核！"	})
 									return
 								}else if(item.state == '-1'){
-									this.$router.push({	name: 'careerplan',	query: { planId: item.id, termStage: item.stage } })
+									this.$router.push({	path: '/careerplan',	query: { planId: item.id, termStage: item.stage } })
 								}
 								// else {
 								// 	this.$message({	type: "error", 	message: "修改权限尚未开放！"	})
@@ -219,7 +217,6 @@ import forbidden from '@/components/Forbidden'
 			}
 		},
 		components: {
-			headerNav,
 			forbidden
 		}
 	}
@@ -229,8 +226,8 @@ import forbidden from '@/components/Forbidden'
  	@import "../../assets/css/colors.less";
 	.termplan-page {
 		width: 100%;
-		min-height: 100%;
-		padding: 60px 0;
+		min-height: calc(100vh - 60px);
+		padding-bottom: 25px;
 		background-color: @main-color-bg;
 		.termplan-container {
 			width: 1200px;

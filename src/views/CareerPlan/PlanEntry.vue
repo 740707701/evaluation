@@ -1,6 +1,5 @@
 <template>
 	<div class="planentry-page">
-		<headerNav></headerNav>
 		<div class="img-bg" v-if="permission!='forbidden'">
 			<p>未开启大学职业规划与管理</p>
 			<router-link to="/termPlan">
@@ -11,7 +10,6 @@
 	</div>
 </template>
 <script>
-import headerNav from '@/components/HeaderNav'
 import forbidden from '@/components/Forbidden'
 export default {
 	name: 'planEntry',
@@ -26,7 +24,6 @@ export default {
 	},
 	methods: {},
 	components: {
-		headerNav,
 		forbidden
 	}
 }
@@ -35,8 +32,7 @@ export default {
  @import "../../assets/css/colors.less";
 	.planentry-page {
 		width: 100%;
-		height: 100%;
-		padding-top: 60px;
+		min-height: calc(100vh - 60px);
 		background-color: @main-color-bg;
 		position: relative;
 		.img-bg {
