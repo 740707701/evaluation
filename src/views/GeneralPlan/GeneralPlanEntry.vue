@@ -1,6 +1,6 @@
 <template>
 	<div class="generalplan-entry">
-		<div class="container">
+		<div class="container" v-if="permission!='forbidden'">
       <div class="forbidden-box">
         <img class="forbidden-img" src="../../assets/images/generalPlan.png" alt="">
         <div class="forbidden-text">去开启大学各学期的规划与管理</div>
@@ -15,13 +15,23 @@
 				</router-link>
       </div>
     </div>
+		<forbidden v-if="permission=='forbidden'"></forbidden>
 	</div>
 </template>
 <script>
+import forbidden from '@/components/Forbidden.vue'
 export default {
 	name: 'generalPlanEntry',
 	data() {
-		return {}
+		return {
+			permission: ''
+		}
+	},
+	created() {
+		this.permission = this.$route.query.permission
+	},
+	components: {
+		forbidden
 	}
 }
 </script>
@@ -31,12 +41,12 @@ export default {
 	width: 100%;
 	min-height: calc(100vh - 60px);
 	background-color: @main-color-bg;
-	padding-top: 40px;
 	padding-bottom: 25px;
 	.container {
 		width: 1200px;
 		min-height: calc(100vh - 165px); // 80+60+25
 		margin: 0px auto;
+		margin-top: 40px;
 		box-shadow: 8px 0px 10px rgba(162, 169, 184, 0.15);
 		text-align: center;
 		border-radius: 10px;

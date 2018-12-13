@@ -20,6 +20,7 @@ export default {
 .general-plan {
 	padding-top: 60px;
 	min-height: 100%;
+	background-color: #f8fafc;
 }
 </style>
 
