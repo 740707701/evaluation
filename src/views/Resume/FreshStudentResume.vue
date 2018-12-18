@@ -1,5 +1,5 @@
 <template>
-  <div class="resume-page">
+  <div class="refresh-student-resume">
     <div class="content" v-if="permission!='forbidden'">
       <div class="container">
         <el-alert title="不会填写？请参阅右边HR视角！" center type="error"></el-alert>
@@ -14,12 +14,10 @@
                     <i class="iconfont icon-refresh"></i>
                     <div class="icon-text">刷新</div>
                   </div>
-                  <router-link v-if="resumeId" target="_blank" :to="`/viewResume/${resumeId}/preview`">
-                    <div class="icon-box preview">
-                      <i class="iconfont icon-yulan"></i>
-                      <div class="icon-text">预览</div>
-                    </div>
-                  </router-link>
+                  <div class="icon-box preview" v-if="resumeId" @click="previewFreshStudentResume()">
+                    <i class="iconfont icon-yulan"></i>
+                    <div class="icon-text">预览</div>
+                  </div>
                 </div>
               </div>
               <ul class="tabs">
@@ -31,45 +29,53 @@
                   </a>
                 </li>
                 <li :class="{'active':tabIndex==1}" @click="tabIndex=1">
-                  <a href="#job">
-                    <i class="iconfont icon-job"></i>
-                    <span>求职意向</span>
-                    <i class="el-icon-check" v-if="baseInfo.expectSalary"></i>
-                  </a>
-                </li>
-                <li :class="{'active':tabIndex==6}" @click="tabIndex=6">
                   <a href="#evaluate">
                     <i class="iconfont icon-evaluate"></i>
                     <span>自我评价</span>
                     <i class="el-icon-check" v-if="baseInfo.evaluate"></i>
                   </a>
                 </li>
-                <li :class="{'active':tabIndex==2}" @click="tabIndex=2">
-                  <a href="#work">
-                    <i class="iconfont icon-work"></i>
-                    <span>工作经验</span>
-                    <i class="el-icon-check" v-if="workExperList.length"></i>
-                  </a>
-                </li>
-                <li :class="{'active':tabIndex==3}" @click="tabIndex=3">
+								<li :class="{'active':tabIndex==2}" @click="tabIndex=2">
                   <a href="#education">
                     <i class="iconfont icon-edu"></i>
                     <span>教育经历</span>
                     <i class="el-icon-check" v-if="eduList.length"></i>
                   </a>
                 </li>
+                <li :class="{'active':tabIndex==3}" @click="tabIndex=3">
+                  <a href="#internship">
+                    <i class="iconfont icon-work"></i>
+                    <span>实习实践</span>
+                    <i class="el-icon-check" v-if="internshipList.length"></i>
+                  </a>
+                </li>
+                
                 <li :class="{'active':tabIndex==4}" @click="tabIndex=4">
-                  <a href="#school">
+                  <a href="#schooljobexper">
                     <i class="iconfont icon-school"></i>
-                    <span>在校情况</span>
-                    <i class="el-icon-check" v-if="schoolHonorList.length&&schoolWorkList.length"></i>
+                    <span>校园经历</span>
+                    <i class="el-icon-check" v-if="schoolJobExperList.length"></i>
                   </a>
                 </li>
                 <li :class="{'active':tabIndex==5}" @click="tabIndex=5">
+                  <a href="#honor">
+                    <i class="iconfont icon-edit-honor"></i>
+                    <span>荣誉称号</span>
+                    <i class="el-icon-check" v-if="honorList.length"></i>
+                  </a>
+                </li>
+                <li :class="{'active':tabIndex==6}" @click="tabIndex=6">
                   <a href="#skill">
                     <i class="iconfont icon-skill"></i>
                     <span>技能证书</span>
                     <i class="el-icon-check" v-if="skillList.length"></i>
+                  </a>
+                </li>
+                <li :class="{'active':tabIndex==7}" @click="tabIndex=7">
+                  <a href="#hobby">
+                    <i class="iconfont icon-edit-hobby"></i>
+                    <span>兴趣爱好</span>
+                    <i class="el-icon-check" v-if="hobbyInfo.hobby"></i>
                   </a>
                 </li>
               </ul>
@@ -77,16 +83,18 @@
           </el-col>
           <el-col :span="15" class="center-content">
             
-            <baseBox :baseInfo="baseInfo" :baseData="baseData" :baseParams="baseParams" @saved="updateInfo"></baseBox>
-            <expectBox :expectInfo="expectInfo" :expectData="expectData" :baseParams="baseParams" @saved="updateInfo"></expectBox>
-            <evaluateBox :evaluateInfo="evaluateInfo"  @saved="updateInfo" :baseParams="baseParams"></evaluateBox>
-            <workExperBox :workExperList="workExperList" :workExperData="workExperData" :baseParams="baseParams" @saved="updateInfo"></workExperBox>
-            <eduBox :eduList="eduList" :eduData="eduData" :baseParams="baseParams" @saved="updateInfo"></eduBox>
-            <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" :baseParams="baseParams" @saved="updateInfo"></schoolBox>
-            <skillBox :skillList="skillList" :baseParams="baseParams" @saved="updateInfo"></skillBox>
-          
+            <freshBaseBox :baseInfo="baseInfo" :baseData="baseData" :baseParams="baseParams" @saved="updateInfo"></freshBaseBox>
+            <freshEvaluateBox :evaluateInfo="evaluateInfo"  @saved="updateInfo" :baseParams="baseParams"></freshEvaluateBox>
+            <freshEduBox :eduList="eduList" :eduData="eduData" :baseParams="baseParams" @saved="updateInfo"></freshEduBox>
+            <freshInternshipBox :internshipList="internshipList" :baseParams="baseParams" @saved="updateInfo"></freshInternshipBox>
+            <freshSchoolJobExperBox :schoolJobExperList="schoolJobExperList" :baseParams="baseParams" @saved="updateInfo"></freshSchoolJobExperBox>
+            <freshHonorBox :honorList="honorList" :baseParams="baseParams" @saved="updateInfo"></freshHonorBox>
+            <freshSkillBox :skillList="skillList" :baseParams="baseParams" @saved="updateInfo"></freshSkillBox>
+            <freshHobbyBox :hobbyInfo="hobbyInfo" :baseParams="baseParams" @saved="updateInfo"></freshHobbyBox>
+
             <div class="post-resume">
-              <el-button size="small" class="resume-btn" @click="postResume">提交简历</el-button>
+              <el-button size="small" class="resume-btn save-btn" @click="saveResume">保存简历</el-button>
+              <el-button size="small" class="resume-btn post-btn" @click="postResume">提交简历</el-button>
             </div>
           </el-col>
           <el-col :span="6" class="right-content">
@@ -125,41 +133,30 @@
       </div>
     </div>
     <forbidden v-if="permission=='forbidden'"></forbidden>
-    <!-- 简历预览弹框 -->
-    <!-- <div class="dialog" v-if="showPreview" @click.self="showPreview=false">
-      <div class="resume-preview">
-        <div class="preview-container">
-          <el-row :gutter="10" class="el-content">
-            <el-col :span="24" class="preview-center-content">
-              <preview :baseParams="baseParams"></preview>
-            </el-col>
-          </el-row>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 <script>
 import forbidden from '@/components/Forbidden.vue';
 import headerNav from "@/components/HeaderNav.vue";
-import baseBox from "@/components/Resume/base.vue";
-import expectBox from "@/components/Resume/expect.vue";
-import evaluateBox from "@/components/Resume/evaluate.vue";
-import workExperBox from "@/components/Resume/workexper.vue";
-import eduBox from "@/components/Resume/edu.vue";
-import schoolBox from "@/components/Resume/school.vue";
-import skillBox from "@/components/Resume/skills.vue";
+import freshBaseBox from "@/components/FreshStudentResume/FreshBase.vue";
+import freshEvaluateBox from "@/components/FreshStudentResume/FreshEvaluate.vue";
+import freshEduBox from "@/components/FreshStudentResume/FreshEdu.vue";
+import freshInternshipBox from "@/components/FreshStudentResume/FreshInternship.vue";
+import freshSchoolJobExperBox from "@/components/FreshStudentResume/FreshSchoolJobExper.vue";
+import freshHonorBox from "@/components/FreshStudentResume/FreshHonor.vue";
+import freshSkillBox from "@/components/FreshStudentResume/FreshSkill.vue";
+import freshHobbyBox from "@/components/FreshStudentResume/FreshHobby.vue";
 import preview from "@/components/Resume/preview.vue";
 import tags from "../../api/tags";
 
 export default {
-  name: "resume",
+  name: "freshStudentResume",
   data() {
     return {
       permission: '',
       updator: "",
       creator: "",
-      resumeType: 2, // resumeType 简历类型（1：应届毕业生 2：职场人士）
+      resumeType: 1, // resumeType 简历类型（1：应届毕业生 2：职场人士）
       resumeId: "",
       submitDate: "",
       baseParams: {}, //调用接口基础参数
@@ -174,13 +171,13 @@ export default {
       postInfo: {},
       //数据对象
       baseInfo: {},
-      expectInfo: {},
       evaluateInfo: {},
-      workExperList: [],
-      eduList: [],
-      schoolHonorList: [],
-      schoolWorkList: [],
-      skillList: [],
+			eduList: [],
+      internshipList: [],
+      schoolJobExperList: [],
+			honorList: [],
+			skillList: [],
+			hobbyInfo: {},
 
       baseData: {},
       expectData: {},
@@ -188,10 +185,9 @@ export default {
       eduData: {}
     };
   },
-  computed: {},
-  beforeCreate: function() {},
   created: function() {
     this.permission = this.$route.query.permission
+		this.baseParams.resumeType = this.resumeType
     this.resumeId = this.$route.query.resumeId
     if(this.permission !== 'forbidden') {
       this.getResumeInfo();
@@ -212,19 +208,20 @@ export default {
           this.baseInfo = res.data.resumeBaseInfo || {};
           this.resumeId = res.data.resumeBaseInfo.id;
           this.evaluateInfo = res.data.resumeBaseInfo ||{};
-          this.expectInfo = res.data.resumeBaseInfo || {};
-          this.workExperList = res.data.jobexpList || [];
+          this.internshipList = res.data.schoolPostList|| [];
           this.eduList = res.data.educationList || [];
-          this.schoolHonorList = res.data.schoolHonorList || [];
-          this.schoolWorkList = res.data.schoolPostList || [];
+          this.honorList = res.data.schoolHonorList || [];
+          this.schoolJobExperList = res.data.schoolJobexpList || [];
           this.skillList = res.data.skillsList || [];
+          this.hobbyInfo = res.data.resumeBaseInfo || {};
 
           //基础参数赋值
           this.baseParams.creator = res.data.resumeBaseInfo.creator
             ? res.data.resumeBaseInfo.creator
             : this.creator;
           this.baseParams.updator = res.data.resumeBaseInfo.updator;
-          this.baseParams.resumeId = res.data.resumeBaseInfo.id;
+					this.baseParams.resumeId = res.data.resumeBaseInfo.id;
+					this.baseParams.resumeType = res.data.resumeBaseInfo.resumeType || this.resumeType;
         })
         .catch(err => {
           if (err.data.msg) {
@@ -244,6 +241,10 @@ export default {
     updateInfo: function(id) {
       this.resumeId = id;
       this.getResumeInfo();
+    },
+    // 保存简历
+    saveResume() {
+      this.$message.success('保存成功！')
     },
     //提交简历
     postResume: function() {
@@ -277,6 +278,9 @@ export default {
           }
         });
     },
+    previewFreshStudentResume() {
+      this.$router.push({ path: '/viewFreshStudentResume', query: {resumeId: this.resumeId, org: 'preview'}})
+    },
     //查看
     viewResume(){
       this.$router.push({name: 'myresume'})
@@ -287,6 +291,7 @@ export default {
       this.resumeId = ''
       this.getResumeInfo()
     },
+    
     //预览
     preview: function() {
       this.showPreview = true;
@@ -370,20 +375,21 @@ export default {
   components: {
     forbidden,
     headerNav,
-    baseBox,
-    expectBox,
-    evaluateBox,
-    workExperBox,
-    eduBox,
-    schoolBox,
-    skillBox,
+    freshBaseBox,
+    freshEvaluateBox,
+    freshEduBox,
+    freshInternshipBox,
+    freshSchoolJobExperBox,
+    freshHonorBox,
+    freshSkillBox,
+    freshHobbyBox,
     preview
   }
 };
 </script>
 <style lang="less" scope>
 @import "../../assets/css/colors.less";
-.resume-page {
+.refresh-student-resume {
   width: 100%;
   background-color: @main-color-bg;
   padding-bottom: 25px;
@@ -467,6 +473,9 @@ export default {
     .form-box {
       .el-form-item:nth-of-type(even) {
         float: right;
+      }
+      .desc-box {
+        float: none!important;
       }
     }
     .desc-box {
@@ -768,7 +777,7 @@ export default {
               .desc-input {
                min-height: 80px;
                textarea {
-                min-height: 80px!important;
+                min-height: 80px;
                 font-family: "微软雅黑";
                }
               }
@@ -980,6 +989,11 @@ export default {
       .resume-btn {
         border: 1px solid @main-color-blue;
         color: @main-color-blue;
+      }
+      .post-btn {
+        margin-left: 30px;
+        background-color: @main-color-blue;
+        color: #fff;
       }
     }
   }

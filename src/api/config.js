@@ -85,6 +85,10 @@ export default {
     //技能证书
     skills: 'resume/skills',
     deleteSkills: 'resume/skills/{id}',
+    // 新增应届生简历信息
+    // 保存修改校园经历
+    saveSchoolJobExper: '/resume/schooljobexp',
+    deleteSchoolJobExper: '/resume/schooljobexp/{id}',
 
     //提交简历
     submitResume: 'resume/submit/{resumeId}', //提交个人简历
@@ -96,7 +100,7 @@ export default {
     //导出简历
     exportResume: 'resume/export/{resumeId}/{format}', //format: pdf/word
     //检查是否制作过简历
-    checkResume: 'resume/checkresume',
+    checkResume: 'resume/checkresume/{type}',
     //简历列表
     resumeList: 'resume/list',
     //待修改简历列表

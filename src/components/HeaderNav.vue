@@ -193,8 +193,10 @@ export default {
           this.$router.push({ path: '/vocationCognize', query: query})
         }else if(id == 3){
           // 总规划查询
+          // /*
           this.$store.dispatch('GENERALPLAN_INFO').then(res => {
-            if(Object.keys(res.data).length) {
+            let data = res.data || {}
+            if(Object.keys(data).length) {
               this.$router.push({path: '/generalPlanEntry', query: query})
             } else {
               this.$router.push({path: '/generalPlan', query: query})
@@ -206,8 +208,9 @@ export default {
               this.$message.error('获取总规划信息失败，请稍后重试！')
             }
           })
-          
-          /* 每学期规划列表查询
+          // */
+          // 每学期规划列表查询
+          /*
           let params = {
             userId: userInfo.id
           }
@@ -226,7 +229,10 @@ export default {
           })
           */
         }else if (id == 4){
-          this.$store.dispatch('CHECK_RESUME').then(res => {
+          this.$router.push({ path: '/resumeModule', query: query})
+          /*
+          this.resumeType = 1
+          this.$store.dispatch('CHECK_RESUME', this.resumeType).then(res => {
             if(res.data == 0){
               this.$router.push({ path: '/resumeBg', query: query})
             }else {
@@ -239,6 +245,7 @@ export default {
               this.$message({type: "error", message: "检查是否制作简历失败，请稍后重试"})
             }
           })
+          */
         }else if(id == 5) {
           this.$router.push({ path: '/practiceEmployment', query: query })
         }
@@ -277,26 +284,6 @@ export default {
             item.routerType = 'practice'
           }
         })
-        /*
-        this.moduleList.map(item => {
-          if(item.id === 1){
-            item.routerName = 'courselist'
-            item.routerName2 = 'coursedetail'
-          } else if(item.id === 2) {
-            item.routerName = 'vocationCognize'
-          } else if (item.id === 3) {
-            item.routerName = 'termPlan'
-            item.routerName2 = 'careerplan'
-            item.routerName3 = 'planEntry'
-            item.routerName4 = 'planList'
-          } else if(item.id === 4) {
-            item.routerName = 'resume'
-            item.routerName2 = 'resumeBg'
-          } else if(item.id === 5){
-            item.routerName = 'practiceEmployment'
-          }
-        })
-        */
       }).catch(err => {
         if(err.data.msg){
           this.$message({type: 'error', message: err.data.msg})

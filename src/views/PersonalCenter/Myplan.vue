@@ -150,7 +150,7 @@ export default {
     font-size: 13px;
     padding:10px 20px;
     display: flex;
-    -webkit-display: flex;
+    display: -webkit-flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     

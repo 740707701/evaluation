@@ -224,7 +224,6 @@
 </template>
 <script>
 import time from "@/api/time.js";
-import axios from "axios";
 import outputHeader from '@/components/OutputHeader.vue'
 export default {
   name: "viewResume",
@@ -242,8 +241,8 @@ export default {
     };
   },
   created() {
-    this.resumeId = this.$route.params.resumeId;
-    this.org = this.$route.params.org;
+    this.resumeId = this.$route.query.resumeId;
+    this.org = this.$route.query.org;
     if (this.org == "preview") {
       this.isPreview = true;
     }

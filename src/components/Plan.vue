@@ -976,7 +976,7 @@ export default {
     .item-list {
       width: 100%;
       display: flex;
-      -webkit-display: flex;
+      display: -webkit-flex;
       flex-wrap: wrap;
       justify-content: flex-start;
       .item {

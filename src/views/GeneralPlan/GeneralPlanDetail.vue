@@ -238,7 +238,12 @@ export default {
 							}
 						}
 						.item-checkbox {
-							margin: 10px 0;
+							margin-top: 5px;
+							& /deep/ .el-checkbox, .el-radio {
+								min-width: 210px;
+								margin-left: 0;
+								margin-bottom: 10px;
+							}
 						}
 						.textarea-box {
 							margin-bottom: 10px;

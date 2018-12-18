@@ -182,24 +182,57 @@ const routes = [
   },
   // 简历与面试
   {
-    path: "/resumeBg",
-    name: "resumeBg",
-    component: () => import('@/views/Resume/ResumeBg'),
-    meta: {
-      routerType: 'resume'
-    }
-  },
-  {
-    path: "/resume/:resumeId?",
-    name: "resume",
-    component: () => import('@/views/Resume/Resume'),
+    path: "/resumeModule",
+    component: () => import('@/views/Resume/Index'),
     meta: {
       requireAuth: true,
       routerType: 'resume'
+    },
+    children: [
+      {
+        path: '/',
+        name: 'resumeModule',
+        component: () => import('@/views/Resume/ResumeModule'),
+        meta: {
+          routerType:'resume'
+        }
+      },
+      {
+        path: "/resumeBg",
+        name: "resumeBg",
+        component: () => import('@/views/Resume/ResumeBg'),
+        meta: {
+          routerType: 'resume'
+        }
+      },
+      {
+        path: '/resume/:resumeId?',
+        name: 'resume',
+        component: () => import('@/views/Resume/Resume'),
+        meta: {
+          routerType: 'resume'
+        }
+      },
+      {
+        path: '/freshStudentResume',
+        name: 'freshStudentResume',
+        component: () => import('@/views/Resume/FreshStudentResume'),
+        meta: {
+          routerType: 'resume'
+        }
+      },
+    ]
+  },
+  {
+    path: "/viewFreshStudentResume",
+    name: "viewFreshStudentResume",
+    component: () => import('@/views/Resume/ViewFreshStudentResume'),
+    meta: {
+      requireAuth: true
     }
   },
   {
-    path: "/viewResume/:resumeId/:org?",
+    path: "/viewResume",
     name: "viewResume",
     component: () => import('@/views/Resume/ViewResume'),
     meta: {
@@ -214,6 +247,31 @@ const routes = [
       requireAuth: true
     }
   },
+  // {
+  //   path: "/resumeBg",
+  //   name: "resumeBg",
+  //   component: () => import('@/views/Resume/ResumeBg'),
+  //   meta: {
+  //     routerType: 'resume'
+  //   }
+  // },
+  
+  // {
+  //   path: "/viewResume/:resumeId/:org?",
+  //   name: "viewResume",
+  //   component: () => import('@/views/Resume/ViewResume'),
+  //   meta: {
+  //     requireAuth: true
+  //   }
+  // },
+  // {
+  //   path: "/resumePreview",
+  //   name: "resumePreview",
+  //   component: () => import('@/views/Resume/ResumePreview'),
+  //   meta: {
+  //     requireAuth: true
+  //   }
+  // },
   {
     path: "/cartdetail",
     name: "cartDetail",

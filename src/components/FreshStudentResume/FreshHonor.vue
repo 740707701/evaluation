@@ -1,0 +1,316 @@
+<template>
+  <div class="school-info">
+    <div id="honor" class="grid-content info-box" v-if="!showSchoolHonorEdit">
+      <div class="base-info">
+        <div class="title">
+          <i class="iconfont icon-edit-honor"></i>
+          <span>荣誉称号</span>
+					<div class="add-job" @click="addSchoolHonor" v-if="honorList.length">
+						<i class="iconfont icon-add" ></i>新增荣誉
+					</div>
+        </div>
+				<div class="schoolwork">
+          <div class="honor" v-if="!showSchoolHonorEdit">
+            <ul class="honor-list job-item" v-if="honorList.length">
+              <li v-for="honor in honorList" :key="honor.id">
+                <div class="job-time">
+                  <span class="gray">{{honor.honorTime.slice(0, 7)}}</span>
+                  <span>{{honor.honorPrize}}</span>
+                  <span>{{honor.honorLevel}}</span>
+                  <span class="icon-box">
+                    <span @click="editSchoolHonor(honor.id)">
+                      编辑&nbsp;<i class="iconfont icon-edit"></i>
+                    </span>
+                    <span @click="deleteSchoolHonor(honor.id)">
+                      删除&nbsp;<i class="iconfont icon-delete"></i>
+                    </span>
+                  </span>
+                </div>
+              </li>
+            </ul>
+            <div class="imperfect" v-if="!showSchoolHonorEdit&&!honorList.length">
+              <p class="perfect-text">完善荣誉称号，展现学习能力，让HR更了解你！</p>
+              <el-button size="small" class="perfect-btn" @click="addSchoolHonor">开始完善</el-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+		<div class="grid-content info-box edit-border" v-if="showSchoolHonorEdit">
+			<div class="base-info">
+				<div class="title">
+					<i class="iconfont icon-edit-honor"></i>
+					<span>荣誉称号</span>
+				</div>
+				<div class="base-content">
+					<div class="edit-content">
+						<el-form :inline="true" :model="honorInfo" :rules="honorRules" ref="honorInfo" label-width="100px" class="form-box">
+							<el-form-item label="时间：" prop="honorTime" class="input-box">
+								<el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
+										v-model="honorInfo.honorTime"
+										type="month"
+										placeholder="选择日期"
+										value-format="yyyy-MM">
+									</el-date-picker>
+							</el-form-item>
+							<el-form-item label="奖项：" prop="honorPrize" class="input-box">
+								<el-input size="small" v-model="honorInfo.honorPrize" placeholder="请输入奖项" :maxlength="10" 
+								@focus="inputFocus('honorInfo', 'showHonorMsg')" @blur="showHonorMsg=false"></el-input>
+								<div class="msg" v-if="showHonorMsg">请确认该荣誉含金量高</div>
+							</el-form-item>
+							<el-form-item size="small" class="edit-btn-box">
+								<el-button class="save-btn" @click="saveSchoolHonor('honorInfo')">保存</el-button>
+								<el-button class="cancel" @click="cancelSchoolHonor('honorInfo')">取消</el-button>
+							</el-form-item>
+						</el-form>
+					</div>
+				</div>
+			</div>
+		</div>
+  </div>
+</template>
+<script>
+import { compareDate } from '@/utils/index' 
+export default {
+  name: "freshHonor",
+  data() {
+    return {
+      showHonorMsg: false,
+      showWorkMsg: false,
+      showSchoolHonorEdit: false,
+      showSchoolWorkEdit: false,
+      honorInfo: {},
+      currentHonor: [],
+      workInfo: {},
+      currentWork: [],
+      honorRules: {
+        honorTime: [
+          {
+            required: true,
+            message: "请选择获得荣誉时间",
+            trigger: "blur"
+          }
+        ],
+        honorPrize: [
+          {
+            required: true,
+            message: "请输入奖项名称",
+            trigger: "blur"
+          }
+        ],
+        honorLevel: [
+          {
+            required: true,
+            message: "请输入奖项级别",
+            trigger: "blur"
+          }
+        ]
+      },
+      workRules: {
+        startTime: [
+          {
+            required: true,
+            message: "请选择开始时间",
+            trigger: "blur"
+          }
+        ],
+        endTime: [
+          {
+            required: true,
+            message: "请选择结束时间",
+            trigger: "blur"
+          }
+        ],
+        schoolWorkName: [
+          {
+            required: true,
+            message: "请输入职务名称",
+            trigger: "blur"
+          }
+        ],
+        schoolWorkDesc: [
+          {
+            required: true,
+            message: "请输入实践描述",
+            trigger: "blur"
+          }
+        ]
+      }
+    };
+  },
+  props: ["honorList", "schoolWorkList", "baseParams"],
+  methods: {
+    compareDate(arg1, arg2) {
+      return compareDate(arg1, arg2)
+		},
+		inputFocus(formName, msg) {
+			this.$refs[formName].clearValidate()
+			this[msg] = true
+		},
+    addSchoolHonor: function() {
+      if (!this.baseParams.resumeId) {
+        this.$message({
+          type: "error",
+          message: "请先完善简历基本信息！"
+        });
+        return;
+      }
+      this.honorInfo = {
+        resumeId: this.baseParams.resumeId
+      };
+      this.showSchoolHonorEdit = true;
+    },
+    editSchoolHonor: function(id) {
+      this.currentHonor = this.honorList.filter(function(item) {
+        return item.id == id;
+      });
+      this.honorInfo = this.currentHonor[0];
+      this.showSchoolHonorEdit = true;
+    },
+    saveSchoolHonor: function(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$store
+            .dispatch("SET_SCHOOLHONOR", this.honorInfo)
+            .then(res => {
+              this.$emit("saved", this.baseParams.resumeId);
+              this.showSchoolHonorEdit = false;
+            })
+            .catch(err => {
+              if (err.data.msg) {
+                this.$message({
+                  type: "error",
+                  message: err.data.msg
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "保存失败"
+                });
+              }
+            });
+        } else {
+          return false;
+        }
+      });
+    },
+    cancelSchoolHonor: function(formName) {
+      this.showSchoolHonorEdit = false;
+      this.$refs[formName].resetFields();
+    },
+    deleteSchoolHonor: function(id) {
+      this.$confirm("是否确认删除？")
+        .then(res => {
+          this.$store
+            .dispatch("DELETE_SCHOOLHONOR", id)
+            .then(response => {
+              this.$emit("saved", this.baseParams.resumeId);
+              console.log("删除成功", response);
+            })
+            .catch(err => {
+              if (err.data.msg) {
+                this.$message({
+                  type: "error",
+                  message: err.data.msg
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "删除失败"
+                });
+              }
+            });
+        })
+        .catch(err => {
+          console.log("取消了删除");
+        });
+    },
+
+    addSchoolWork: function() {
+      if (!this.baseParams.resumeId) {
+        this.$message({
+          type: "error",
+          message: "请先完善个人基本信息！"
+        });
+        return;
+      }
+      this.workInfo = {
+        resumeId: this.baseParams.resumeId
+      };
+      this.showSchoolWorkEdit = true;
+    },
+    editSchoolWork: function(id) {
+      this.currentWork = this.schoolWorkList.filter(function(item) {
+        return item.id == id;
+      });
+      this.workInfo = this.currentWork[0];
+      this.showSchoolWorkEdit = true;
+    },
+    saveSchoolWork: function(formName) {
+      let startTime = this.workInfo.startTime
+      let endTime = this.workInfo.endTime
+      if(compareDate(startTime, endTime)) {
+        this.workInfo.startTime = endTime
+        this.workInfo.endTime = startTime
+      }
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$store
+            .dispatch("SET_SCHOOLWORK", this.workInfo)
+            .then(res => {
+              this.$emit("saved", this.baseParams.resumeId);
+              this.showSchoolWorkEdit = false;
+            })
+            .catch(err => {
+              if (err.data.msg) {
+                this.$message({
+                  type: "error",
+                  message: err.data.msg
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "保存失败"
+                });
+              }
+            });
+        } else {
+          return false;
+        }
+      });
+    },
+    cancelSchoolWork: function(formName) {
+      this.showSchoolWorkEdit = false;
+      this.$refs[formName].resetFields();
+    },
+    deleteSchoolWork: function(id) {
+      this.$confirm("是否确认删除？")
+        .then(response => {
+          this.$store
+            .dispatch("DELETE_SCHOOLWORK", id)
+            .then(res => {
+              this.$emit("saved");
+              console.log("删除成功", res);
+            })
+            .catch(err => {
+              if (err.data.msg) {
+                this.$message({
+                  type: "error",
+                  message: err.data.msg
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "删除失败"
+                });
+              }
+            });
+        })
+        .catch(error => {
+          console.log("取消了删除");
+        });
+    }
+  }
+};
+</script>
+

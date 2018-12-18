@@ -26,6 +26,9 @@ const UPLOAD_HEAD = 'UPLOAD_HEAD'
 const UPDATEHEAD = 'UPDATEHEAD'
 const TEMPLATELIST = 'TEMPLATELIST'
 const VALIDPURCHASE = 'VALIDPURCHASE'
+const SAVE_SCHOOLJOBEXPER = 'SAVE_SCHOOLJOBEXPER'
+const DELETE_SCHOOLJOBEXPER = 'DELETE_SCHOOLJOBEXPER'
+const SET_HOBBY = 'SET_HOBBY'
 
 //metadata
 const DICTITEM = 'DICTITEM'
@@ -70,7 +73,7 @@ export default {
     },
     //检查是否提交过简历
     [CHECK_RESUME]({ commit }, params) {
-      return api.get(config.url.checkResume, params).then(res => {
+      return api.get(config.url.checkResume.replace('{type}', params)).then(res => {
         commit('RESUME_SET', {
           target: 'resumeInfo',
           data: res
@@ -80,7 +83,7 @@ export default {
     },
     //获取简历信息
     [RESUME_INFO]({ commit }, params) {
-      return api.get(config.url.resumeInfo, { resumeId: params.resumeId }).then(res => {
+      return api.get(config.url.resumeInfo, params).then(res => {
         commit('RESUME_SET', {
           target: 'resumeInfo',
           data: res
@@ -158,13 +161,15 @@ export default {
         return res
       })
     },
-    //保存修改求职意向
+    //保存修改自我评价
     [SET_EVALUATE]({ commit }, data) {
       return api.post(config.url.expect + '?type=3', data).then(res => {
-        commit('RESUME_SET', {
-          target: 'evaluate',
-          data: res
-        })
+        return res
+      })
+    },
+    //保存修改兴趣爱好
+    [SET_HOBBY]({ commit }, data) {
+      return api.post(config.url.expect + '?type=4', data).then(res => {
         return res
       })
     },
@@ -285,6 +290,18 @@ export default {
           target: 'validInfo',
           data: res
         })
+        return res
+      })
+    },
+    // 新增应届毕业生简历信息
+    // 保存修改校园经历
+    [SAVE_SCHOOLJOBEXPER]({ commit }, data) {
+      return api.post(config.url.saveSchoolJobExper, data).then(res => {
+        return res
+      })
+    },
+    [DELETE_SCHOOLJOBEXPER]({ commit }, data) {
+      return api.delete(config.url.deleteSchoolJobExper.replace('{id}', data)).then(res => {
         return res
       })
     }

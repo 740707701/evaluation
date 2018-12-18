@@ -21,11 +21,11 @@
           </div>
           <div class="status">
             <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>
-            <span v-if="baseInfo.workTime">{{baseInfo.workTime}}年工作经验</span>
+            <span>应届生毕业</span>
             <span v-if="baseInfo.sex==1">男</span>
             <span v-if="baseInfo.sex==2">女</span>
-            <span v-if="baseInfo.birth">{{baseInfo.age}}岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
-            <span>{{baseInfo.jobStatusName}}</span>
+            <span v-if="baseInfo.birth">{{baseInfo.age}}岁 ({{baseInfo.birth?baseInfo.birth.slice(0,10).replace(/\-/g,'/'): ''}})</span>
+            <span>{{baseInfo.jobIntention}}</span>
           </div>
           <div class="status">
             <span v-if="baseInfo.nation">{{baseInfo.nation}}</span>
@@ -65,38 +65,23 @@
         <div class="edit-content baseinfo-content">
           <el-form :inline="true" :model="base" :rules="rules" ref="base" label-width="100px" class="form-box">
             <el-form-item label="姓名：" prop="name" class="input-box">
-              <el-input size="small" v-model="base.name" placeholder="请输入姓名" :maxlength="10" @focus="showNameMsg=true" @blur="showNameMsg=false" @input="showNameMsg=false"></el-input>
+              <el-input size="small" v-model="base.name" placeholder="请输入姓名" :maxlength="10"
+              @focus="inputFocus('base','showNameMsg')" @blur="showNameMsg=false" @input="showNameMsg=false"></el-input>
               <div class="msg" v-if="showNameMsg">请确认姓名与身份证保持信息一致。</div>
             </el-form-item>
             <el-form-item label="性别：" prop="sex" class="input-box">
               <div class="el-input sex-box" >
-                <el-radio v-model="base.sex" :label="'1'">男</el-radio>
+								<el-radio v-model="base.sex" :label="'1'">男</el-radio>
 								<el-radio v-model="base.sex" :label="'2'">女</el-radio>
-                <!-- <input type="radio" name="sex" :checked="base.sex==1" value="1" @click="base.sex=1"/>
-                <label>男</label>  
-                <input type="radio" name="sex" :checked="base.sex==2" value="2" @click="base.sex=2"/>
-                <label>女</label>  -->
                 <div class="msg" v-if="showSexMsg">请确认性别与身份证保持信息一致。</div>
               </div>
             </el-form-item>
-            <el-form-item label="出生日期：" prop="birth" class="input-box">
-               <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
-                  v-model="base.birth"
-                  type="date"
-                  :picker-options="pickerOptions"
-                  placeholder="选择日期"
-                  value-format="yyyy-MM-dd">
-                </el-date-picker>
+						<el-form-item label="民族：" prop="nation" class="input-box">
+              <el-input size="small" v-model="base.nation" placeholder="请输入民族" :maxlength="40"
+              @focus="inputFocus('base','showNationMsg')" @blur="showNationMsg=false"></el-input>
+              <div class="msg" v-if="showNationMsg">请确认民族信息与身份证保持一致</div>
             </el-form-item>
-            <el-form-item label="手机：" prop="phone" class="input-box">
-              <el-input size="small" v-model="base.phone" placeholder="请输入手机号码" :maxlength="11" @focus="showPhoneMsg=true" @blur="showPhoneMsg=false" @input="showPhoneMsg=false"></el-input>
-              <div class="msg" v-if="showPhoneMsg">请确认电话号码保持畅通，尽量让电话号码归属为求职所在地。</div>
-            </el-form-item>
-            <el-form-item label="邮箱：" prop="email" class="input-box">
-              <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" :maxlength="50" @focus="showEmailMsg=true" @blur="showEmailMsg=false"></el-input>
-              <div class="msg" v-if="showEmailMsg">请确认邮箱地址可正常收发邮件，且未设置陌生邮箱黑名单等。</div>
-            </el-form-item>
-            <el-form-item label="籍贯：" prop="nativePlaceList" class="input-box">
+						<el-form-item label="籍贯：" prop="nativePlaceList" class="input-box">
               <!-- <el-select size="small"  v-model="base.nativePlace" placeholder="请选择" class="select-box">
                 <el-option 
                   v-for="item in baseData.cities"
@@ -112,34 +97,44 @@
                 :props="cascaderProp"
                 ></el-cascader>
             </el-form-item>
-            <el-form-item label="工作年份：" prop="workYear" class="input-box">
-              <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
-                  v-model="base.workYear"
-                  type="year"
+						<el-form-item label="现居地：" prop="address" class="input-box">
+              <el-input size="small" v-model="base.address" placeholder="请输入现居住地址" :maxlength="40"
+              @focus="inputFocus('base','showAddressMsg')" @blur="showAddressMsg=false"></el-input>
+              <div class="msg" v-if="showAddressMsg">请确认与求职所在城市一致</div>
+            </el-form-item>
+            <el-form-item label="出生日期：" prop="birth" class="input-box">
+               <el-date-picker size="small" :editable="false" :clearable="false" class="select-box"
+                  v-model="base.birth"
+                  type="date"
                   :picker-options="pickerOptions"
                   placeholder="选择日期"
-                  value-format="yyyy">
+                  value-format="yyyy-MM-dd">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item label="求职状态：" prop="jobStatus" class="input-box">
-              <el-select size="small" v-model="base.jobStatus" placeholder="请选择" class="select-box">
-                  <el-option
-                    v-for="item in baseData.jobStatus"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.code">
-                  </el-option>
-                </el-select>
+						<el-form-item label="政治面貌：" prop="politicalOutlook" class="input-box">
+              <el-select size="small" v-model="base.politicalOutlook" placeholder="请选择政治面貌" class="select-box">
+                <el-option
+                  v-for="item in baseData.politicalOutlook"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.code">
+                </el-option>
+              </el-select>
             </el-form-item>
-            <el-form-item label="职业类型：" prop="careerType" class="input-box">
-              <el-select size="small" v-model="base.careerType" placeholder="请选择" class="select-box">
-                  <el-option
-                    v-for="item in baseData.careerType"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.code">
-                  </el-option>
-                </el-select>
+						<el-form-item label="求职意向：" prop="jobIntention" class="input-box">
+              <el-input  size="small" v-model="base.jobIntention" placeholder="请输入求职意向" :maxlength="50"
+              @focus="inputFocus('base','showJobIntentionMsg')" @blur="showJobIntentionMsg=false"></el-input>
+              <div class="msg" v-if="showJobIntentionMsg">请确认求职意向符合自身情况。</div>
+            </el-form-item>
+            <el-form-item label="手机号码：" prop="phone" class="input-box">
+              <el-input size="small" v-model="base.phone" placeholder="请输入手机号码" :maxlength="11"
+              @focus="inputFocus('base','showPhoneMsg')" @blur="showPhoneMsg=false" @input="showPhoneMsg=false"></el-input>
+              <div class="msg" v-if="showPhoneMsg">请确认电话号码保持畅通，尽量让电话号码归属为求职所在地。</div>
+            </el-form-item>
+            <el-form-item label="邮箱地址：" prop="email" class="input-box">
+              <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" :maxlength="50" 
+              @focus="inputFocus('base','showEmailMsg')" @blur="showEmailMsg=false"></el-input>
+              <div class="msg" v-if="showEmailMsg">请确认邮箱地址可正常收发邮件，且未设置陌生邮箱黑名单等。</div>
             </el-form-item>
             <el-form-item label="婚姻状态：" prop="marriageStatus" class="input-box">
               <el-select size="small" v-model="base.marriageStatus" placeholder="请选择" class="select-box">
@@ -151,24 +146,7 @@
                   </el-option>
                 </el-select>
             </el-form-item>
-             <el-form-item label="政治面貌：" prop="politicalOutlook" class="input-box">
-              <el-select size="small" v-model="base.politicalOutlook" placeholder="请选择政治面貌" class="select-box">
-                <el-option
-                  v-for="item in baseData.politicalOutlook"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.code">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="民族：" prop="nation" class="input-box">
-              <el-input size="small" v-model="base.nation" placeholder="请输入民族" :maxlength="40" @focus="showNationMsg=true" @blur="showNationMsg=false"></el-input>
-              <div class="msg" v-if="showNationMsg">请确认民族信息与身份证保持一致</div>
-            </el-form-item>
-            <el-form-item label="现居住：" prop="address" class="input-box">
-              <el-input size="small" v-model="base.address" placeholder="请输入现居住地址" :maxlength="40" @focus="showAddressMsg=true" @blur="showAddressMsg=false"></el-input>
-              <div class="msg" v-if="showAddressMsg">请确认与求职所在城市一致</div>
-            </el-form-item>
+            
             <el-form-item size="small" class="edit-btn-box">
               <el-button class="save-btn" @click="saveBaseInfo('base')">保存</el-button>
               <el-button class="cancel" @click="cancel('base')">取消</el-button>
@@ -222,8 +200,10 @@ export default {
       showEmailMsg: false,
       showAddressMsg: false,
       showNationMsg: false,
+			showJobIntentionMsg: false,
 
       base: {},
+      resumeType: '',
       imgUrl: '',
       showMoreBase: false,
       showBaseInfoEdit: false,
@@ -234,103 +214,41 @@ export default {
       },
       rules: {
         name: [
-          {
-            required: true,
-            message: "请输入姓名",
-            trigger: "blur"
-          },
-          {
-            min: 1,
-            max: 10,
-            message: "请确认姓名与身份证保持信息一致",
-            trigger: "blur"
-          }
+          { required: true, message: "请输入姓名", trigger: "blur" },
+          { min: 1, max: 10, message: "请确认姓名与身份证保持信息一致", trigger: "blur" }
         ],
         sex: [
-          {
-            required: true,
-            message: "请选择性别并确认性别与身份证保持信息一致。",
-            trigger: "change"
-          }
+          { required: true, message: "请选择性别并确认性别与身份证保持信息一致。", trigger: "change" }
         ],
         phone: [
-          {
-            required: true, 
-            message: "请输入手机号", 
-            trigger: "blur" 
-          },
-          {
-            max: 11,
-            message: "请输入正确的手机号",
-            trigger: "blur"
-          },
-          {
-            trigger: 'click',
-            message: '请确认电话号码保持畅通，尽量让电话号码归属为求职所在地。'
-          }
+          { required: true,  message: "请输入手机号",  trigger: "blur" },
+          { max: 11, message: "请输入正确的手机号", trigger: "blur" },
+          { trigger: 'click', message: '请确认电话号码保持畅通，尽量让电话号码归属为求职所在地。' }
         ],
         email: [
           { required: true, message: "请输入联系邮箱", trigger: "blur" },
-          {
-            min: 1,
-            max: 50,
-            message: "请确认邮箱地址可正常收发邮件，且未设置陌生邮箱黑名单等。",
-            trigger: "blur"
-          }
+          { min: 1, max: 50, message: "请确认邮箱地址可正常收发邮件，且未设置陌生邮箱黑名单等。", trigger: "blur" }
         ],
         birth: [
-          {
-            required: true,
-            message: "请确认出生日期与身份证保持信息一致。",
-            trigger: "blur"
-          }
+          { required: true, message: "请确认出生日期与身份证保持信息一致。", trigger: "blur" }
         ],
         nativePlaceList: [
-          {
-            required: true,
-            type: 'array',
-            message: "请确认户籍地与你身份证信息保持一致。",
-            trigger: "change"
-          }
+          { type: 'array', message: "请确认户籍地与你身份证信息保持一致。", trigger: "change" }
         ],
-        workYear: [
-          { required: true, message: "请选择工作时间", trigger: "change" }
-        ],
-        jobStatus: [
-          { required: true, message: "请选择求职状态", trigger: "change" }
-        ],
-        careerType: [
-          { required: true, message: "请选择职业类型", trigger: "change" }
+        jobIntention: [
+          { message: "请输入求职意向", trigger: "blur" }
         ],
         marriageStatus: [
-          {
-            required: true,
-            message: "请确认你的婚姻状况属实",
-            trigger: "change"
-          }
+          { message: "请确认你的婚姻状况属实", trigger: "change" }
         ],
         politicalOutlook: [
-          {
-            required: true,
-            message: "请选择政治面貌",
-            trigger: "change"
-          }
+          { message: "请选择政治面貌", trigger: "change" }
         ],
         nation: [
-          {
-            required: true,
-            message: "请输入民族",
-            trigger: "blur"
-          }
+          { required: true, message: "请输入民族", trigger: "blur" }
         ],
         address: [
-          {
-            required: true,
-            min: 1,
-            max: 40,
-            message: "请确认居住地与求职所在城市一致",
-            trigger: "blur"
-          }
+          { required: true, min: 1, max: 40, message: "请确认居住地与求职所在城市一致", trigger: "blur"}
         ]
       }
     };
@@ -339,6 +257,7 @@ export default {
   created: function(){ 
     let userInfo = JSON.parse(localStorage.getItem("userInfo"))
     this.phone = userInfo.mobile
+    this.resumeType = this.baseParams.resumeType
   },
   updated(){
     // console.log(this.baseInfo.headPicAll)
@@ -346,6 +265,10 @@ export default {
 
   },
   methods: {
+    inputFocus(formName, msg) {
+			this.$refs[formName].clearValidate()
+			this[msg] = true
+		},
     changeNativePlace: function(e){
       this.base.nativePlaceList = e;
     },
@@ -353,17 +276,19 @@ export default {
       console.log(this.baseInfo)
       this.showBaseInfoEdit = true;
       this.base = {
+        resumeType: this.baseInfo.resumeType || this.resumeType,
         name: this.baseInfo.name,
         birth: this.baseInfo.birth,
         phone: this.baseInfo.phone,
         email: this.baseInfo.email,
         sex: this.baseInfo.sex,
         nativePlaceList: this.baseInfo.nativePlaceList,
-        workYear: this.baseInfo.workYear,
-        jobStatus: this.baseInfo.jobStatus,
-        careerType: this.baseInfo.careerType,
+        // workYear: this.baseInfo.workYear,
+        // jobStatus: this.baseInfo.jobStatus,
+        // careerType: this.baseInfo.careerType,
         marriageStatus: this.baseInfo.marriageStatus,
-        politicalOutlook: this.baseInfo.politicalOutlook,
+				politicalOutlook: this.baseInfo.politicalOutlook,
+				jobIntention: this.baseInfo.jobIntention,
         nation: this.baseInfo.nation,
         address: this.baseInfo.address,
         creator: this.baseInfo.creator,
@@ -372,6 +297,7 @@ export default {
       };
     },
     saveBaseInfo: function(formName) {
+      console.log('base', this.base)
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$store
@@ -413,6 +339,4 @@ export default {
   }
 };
 </script>
-<style lang="less" scope>
-</style>
 

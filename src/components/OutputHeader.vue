@@ -59,10 +59,8 @@ export default {
         format: this.exportType
       };
       let sysbelong = location.href.substring(location.href.lastIndexOf('://')+3,location.href.lastIndexOf('.uwopai.com'))
-      if (sysbelong === 'www') { 
+      if (sysbelong === 'www' || sysbelong === 'http://') { 
         sysbelong = 'uwopai'
-      } else if(sysbelong === 'http://') {
-        sysbelong = ''
       }
       axios.defaults.headers.sysbelong = sysbelong
       if (this.exportType == "word") {
@@ -117,6 +115,7 @@ export default {
     margin: 0 auto;
 		.header-content {
       height: 60px;
+      background-color: #fff;
       .logo {
         float: left;
         width: 95px;

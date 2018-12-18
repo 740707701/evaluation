@@ -36,6 +36,14 @@ export default {
   font-size: 14px;
   height: 100%;
   min-height: 100%;
+  // iconfont 彩色图标颜色
+  .svg-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+  }
   .page {
     padding-top: 60px;
   }
@@ -68,7 +76,7 @@ export default {
   }
   //checkbox label字体大小
   .el-checkbox__label {
-    font-size: 12px;
+    font-size: 14px;
   }
   //element-ui input日期框的图标
   /*8
