@@ -368,7 +368,8 @@ export default {
         address: this.baseInfo.address,
         creator: this.baseInfo.creator,
         updator: this.baseInfo.updator,
-        id: this.baseInfo.id
+        id: this.baseInfo.id,
+        resumeType: this.baseInfo.resumeType || this.baseParams.resumeType
       };
     },
     saveBaseInfo: function(formName) {

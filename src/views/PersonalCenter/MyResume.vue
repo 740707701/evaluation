@@ -45,8 +45,8 @@
               </div>
               <div class="comment-box" v-if="resume.resumeComments.length&&resume.state=='30'">
                 <div class="comment-title">评语：</div>
-                <div class="comment-content" v-if="!resume.showMore">
-                  <span v-if="resume.resumeComments[0]!=null">（1）{{resume.resumeComments[0]}}</span>
+                <div class="comment-content" v-if="!resume.showMore" v-for="(content, index) in resume.resumeComments" :key="index">
+                  <span v-if="content!=null">（{{index+1}}）{{content}}</span>
                 </div>
                 <div class="comment-all-content" v-if="resume.showMore" v-for="(content, index) in resume.resumeComments" :key="index">
                   <span v-if="content!=null">（{{index+1}}）{{content}}</span>

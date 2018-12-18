@@ -225,6 +225,7 @@ export default {
             : this.creator;
           this.baseParams.updator = res.data.resumeBaseInfo.updator;
           this.baseParams.resumeId = res.data.resumeBaseInfo.id;
+          this.baseParams.resumeType = res.data.resumeBaseInfo.resumeType || this.resumeType;
         })
         .catch(err => {
           if (err.data.msg) {
