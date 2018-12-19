@@ -115,7 +115,7 @@
         </el-row>
       </div>
     </div>
-    <!-- 提交简历弹框 -->
+    <!-- 提交简历成功弹框 -->
     <div class="dialog" v-if="showSuccessDialog" @click.self="showSuccessDialog=false">
       <div class="post-box">
         <img src="../../assets/images/resume_success.png" alt="" class="post-success">
@@ -124,6 +124,17 @@
         <el-button size="small" round class="back-btn" @click="viewResume">查看</el-button>
       </div>
     </div>
+    <!-- 提交确认框 -->
+    <el-dialog :append-to-body="true"
+			title="提示"
+			:visible.sync="showPostConfirmDialog"
+			width="30%">
+			<span>是否确认提交？</span>
+			<span slot="footer" class="dialog-footer">
+				<el-button size="small" @click="showPostConfirmDialog = false">取 消</el-button>
+				<el-button size="small" type="primary" @click="confirmPost">确 定</el-button>
+			</span>
+		</el-dialog>
     <forbidden v-if="permission=='forbidden'"></forbidden>
     <!-- 简历预览弹框 -->
     <!-- <div class="dialog" v-if="showPreview" @click.self="showPreview=false">
@@ -163,6 +174,7 @@ export default {
       resumeId: "",
       submitDate: "",
       baseParams: {}, //调用接口基础参数
+      showPostConfirmDialog: false,
       showSuccessDialog: false,
       showPreview: false,
       tag: "",
@@ -247,13 +259,17 @@ export default {
       this.getResumeInfo();
     },
     //提交简历
-    postResume: function() {
+    postResume () {
       if(!this.baseParams.resumeId){
-        this.$message({
-          type: "error",
-          message: "请先完善简历基本信息！"
-        })
-        return
+        this.$message({ type: "error", message: "请先完善简历基本信息！" })
+        return false
+      }
+      this.showPostConfirmDialog = true
+    },
+    confirmPost: function() {
+      if(!this.baseParams.resumeId){
+        this.$message({ type: "error", message: "请先完善简历基本信息！" })
+        return false
       }
       this.postInfo = {
         resumeId: this.baseParams.resumeId
@@ -261,6 +277,7 @@ export default {
       this.$store
         .dispatch("SUBMIT_RESUME", this.postInfo)
         .then(res => {
+          this.showPostConfirmDialog = false
           this.submitDate = res.data.data;
           this.showSuccessDialog = true;
         })

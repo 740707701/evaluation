@@ -120,9 +120,6 @@ export default {
 					border-radius:18px;
 					background-color: #fff;
 					text-align: center;
-					&:hover {
-						border: 1px solid @main-color-blue;
-					}
 					img {
 						width: 180px;
 						height: auto;
@@ -137,6 +134,12 @@ export default {
 						a {
 							color: @main-color-blue;
 						}
+					}
+				}
+				.item:hover {
+					border: 1px solid @main-color-blue;
+					.title {
+						color: @main-color-blue;
 					}
 				}
 			}

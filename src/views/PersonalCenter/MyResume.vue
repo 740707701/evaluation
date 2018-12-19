@@ -71,6 +71,17 @@
         <el-button size="small" round class="back-btn" @click="viewResume(currentResume)">查看</el-button>
       </div>
     </div>
+    <!-- 提交确认框 -->
+    <el-dialog
+			title="提示"
+			:visible.sync="showPostConfirmDialog"
+			width="30%">
+			<span>是否确认提交？</span>
+			<span slot="footer" class="dialog-footer">
+				<el-button size="small" @click="showPostConfirmDialog = false">取 消</el-button>
+				<el-button size="small" type="primary" @click="confirmPost">确 定</el-button>
+			</span>
+		</el-dialog>
   </div>
 </template>
 <script>
@@ -83,6 +94,7 @@ import time from '../../api/time.js'
         resumeList: [],
         modifyList: [],
         showSuccessDialog: false,
+        showPostConfirmDialog: false,
         submitDate: '',
         currentResume: {}
       }
@@ -147,13 +159,17 @@ import time from '../../api/time.js'
       },
       postResume(resume) {
         this.currentResume = resume
+        this.showPostConfirmDialog = true;
+      },
+      confirmPost() {
         let data = {
-          resumeId: resume.id
+          resumeId: this.currentResume.id
         }
         this.$store
         .dispatch("SUBMIT_RESUME", data)
         .then(res => {
           this.submitDate = res.data.data;
+          this.showPostConfirmDialog = false;
           this.showSuccessDialog = true;
         })
         .catch(err => {
@@ -166,7 +182,7 @@ import time from '../../api/time.js'
       },
       showMoreText(resume) {
       this.$set(resume, 'showMore', !resume.showMore)
-    },
+      }
     }
   }
 </script>
