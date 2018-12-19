@@ -302,7 +302,7 @@ export default {
           this.baseInfo = res.data.resumeBaseInfo || {};
           this.resumeId = res.data.resumeBaseInfo.id;
           this.evaluateInfo = res.data.resumeBaseInfo || {};
-          this.internshipList = res.data.schoolPostList|| [];
+          this.internshipList = res.data.schoolPostList || [];
           this.eduList = res.data.educationList || [];
           this.honorList = res.data.schoolHonorList || [];
           this.schoolJobExperList = res.data.schoolJobexpList || [];

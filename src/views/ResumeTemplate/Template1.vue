@@ -36,6 +36,10 @@
 							<span class="key">政治面貌：</span>
 							<span  class="value">{{baseInfo.politicalOutlookName}}</span>
 						</li>
+						<li v-if="baseInfo.jobIntention">
+							<span class="key">求职意向：</span>
+							<span  class="value">{{baseInfo.jobIntention}}</span>
+						</li>
 					</ul>
 				</div>
 				<div class="personal">
@@ -65,7 +69,7 @@
 				</div>
 			</div>
 			<div class="right-content">
-				<div class="module expect">
+				<div class="module expect" v-if="baseInfo.resumeType===2">
 					<div class="top">
 						<div class="icon-box">
 							<i class="iconfont icon-lingdai"></i>
@@ -97,7 +101,53 @@
 						</li>
 					</ul>
 				</div>
-				<div class="module work" v-if="workExperList.length">
+				<div class="module work internship" v-if="internshipList.length&&baseInfo.resumeType===1">
+					<div class="top">
+						<div class="icon-box">
+							<i class="iconfont icon-work-exper"></i>
+						</div>
+						<div class="title">实习实践</div>
+					</div>
+					<div class="work-item"  v-for="internship in internshipList" :key="internship.id">
+						<div class="title">
+							<span>{{internship.startTime.slice(0,10)}} ~ {{internship.endTime.slice(0,10)}}</span>
+							<span>{{internship.companyName}}</span>
+							<span>{{internship.schoolWorkName}}</span>
+						</div>
+						<div class="content">
+							<div class="title">主修内容：</div>
+							<div class="work-content">{{internship.schoolWorkDesc}}</div>
+						</div>
+						<div class="content">
+							<div class="title">实践成果：</div>
+							<div class="work-content">{{internship.workResult}}</div>
+						</div>
+						<div class="content">
+							<div class="title">成长收获：</div>
+							<div class="work-content">{{internship.growHarvest}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="module edu" v-if="eduList.length">
+					<div class="top">
+						<div class="icon-box">
+							<i class="iconfont icon-edu1"></i>
+						</div>
+						<div class="title">教育经历</div>
+					</div>
+					<div class="work-item" v-for="edu in eduList" :key="edu.id">
+						<div class="title">
+							<span>{{edu.startTime.slice(0,10)}} ~ {{edu.endTime.slice(0,10)}}</span>
+							<span>{{edu.schoolName}}</span>
+							<span>{{edu.eduMajor}}</span>
+						</div>
+						<div class="content" v-if="edu.eduDesc">
+							<div class="title">主修课程：</div>
+							<div class="work-content">{{edu.eduDesc}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="module work" v-if="workExperList.length&&baseInfo.resumeType===2">
 					<div class="top">
 						<div class="icon-box">
 							<i class="iconfont icon-work-exper"></i>
@@ -116,26 +166,21 @@
 						</div>
 					</div>
 				</div>
-				<div class="module edu" v-if="eduList.length">
+				<div class="module school honor" v-if="honorList.length&&baseInfo.resumeType===1">
 					<div class="top">
 						<div class="icon-box">
-							<i class="iconfont icon-edu1"></i>
+							<i class="iconfont icon-honor-white"></i>
 						</div>
-						<div class="title">教育背景</div>
+						<div class="title">荣誉称号</div>
 					</div>
-					<div class="work-item" v-for="edu in eduList" :key="edu.id">
-						<div class="title">
-							<span>{{edu.startTime.slice(0,10)}} ~ {{edu.endTime.slice(0,10)}}</span>
-							<span>{{edu.schoolName}}</span>
-							<span>{{edu.eduMajor}}</span>
-						</div>
-						<div class="content" v-if="edu.eduDesc">
-							<div class="title">主修课程：</div>
-							<div class="work-content">{{edu.eduDesc}}</div>
+					<div class="honor" v-if="honorList.length">
+						<div class="honor-item item" v-for="honor in honorList" :key="honor.id">
+							<span>{{honor.honorTime.slice(0, 10)}}</span>
+							<span>{{honor.honorPrize}}</span>
 						</div>
 					</div>
 				</div>
-				<div class="module school" v-if="schoolHonorList.length || schoolWorkList.length">
+				<div class="module school" v-if="(schoolHonorList.length || schoolWorkList.length)&&baseInfo.resumeType===2">
 					<div class="top">
 						<div class="icon-box">
 							<i class="iconfont icon-book"></i>
@@ -177,6 +222,15 @@
 						</div>
 					</div>
 				</div>
+				<div class="module skill hobby" v-if="baseInfo.hobby&&baseInfo.resumeType===1">
+					<div class="top">
+						<div class="icon-box">
+							<i class="iconfont icon-hobby-white"></i>
+						</div>
+						<div class="title">兴趣爱好</div>
+					</div>
+					<div class="hobby">{{baseInfo.hobby}}</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -197,7 +251,12 @@ export default {
       eduList: [],
       schoolHonorList: [],
       schoolWorkList: [],
-      skillList: []
+      skillList: [],
+
+			internshipList: [],
+			schoolJobExperList: [],
+			honorList: [],
+			hobbyInfo: {}
     };
 	},
 	created(){
@@ -224,6 +283,11 @@ export default {
           this.schoolHonorList = res.data.schoolHonorList || [];
           this.schoolWorkList = res.data.schoolPostList || [];
 					this.skillList = res.data.skillsList || [];
+
+          this.internshipList = res.data.schoolPostList || [];
+					this.schoolJobExperList = res.data.schoolJobexpList || [];
+					this.honorList = res.data.schoolHonorList || [];
+					this.hobbyInfo = res.data.resumeBaseInfo || {};
 					//图片格式转base64
           if(this.baseInfo.headPicAll){
             var img = new Image();
@@ -290,16 +354,11 @@ export default {
 <style lang="less" scoped>
 	@import "../../assets/css/colors.less";
 	.template1-page {
-		position: relative;
 		.container {
 			width: 1020px;
-			position: absolute;
-			top: 60px;
-			left: 50%;
-			margin-left: -510px;
-			margin-bottom: 20px;
+			margin: 0 auto;
+			margin-bottom: 30px;
 			background-color: #2D4662;
-			overflow: auto;
 			.aside {
 				float: left;
 				width: 260px;
@@ -360,6 +419,7 @@ export default {
 				}
 			}
 			.right-content {
+				min-height: 100vh;
 				margin-left: 260px;
 				padding: 20px 30px;
 				color: #333;
@@ -433,13 +493,16 @@ export default {
 						}
 					}
 				}
-				.school, .skill {
+				.school, .skill, .hobby {
 					.item {
 						span {
 							width: 30%;
 							line-height: 30px;
 							display: inline-block;
 						}
+					}
+					.hobby {
+						line-height: 22px;
 					}
 					.honor, .schoolwork {
 						.title {
@@ -449,7 +512,6 @@ export default {
 							padding-left: 20px;
 							background-color: #F1F5FB;
 						}
-						
 						.schoolwork-item {
 							color: #666;
 							.desc-title {

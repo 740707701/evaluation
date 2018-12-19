@@ -9,7 +9,8 @@
 				</div>
 				<div class="text-content">
 					<div class="title">{{baseInfo.name}}</div>
-					<div class="expect">求职意向：{{baseInfo.expectPositionName}}</div>
+					<div class="expect" v-if="baseInfo.resumeType===2">求职意向：{{baseInfo.expectPositionName}}</div>
+					<div class="expect" v-if="baseInfo.resumeType===1">求职意向：{{baseInfo.jobIntention}}</div>
 				</div>
 			</div>
 			<div class="bottom">

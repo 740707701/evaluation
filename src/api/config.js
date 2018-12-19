@@ -100,6 +100,7 @@ export default {
     //导出简历
     exportResume: 'resume/export/{resumeId}/{format}', //format: pdf/word
     //检查是否制作过简历
+    // checkResume: 'resume/checkresume',
     checkResume: 'resume/checkresume/{type}',
     //简历列表
     resumeList: 'resume/list',

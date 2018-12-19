@@ -43,7 +43,7 @@
                   <span>{{resume.resumePoint || 0}}分</span>
                 </div>
               </div>
-              <div class="comment-box" v-if="resume.resumeComments.length&&resume.state=='30'">
+              <div class="comment-box" v-if="resume.resumeComments&&resume.resumeComments.length&&resume.state=='30'">
                 <div class="comment-title">评语：</div>
                 <div class="comment-content" v-if="!resume.showMore" v-for="(content, index) in resume.resumeComments" :key="index">
                   <span v-if="content!=null">（{{index+1}}）{{content}}</span>

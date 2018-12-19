@@ -11,27 +11,29 @@
 						<div class="title">{{baseInfo.name}}</div>
 						<div class="info">
 							<span>{{baseInfo.jobStatusName}}</span>
-							<span class="split">|</span>
+							<span class="split" v-if="baseInfo.jobStatusName">|</span>
 							<span>{{baseInfo.phone}}</span>
 							<span class="split">|</span>
 							<span>{{baseInfo.email}}</span>
 						</div>
 						<div class="info">
-							<span>{{baseInfo.age}}岁&nbsp;&nbsp;({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
+							<span>{{baseInfo.age}}岁&nbsp;&nbsp;({{baseInfo.birth?baseInfo.birth.slice(0,10).replace(/\-/g,'/'): ''}})</span>
 							<span class="split">|</span>
 							<span v-if="baseInfo.sex==1">男</span>
 							<span v-if="baseInfo.sex==2">女</span>
-							<span class="split">|</span>
-							<span>现居住{{baseInfo.address}}</span>
 							<span class="split" v-if="baseInfo.workTime>0">|</span>
 							<span v-if="baseInfo.workTime>0">{{baseInfo.workTime}}年工作经验</span>
+							<span class="split">|</span>
+							<span v-if="baseInfo.jobIntention">{{baseInfo.jobIntention}}</span>
+							<span class="split">|</span>
+							<span>现居住{{baseInfo.address}}</span>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="evaluate">{{baseInfo.evaluate}}</div>
 			<div class="module-content">
-				<div class="module expect">
+				<div class="module expect" v-if="baseInfo.resumeType===2">
 					<div class="top">
 						<div class="title">求职意向</div>
 						<div class="icon-box">
@@ -46,28 +48,9 @@
 						<li><span class="name">工作类型：</span><span>{{expectInfo.expectWorkTypeName}}</span></li>
 					</ul>
 				</div>
-				<div class="module work" v-if="workExperList.length">
+        <div class="module edu" v-if="eduList.length">
 					<div class="top">
-						<div class="title">工作经验</div>
-						<div class="icon-box">
-							<i class="iconfont icon-menu"></i>
-						</div>
-					</div>
-					<div class="work-item" v-for="exper in workExperList" :key="exper.id">
-						<div class="title">
-							<span>{{exper.startTime.slice(0,10)}} ~ {{exper.endTime.slice(0,10)}}</span>
-							<span>{{exper.companyName}}</span>
-							<span>{{exper.position}}</span>
-						</div>
-						<div class="content">
-							<div class="title">工作内容：</div>
-							<div class="work-content">{{exper.workDesc}}</div>
-						</div>
-					</div>
-				</div>
-				<div class="module edu" v-if="eduList.length">
-					<div class="top">
-						<div class="title">教育背景</div>
+						<div class="title">教育经历</div>
 						<div class="icon-box">
 							<i class="iconfont icon-menu"></i>
 						</div>
@@ -88,7 +71,67 @@
 						</div>
 					</div>
 				</div>
-				<div class="module school" v-if="schoolHonorList.length || schoolWorkList.length">
+				<div class="module work internship" v-if="internshipList.length&&baseInfo.resumeType===1">
+					<div class="top">
+						<div class="title">实习实践</div>
+						<div class="icon-box">
+							<i class="iconfont icon-menu"></i>
+						</div>
+					</div>
+					<div class="work-item" v-for="internship in internshipList" :key="internship.id">
+						<div class="title">
+							<span>{{internship.startTime.slice(0,10)}} ~ {{internship.endTime.slice(0,10)}}</span>
+							<span>{{internship.companyName}}</span>
+							<span>{{internship.schoolWorkName}}</span>
+						</div>
+						<div class="content">
+							<div class="title">主修内容：</div>
+							<div class="work-content">{{internship.schoolWorkDesc}}</div>
+						</div>
+						<div class="content">
+							<div class="title">实践成果：</div>
+							<div class="work-content">{{internship.workResult}}</div>
+						</div>
+						<div class="content">
+							<div class="title">成长收获：</div>
+							<div class="work-content">{{internship.growHarvest}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="module work" v-if="workExperList.length&&baseInfo.resumeType===2">
+					<div class="top">
+						<div class="title">工作经验</div>
+						<div class="icon-box">
+							<i class="iconfont icon-menu"></i>
+						</div>
+					</div>
+					<div class="work-item" v-for="exper in workExperList" :key="exper.id">
+						<div class="title">
+							<span>{{exper.startTime.slice(0,10)}} ~ {{exper.endTime.slice(0,10)}}</span>
+							<span>{{exper.companyName}}</span>
+							<span>{{exper.position}}</span>
+						</div>
+						<div class="content">
+							<div class="title">工作内容：</div>
+							<div class="work-content">{{exper.workDesc}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="module school honor" v-if="honorList.length&&baseInfo.resumeType===1">
+					<div class="top">
+						<div class="title">荣誉称号</div>
+						<div class="icon-box">
+							<i class="iconfont icon-menu"></i>
+						</div>
+					</div>
+					<div class="honor" v-if="honorList.length">
+						<div class="honor-item item" v-for="honor in honorList" :key="honor.id">
+							<span>{{honor.honorTime.slice(0, 10)}}</span>
+							<span>{{honor.honorPrize}}</span>
+						</div>
+					</div>
+				</div>
+				<div class="module school" v-if="(schoolHonorList.length || schoolWorkList.length)&&baseInfo.resumeType===2">
 					<div class="top">
 						<div class="title">在校情况</div>
 						<div class="icon-box">
@@ -132,6 +175,15 @@
 						</div>
 					</div>
 				</div>
+				<div class="module skill hobby" v-if="baseInfo.hobby">
+					<div class="top">
+						<div class="title">兴趣爱好</div>
+						<div class="icon-box">
+							<i class="iconfont icon-menu"></i>
+						</div>
+					</div>
+					<div class="hobby">{{baseInfo.hobby}}</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -150,7 +202,12 @@ export default {
       eduList: [],
       schoolHonorList: [],
       schoolWorkList: [],
-      skillList: []
+      skillList: [],
+
+      internshipList: [],
+			schoolJobExperList: [],
+			honorList: [],
+			hobbyInfo: {}
     };
   },
   created() {
@@ -177,6 +234,11 @@ export default {
           this.schoolHonorList = res.data.schoolHonorList || [];
           this.schoolWorkList = res.data.schoolPostList || [];
           this.skillList = res.data.skillsList || [];
+
+          this.internshipList = res.data.schoolPostList || [];
+					this.schoolJobExperList = res.data.schoolJobexpList || [];
+					this.honorList = res.data.schoolHonorList || [];
+					this.hobbyInfo = res.data.resumeBaseInfo || {};
           //图片格式转base64
           if(this.baseInfo.headPicAll){
             var img = new Image();
@@ -358,13 +420,16 @@ export default {
       }
     }
     .school,
-    .skill {
+    .skill, .hobby {
       .item {
         span {
           width: 30%;
 					line-height: 30px;
 					display: inline-block;
         }
+      }
+      .hobby {
+        line-height: 22px;
       }
       .honor,
       .schoolwork {

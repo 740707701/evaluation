@@ -231,8 +231,7 @@ export default {
         }else if (id == 4){
           this.$router.push({ path: '/resumeModule', query: query})
           /*
-          this.resumeType = 1
-          this.$store.dispatch('CHECK_RESUME', this.resumeType).then(res => {
+          this.$store.dispatch('CHECK_RESUME').then(res => {
             if(res.data == 0){
               this.$router.push({ path: '/resumeBg', query: query})
             }else {

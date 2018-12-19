@@ -65,8 +65,11 @@
 							<div class="item">
 								<span class="name">现居住：</span><span>{{baseInfo.address}}</span>
 							</div>
-							<div class="item">
+							<div class="item" v-if="baseInfo.resumeType===2">
 								<span class="name">毕业院校：</span><span v-if="eduList.length">{{eduList[0].schoolName}}</span>
+							</div>
+							<div class="item" v-if="baseInfo.resumeType===1">
+								<span class="name">求职意向：</span><span>{{baseInfo.jobIntention}}</span>
 							</div>
 						</li>
 					</ul>
@@ -74,7 +77,27 @@
 						<img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" alt="">
 					</div>
 				</div>
-				<div class="module work">
+				<div class="module edu">
+					<div class="top">
+						<div class="title">教育背景</div>
+					</div>
+					<div class="work-item" v-for="edu in eduList" :key="edu.id">
+						<div class="title">
+							<span>{{edu.startTime.slice(0,10)}} ~ {{edu.endTime.slice(0,10)}}</span>
+							<span>{{edu.schoolName}}</span>
+							<span>{{edu.eduMajor}}</span>
+						</div>
+						<div class="content" v-if="edu.majorDesc">
+							<div class="title">专业描述：</div>
+							<div class="work-content">{{edu.majorDesc}}</div>
+						</div>
+						<div class="content" v-if="edu.eduDesc">
+							<div class="title">主修课程：</div>
+							<div class="work-content">{{edu.eduDesc}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="module work" v-if="workExperList.length&&baseInfo.resumeType===2">
 					<div class="top">
 						<div class="title">工作经验</div>
 					</div>
@@ -90,7 +113,31 @@
 						</div>
 					</div>
 				</div>
-				<div class="module school" v-if="schoolHonorList.length || schoolWorkList.length">
+				<div class="module work internship" v-if="internshipList.length&&baseInfo.resumeType===1">
+					<div class="top">
+						<div class="title">实习实践</div>
+					</div>
+					<div class="work-item" v-for="internship in internshipList" :key="internship.id">
+						<div class="title">
+							<span>{{internship.startTime.slice(0,10)}} ~ {{internship.endTime.slice(0,10)}}</span>
+							<span>{{internship.companyName}}</span>
+							<span>{{internship.schoolWorkName}}</span>
+						</div>
+						<div class="content">
+							<div class="title">主修内容：</div>
+							<div class="work-content">{{internship.schoolWorkDesc}}</div>
+						</div>
+						<div class="content">
+							<div class="title">实践成果：</div>
+							<div class="work-content">{{internship.workResult}}</div>
+						</div>
+						<div class="content">
+							<div class="title">成长收获：</div>
+							<div class="work-content">{{internship.growHarvest}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="module school" v-if="(schoolHonorList.length || schoolWorkList.length)&&baseInfo.resumeType===2">
 					<div class="top">
 						<div class="title">在校情况</div>
 					</div>
@@ -117,6 +164,19 @@
 					</div>
 					
 				</div>
+				<div class="module school" v-if="honorList.length&&baseInfo.resumeType===1">
+					<div class="top">
+						<div class="title">荣誉证书</div>
+					</div>
+					<div class="honor" v-if="honorList.length">
+						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">
+							<span>{{honor.honorTime.slice(0, 10)}}</span>
+                <span>{{honor.honorPrize}}</span>
+								<span>{{honor.honorLevel}}</span>
+						</div>
+					</div>
+					
+				</div>
 				<div class="module skill" v-if="skillList.length">
 					<div class="top">
 						<div class="title">技能证书</div>
@@ -128,31 +188,17 @@
 						</div>
 					</div>
 				</div>
-				<div class="module edu">
-					<div class="top">
-						<div class="title">教育背景</div>
-					</div>
-					<div class="work-item" v-for="edu in eduList" :key="edu.id">
-						<div class="title">
-							<span>{{edu.startTime.slice(0,10)}} ~ {{edu.endTime.slice(0,10)}}</span>
-							<span>{{edu.schoolName}}</span>
-							<span>{{edu.eduMajor}}</span>
-						</div>
-						<div class="content" v-if="edu.majorDesc">
-							<div class="title">专业描述：</div>
-							<div class="work-content">{{edu.majorDesc}}</div>
-						</div>
-						<div class="content" v-if="edu.eduDesc">
-							<div class="title">主修课程：</div>
-							<div class="work-content">{{edu.eduDesc}}</div>
-						</div>
-					</div>
-				</div>
 				<div class="module eva">
 					<div class="top">
 						<div class="title">自我评价</div>
 					</div>
 					<div class="item ">{{baseInfo.evaluate}}</div>
+				</div>
+				<div class="module eva hobby" v-if="baseInfo.hobby&&baseInfo.resumeType===1">
+					<div class="top">
+						<div class="title">兴趣爱好</div>
+					</div>
+					<div class="item ">{{baseInfo.hobby}}</div>
 				</div>
 			</div>
 		</div>
@@ -174,7 +220,12 @@ export default {
       eduList: [],
       schoolHonorList: [],
       schoolWorkList: [],
-      skillList: []
+			skillList: [],
+			
+			internshipList: [],
+			schoolJobExperList: [],
+			honorList: [],
+			hobbyInfo: {}
     };
   },
   created() {
@@ -201,6 +252,11 @@ export default {
           this.schoolHonorList = res.data.schoolHonorList || [];
           this.schoolWorkList = res.data.schoolPostList || [];
 					this.skillList = res.data.skillsList || [];
+
+					this.internshipList = res.data.schoolPostList || [];
+					this.schoolJobExperList = res.data.schoolJobexpList || [];
+					this.honorList = res.data.schoolHonorList || [];
+					this.hobbyInfo = res.data.resumeBaseInfo || {};
 					//图片格式转base64
           if(this.baseInfo.headPicAll){
             var img = new Image();
