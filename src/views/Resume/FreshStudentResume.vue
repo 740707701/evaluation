@@ -296,7 +296,7 @@ export default {
         });
     },
     previewFreshStudentResume() {
-      this.$router.push({ path: '/viewFreshStudentResume', query: {resumeId: this.resumeId, org: 'preview'}})
+      this.$router.push({ path: '/viewFreshStudentResume', query: {resumeId: this.resumeId }})
     },
     //查看
     viewResume(){

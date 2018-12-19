@@ -1,7 +1,7 @@
 <template>
   <div class="view-freshstudent-resume">
     <div class="container">
-      <output-header :resumeId="resumeId" :templateId="''" :resumeName="baseInfo.resumeName" :org="org"></output-header>
+      <output-header :resumeId="resumeId" :templateId="''" :resumeName="baseInfo.resumeName"></output-header>
       <div class="pdf-content" id="pdfDom">
 				<div class="header-bg">
 					<img class="img-bg" src="../../assets/images/student-bg.png" alt="">
@@ -287,10 +287,6 @@ export default {
   },
   created() {
     this.resumeId = this.$route.query.resumeId;
-    this.org = this.$route.query.org;
-    if (this.org == "preview") {
-      this.isPreview = true;
-    }
     this.getResumeInfo();
   },
   methods: {

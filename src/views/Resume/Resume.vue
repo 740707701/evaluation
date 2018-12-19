@@ -14,12 +14,10 @@
                     <i class="iconfont icon-refresh"></i>
                     <div class="icon-text">刷新</div>
                   </div>
-                  <router-link v-if="resumeId" target="_blank" :to="`/viewResume/${resumeId}/preview`">
-                    <div class="icon-box preview">
-                      <i class="iconfont icon-yulan"></i>
-                      <div class="icon-text">预览</div>
-                    </div>
-                  </router-link>
+                  <div class="icon-box preview" v-if="resumeId"  @click="previewResume()">
+                    <i class="iconfont icon-yulan"></i>
+                    <div class="icon-text">预览</div>
+                  </div>
                 </div>
               </div>
               <ul class="tabs">
@@ -306,8 +304,8 @@ export default {
       this.getResumeInfo()
     },
     //预览
-    preview: function() {
-      this.showPreview = true;
+    previewResume: function() {
+      this.$router.push({ path: '/viewResume', query: { resumeId: this.resumeId } })
     },
     //HR小提示 前端搜索
     filterTag: function(value) {

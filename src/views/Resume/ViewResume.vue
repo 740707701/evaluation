@@ -1,7 +1,7 @@
 <template>
   <div class="view-resume">
     <div class="container">
-      <output-header :resumeId="resumeId" :templateId="''" :resumeName="baseInfo.resumeName" :org="org"></output-header>
+      <output-header :resumeId="resumeId" :templateId="''" :resumeName="baseInfo.resumeName"></output-header>
       <div class="pdf-content" id="pdfDom">
         <div class="base-content">
           <div class="avatar" >
@@ -242,10 +242,6 @@ export default {
   },
   created() {
     this.resumeId = this.$route.query.resumeId;
-    this.org = this.$route.query.org;
-    if (this.org == "preview") {
-      this.isPreview = true;
-    }
     this.getResumeInfo();
   },
   methods: {
