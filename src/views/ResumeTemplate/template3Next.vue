@@ -79,7 +79,7 @@
 				</div>
 				<div class="module edu">
 					<div class="top">
-						<div class="title">教育背景</div>
+						<div class="title">教育经历</div>
 					</div>
 					<div class="work-item" v-for="edu in eduList" :key="edu.id">
 						<div class="title">
@@ -166,7 +166,7 @@
 				</div>
 				<div class="module school" v-if="honorList.length&&baseInfo.resumeType===1">
 					<div class="top">
-						<div class="title">荣誉证书</div>
+						<div class="title">荣誉称号</div>
 					</div>
 					<div class="honor" v-if="honorList.length">
 						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">

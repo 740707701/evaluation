@@ -101,6 +101,25 @@
 						</li>
 					</ul>
 				</div>
+				<div class="module edu" v-if="eduList.length">
+					<div class="top">
+						<div class="icon-box">
+							<i class="iconfont icon-edu1"></i>
+						</div>
+						<div class="title">教育经历</div>
+					</div>
+					<div class="work-item" v-for="edu in eduList" :key="edu.id">
+						<div class="title">
+							<span>{{edu.startTime.slice(0,10)}} ~ {{edu.endTime.slice(0,10)}}</span>
+							<span>{{edu.schoolName}}</span>
+							<span>{{edu.eduMajor}}</span>
+						</div>
+						<div class="content" v-if="edu.eduDesc">
+							<div class="title">主修课程：</div>
+							<div class="work-content">{{edu.eduDesc}}</div>
+						</div>
+					</div>
+				</div>
 				<div class="module work internship" v-if="internshipList.length&&baseInfo.resumeType===1">
 					<div class="top">
 						<div class="icon-box">
@@ -128,25 +147,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="module edu" v-if="eduList.length">
-					<div class="top">
-						<div class="icon-box">
-							<i class="iconfont icon-edu1"></i>
-						</div>
-						<div class="title">教育经历</div>
-					</div>
-					<div class="work-item" v-for="edu in eduList" :key="edu.id">
-						<div class="title">
-							<span>{{edu.startTime.slice(0,10)}} ~ {{edu.endTime.slice(0,10)}}</span>
-							<span>{{edu.schoolName}}</span>
-							<span>{{edu.eduMajor}}</span>
-						</div>
-						<div class="content" v-if="edu.eduDesc">
-							<div class="title">主修课程：</div>
-							<div class="work-content">{{edu.eduDesc}}</div>
-						</div>
-					</div>
-				</div>
+				
 				<div class="module work" v-if="workExperList.length&&baseInfo.resumeType===2">
 					<div class="top">
 						<div class="icon-box">
