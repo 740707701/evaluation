@@ -179,7 +179,6 @@ export default {
         ],
         growHarvest: [
           {
-            required: true,
             message: "请输入成长收获",
             trigger: "blur"
           }

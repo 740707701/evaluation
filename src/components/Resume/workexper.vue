@@ -70,7 +70,8 @@
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="公司：" prop="companyName" class="input-box">
-                <el-input size="small" v-model="workExperInfo.companyName" placeholder="请输入公司" :maxlength="30" @focus="showCompanyMsg=true" @blur="showCompanyMsg=false"></el-input>
+                <el-input size="small" v-model="workExperInfo.companyName" placeholder="请输入公司" :maxlength="30" 
+                @focus="inputFocus('workExperInfo','showCompanyMsg')" @blur="showCompanyMsg=false"></el-input>
                 <div class="msg" v-if="showCompanyMsg">请确认为公司全称，或为知名商标（如“招商证券”）</div>
               </el-form-item>
               <el-form-item label="部门：" prop="department" class="input-box">
@@ -107,7 +108,8 @@
                   ></el-cascader>
               </el-form-item>
               <el-form-item label="职位：" prop="position" class="input-box">
-                <el-input size="small" v-model="workExperInfo.position" placeholder="所在职位" :maxlength="30" @focus="showPositionMsg=true" @blur="showPositionMsg=false"></el-input>
+                <el-input size="small" v-model="workExperInfo.position" placeholder="所在职位" :maxlength="30" 
+                @focus="inputFocus('workExperInfo','showPositionMsg')" @blur="showPositionMsg=false"></el-input>
                 <div class="msg" v-if="showPositionMsg">请确认清晰罗列职位，且属实</div>
               </el-form-item>
               <el-form-item label="公司规模：" prop="companySize" class="input-box">
@@ -137,7 +139,8 @@
               </el-form-item>
               <el-form-item label="工作描述：" prop="workDesc" class="input-box desc-box">
                 <div class="work-desc">
-                  <el-input class="desc-input" type="textarea" v-model="workExperInfo.workDesc" :maxlength="200" placeholder="描述你的职责范围、工作任务以及取得成绩" @focus="showWorkDescMsg=true" @blur="showWorkDescMsg=false"></el-input>
+                  <el-input class="desc-input" type="textarea" v-model="workExperInfo.workDesc" :maxlength="200" placeholder="描述你的职责范围、工作任务以及取得成绩" 
+                  @focus="inputFocus('workExperInfo','showWorkDescMsg')" @blur="showWorkDescMsg=false"></el-input>
                   <div class="msg" v-if="showWorkDescMsg">请确认按工作职责的条款，描述自己的工作职责范围、工作成果与经验。</div>
                 </div>
               </el-form-item>
@@ -257,6 +260,10 @@ export default {
     compareDate(arg1, arg2) {
       return compareDate(arg1, arg2)
     },
+    inputFocus(formName, msg) {
+			this.$refs[formName].clearValidate()
+			this[msg] = true
+		},
     changeFun: function(e){
       this.workExperInfo.funList = e;
     },

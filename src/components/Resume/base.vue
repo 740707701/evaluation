@@ -65,7 +65,8 @@
         <div class="edit-content baseinfo-content">
           <el-form :inline="true" :model="base" :rules="rules" ref="base" label-width="100px" class="form-box">
             <el-form-item label="姓名：" prop="name" class="input-box">
-              <el-input size="small" v-model="base.name" placeholder="请输入姓名" :maxlength="10" @focus="showNameMsg=true" @blur="showNameMsg=false" @input="showNameMsg=false"></el-input>
+              <el-input size="small" v-model="base.name" placeholder="请输入姓名" :maxlength="10"
+              @focus="inputFocus('base','showNameMsg')" @blur="showNameMsg=false" @input="showNameMsg=false"></el-input>
               <div class="msg" v-if="showNameMsg">请确认姓名与身份证保持信息一致。</div>
             </el-form-item>
             <el-form-item label="性别：" prop="sex" class="input-box">
@@ -89,11 +90,13 @@
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="手机：" prop="phone" class="input-box">
-              <el-input size="small" v-model="base.phone" placeholder="请输入手机号码" :maxlength="11" @focus="showPhoneMsg=true" @blur="showPhoneMsg=false" @input="showPhoneMsg=false"></el-input>
+              <el-input size="small" v-model="base.phone" placeholder="请输入手机号码" :maxlength="11"
+              @focus="inputFocus('base','showPhoneMsg')" @blur="showPhoneMsg=false" @input="showPhoneMsg=false"></el-input>
               <div class="msg" v-if="showPhoneMsg">请确认电话号码保持畅通，尽量让电话号码归属为求职所在地。</div>
             </el-form-item>
             <el-form-item label="邮箱：" prop="email" class="input-box">
-              <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" :maxlength="50" @focus="showEmailMsg=true" @blur="showEmailMsg=false"></el-input>
+              <el-input  size="small" v-model="base.email" placeholder="请输入邮箱" :maxlength="50"
+              @focus="inputFocus('base','showEmailMsg')" @blur="showEmailMsg=false"></el-input>
               <div class="msg" v-if="showEmailMsg">请确认邮箱地址可正常收发邮件，且未设置陌生邮箱黑名单等。</div>
             </el-form-item>
             <el-form-item label="籍贯：" prop="nativePlaceList" class="input-box">
@@ -162,11 +165,13 @@
               </el-select>
             </el-form-item>
             <el-form-item label="民族：" prop="nation" class="input-box">
-              <el-input size="small" v-model="base.nation" placeholder="请输入民族" :maxlength="40" @focus="showNationMsg=true" @blur="showNationMsg=false"></el-input>
+              <el-input size="small" v-model="base.nation" placeholder="请输入民族" :maxlength="40"
+              @focus="inputFocus('base','showNationMsg')" @blur="showNationMsg=false"></el-input>
               <div class="msg" v-if="showNationMsg">请确认民族信息与身份证保持一致</div>
             </el-form-item>
             <el-form-item label="现居住：" prop="address" class="input-box">
-              <el-input size="small" v-model="base.address" placeholder="请输入现居住地址" :maxlength="40" @focus="showAddressMsg=true" @blur="showAddressMsg=false"></el-input>
+              <el-input size="small" v-model="base.address" placeholder="请输入现居住地址" :maxlength="40"
+              @focus="inputFocus('base','showAddressMsg')" @blur="showAddressMsg=false"></el-input>
               <div class="msg" v-if="showAddressMsg">请确认与求职所在城市一致</div>
             </el-form-item>
             <el-form-item size="small" class="edit-btn-box">
@@ -346,6 +351,10 @@ export default {
 
   },
   methods: {
+    inputFocus(formName, msg) {
+			this.$refs[formName].clearValidate()
+			this[msg] = true
+		},
     changeNativePlace: function(e){
       this.base.nativePlaceList = e;
     },

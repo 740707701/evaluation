@@ -11,9 +11,8 @@
         </div>
         <ul class="skill" v-if="skillList.length">
           <li v-for="skill in skillList" :key="skill.id">
-            <span class="gray">{{skill.skillTime.slice(0,7)}}</span>
+            <span class="skill-time gray">{{skill.skillTime.slice(0,7)}}</span>
             <span>{{skill.name}}</span>
-            <span></span>
             <span class="icon-box">
               <span @click="editSkill(skill.id)">
                 编辑&nbsp;<i class="iconfont icon-edit"></i>

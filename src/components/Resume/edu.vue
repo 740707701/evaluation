@@ -72,7 +72,8 @@
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="学校：" prop="schoolName" class="input-box">
-                <el-input size="small" v-model="eduInfo.schoolName" placeholder="请输入学校" :maxlength="30" @focus="showSchoolNameMsg=true" @blur="showSchoolNameMsg=false"></el-input>
+                <el-input size="small" v-model="eduInfo.schoolName" placeholder="请输入学校" :maxlength="30"
+                @focus="inputFocus('eduInfo','showSchoolNameMsg')" @blur="showSchoolNameMsg=false"></el-input>
                 <div class="msg" v-if="showSchoolNameMsg">请确认你的学校名称为该学校的全称</div>
               </el-form-item>
               <el-form-item label="学历/学位：" prop="degree" class="input-box">
@@ -86,7 +87,8 @@
                   </el-select>
               </el-form-item>
               <el-form-item label="专业：" prop="eduMajor" class="input-box">
-                <el-input size="small" v-model="eduInfo.eduMajor" placeholder="请输入专业" :maxlength="30" @focus="showMajorMsg=true" @blur="showMajorMsg=false"></el-input>
+                <el-input size="small" v-model="eduInfo.eduMajor" placeholder="请输入专业" :maxlength="30"
+                @focus="inputFocus('eduInfo','showMajorMsg')" @blur="showMajorMsg=false"></el-input>
                 <div class="msg" v-if="showMajorMsg">请确认专业名称为全称</div>
                 <!-- <el-select size="small" v-model="eduInfo.eduMajor" placeholder="请选择" class="select-box">
                   <el-option
@@ -114,7 +116,8 @@
               </el-form-item>
               <el-form-item label="主修课程：" prop="eduDesc" class="input-box desc-box edu-desc">
                 <div class="work-desc">
-                  <el-input class="desc-input" type="textarea" v-model="eduInfo.eduDesc" :maxlength="300" placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等" @focus="showEduDescMsg=true" @blur="showEduDescMsg=false"></el-input>
+                  <el-input class="desc-input" type="textarea" v-model="eduInfo.eduDesc" :maxlength="300" placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等"
+                  @focus="inputFocus('eduInfo','showEduDescMsg')" @blur="showEduDescMsg=false"></el-input>
                   <div class="msg" v-if="showEduDescMsg">请确认主修课程罗列与意向岗位的匹配度</div>
                 </div>
               </el-form-item>
@@ -206,6 +209,10 @@ export default {
     compareDate(arg1, arg2) {
       return compareDate(arg1, arg2)
     },
+    inputFocus(formName, msg) {
+			this.$refs[formName].clearValidate()
+			this[msg] = true
+		},
     addEdu: function() {
       if(!this.baseParams.resumeId){
         this.$message({

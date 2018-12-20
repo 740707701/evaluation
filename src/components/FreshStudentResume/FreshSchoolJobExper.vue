@@ -151,7 +151,7 @@ export default {
         clubName: [
           {
             required: true,
-            message: "请输入公司/活动名称",
+            message: "请输入组织/校园名称",
             trigger: "blur"
           }
         ],
@@ -178,7 +178,6 @@ export default {
         ],
         growHarvest: [
           {
-            required: true,
             message: "请输入成长收获",
             trigger: "blur"
           }

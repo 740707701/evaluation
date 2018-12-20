@@ -79,7 +79,6 @@ export default {
 <style lang="less" scope>
   @import "../assets/css/colors.less";
   .avatar {
-    cursor: pointer;
     position: relative;
     .input-file {
       width: 100%;

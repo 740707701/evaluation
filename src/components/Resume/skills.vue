@@ -11,7 +11,7 @@
         </div>
         <ul class="skill" v-if="skillList.length">
           <li v-for="skill in skillList" :key="skill.id">
-            <span class="gray">{{skill.skillTime.slice(0,7)}}</span>
+            <span class="gray skill-time">{{skill.skillTime.slice(0,7)}}</span>
             <span>{{skill.name}}</span>
             <span></span>
             <span class="icon-box">
@@ -48,7 +48,8 @@
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="证书名称：" prop="name" class="input-box">
-                <el-input size="small" v-model="skillInfo.name" placeholder="请输入证书名称" :maxlength="30" @focus="showSkillName=true" @blur="showSkillName=false"></el-input>
+                <el-input size="small" v-model="skillInfo.name" placeholder="请输入证书名称" :maxlength="30" 
+                @focus="inputFocus('skillInfo','showSkillName')" @blur="showSkillName=false"></el-input>
                 <div class="msg" v-if="showSkillName">请确认你的技能证书均有官网可查</div>
               </el-form-item>
               <!-- <el-form-item label="成绩：" prop="score" class="input-box">
@@ -113,6 +114,10 @@ export default {
   },
   props: ["skillList", "baseParams"],
   methods: {
+    inputFocus(formName, msg) {
+			this.$refs[formName].clearValidate()
+			this[msg] = true
+		},
     addSkill: function() {
       if(!this.baseParams.resumeId){
         this.$message({

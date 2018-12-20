@@ -865,6 +865,15 @@ export default {
             line-height: 30px;
             span {
               flex: 1 1 auto;
+              text-align: left;
+            }
+            .honor-time {
+              min-width: 120px;
+              max-width: 120px;
+            }
+            .icon-box {
+              min-width: 150px;
+              text-align: right;
             }
           }
           .job-desc {
@@ -897,7 +906,16 @@ export default {
             line-height: 30px;
             span {
               flex: 1 1 auto;
-              max-width: 25%;
+              line-height: 20px;
+              text-align: left;
+            }
+            .icon-box {
+              text-align: right;
+              min-width: 150px;
+            }
+            .skill-time {
+              min-width: 120px;
+              max-width: 120px;
             }
           }
         }

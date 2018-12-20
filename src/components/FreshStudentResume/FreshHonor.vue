@@ -14,9 +14,8 @@
             <ul class="honor-list job-item" v-if="honorList.length">
               <li v-for="honor in honorList" :key="honor.id">
                 <div class="job-time">
-                  <span class="gray">{{honor.honorTime.slice(0, 7)}}</span>
-                  <span>{{honor.honorPrize}}</span>
-                  <span>{{honor.honorLevel}}</span>
+                  <span class="honor-time gray">{{honor.honorTime.slice(0, 7)}}</span>
+                  <span class="honor-prize">{{honor.honorPrize}}</span>
                   <span class="icon-box">
                     <span @click="editSchoolHonor(honor.id)">
                       编辑&nbsp;<i class="iconfont icon-edit"></i>
@@ -54,7 +53,7 @@
 									</el-date-picker>
 							</el-form-item>
 							<el-form-item label="奖项：" prop="honorPrize" class="input-box">
-								<el-input size="small" v-model="honorInfo.honorPrize" placeholder="请输入奖项" :maxlength="10" 
+								<el-input size="small" v-model="honorInfo.honorPrize" placeholder="请输入奖项" :maxlength="30" 
 								@focus="inputFocus('honorInfo', 'showHonorMsg')" @blur="showHonorMsg=false"></el-input>
 								<div class="msg" v-if="showHonorMsg">请确认该荣誉含金量高</div>
 							</el-form-item>

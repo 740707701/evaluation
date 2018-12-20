@@ -24,7 +24,8 @@
                       </el-date-picker>
                   </el-form-item>
                   <el-form-item label="奖项：" prop="honorPrize" class="input-box">
-                    <el-input size="small" v-model="honorInfo.honorPrize" placeholder="请输入奖项" :maxlength="10" @focus="showHonorMsg=true" @blur="showHonorMsg=false"></el-input>
+                    <el-input size="small" v-model="honorInfo.honorPrize" placeholder="请输入奖项" :maxlength="10" 
+                    @focus="inputFocus('honorInfo','showHonorMsg')" @blur="showHonorMsg=false"></el-input>
                     <div class="msg" v-if="showHonorMsg">请确认该荣誉含金量高</div>
                   </el-form-item>
                   <el-form-item label="级别" prop="honorLevel" class="input-box">
@@ -65,7 +66,8 @@
                       </el-date-picker>
                   </el-form-item>
                   <el-form-item label="职务：" prop="schoolWorkName" class="input-box">
-                    <el-input size="small" v-model="workInfo.schoolWorkName" placeholder="请输入职务" :maxlength="30" @focus="showWorkMsg=true" @blur="showWorkMsg=false"></el-input>
+                    <el-input size="small" v-model="workInfo.schoolWorkName" placeholder="请输入职务" :maxlength="30" 
+                    @focus="inputFocus('workInfo','showWorkMsg')" @blur="showWorkMsg=false"></el-input>
                     <div class="msg" v-if="showWorkMsg">请确认此职务对求职有帮助</div>
                   </el-form-item>
                   <el-form-item label="实践描述：" prop="schoolWorkDesc" class="input-box desc-box">
@@ -93,9 +95,9 @@
             <ul class="honor-list job-item" v-if="schoolHonorList.length">
               <li v-for="honor in schoolHonorList" :key="honor.id">
                 <div class="job-time">
-                  <span class="gray">{{honor.honorTime.slice(0, 7)}}</span>
-                  <span>{{honor.honorPrize}}</span>
-                  <span>{{honor.honorLevel}}</span>
+                  <span class="honor-time gray">{{honor.honorTime.slice(0, 7)}}</span>
+                  <span class="honor-prize">{{honor.honorPrize}}</span>
+                  <span >{{honor.honorLevel}}</span>
                   <span class="icon-box">
                     <span @click="editSchoolHonor(honor.id)">
                       编辑&nbsp;<i class="iconfont icon-edit"></i>
@@ -228,6 +230,10 @@ export default {
     compareDate(arg1, arg2) {
       return compareDate(arg1, arg2)
     },
+    inputFocus(formName, msg) {
+			this.$refs[formName].clearValidate()
+			this[msg] = true
+		},
     addSchoolHonor: function() {
       if (!this.baseParams.resumeId) {
         this.$message({
