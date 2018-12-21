@@ -33,7 +33,9 @@
             <div class="desc-text gray">工作描述：</div>
             <div class="desc-content">
               <ul class="desc-list">
-                <li class="desc-item">{{exper.workDesc}}</li>
+                <li class="desc-item">
+                  <pre>{{exper.workDesc}}</pre>
+                </li>
               </ul>
             </div>
           </div>

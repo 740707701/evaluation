@@ -36,6 +36,11 @@ export default {
   font-size: 14px;
   height: 100%;
   min-height: 100%;
+  pre {
+    font-family: "微软雅黑";
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
   // iconfont 彩色图标颜色
   .svg-icon {
     width: 1em;

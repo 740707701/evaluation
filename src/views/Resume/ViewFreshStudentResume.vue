@@ -89,7 +89,7 @@
 						<span class="cn">教育经历</span>
 					</div>
 					<div class="item-content">
-						<div v-for="(edu,index) in eduList" :key="index">
+						<div class="item-box" v-for="(edu,index) in eduList" :key="index">
 							<div class="row">
 								<div class="row-item">
 									<span class="value">{{edu.startTime.slice(0,7)}}至{{edu.endTime.slice(0,7)}}</span>
@@ -102,7 +102,7 @@
 								</div>
 							</div>
 							<div class="job-desc" v-if="edu.eduDesc">
-                <div class="desc-text gray">主修课程：</div>
+                <div class="desc-text gray">学习课程：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
                     <li class="desc-item">{{edu.eduDesc}}</li>
@@ -121,7 +121,7 @@
 						<span class="cn">实习实践</span>
 					</div>
 					<div class="item-content">
-						<div v-for="(intership,index) in internshipList" :key="index">
+						<div class="item-box" v-for="(intership,index) in internshipList" :key="index">
 							<div class="row">
 								<div class="row-item">
 									<span class="value">{{intership.startTime.slice(0,7)}}至{{intership.endTime.slice(0,7)}}</span>
@@ -137,7 +137,9 @@
                 <div class="desc-text gray">主修内容：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
-                    <li class="desc-item">{{intership.schoolWorkDesc}}</li>
+                    <li class="desc-item">
+											<pre>{{intership.schoolWorkDesc}}</pre>
+										</li>
                   </ul>
                 </div>
               </div>
@@ -145,7 +147,9 @@
                 <div class="desc-text gray">实践成果：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
-                    <li class="desc-item">{{intership.workResult}}</li>
+                    <li class="desc-item">
+											<pre>{{intership.workResult}}</pre>
+										</li>
                   </ul>
                 </div>
               </div>
@@ -153,7 +157,9 @@
                 <div class="desc-text gray">成长收获：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
-                    <li class="desc-item">{{intership.growHarvest}}</li>
+                    <li class="desc-item">
+											<pre>{{intership.growHarvest}}</pre>
+										</li>
                   </ul>
                 </div>
               </div>
@@ -169,7 +175,7 @@
 						<span class="cn">校园经历</span>
 					</div>
 					<div class="item-content">
-						<div v-for="(school,index) in schoolJobExperList" :key="index">
+						<div class="item-box" v-for="(school,index) in schoolJobExperList" :key="index">
 							<div class="row">
 								<div class="row-item">
 									<span class="value">{{school.startTime.slice(0,7)}}至{{school.endTime.slice(0,7)}}</span>
@@ -185,7 +191,9 @@
                 <div class="desc-text gray">实践内容：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
-                    <li class="desc-item">{{school.responsibleContent}}</li>
+                    <li class="desc-item">
+											<pre>{{school.responsibleContent}}</pre>
+										</li>
                   </ul>
                 </div>
               </div>
@@ -193,7 +201,9 @@
                 <div class="desc-text gray">实践成果：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
-                    <li class="desc-item">{{school.workResult}}</li>
+                    <li class="desc-item">
+											<pre>{{school.workResult}}</pre>
+										</li>
                   </ul>
                 </div>
               </div>
@@ -201,7 +211,9 @@
                 <div class="desc-text gray">成长收获：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
-                    <li class="desc-item">{{school.growHarvest}}</li>
+                    <li class="desc-item">
+											<pre>{{school.growHarvest}}</pre>
+										</li>
                   </ul>
                 </div>
               </div>
@@ -414,12 +426,12 @@ export default {
 				display: flex;
 				.row-item {
 					flex: 3;
-					margin: 10px 0;
+					margin: 5px 0;
 				}
 			}
 			.eva {
 				color: #999;
-				line-height: 26px;
+				line-height: 22px;
 			}
 			.job-desc {
 				width: 100%;
@@ -427,18 +439,28 @@ export default {
 				padding-top: 5px;
 				.desc-text {
 					float: left;
-					width: 70px;
 					line-height: 26px;
 					color: #666;
 				}
 				.desc-content {
-					margin-left: 80px;
+					margin-left: 100px;
 					line-height: 24px;
 					.desc-list {
 						li {
 							line-height: 22px;
 							color: #999;
+							pre {
+								color: #999;
+							}
 						}
+					}
+				}
+			}
+			.item-content {
+				.item-box {
+					margin-bottom: 20px;
+					&:last-child {
+						margin-bottom: 0;
 					}
 				}
 			}

@@ -11,7 +11,9 @@
           </div>
         </div>
         <div class="evaluate-box" v-if="evaluateInfo.evaluate&&showEvaluateEdit==false">
-          <div class="evaluate-text">{{evaluateInfo.evaluate}}</div>
+          <div class="evaluate-text">
+            <pre>{{evaluateInfo.evaluate}}</pre>
+          </div>
         </div>
         <div class="evaluate-box edit-content" v-if="showEvaluateEdit==true && evaluateInfo">
           <div class="textarea-box">

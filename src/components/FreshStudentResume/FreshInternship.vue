@@ -30,7 +30,9 @@
 								<div class="desc-text gray">实践内容：</div>
 								<div class="desc-content">
 									<ul class="desc-list">
-										{{work.schoolWorkDesc}}
+                    <li>
+                      <pre>{{work.schoolWorkDesc}}</pre>
+                    </li>
 									</ul>
 								</div>
 							</div>
@@ -38,15 +40,19 @@
 								<div class="desc-text gray">实践成果：</div>
 								<div class="desc-content">
 									<ul class="desc-list">
-										{{work.workResult}}
+										<li>
+                      <pre>{{work.workResult}}</pre>
+                    </li>
 									</ul>
 								</div>
 							</div>
-							<div class="job-desc">
+							<div class="job-desc" v-if="work.growHarvest">
 								<div class="desc-text gray">成长收获：</div>
 								<div class="desc-content">
 									<ul class="desc-list">
-										{{work.growHarvest}}
+										<li>
+                      <pre>{{work.growHarvest}}</pre>
+                    </li>
 									</ul>
 								</div>
 							</div>
@@ -172,7 +178,6 @@ export default {
         ],
         workResult: [
           {
-            required: true,
             message: "请输入实践成果",
             trigger: "blur"
           }

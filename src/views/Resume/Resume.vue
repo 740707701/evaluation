@@ -882,11 +882,10 @@ export default {
             padding-top: 5px;
             .desc-text {
               float: left;
-              width: 70px;
               line-height: 26px;
             }
             .desc-content {
-              margin-left: 80px;
+              margin-left: 100px;
               line-height: 24px;
               .desc-list {
                 li {

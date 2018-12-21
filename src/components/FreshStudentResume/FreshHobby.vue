@@ -11,7 +11,9 @@
           </div>
         </div>
         <div class="evaluate-box" v-if="hobbyInfo.hobby&&showEvaluateEdit==false">
-          <div class="evaluate-text">{{hobbyInfo.hobby}}</div>
+          <div class="evaluate-text">
+            <pre>{{hobbyInfo.hobby}}</pre>
+          </div>
         </div>
         <div class="evaluate-box edit-content" v-if="showEvaluateEdit==true && hobbyInfo">
           <div class="textarea-box">

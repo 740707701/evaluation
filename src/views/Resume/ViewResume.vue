@@ -162,7 +162,7 @@
                 </div>
               </div>
               <div class="job-desc" v-if="edu.eduDesc">
-                <div class="desc-text gray">主修课程：</div>
+                <div class="desc-text gray">学习课程：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
                     <li class="desc-item">{{edu.eduDesc}}</li>

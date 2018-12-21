@@ -24,10 +24,12 @@
             </span>
           </div>
           <div class="job-desc" v-if="edu.eduDesc">
-            <div class="desc-text gray">主修课程：</div>
+            <div class="desc-text gray">学习课程：</div>
             <div class="desc-content">
               <ul class="desc-list">
-                <li class="desc-item">{{edu.eduDesc}}</li>
+                <li class="desc-item">
+                  <pre>{{edu.eduDesc}}</pre>
+                </li>
               </ul>
             </div>
           </div>
@@ -102,12 +104,12 @@
 							<el-form-item label="成绩排名：" prop="scoreRank" class="input-box">
                 <el-input size="small" v-model="eduInfo.scoreRank" placeholder="请输入成绩排名" :maxlength="30"></el-input>
               </el-form-item>
-              <el-form-item label="主修课程：" prop="eduDesc" class="input-box desc-box edu-desc">
+              <el-form-item label="学习课程：" prop="eduDesc" class="input-box desc-box edu-desc">
                 <div class="work-desc">
                   <el-input class="desc-input" type="textarea" v-model="eduInfo.eduDesc" :maxlength="300"
 									placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等" 
 									@focus="inputFocus('eduInfo','showEduDescMsg')" @blur="showEduDescMsg=false"></el-input>
-                  <div class="msg" v-if="showEduDescMsg">请确认主修课程罗列与意向岗位的匹配度</div>
+                  <div class="msg" v-if="showEduDescMsg">请确认学习课程罗列与意向岗位的匹配度</div>
                 </div>
               </el-form-item>
               <el-form-item size="small" class="edit-btn-box">
@@ -179,7 +181,7 @@ export default {
         eduDesc: [
           {
             required: true,
-            message: "请填写主修课程",
+            message: "请填写学习课程",
             trigger: "blur"
           }
         ]

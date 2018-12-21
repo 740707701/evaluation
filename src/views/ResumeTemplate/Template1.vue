@@ -115,7 +115,7 @@
 							<span>{{edu.eduMajor}}</span>
 						</div>
 						<div class="content" v-if="edu.eduDesc">
-							<div class="title">主修课程：</div>
+							<div class="title">学习课程：</div>
 							<div class="work-content">{{edu.eduDesc}}</div>
 						</div>
 					</div>
