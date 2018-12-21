@@ -65,7 +65,9 @@
 					<div class="title">自我评价
 						<span class="en">SELF-EVALUATION</span>
 					</div>
-					<div class="evaluation">{{baseInfo.evaluate}}</div>
+					<div class="evaluation">
+						<pre>{{baseInfo.evaluate}}</pre>
+					</div>
 				</div>
 			</div>
 			<div class="right-content">
@@ -116,7 +118,9 @@
 						</div>
 						<div class="content" v-if="edu.eduDesc">
 							<div class="title">学习课程：</div>
-							<div class="work-content">{{edu.eduDesc}}</div>
+							<div class="work-content">
+								<pre>{{edu.eduDesc}}</pre>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -134,16 +138,22 @@
 							<span>{{internship.schoolWorkName}}</span>
 						</div>
 						<div class="content">
-							<div class="title">主修内容：</div>
-							<div class="work-content">{{internship.schoolWorkDesc}}</div>
+							<div class="title">实践内容：</div>
+							<div class="work-content">
+								<pre>{{internship.schoolWorkDesc}}</pre>
+							</div>
 						</div>
-						<div class="content">
+						<div class="content" v-if="internship.workResult">
 							<div class="title">实践成果：</div>
-							<div class="work-content">{{internship.workResult}}</div>
+							<div class="work-content">
+								<pre>{{internship.workResult}}</pre>
+							</div>
 						</div>
-						<div class="content">
+						<div class="content" v-if="internship.growHarvest">
 							<div class="title">成长收获：</div>
-							<div class="work-content">{{internship.growHarvest}}</div>
+							<div class="work-content">
+								<pre>{{internship.growHarvest}}</pre>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -163,7 +173,9 @@
 						</div>
 						<div class="content">
 							<div class="title">工作内容：</div>
-							<div class="work-content">{{exper.workDesc}}</div>
+							<div class="work-content">
+								<pre>{{exper.workDesc}}</pre>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -176,7 +188,7 @@
 					</div>
 					<div class="honor" v-if="honorList.length">
 						<div class="honor-item item" v-for="honor in honorList" :key="honor.id">
-							<span>{{honor.honorTime.slice(0, 10)}}</span>
+							<span class="honor-time">{{honor.honorTime.slice(0, 10)}}</span>
 							<span>{{honor.honorPrize}}</span>
 						</div>
 					</div>
@@ -197,14 +209,16 @@
 							</div>
 							<div class="work-desc">
 								<div class="desc-title">实践描述：</div>
-								<div class="desc-content">{{work.schoolWorkDesc}}</div>
+								<div class="desc-content">
+									<pre>{{work.schoolWorkDesc}}</pre>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="honor" v-if="schoolHonorList.length">
 						<div class="title">校内荣誉</div>
 						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">
-							<span>{{honor.honorTime.slice(0, 10)}}</span>
+							<span class="honor-time">{{honor.honorTime.slice(0, 10)}}</span>
 							<span>{{honor.honorPrize}}</span>
 						</div>
 					</div>
@@ -218,7 +232,7 @@
 					</div>
 					<div class="skill-list">
 						<div class="item" v-for="skill in skillList" :key="skill.id">
-							<span class="date">{{skill.skillTime.slice(0,10)}}</span>
+							<span class="date honor-time">{{skill.skillTime.slice(0,10)}}</span>
 							<span>{{skill.name}}</span>
 						</div>
 					</div>
@@ -230,7 +244,9 @@
 						</div>
 						<div class="title">兴趣爱好</div>
 					</div>
-					<div class="hobby">{{baseInfo.hobby}}</div>
+					<div class="hobby">
+						<pre>{{baseInfo.hobby}}</pre>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -496,10 +512,16 @@ export default {
 				}
 				.school, .skill, .hobby {
 					.item {
+						display: flex;
+						display: -webkit-flex;
+						.honor-time {
+              min-width: 120px;
+              max-width: 120px;
+            }
 						span {
-							width: 30%;
-							line-height: 30px;
-							display: inline-block;
+							line-height: 24px;
+							flex: 1 1 auto;
+              text-align: left;
 						}
 					}
 					.hobby {
@@ -512,6 +534,9 @@ export default {
 							line-height: 30px;
 							padding-left: 20px;
 							background-color: #F1F5FB;
+						}
+						.work-desc {
+							margin-bottom: 10px;
 						}
 						.schoolwork-item {
 							color: #666;

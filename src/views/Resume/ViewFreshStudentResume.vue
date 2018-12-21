@@ -77,7 +77,9 @@
 						<span class="cn">自我评价</span>
 					</div>
 					<div class="item-content">
-						<div class="eva">{{baseInfo.evaluate}}</div>
+						<div class="eva">
+							<pre>{{baseInfo.evaluate}}</pre>
+						</div>
 					</div>
 				</div>
 				<div class="item edu" v-if="eduList.length">
@@ -105,7 +107,9 @@
                 <div class="desc-text gray">学习课程：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
-                    <li class="desc-item">{{edu.eduDesc}}</li>
+                    <li class="desc-item">
+											<pre>{{edu.eduDesc}}</pre>
+										</li>
                   </ul>
                 </div>
               </div>
@@ -271,7 +275,9 @@
 						<span class="cn">兴趣爱好</span>
 					</div>
 					<div class="item-content">
-						<div class="eva">{{baseInfo.hobby}}</div>
+						<div class="eva">
+							<pre>{{baseInfo.hobby}}</pre>
+						</div>
 					</div>
 				</div>
       </div>

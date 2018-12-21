@@ -63,7 +63,7 @@
 						</li>
 						<li>
 							<div class="item">
-								<span class="name">现居住：</span><span>{{baseInfo.address}}</span>
+								<span class="name">现居住：</span><span class="value">{{baseInfo.address}}</span>
 							</div>
 							<div class="item" v-if="baseInfo.resumeType===2">
 								<span class="name">毕业院校：</span><span v-if="eduList.length">{{eduList[0].schoolName}}</span>
@@ -124,16 +124,19 @@
 							<span>{{internship.schoolWorkName}}</span>
 						</div>
 						<div class="content">
-							<div class="title">主修内容：</div>
-							<div class="work-content">{{internship.schoolWorkDesc}}</div>
+							<div class="title">实践内容：</div>
+							<div class="work-content">
+								<pre>{{internship.schoolWorkDesc}}</pre></div>
 						</div>
-						<div class="content">
+						<div class="content" v-if="internship.workResult">
 							<div class="title">实践成果：</div>
-							<div class="work-content">{{internship.workResult}}</div>
+							<div class="work-content">
+								<pre>{{internship.workResult}}</pre></div>
 						</div>
-						<div class="content">
+						<div class="content" v-if="internship.growHarvest">
 							<div class="title">成长收获：</div>
-							<div class="work-content">{{internship.growHarvest}}</div>
+							<div class="work-content">
+								<pre>{{internship.growHarvest}}</pre></div>
 						</div>
 					</div>
 				</div>
@@ -150,16 +153,18 @@
 							</div>
 							<div class="work-desc">
 								<div class="desc-title">实践描述：</div>
-								<div class="desc-content">{{work.schoolWorkDesc}}</div>
+								<div class="desc-content">
+									<pre>{{work.schoolWorkDesc}}</pre>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="honor" v-if="schoolHonorList.length">
 						<div class="title">校内荣誉</div>
 						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">
-							<span>{{honor.honorTime.slice(0, 10)}}</span>
-                <span>{{honor.honorPrize}}</span>
-								<span>{{honor.honorLevel}}</span>
+							<span class="honor-time">{{honor.honorTime.slice(0, 10)}}</span>
+							<span>{{honor.honorPrize}}</span>
+							<span>{{honor.honorLevel}}</span>
 						</div>
 					</div>
 					
@@ -170,7 +175,7 @@
 					</div>
 					<div class="honor" v-if="honorList.length">
 						<div class="honor-item item" v-for="honor in schoolHonorList" :key="honor.id">
-							<span>{{honor.honorTime.slice(0, 10)}}</span>
+							<span class="honor-time">{{honor.honorTime.slice(0, 10)}}</span>
                 <span>{{honor.honorPrize}}</span>
 								<span>{{honor.honorLevel}}</span>
 						</div>
@@ -183,7 +188,7 @@
 					</div>
 					<div class="skill-list">
 						<div class="item" v-for="skill in skillList" :key="skill.id">
-							<span class="date">{{skill.skillTime.slice(0,10)}}</span>
+							<span class="date honor-time">{{skill.skillTime.slice(0,10)}}</span>
 							<span>{{skill.name}}</span>
 						</div>
 					</div>
@@ -192,13 +197,16 @@
 					<div class="top">
 						<div class="title">自我评价</div>
 					</div>
-					<div class="item ">{{baseInfo.evaluate}}</div>
+					<div class="item">
+						<pre>{{baseInfo.evaluate}}</pre></div>
 				</div>
 				<div class="module eva hobby" v-if="baseInfo.hobby&&baseInfo.resumeType===1">
 					<div class="top">
 						<div class="title">兴趣爱好</div>
 					</div>
-					<div class="item ">{{baseInfo.hobby}}</div>
+					<div class="item ">
+						<pre>{{baseInfo.hobby}}</pre>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -413,9 +421,13 @@ export default {
 								width: 50%;
 								line-height: 30px;
 							}
-							.name {
-								width: 100px;
+							.value {
+								line-height: 22px;
 								display: inline-block;
+							}
+							.name {
+								float: left;
+								width: 100px;
 							}
 						}
 					}
@@ -453,9 +465,15 @@ export default {
 				.school, .skill {
 					.item {
 						padding: 0 20px;
+						display: flex;
+						display: -webkit-flex;
+						.honor-time {
+							min-width: 120px;
+							max-width: 120px;
+						}
 						span {
-							width: 30%;
-							line-height: 30px;
+							line-height: 24px;
+							flex: 1 1 auto;
 							display: inline-block;
 						}
 					}

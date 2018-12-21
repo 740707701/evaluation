@@ -139,7 +139,9 @@
                 <div class="desc-text gray">工作描述：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
-                    <li class="desc-item">{{exper.workDesc}}</li>
+                    <li class="desc-item">
+                      <pre>{{exper.workDesc}}</pre>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -157,7 +159,9 @@
                 <div class="desc-text gray">专业描述：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
-                    <li class="desc-item">{{edu.majorDesc}}</li>
+                    <li class="desc-item">
+                      <pre>{{edu.majorDesc}}</pre>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -165,7 +169,9 @@
                 <div class="desc-text gray">学习课程：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
-                    <li class="desc-item">{{edu.eduDesc}}</li>
+                    <li class="desc-item">
+                      <pre>{{edu.eduDesc}}</pre>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -188,7 +194,9 @@
                     <div class="desc-text gray">实践描述：</div>
                     <div class="desc-content">
                       <ul class="desc-list">
-                        {{work.schoolWorkDesc}}
+                        <li>
+                          <pre>{{work.schoolWorkDesc}}</pre>
+                        </li>
                       </ul>
                     </div>
                   </div>

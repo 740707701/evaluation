@@ -26,7 +26,7 @@
 									</span>
 								</span>
 							</div>
-							<div class="job-desc">
+							<div class="job-desc" v-if="work.schoolWorkDesc">
 								<div class="desc-text gray">实践内容：</div>
 								<div class="desc-content">
 									<ul class="desc-list">
