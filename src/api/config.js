@@ -137,6 +137,9 @@ export default {
     bookData: 'plan/bookList',
     officeData: 'plan/officeList',
     vocationData: 'plan/vocationList',
+    planDictData: '/plan/dict/dictitem',
+    //根据名称 查看placeholder文字
+    planPlaceholder: '/plan/findAdviceByName',
 
     //附加计划
     insertAdditional: 'plan/insertAdditional',
@@ -197,6 +200,30 @@ export default {
     deleteVocation: 'plan/deleteVocation',
     updateVocation: 'plan/updateVocation',
     listVocation: 'plan/listVocation',
+
+    // 背景提升计划
+    insertBackgroundPromotion: 'plan/insertBackgroundPromotion',
+    deleteBackgroundPromotion: 'plan/deleteBackgroundPromotion',
+    updateBackgroundPromotion: 'plan/updateBackgroundPromotion',
+    listBackgroundPromotion: 'plan/listBackgroundPromotion',
+
+    // 人际关系与社交管理计划
+    insertInterpersonalRelationship: 'plan/insertInterpersonalRelationship',
+    deleteInterpersonalRelationship: 'plan/deleteInterpersonalRelationship',
+    updateInterpersonalRelationship: 'plan/updateInterpersonalRelationship',
+    listInterpersonalRelationship: 'plan/listInterpersonalRelationship',
+
+    // 生活管理计划
+    insertLifeManagement: 'plan/insertLifeManagement',
+    deleteLifeManagement: 'plan/deleteLifeManagement',
+    updateLifeManagement: 'plan/updateLifeManagement',
+    listLifeManagement: 'plan/listLifeManagement',
+
+    // 专业论文
+    insertProfThesis: 'plan/insertProfThesis',
+    deleteProfThesis: 'plan/deleteProfThesis',
+    updateProfThesis: 'plan/updateProfThesis',
+    listProfThesis: 'plan/listProfThesis',
 
     //获取其他计划列表
     otherPlans: 'plan/otherList',

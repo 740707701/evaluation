@@ -4,34 +4,39 @@
         <span>{{plan.title}}</span>
       </div>
       <div class="form">
-        <div class="input-list">
-          <div class="input-box" v-for="(item,index) in plan.inputBox" :key="item.name">
+        <div class="suggest-box" v-if="plan.suggest">
+          <div class="suggest-title">说明与建议</div>
+          <div class="suggest-content" v-html="plan.suggest"></div>
+        </div>
+        <div class="input-list" v-if="plan.inputBox.length">
+          <div class="input-box" v-for="(item,index) in plan.inputBox" :key="index" v-show="!item.containsOtherOptions">
             <div class="name">{{item.name}}</div>
             <el-input size="small" v-if="!(item.options?item.options.length:item.options)" :placeholder="item.placeholder" v-model="form.input[index]" :maxlength="item.maxlength"></el-input>
-            <el-select size="small" v-if="item.options?item.options.length:item.options" v-model="form.input[index]" :placeholder="item.placeholder">
+            <el-select size="small" v-if="item.options?item.options.length:item.options" v-model="form.input[index]" 
+            :placeholder="item.placeholder" @change="selectChange($event,item)">
               <el-option
                 v-for="item in item.options"
-                :key="item.id"
-                :label="item.name"
-                :value="item.name">
+                :key="item"
+                :label="item"
+                :value="item">
               </el-option>
             </el-select>
           </div>
         </div>
-        <div class="desc-box" v-for="(item, index) in plan.textareaBox" :key="item.name">
+        <div class="desc-box" v-for="(item, index) in plan.textareaBox" :key="index">
           <div class="name">{{item.name}}</div>
           <div class="desc">
             <textarea class="textarea" v-model="form.textarea[index]" :placeholder="item.placeholder" :maxlength="item.maxlength"></textarea>
           </div>
         </div>
         <div class="post-btn">
-          <div class="pager-btn left-btn" @click="prev" :class="noPrev?'disabled':''">
-            <i class="iconfont icon-arrow-left-line"></i>
-          </div>
           <el-button size="small" class="complete-btn btn" @click="post()">保存</el-button>
           <el-button size="small" class="complete-btn btn" type="primary" v-if="noNext" @click="submit()">提交</el-button>
           <div class="pager-btn right-btn" @click="next" :class="noNext?'disabled':''">
             <i class="iconfont icon-arrow-right-line"></i>
+          </div>
+          <div class="pager-btn left-btn" @click="prev" :class="noPrev?'disabled':''">
+            <i class="iconfont icon-arrow-left-line"></i>
           </div>
         </div>
       </div>
@@ -112,11 +117,12 @@
           <div class="item-icon">
             <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
-          <div class="item-title">
-            <div class="name">{{item.name}}</div>
+          <div class="item-desc">
+            <div class="name">图书阅读计划：</div>
+            <div class="desc-text">{{item.name}}</div>
           </div>
           <div class="item-desc">
-            <div class="name">阅读计划：</div>
+            <div class="name">碎片化学习计划：</div>
             <div class="desc-text">{{item.content}}</div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
@@ -166,9 +172,8 @@
           <div class="item-icon">
             <img src="../assets/images/plan-arrow-icon.png" alt="">
           </div>
-          <div class="item-desc item-goal">
-            <div class="name">实习实践目标：</div>
-            <div class="desc-text">{{item.score}}</div>
+          <div class="item-title">
+            <div class="name">{{item.name}}</div>
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
@@ -204,6 +209,63 @@
           <div class="item-desc">
             <div class="name">计划内容：</div>
             <div class="desc-text">{{item.additionalDesc}}</div>
+          </div>
+          <div class="item-del" @click="deletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item" v-if="plan.type=='thesiss'" v-for="(item,index) in thesissList" :key="index">
+          <div class="item-icon">
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
+          </div>
+          <div class="item-desc">
+            <div class="name">计划内容：</div>
+            <div class="desc-text">{{item.content}}</div>
+          </div>
+          <div class="item-del" @click="deletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item" v-if="plan.type=='lifes'" v-for="(item,index) in lifesList" :key="index">
+          <div class="item-icon">
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
+          </div>
+          <div class="item-title">
+            <div class="name">{{item.name}}</div>
+          </div>
+          <div class="item-desc">
+            <div class="name">计划内容：</div>
+            <div class="desc-text">{{item.content}}</div>
+          </div>
+          <div class="item-del" @click="deletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item" v-if="plan.type=='ships'" v-for="(item,index) in shipsList" :key="index">
+          <div class="item-icon">
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
+          </div>
+          <div class="item-title">
+            <div class="name">{{item.name}}</div>
+          </div>
+          <div class="item-desc">
+            <div class="name">计划内容：</div>
+            <div class="desc-text">{{item.content}}</div>
+          </div>
+          <div class="item-del" @click="deletePlan(item)">
+            <i class="el-icon-delete"></i>
+          </div>
+        </li>
+        <li class="item" v-if="plan.type=='promotions'" v-for="(item,index) in promotionsList" :key="index">
+          <div class="item-icon">
+            <img src="../assets/images/plan-arrow-icon.png" alt="">
+          </div>
+          <div class="item-title">
+            <div class="name">{{item.name}}</div>
+          </div>
+          <div class="item-desc">
+            <div class="name">计划内容：</div>
+            <div class="desc-text">{{item.content}}</div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -259,7 +321,11 @@ export default {
       internshipsList: [],
       certificatesList: [],
       otherPlansList: [],
-      additionsList: []
+      additionsList: [],
+      thesissList: [],
+      lifesList: [],
+      shipsList: [],
+      promotionsList: []
     }
   },
   created(){},
@@ -267,6 +333,25 @@ export default {
     this[this.plan.type+'List'] = this.plan[this.plan.type+'List']
   },
   methods: {
+    selectChange(e) {
+      if(e.indexOf('其他') !== -1) {
+        this.plan.inputBox.map(i => {
+          if(!i.name&&!i.options.length) {
+            this.$set(i, 'containsOtherOptions', false)
+          }
+        })
+      } else {
+        this.plan.inputBox.map(i => {
+          if(!i.name&&!i.options.length) {
+            this.$set(i, 'containsOtherOptions', true)
+          }
+        })
+      }
+      // 根据下拉选项获取placeholder提示文字
+      this.$store.dispatch('FIND_PLACEHOLDER', {name: e}).then(res => {
+        this.$set(this.plan.textareaBox[0], 'placeholder', res.data.length ? res.data : this.plan.textareaBox[0].placeholder)
+      })
+    },
     post(){
       if(this.plan.type == 'requireds'){
         let data = {
@@ -277,31 +362,25 @@ export default {
         }
         if(data.courseName == undefined){
           this.$message({type: "error", message:"请输入课程名称！"})
-          return;
+          return false;
         }else if(data.score === undefined){
           this.$message({type: "error", message:"请输入计划分数！"})
-          return;
+          return false;
         }else if(Number(data.score) != data.score || Number(data.score)>100 || Number(data.score)<0){
           this.$message({type: "error", message:"计划分数，请输入0~100范围内的数字！"})
-          return;
+          return false;
         }
         // else if(data.goal === undefined){
         //   this.$message({type: "error", message:"请输入课程目标！"})
-        //   return;
+        //   return false;
         // }
         this.$store.dispatch('INSERT_REQUIRED', data).then(res => {
           this.getPlanList()
         }).catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "保存失败！"
-            });
+            this.$message.error('保存失败，请稍后重试！')
           }
         })
       }
@@ -314,32 +393,26 @@ export default {
         }
         if(data.courseName == undefined){
           this.$message({type: "error", message:"请输入课程名称！"})
-          return;
+          return false;
         }else if(data.score === undefined){
           this.$message({type: "error", message:"请输入计划分数！"})
-          return;
+          return false;
         }else if(Number(data.score) != data.score || Number(data.score)>100 || Number(data.score)<0){
           this.$message({type: "error", message:"计划分数，请输入0~100范围内的数字！"})
-          return;
+          return false;
         }
         // else if(data.goal === undefined){
         //   this.$message({type: "error", message:"请输入课程目标！"})
-        //   return;
+        //   return false;
         // }
         //选修课
         this.$store.dispatch('INSERT_OPTIONAL', data).then(res => {
           this.getPlanList()
         }).catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "保存失败！"
-            });
+            this.$message.error('保存失败，请稍后重试！')
           }
         })
       }
@@ -352,32 +425,26 @@ export default {
         }
         if(data.courseName == undefined){
           this.$message({type: "error", message:"请输入课程名称！"})
-          return;
+          return false;
         }else if(data.score === undefined){
           this.$message({type: "error", message:"请输入计划分数！"})
-          return;
+          return false;
         }else if(Number(data.score) != data.score || Number(data.score)>100 || Number(data.score)<0){
           this.$message({type: "error", message:"计划分数，请输入0~100范围内的数字！"})
-          return;
+          return false;
         }
         // else if(data.goal === undefined){
         //   this.$message({type: "error", message:"请输入课程目标！"})
-        //   return;
+        //   return false;
         // }
         //自学课
         this.$store.dispatch('INSERT_SELF', data).then(res => {
           this.getPlanList()
         }).catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "保存失败！"
-            });
+            this.$message.error('保存失败，请稍后重试！')
           }
         })
       }
@@ -390,214 +457,295 @@ export default {
         }
         if(data.name == undefined){
           this.$message({type: "error", message:"请输入大赛名称！"})
-          return;
+          return false;
         }else if(data.goal === undefined){
           this.$message({type: "error", message:"请输入大赛目标！"})
-          return;
+          return false;
         }else if(data.desc === undefined){
           this.$message({type: "error", message:"请输入参赛计划！"})
-          return;
+          return false;
         }
         //专业大赛
         this.$store.dispatch('INSERT_PROF', data).then(res => {
           this.getPlanList()
         }).catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "保存失败！"
-            });
+            this.$message.error('保存失败，请稍后重试！')
           }
         })
       }
       else if(this.plan.type == 'pread'){
         let data = {
-          name: this.form.input[0],
-          type: this.form.input[1],
-          content: this.form.textarea[0],
-          mode: 0,
+          name: this.form.textarea[0],
+          content: this.form.textarea[1],
+          // mode: 0,
           planId: this.planId
         }
-        if(data.name === undefined){
-          this.$message({type: "error", message:"请选择书籍名称！"})
-          return;
-        }else if(data.type === undefined){
-          this.$message({type: "error", message:"请选择书籍类型！"})
-          return;
-        }else if(data.content === undefined){
-          this.$message({type: "error", message:"请输入阅读计划！"})
-          return;
+         if(!data.name){
+          this.$message({type: "error", message:"请输入图书阅读计划！"})
+          return false;
+        }else if(!data.content){
+          this.$message({type: "error", message:"请输入碎片化学习计划！"})
+          return false;
         }
         //专业阅读
         this.$store.dispatch('INSERT_PREAD', data).then(res => {
           this.getPlanList()
         }).catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "保存失败！"
-            });
+            this.$message.error('保存失败，请稍后重试！')
           }
         })
       }
       else if(this.plan.type == 'officeSkills'){
+        let name = ''
+        if(this.form.input.length&&this.form.input[0].indexOf('其他') != -1) {
+          name = this.form.input[1]
+        } else {
+          name = this.form.input[0]
+        }
         let data = {
-          name: this.form.input[0],
+          name: name,
           desc: this.form.textarea[0],
           planId: this.planId
         }
-        if(data.name === undefined){
-          this.$message({type: "error", message:"请选择技能名称！"})
-          return;
+        if(!data.name){
+          this.$message({type: "error", message:"请选择或输入技能名称！"})
+          return false;
         }else if(data.desc === undefined){
           this.$message({type: "error", message:"请输入计划内容！"})
-          return;
+          return false;
         }
         //办公技能
         this.$store.dispatch('INSERT_OFFICE', data).then(res => {
           this.getPlanList()
         }).catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "保存失败！"
-            });
+            this.$message.error('保存失败，请稍后重试！')
           }
         })
       }
       else if(this.plan.type == 'vocations'){
+        let name = ''
+        if(this.form.input.length&&this.form.input[0].indexOf('其他') != -1) {
+          name = this.form.input[1]
+        } else {
+          name = this.form.input[0]
+        }
         let data = {
-          name: this.form.input[0],
+          name: name,
           goal: this.form.textarea[0],
           planId: this.planId
         }
-        if(data.name === undefined){
-          this.$message({type: "error", message:"请选择职业技能名称！"})
-          return;
+        if(!data.name){
+          this.$message({type: "error", message:"请选择或输入职业软实力提升计划名称！"})
+          return false;
         }else if(data.goal === undefined){
           this.$message({type: "error", message:"请输入计划内容！"})
-          return;
+          return false;
         }
         //职业能力
         this.$store.dispatch('INSERT_VOCATION', data).then(res => {
           this.getPlanList()
         }).catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "保存失败！"
-            });
+            this.$message.error('保存失败，请稍后重试！')
           }
         })
       }
       else if(this.plan.type == 'internships'){
         let data = {
+          name: this.form.input[0],
           content: this.form.textarea[0],
-          score: this.form.textarea[1],
           planId: this.planId
         }
-        if(data.content === undefined){
+        if(!data.name){
+          this.$message({type: "error", message:"请输入实践名称！"})
+          return false;
+        }else if(!data.content){
           this.$message({type: "error", message:"请输入计划内容！"})
-          return;
-        }else if(data.score === undefined){
-          this.$message({type: "error", message:"请输入实习实践目标！"})
-          return;
+          return false;
         }
         //实习实践
         this.$store.dispatch('INSERT_INTERNSHIP', data).then(res => {
           this.getPlanList()
         }).catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "保存失败！"
-            });
+            this.$message.error('保存失败，请稍后重试！')
           }
         })
       }
       else if(this.plan.type == 'certificates'){
+        let name = ''
+        if(this.form.input.length&&this.form.input[0].indexOf('其他') != -1) {
+          name = this.form.input[1]
+        } else {
+          name = this.form.input[0]
+        }
         let data = {
-          name: this.form.input[0],
+          name: name,
           content: this.form.textarea[0],
           planId: this.planId
         }
-        if(data.name === undefined){
-          this.$message({type: "error", message:"请选择证书名称！"})
-          return;
-        }else if(data.content === undefined){
+        if(!data.name){
+          this.$message({type: "error", message:"请选择或输入证书名称！"})
+          return false;
+        }else if(!data.content){
           this.$message({type: "error", message:"请输入计划内容！"})
-          return;
+          return false;
         }
         //证书计划
         this.$store.dispatch('INSERT_CERTIFICATE', data).then(res => {
           this.getPlanList()
         }).catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "保存失败！"
-            });
+            this.$message.error('保存失败，请稍后重试！')
           }
         })
       }
       else if(this.plan.type == 'additions'){
+        let name = ''
+        if(this.form.input.length&&this.form.input[0].indexOf('其他') != -1) {
+          name = this.form.input[1]
+        } else {
+          name = this.form.input[0]
+        }
         let data = {
-          additionalName: this.form.input[0],
+          additionalName: name,
           additionalDesc: this.form.textarea[0],
           planId: this.planId
         }
-        console.log(data)
         if(data.additionalName === undefined){
-          this.$message({type: "error", message:"请输入计划名称！"})
-          return;
+          this.$message({type: "error", message:"请输入或选择计划名称！"})
+          return false;
         }else if(data.additionalDesc === undefined){
           this.$message({type: "error", message:"请输入计划内容！"})
-          return;
+          return false;
         }
         //其他计划
         this.$store.dispatch('INSERT_ADDITIONAL', data).then(res => {
           this.getPlanList()
         }).catch(err => {
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "保存失败！"
-            });
+            this.$message.error('保存失败，请稍后重试！')
+          }
+        })
+      }
+      // 添加专业论文
+      else if(this.plan.type == 'thesiss') {
+        let data = {
+          content: this.form.textarea[0],
+          planId: this.planId
+        }
+        if(!data.content){
+          this.$message({type: "error", message:"请输入计划内容！"})
+          return false;
+        }
+        this.$store.dispatch('INSERT_PROFTHESIS', data).then(res => {
+          this.getPlanList()
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message.error(err.data.msg)
+          } else {
+            this.$message.error('保存失败，请稍后重试！')
+          }
+        })
+      }
+      else if(this.plan.type == 'ships') {
+        let data = {
+          name: this.form.input[0],
+          content: this.form.textarea[0],
+          planId: this.planId
+        }
+        if(!data.name){
+          this.$message({type: "error", message:"请选择人际关系与社交管理计划名称！"})
+          return false;
+        }
+        if(!data.content){
+          this.$message({type: "error", message:"请输入计划内容！"})
+          return false;
+        }
+        this.$store.dispatch('INSERT_INTERPERSONALRELATIONSHIP', data).then(res => {
+          this.getPlanList()
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message.error(err.data.msg)
+          } else {
+            this.$message.error('保存失败，请稍后重试！')
+          }
+        })
+      }
+      else if(this.plan.type == 'lifes') {
+        let name = ''
+        if(this.form.input.length&&this.form.input[0].indexOf('其他') != -1) {
+          name = this.form.input[1]
+        } else {
+          name = this.form.input[0]
+        }
+        let data = {
+          name: name,
+          content: this.form.textarea[0],
+          planId: this.planId
+        }
+        if(!data.name){
+          this.$message({type: "error", message:"请输入或选择生活管理计划名称！"})
+          return false;
+        }
+        if(!data.content){
+          this.$message({type: "error", message:"请输入计划内容！"})
+          return false;
+        }
+        this.$store.dispatch('INSERT_LIFEMANAGEMENT', data).then(res => {
+          this.getPlanList()
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message.error(err.data.msg)
+          } else {
+            this.$message.error('保存失败，请稍后重试！')
+          }
+        })
+      }
+      else if(this.plan.type == 'promotions') {
+        let name = ''
+        if(this.form.input.length&&this.form.input[0].indexOf('其他') != -1) {
+          name = this.form.input[1]
+        } else {
+          name = this.form.input[0]
+        }
+        let data = {
+          name: name,
+          content: this.form.textarea[0],
+          planId: this.planId
+        }
+        if(!data.name){
+          this.$message({type: "error", message:"请输入或选择计划名称！"})
+          return false;
+        }
+        if(!data.content){
+          this.$message({type: "error", message:"请输入计划内容！"})
+          return false;
+        }
+        this.$store.dispatch('INSERT_BGPROMOTION', data).then(res => {
+          this.getPlanList()
+        }).catch(err => {
+          if (err.data.msg) {
+            this.$message.error(err.data.msg)
+          } else {
+            this.$message.error('保存失败，请稍后重试！')
           }
         })
       }
@@ -615,10 +763,7 @@ export default {
         this.$router.push({name: 'planList', query: {stage: this.termStage}})
       }).catch(err => {
         if (err.data.msg) {
-          this.$message({
-            type: "error",
-            message: err.data.msg
-          });
+          this.$message.error(err.data.msg)
         } else {
           this.$message({
             type: "error",
@@ -641,15 +786,9 @@ export default {
         this[this.plan.type+'List'] = res.data[this.plan.type];
       }).catch(err => {
         if (err.data.msg) {
-          this.$message({
-            type: "error",
-            message: err.data.msg
-          });
+          this.$message.error(err.data.msg)
         } else {
-          this.$message({
-            type: "error",
-            message: "获取计划列表失败！"
-          });
+          this.$message.error('获取计划列表失败，请稍后重试！');
         }
       })
     },
@@ -666,17 +805,10 @@ export default {
           this.getPlanList();
           this.dialogVisible = false;
         }).catch(err =>{
-          console.log(err)
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "获取计划列表失败！"
-            });
+            this.$message.error('删除失败，请稍后重试！')
           }
         })
       }
@@ -685,17 +817,10 @@ export default {
           this.getPlanList();
           this.dialogVisible = false;
         }).catch(err =>{
-          console.log(err)
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "获取计划列表失败！"
-            });
+            this.$message.error('删除失败，请稍后重试！')
           }
         })
       }
@@ -704,17 +829,10 @@ export default {
           this.getPlanList();
           this.dialogVisible = false;
         }).catch(err =>{
-          console.log(err)
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "获取计划列表失败！"
-            });
+            this.$message.error('删除失败，请稍后重试！')
           }
         })
       }
@@ -724,17 +842,10 @@ export default {
           this.getPlanList();
           this.dialogVisible = false;
         }).catch(err =>{
-          console.log(err)
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "获取计划列表失败！"
-            });
+            this.$message.error('删除失败，请稍后重试！')
           }
         })
       }
@@ -744,17 +855,10 @@ export default {
           this.getPlanList();
           this.dialogVisible = false;
         }).catch(err =>{
-          console.log(err)
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "获取计划列表失败！"
-            });
+            this.$message.error('删除失败，请稍后重试！')
           }
         })
       }
@@ -764,17 +868,10 @@ export default {
           this.getPlanList();
           this.dialogVisible = false;
         }).catch(err =>{
-          console.log(err)
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "获取计划列表失败！"
-            });
+            this.$message.error('删除失败，请稍后重试！')
           }
         })
       }
@@ -784,17 +881,10 @@ export default {
           this.getPlanList();
           this.dialogVisible = false;
         }).catch(err =>{
-          console.log(err)
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "获取计划列表失败！"
-            });
+            this.$message.error('删除失败，请稍后重试！')
           }
         })
       }
@@ -804,17 +894,10 @@ export default {
           this.getPlanList();
           this.dialogVisible = false;
         }).catch(err =>{
-          console.log(err)
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "获取计划列表失败！"
-            });
+            this.$message.error('删除失败，请稍后重试！')
           }
         })
       }
@@ -824,17 +907,10 @@ export default {
           this.getPlanList();
           this.dialogVisible = false;
         }).catch(err =>{
-          console.log(err)
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "获取计划列表失败！"
-            });
+            this.$message.error('删除失败，请稍后重试！')
           }
         })
       }
@@ -844,22 +920,63 @@ export default {
           this.getPlanList();
           this.dialogVisible = false;
         }).catch(err =>{
-          console.log(err)
           if (err.data.msg) {
-            this.$message({
-              type: "error",
-              message: err.data.msg
-            });
+            this.$message.error(err.data.msg)
           } else {
-            this.$message({
-              type: "error",
-              message: "获取计划列表失败！"
-            });
+            this.$message.error('删除失败，请稍后重试！')
           }
         })
       }
       else if(this.plan.type == 'otherPlans'){
-        //附加计划
+        //附加计划 已删除此选项
+      }
+      else if(this.plan.type == 'thesiss') {
+        this.$store.dispatch('DELETE_PROFTHESIS', data).then(res => {
+          this.getPlanList();
+          this.dialogVisible = false;
+        }).catch(err =>{
+          if (err.data.msg) {
+            this.$message.error(err.data.msg)
+          } else {
+            this.$message.error('删除失败，请稍后重试！')
+          }
+        })
+      }
+      else if(this.plan.type == 'lifes') {
+        this.$store.dispatch('DELETE_LIFEMANAGEMENT', data).then(res => {
+          this.getPlanList();
+          this.dialogVisible = false;
+        }).catch(err =>{
+          if (err.data.msg) {
+            this.$message.error(err.data.msg)
+          } else {
+            this.$message.error('删除失败，请稍后重试！')
+          }
+        })
+      }
+      else if(this.plan.type == 'ships') {
+        this.$store.dispatch('DELETE_INTERPERSONALRELATIONSHIP', data).then(res => {
+          this.getPlanList();
+          this.dialogVisible = false;
+        }).catch(err =>{
+          if (err.data.msg) {
+            this.$message.error(err.data.msg)
+          } else {
+            this.$message.error('删除失败，请稍后重试！')
+          }
+        })
+      }
+      else if(this.plan.type == 'promotions') {
+        this.$store.dispatch('DELETE_BGPROMOTION', data).then(res => {
+          this.getPlanList();
+          this.dialogVisible = false;
+        }).catch(err =>{
+          if (err.data.msg) {
+            this.$message.error(err.data.msg)
+          } else {
+            this.$message.error('删除失败，请稍后重试！')
+          }
+        })
       }
     },
     handleClose(done) {
@@ -909,6 +1026,16 @@ export default {
     }
     .form {
       padding: 10px;
+      .suggest-box {
+        .suggest-title {
+          font-size: 14px;
+          line-height: 30px;
+        }
+        .suggest-content {
+          color: #999;
+          line-height: 22px;
+        }
+      }
       .input-list {
         display: flex;
         .input-box {
@@ -916,6 +1043,7 @@ export default {
           padding-right: 30px;
           max-width: 33.33%;
           .name {
+            height: 30px;
             line-height: 30px;
             padding-left: 10px;
           }
@@ -928,11 +1056,8 @@ export default {
           padding-left: 10px;
         }
         .textarea {
-          width: calc(100% - 30px);
-          min-height: 90px;
-          border: 1px solid @main-color-border;
-          border-radius: 8px;
-          padding: 15px;
+          width: calc(100% - 30px)!important;
+          min-height: 120px!important;
         }
       }
       .post-btn {
@@ -945,6 +1070,7 @@ export default {
           border: none;
         }
         .pager-btn {
+          float: right;
           width: 30px;
           height: 30px;
           line-height: 30px;
@@ -958,10 +1084,7 @@ export default {
           background-color: #303133 !important;
         }
         .left-btn {
-          float: left;
-        }
-        .right-btn {
-          float: right;
+          margin-right: 20px;
         }
       }
     }
@@ -985,8 +1108,8 @@ export default {
         border: 1px solid @main-color-border;
         border-radius: 4px;
         box-shadow: 8px 0px 10px rgba(32, 35, 41, 0.15);
-        margin: 0 14px 20px 14px;
-        padding: 0 12px 12px 12px;
+        margin: 0 12px 20px 12px;
+        padding: 10px 12px 12px 12px;
         display: inline-block;
         position: relative;
         .item-icon {
@@ -996,6 +1119,7 @@ export default {
         .item-title {
           line-height: 26px;
           .name {
+            max-width: 145px;
             display: inline-block;
             line-height: 20px;
             font-weight: bold;

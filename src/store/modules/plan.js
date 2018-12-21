@@ -3,6 +3,8 @@ import config from "../../api/config"
 
 const PLAN_SET = "PLAN_SET"
 
+const FIND_PLACEHOLDER = 'FIND_PLACEHOLDER'
+const PLAN_DICT_DATA = 'PLAN_DICT_DATA'
 const GENERALPLAN_PAPER = 'GENERALPLAN_PAPER'
 const SAVE_GENERALPLAN = 'SAVE_GENERALPLAN'
 const GENERALPLAN_INFO = 'GENERALPLAN_INFO'
@@ -79,6 +81,26 @@ const INSERT_OTHERPLAN = "INSERT_OTHERPLAN"
 const DELETE_OTHERPLAN = "DELETE_OTHERPLAN"
 const UPDATE_OTHERPLAN = "UPDATE_OTHERPLAN"
 
+const INSERT_BGPROMOTION = 'INSERT_BGPROMOTION'
+const DELETE_BGPROMOTION = 'DELETE_BGPROMOTION'
+const UPDATE_BGPROMOTION = 'UPDATE_BGPROMOTION'
+const BGPROMOTION_LIST = 'BGPROMOTION_LIST'
+
+const INSERT_INTERPERSONALRELATIONSHIP = 'INSERT_INTERPERSONALRELATIONSHIP'
+const DELETE_INTERPERSONALRELATIONSHIP = 'DELETE_INTERPERSONALRELATIONSHIP'
+const UPDATE_INTERPERSONALRELATIONSHIP = 'UPDATE_INTERPERSONALRELATIONSHIP'
+const INTERPERSONALRELATIONSHIP_LIST = 'INTERPERSONALRELATIONSHIP_LIST'
+
+const INSERT_LIFEMANAGEMENT = 'INSERT_LIFEMANAGEMENT'
+const DELETE_LIFEMANAGEMENT = 'DELETE_LIFEMANAGEMENT'
+const UPDATE_LIFEMANAGEMENT = 'UPDATE_LIFEMANAGEMENT'
+const LIFEMANAGEMENT_LIST = 'LIFEMANAGEMENT_LIST'
+
+const INSERT_PROFTHESIS = 'INSERT_PROFTHESIS'
+const DELETE_PROFTHESIS = 'DELETE_PROFTHESIS'
+const UPDATE_PROFTHESIS = 'UPDATE_PROFTHESIS'
+const PROFTHESIS_LIST = 'PROFTHESIS_LIST'
+
 export default {
   state: {},
   mutations: {
@@ -87,6 +109,12 @@ export default {
     }
   },
   actions: {
+    // 查看总规划字典
+    [PLAN_DICT_DATA]({ commit }, params) {
+      return api.get(config.url.planDictData, params).then(res =>{
+        return res
+      })
+    },
     // 查看总规划paper 默认的数据格式
     [GENERALPLAN_PAPER]({commit}){
       return api.get(config.url.findGeneralPlanPaper).then(res =>{
@@ -423,23 +451,6 @@ export default {
         return res
       })
     },
-    //新增 其他列表
-    [INSERT_OTHERPLAN]({ commit }, data) {
-      return api.post(config.url, params).then(res => {
-        return res
-      })
-    },
-    //修改
-    [UPDATE_OTHERPLAN]({ commit }, data) {
-      return api.put(config.url, params).then(res => {
-        return res
-      })
-    },
-    //删除
-    [DELETE_OTHERPLAN]({ commit }, data) {
-      return api.delete().then(res => {
-      })
-  },
 
     //获取附加列表
     [ADDITIONAL_LIST]({ commit }, params) {
@@ -464,6 +475,115 @@ export default {
       return api.delete(config.url.deleteAdditional, data).then(res => {
         return res
       })
-    }
+    },
+
+    // 背景提升计划列表
+    [BGPROMOTION_LIST]({ commit }, params) {
+      return api.get(config.url.listBackgroundPromotion, params).then(res => {
+        return res
+      })
+    },
+    // 添加背景提升计划
+    [INSERT_BGPROMOTION]({ commit }, data) {
+      return api.post(config.url.insertBackgroundPromotion, data).then(res => {
+        return res
+      })
+    },
+    // 修改背景提升计划
+    [UPDATE_BGPROMOTION]({ commit }, data) {
+      return api.put(config.url.updateBackgroundPromotion, data).then(res => {
+        return res
+      })
+    },
+    // 删除背景提升计划
+    [DELETE_BGPROMOTION]({ commit }, params) {
+      return api.delete(config.url.deleteBackgroundPromotion, params).then(res => {
+        return res
+      })
+    },
+    
+    // 人际关系与社交管理计划列表
+    [INTERPERSONALRELATIONSHIP_LIST]({ commit }, params) {
+      return api.get(config.url.listInterpersonalRelationship, params).then(res => {
+        return res
+      })
+    },
+    // 添加人际关系与社交管理计划
+    [INSERT_INTERPERSONALRELATIONSHIP]({ commit }, data) {
+      return api.post(config.url.insertInterpersonalRelationship, data).then(res => {
+        return res
+      })
+    },
+    // 修改人际关系与社交管理计划
+    [UPDATE_INTERPERSONALRELATIONSHIP]({ commit }, data) {
+      return api.put(config.url.updateInterpersonalRelationship, data).then(res => {
+        return res
+      })
+    },
+    // 删除人际关系与社交管理计划
+    [DELETE_INTERPERSONALRELATIONSHIP]({ commit }, params) {
+      return api.delete(config.url.deleteInterpersonalRelationship, params).then(res => {
+        return res
+      })
+    },
+    
+    // 生活管理计划列表
+    [LIFEMANAGEMENT_LIST]({ commit }, params) {
+      return api.get(config.url.listLifeManagement, params).then(res => {
+        return res
+      })
+    },
+    // 添加生活管理计划
+    [INSERT_LIFEMANAGEMENT]({ commit }, data) {
+      return api.post(config.url.insertLifeManagement, data).then(res => {
+        return res
+      })
+    },
+    // 修改生活管理计划
+    [UPDATE_LIFEMANAGEMENT]({ commit }, data) {
+      return api.put(config.url.updateLifeManagement, data).then(res => {
+        return res
+      })
+    },
+    // 删除生活管理计划
+    [DELETE_LIFEMANAGEMENT]({ commit }, params) {
+      return api.delete(config.url.deleteLifeManagement, params).then(res => {
+        return res
+      })
+    },
+    
+    // 专业论文列表
+    [PROFTHESIS_LIST]({ commit }, params) {
+      return api.get(config.url.listProfThesis, params).then(res => {
+        return res
+      })
+    },
+    // 添加专业论文
+    [INSERT_PROFTHESIS]({ commit }, data) {
+      return api.post(config.url.insertProfThesis, data).then(res => {
+        return res
+      })
+    },
+    // 修改专业论文
+    [UPDATE_PROFTHESIS]({ commit }, data) {
+      return api.put(config.url.updateProfThesis, data).then(res => {
+        return res
+      })
+    },
+    // 删除专业论文
+    [DELETE_PROFTHESIS]({ commit }, params) {
+      return api.delete(config.url.deleteProfThesis, params).then(res => {
+        return res
+      })
+    },
+    // 根据名称查看placehoder文字
+    [FIND_PLACEHOLDER]({ commit }, params) {
+      return api.get(config.url.planPlaceholder, params).then(res => {
+        return res
+      })
+    },
+
+
+
   }
 }
