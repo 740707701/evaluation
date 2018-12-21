@@ -32,10 +32,12 @@
 							</div>
 							<div class="value-box" v-if="item.subtitleList">
 								<div class="value-item" v-for="(sub,i) in item.subtitleList" :key="i">
-									<span class="name">{{sub.title}}{{sub.title.indexOf('：') === -1 ?'：': '' }}</span>
+									<span class="name" v-if="sub.value instanceof Array ? sub.value.length : sub.value">{{sub.title}}{{sub.title.indexOf('：') === -1 ?'：': '' }}</span>
 									<span class="value" v-if="sub.value instanceof Array" v-for="(subVal,subIdx) in sub.value" :key="subIdx">{{subVal}}</span>
-									<div class="sub-item" v-if="typeof sub.value === 'string'">
-										<div class="sub-value">{{sub.value}}</div>
+									<div class="sub-item" v-if="typeof sub.value === 'string'&&sub.value">
+										<div class="sub-value">
+											<pre>{{sub.value}}</pre>{{sub.value}}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -197,7 +199,6 @@ export default {
 					.value-box {
 						.value-item {
 							width: 100%;
-							display: inline-block;
 							.name {
 								float: left;
 								color:#333;

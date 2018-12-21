@@ -11,7 +11,7 @@
 					<div class="btn generalplan-btn">查看总规划</div>
 				</router-link>
 				<router-link to="/termPlan">
-					<div class="btn open-btn">开启规划</div>
+					<div class="btn open-btn">开启学期规划</div>
 				</router-link>
       </div>
     </div>

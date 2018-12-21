@@ -1,43 +1,9 @@
 <template>
   <div class="myplan-page">
 		<el-tabs v-model="activeName" @tab-click="tabsClick">
-      <el-tab-pane label="总规划" name="first">
-        <div class="plan-list">
-					<div class="nodata" v-if="!Object.keys(generalPlanData).length">还没有大学职业总规划~</div> 
-          <div class="item modify-item" v-if="Object.keys(generalPlanData).length">
-            <img src="../../assets/images/term.png" alt="">
-            <div class="item-content">
-              <div class="name">大学四年总规划</div>
-              <div class="status">状态：
-                <span class="red" v-if="generalPlanData.state === '10'">待审核</span>
-                <!-- <span class="red" v-if="generalPlanData.state === '20'">审核通过</span> -->
-                <span class="red" v-if="generalPlanData.state === '30'">审核未通过</span>
-                <span class="red" v-if="generalPlanData.auditScore">{{generalPlanData.auditScore}}分</span>
-              </div>
-              <div class="time" v-if="generalPlanData.updateDate">{{generalPlanData.updateDate.slice(0,10)}}</div>
-              <div class="btn-box">
-                <div class="operation-btn view-btn" @click="viewGeneralPlan()">查看</div>
-              </div>
-            </div>
-            <div class="comment-box" v-if="generalPlanAuditContent.length">
-              <div class="comment-title">评语：</div>
-              <div class="comment-content" v-for="(content, index) in generalPlanAuditContent" :key="index" v-if="!generalPlanData.showMore">
-                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
-              </div>
-              <div class="comment-all-content" v-for="(content, index) in generalPlanAuditContent" :key="index" v-if="generalPlanData.showMore">
-                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
-              </div>
-              <div class="show-more" v-if="generalPlanAuditContent[0]!=null&&generalPlanAuditContent[0].length>45">
-                <i class="iconfont icon-down" v-if="!generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
-                <i class="iconfont icon-up" v-if="generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
-              </div>
-            </div>
-          </div>
-				</div>
-      </el-tab-pane>
-			<el-tab-pane label="职业规划" name="second">
+			<el-tab-pane label="职业规划" name="first">
 				<div class="plan-list">
-					<div class="nodata" v-if="!planList.length">还没有任何数据~</div> 
+					<div class="nodata" v-if="!planList.length&&Object.keys(generalPlanData).length">还没有任何数据~</div> 
           <div class="item modify-item" v-for="plan in planList" :key="plan.stage">
             <img src="../../assets/images/term.png" alt="">
             <div class="item-content">
@@ -67,6 +33,34 @@
               </div>
             </div>
           </div>
+          <div class="item modify-item" v-if="Object.keys(generalPlanData).length">
+            <img src="../../assets/images/term.png" alt="">
+            <div class="item-content">
+              <div class="name">大学四年总规划</div>
+              <div class="status">状态：
+                <span class="red" v-if="generalPlanData.state === '10'">待审核</span>
+                <span class="red" v-if="generalPlanData.state === '30'">审核未通过</span>
+                <span class="red" v-if="generalPlanData.auditScore">{{generalPlanData.auditScore}}分</span>
+              </div>
+              <div class="time" v-if="generalPlanData.updateDate">{{generalPlanData.updateDate.slice(0,10)}}</div>
+              <div class="btn-box">
+                <div class="operation-btn view-btn" @click="viewGeneralPlan()">查看</div>
+              </div>
+            </div>
+            <div class="comment-box" v-if="generalPlanAuditContent.length">
+              <div class="comment-title">评语：</div>
+              <div class="comment-content" v-for="(content, index) in generalPlanAuditContent" :key="index" v-if="!generalPlanData.showMore">
+                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
+              </div>
+              <div class="comment-all-content" v-for="(content, index) in generalPlanAuditContent" :key="index" v-if="generalPlanData.showMore">
+                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
+              </div>
+              <div class="show-more" v-if="generalPlanAuditContent[0]!=null&&generalPlanAuditContent[0].length>45">
+                <i class="iconfont icon-down" v-if="!generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
+                <i class="iconfont icon-up" v-if="generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
+              </div>
+            </div>
+          </div>
 				</div>
 			</el-tab-pane>
 		</el-tabs>
@@ -87,6 +81,7 @@ export default {
   },
   created(){
     this.getGeneralPlanInfo()
+    this.getPlanList()
   },
   methods: {
     getPlanList(){
@@ -125,12 +120,12 @@ export default {
       this.$set(plan, 'showMore', !plan.showMore)
     },
     tabsClick: function(tab, event){
-      let tabIndex = tab.index
-      if(tabIndex == 0){
-        this.getGeneralPlanInfo()
-      }else if(tabIndex == 1){
-        this.getPlanList()
-      }
+      // let tabIndex = tab.index
+      // if(tabIndex == 0){
+      //   this.getGeneralPlanInfo()
+      // }else if(tabIndex == 1){
+      //   this.getPlanList()
+      // }
     },
   }
 };
