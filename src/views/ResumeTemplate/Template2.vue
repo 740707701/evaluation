@@ -23,11 +23,12 @@
 							<span v-if="baseInfo.sex==2">女</span>
 							<span class="split" v-if="baseInfo.workTime>0">|</span>
 							<span v-if="baseInfo.workTime>0">{{baseInfo.workTime}}年工作经验</span>
-							<span class="split">|</span>
+							<span class="split" v-if="baseInfo.jobIntention">|</span>
 							<span v-if="baseInfo.jobIntention">{{baseInfo.jobIntention}}</span>
-							<span class="split">|</span>
-							<span>现居住{{baseInfo.address}}</span>
 						</div>
+            <div class="info">
+							<span>现居住{{baseInfo.address}}</span>
+            </div>
 					</div>
 				</div>
 			</div>
@@ -154,8 +155,8 @@
 					</div>
           <div class="schoolwork" v-if="schoolWorkList.length">
 						<div class="title">校内实践</div>
-						<div class="schoolwork-item item" v-for="work in schoolWorkList" :key="work.id">
-							<div class="">
+						<div class="schoolwork-item " v-for="work in schoolWorkList" :key="work.id">
+							<div class="work-title">
 								<span>{{work.startTime.slice(0, 10)}} ~ {{work.endTime.slice(0, 10)}}</span>
 								<span>{{work.schoolWorkName}}</span>
 							</div>
@@ -175,7 +176,6 @@
               <span>{{honor.honorLevel}}</span>
 						</div>
 					</div>
-					
 				</div>
 				<div class="module skill" v-if="skillList.length">
 					<div class="top">
@@ -350,7 +350,6 @@ export default {
         .base-info {
           color: #fff;
           margin-left: 150px;
-          padding-top: 10px;
           .title {
             font-size: 22px;
             line-height: 40px;
@@ -418,12 +417,14 @@ export default {
     .work,
     .edu {
       .work-item {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         .title {
+          display: flex;
+          display: -webkit-flex;
+          flex-wrap: wrap;
           span {
-            margin-right: 20px;
+            flex: 1 1 auto;
             line-height: 30px;
-            display: inline-block;
           }
         }
         .content {
@@ -443,8 +444,8 @@ export default {
         display: flex;
         display: -webkit-flex;
         .honor-time {
-          min-width: 120px;
-          max-width: 120px;
+          min-width: 150px;
+          max-width: 150px;
         }
         span {
           line-height: 24px;
@@ -464,9 +465,22 @@ export default {
           padding-left: 20px;
           background-color: #f1f5fb;
         }
-
+        .honor-item {
+          margin: 5px 0;
+        }
         .schoolwork-item {
           color: #666;
+          margin-bottom: 10px;
+          .work-title {
+            width: 100%;
+            display: flex;
+            margin: 5px 0;
+            span {
+              line-height: 24px;
+              flex: 1 1 auto;
+              text-align: left;
+            }
+          }
           .desc-title {
             line-height: 30px;
           }

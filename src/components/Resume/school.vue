@@ -140,7 +140,9 @@
                   <div class="desc-text gray">实践描述：</div>
                   <div class="desc-content">
                     <ul class="desc-list">
-                      {{work.schoolWorkDesc}}
+                      <li>
+                        <pre>{{work.schoolWorkDesc}}</pre>
+                      </li>
                     </ul>
                   </div>
                 </div>

@@ -29,7 +29,8 @@
               <span v-if="baseInfo.birth">({{baseInfo.birth?baseInfo.birth.slice(0,10): ''}})</span>
               <span class="split">|</span>
               <span v-if="baseInfo.workTime>0">{{baseInfo.workTime}}年工作经验</span>
-              <span class="split" v-if="baseInfo.workTime>0">|</span>
+            </div>
+            <div class="concat">
               <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>
             </div>
           </div>
@@ -117,7 +118,10 @@
               </li>
             </ul>
             <div class="evaluate-box">
-              <span class="name">自我评价：</span> <div class="evaluate">{{baseInfo.evaluate}}</div>
+              <span class="name">自我评价：</span>
+              <div class="evaluate">
+                <pre>{{baseInfo.evaluate}}</pre>
+              </div>
             </div>
           </div>
           <div class="work-exper item-content" v-if="workExperList.length">
@@ -209,7 +213,7 @@
               </div>
               <ul class="honor-list">
                 <li class="honor-item" v-for="honor in schoolHonorList" :key="honor.id">
-                  <span class="gray">{{honor.honorTime.slice(0, 7)}}</span>
+                  <span class="gray honor-time">{{honor.honorTime.slice(0, 7)}}</span>
                   <span>{{honor.honorPrize}}</span>
                   <span>{{honor.honorLevel}}</span>
                 </li>
@@ -220,7 +224,7 @@
             <div class="item-title">技能证书</div>
               <ul>
                 <li v-for="skill in skillList" :key="skill.id">
-                  <span class="gray">{{skill.skillTime.slice(0, 7)}}</span>
+                  <span class="gray skill-time">{{skill.skillTime.slice(0, 7)}}</span>
                   <span>{{skill.name}}</span>
                 </li>
               </ul>
@@ -349,8 +353,8 @@ export default {
         float: left;
         width: 85px;
         height: 104px;
-        margin-left: 27px;
-        margin-right: 50px;
+        margin-left: 25px;
+        margin-right: 30px;
         img {
           width: 85px;
           height: 104px;
@@ -362,6 +366,7 @@ export default {
         // padding-left: 162px;
         // width: calc(100% - 162px);
         // float: right;
+        margin-left: 140px;
         .name,
         .status,
         .concat {
@@ -435,6 +440,7 @@ export default {
           .evaluate {
             display: inline-block;
             line-height: 22px;
+            
           }
         }
       }
@@ -450,6 +456,7 @@ export default {
         .evaluate {
           margin-left: 90px;
           line-height: 22px;
+          padding-top: 6px;
         }
       }
     }
@@ -513,13 +520,20 @@ export default {
           line-height: 40px;
           background-color: rgba(241, 245, 251, 1);
         }
-        .honor-item {
+        li {
+          width: 100%;
+          display: flex;
+          display: -webkit-flex;
           line-height: 30px;
+          margin: 5px 0;
           span {
-            width: 30%;
+            flex: 1 1 auto;
             line-height: 20px;
-            vertical-align: middle;
-            display: inline-block;
+            text-align: left;
+          }
+          .honor-time {
+            min-width: 120px;
+            max-width: 120px;
           }
         }
         .honor-list,
@@ -531,14 +545,23 @@ export default {
     .skill {
       width: 100%;
       display: inline-block;
+      padding: 10px 20px;
       li {
         width: 100%;
+        display: flex;
         line-height: 30px;
         span {
-          width: 30%;
+          flex: 1 1 auto;
           line-height: 20px;
-          vertical-align: middle;
-          display: inline-block;
+          text-align: left;
+        }
+        .icon-box {
+          text-align: right;
+          min-width: 150px;
+        }
+        .skill-time {
+          min-width: 120px;
+          max-width: 120px;
         }
       }
     }

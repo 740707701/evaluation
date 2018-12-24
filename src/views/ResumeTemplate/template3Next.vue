@@ -62,14 +62,14 @@
 							</div>
 						</li>
 						<li>
-							<div class="item">
-								<span class="name">现居住：</span><span class="value">{{baseInfo.address}}</span>
-							</div>
 							<div class="item" v-if="baseInfo.resumeType===2">
 								<span class="name">毕业院校：</span><span v-if="eduList.length">{{eduList[0].schoolName}}</span>
 							</div>
 							<div class="item" v-if="baseInfo.resumeType===1">
 								<span class="name">求职意向：</span><span>{{baseInfo.jobIntention}}</span>
+							</div>
+							<div class="item">
+								<span class="name">现居住：</span><span class="value">{{baseInfo.address}}</span>
 							</div>
 						</li>
 					</ul>
@@ -89,11 +89,15 @@
 						</div>
 						<div class="content" v-if="edu.majorDesc">
 							<div class="title">专业描述：</div>
-							<div class="work-content">{{edu.majorDesc}}</div>
+							<div class="work-content">
+								<pre>{{edu.majorDesc}}</pre>
+							</div>
 						</div>
 						<div class="content" v-if="edu.eduDesc">
 							<div class="title">学习课程：</div>
-							<div class="work-content">{{edu.eduDesc}}</div>
+							<div class="work-content">
+								<pre>{{edu.eduDesc}}</pre>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -109,7 +113,9 @@
 						</div>
 						<div class="content">
 							<div class="title">工作内容：</div>
-							<div class="work-content">{{exper.workDesc}}</div>
+							<div class="work-content">
+								<pre>{{exper.workDesc}}</pre>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -146,8 +152,8 @@
 					</div>
 					<div class="schoolwork" v-if="schoolWorkList.length">
 						<div class="title">校内实践</div>
-						<div class="schoolwork-item item" v-for="work in schoolWorkList" :key="work.id">
-							<div class="">
+						<div class="schoolwork-item" v-for="work in schoolWorkList" :key="work.id">
+							<div class="work-title">
 								<span>{{work.startTime.slice(0, 10)}} ~ {{work.endTime.slice(0, 10)}}</span>
 								<span>{{work.schoolWorkName}}</span>
 							</div>
@@ -423,7 +429,9 @@ export default {
 							}
 							.value {
 								line-height: 22px;
-								display: inline-block;
+								padding-left: 100px;
+								padding-top: 4px;
+								display: block;
 							}
 							.name {
 								float: left;
@@ -445,10 +453,12 @@ export default {
 						padding: 0 20px;
 						margin-bottom: 20px;
 						.title {
+							display: flex;
+							display: -webkit-flex;
+							flex-wrap: wrap;
 							span {
-								margin-right: 20px;
+								flex: 1 1 auto;
 								line-height: 30px;
-								display: inline-block;
 							}
 						}
 						.content {
@@ -463,13 +473,15 @@ export default {
 					}
 				}
 				.school, .skill {
+					margin-bottom: 10px;
 					.item {
 						padding: 0 20px;
+						margin: 5px 0;
 						display: flex;
 						display: -webkit-flex;
 						.honor-time {
-							min-width: 120px;
-							max-width: 120px;
+							min-width: 150px;
+							max-width: 150px;
 						}
 						span {
 							line-height: 24px;
@@ -478,6 +490,7 @@ export default {
 						}
 					}
 					.honor, .schoolwork {
+						margin-bottom: 10px;
 						.title {
 							width: 100%;
 							height: 30px;
@@ -485,9 +498,18 @@ export default {
 							padding-left: 20px;
 							background-color: #F1F5FB;
 						}
+						.work-title {
+							display: flex;
+							display: -webkit-flex;
+							span {
+								flex: 1 1 auto;
+								line-height: 30px;
+							}
+						}
 						.schoolwork-item {
 							color: #666;
-							margin-bottom: 20px;
+							padding: 0 20px;
+							margin-bottom: 10px;
 							.desc-title {
 								line-height: 30px;
 							}
@@ -498,6 +520,7 @@ export default {
 					}
 				}
 				.eva {
+					margin-bottom: 10px;
 					.item {
 						padding: 0 20px;
 						line-height: 24px;

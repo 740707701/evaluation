@@ -57,7 +57,7 @@
 						</li>
 						<li>
 							<span class="key">现居住：</span>
-							<span class="value">{{baseInfo.address}}</span>
+							<span class="address">{{baseInfo.address}}</span>
 						</li>
 					</ul>
 				</div>
@@ -193,7 +193,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="module school" v-if="(schoolHonorList.length || schoolWorkList.length)&&baseInfo.resumeType===2">
+				<div class="module school work" v-if="(schoolHonorList.length || schoolWorkList.length)&&baseInfo.resumeType===2">
 					<div class="top">
 						<div class="icon-box">
 							<i class="iconfont icon-book"></i>
@@ -202,12 +202,12 @@
 					</div>
 					<div class="schoolwork" v-if="schoolWorkList.length">
 						<div class="title">校内实践</div>
-						<div class="schoolwork-item item" v-for="work in schoolWorkList" :key="work.id">
-							<div class="">
+						<div class="schoolwork-item" v-for="work in schoolWorkList" :key="work.id">
+							<div class="work-title">
 								<span>{{work.startTime.slice(0, 10)}} ~ {{work.endTime.slice(0, 10)}}</span>
 								<span>{{work.schoolWorkName}}</span>
 							</div>
-							<div class="work-desc">
+							<div class="work-desc" v-if="work.schoolWorkDesc">
 								<div class="desc-title">实践描述：</div>
 								<div class="desc-content">
 									<pre>{{work.schoolWorkDesc}}</pre>
@@ -420,11 +420,20 @@ export default {
 							line-height: 30px;
 							span {
 								display: inline-block;
-								line-height: 30px;
+								line-height: 22px;
 							}
 							.key {
+								float: left;
 								width: 70px;
-								display: inline-block;
+								line-height: 30px;
+							}
+							.value {
+								line-height: 30px;
+							}
+							.address {
+								display: block;
+								padding-left: 70px;
+								line-height: 22px;
 							}
 						}
 					}
@@ -477,7 +486,7 @@ export default {
 						width: 100%;
 						display: inline-block;
 						li {
-							width: 30%;
+							width: 32%;
 							display: inline-block;
 							.name {
 								color: #666;
@@ -493,10 +502,12 @@ export default {
 					.work-item {
 						margin-bottom: 20px;
 						.title {
+							display: flex;
+							display: -webkit-flex;
+							flex-wrap: wrap;
 							span {
-								margin-right: 20px;
 								line-height: 30px;
-								display: inline-block;
+								flex: 1 1 auto;
 							}
 						}
 						.content {
@@ -514,9 +525,10 @@ export default {
 					.item {
 						display: flex;
 						display: -webkit-flex;
+						margin: 5px 0;
 						.honor-time {
-              min-width: 120px;
-              max-width: 120px;
+              min-width: 150px;
+              max-width: 150px;
             }
 						span {
 							line-height: 24px;
@@ -540,6 +552,16 @@ export default {
 						}
 						.schoolwork-item {
 							color: #666;
+							margin: 10px 0;
+							.work-title {
+								width: 100%;
+								display: flex;
+								span {
+									line-height: 24px;
+									flex: 1 1 auto;
+									text-align: left;
+								}
+							}
 							.desc-title {
 								line-height: 30px;
 							}

@@ -235,7 +235,7 @@
 					<div class="item-content">
 						<div v-for="(honor,index) in honorList" :key="index">
 							<div class="row">
-								<div class="row-item">
+								<div class="row-item skill-time">
 									<span class="value">{{honor.honorTime.slice(0,7)}}</span>
 								</div>
 								<div class="row-item">
@@ -256,7 +256,7 @@
 					<div class="item-content">
 						<div v-for="(skill,index) in skillList" :key="index">
 							<div class="row">
-								<div class="row-item">
+								<div class="row-item skill-time">
 									<span class="value">{{skill.skillTime.slice(0,7)}}</span>
 								</div>
 								<div class="row-item">
@@ -431,8 +431,11 @@ export default {
 			.row{
 				display: flex;
 				.row-item {
-					flex: 3;
+					flex: 2;
 					margin: 5px 0;
+				}
+				.skill-time {
+					max-width: 200px;
 				}
 			}
 			.eva {

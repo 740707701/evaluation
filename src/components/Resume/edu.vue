@@ -27,7 +27,9 @@
             <div class="desc-text gray">专业描述：</div>
             <div class="desc-content">
               <ul class="desc-list">
-                <li class="desc-item">{{edu.majorDesc}}</li>
+                <li class="desc-item">
+                  <pre>{{edu.majorDesc}}</pre>
+                </li>
               </ul>
             </div>
           </div>

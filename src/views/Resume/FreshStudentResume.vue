@@ -694,14 +694,17 @@ export default {
               display: flex;
               display: -webkit-flex;
               line-height: 28px;
+              margin: 5px 0;
               span {
                 flex: 1 1 auto;
+                line-height: 22px;
               }
             }
             .concat {
               display: flex;
               display: -webkit-flex;
               line-height: 28px;
+              margin: 5px 0;
               span {
                 flex: 1 1 auto;
                 line-height: 20px;
@@ -724,12 +727,18 @@ export default {
             line-height: 40px;
             margin-top: 10px;
             padding: 0 15px;
+            padding-left: 100px;
             background-color: rgba(234, 240, 253, 1);
             display: flex;
             display: -webkit-flex;
             position: relative;
-            span {
-              flex: 1 1 auto;
+            .more-item {
+              width: 100%;
+              display: inline-block;
+              span {
+                width: 50%;
+                display: inline-block;
+              }
             }
             .arrow-top {
               width: 0;
@@ -873,6 +882,8 @@ export default {
           .job-time,
           .job-type {
             display: flex;
+            display: -webkit-flex;
+            flex-wrap: wrap;
             line-height: 30px;
             span {
               flex: 1 1 auto;

@@ -20,7 +20,6 @@
             </div>
           </div>
           <div class="status">
-            <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>
             <span>应届生毕业</span>
             <span v-if="baseInfo.sex==1">男</span>
             <span v-if="baseInfo.sex==2">女</span>
@@ -28,8 +27,7 @@
             <span>{{baseInfo.jobIntention}}</span>
           </div>
           <div class="status">
-            <span v-if="baseInfo.nation">{{baseInfo.nation}}</span>
-            <span v-if="baseInfo.politicalOutlookName">{{baseInfo.politicalOutlookName}}</span>
+            <span v-if="baseInfo.address">现居住：{{baseInfo.address}}</span>
           </div>
           <div class="concat">
             <span v-if="baseInfo.email">
@@ -48,8 +46,14 @@
         </div>
         <div class="more-info" v-if="showMoreBase">
           <span class="arrow-top"></span>
-          <span>户口/国籍：{{baseInfo.nativePlaceName}}</span>
-          <span>婚姻状态：{{baseInfo.marriageStatusName}}</span>
+          <div class="more-item">
+            <span>民族：{{baseInfo.nation}}</span>
+            <span>户口/国籍：{{baseInfo.nativePlaceName}}</span>
+          </div>
+          <div class="more-item">
+            <span>政治面貌：{{baseInfo.politicalOutlookName}}</span>
+            <span>婚姻状态：{{baseInfo.marriageStatusName}}</span>
+          </div>
         </div>
       </div>
     </div>
