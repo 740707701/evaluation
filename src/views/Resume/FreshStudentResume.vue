@@ -693,6 +693,7 @@ export default {
             .status {
               display: flex;
               display: -webkit-flex;
+              flex-wrap: wrap;
               line-height: 28px;
               margin: 5px 0;
               span {
@@ -887,7 +888,7 @@ export default {
             line-height: 30px;
             span {
               flex: 1 1 auto;
-              line-height:20px;
+              line-height: 22px;
               text-align: left;
             }
             .honor-time {
@@ -902,17 +903,17 @@ export default {
           .job-desc {
             width: 100%;
             display: inline-block;
-            padding-top: 5px;
+            padding-top: 5px 0;
             .desc-text {
               float: left;
-              line-height: 26px;
+              line-height: 22px;
             }
             .desc-content {
               margin-left: 100px;
               line-height: 24px;
               .desc-list {
                 li {
-                  line-height: 26px;
+                  line-height: 22px;
                 }
               }
             }
@@ -977,7 +978,7 @@ export default {
           .evaluate-text {
             width: 100%;
             padding: 0px 20px;
-            line-height: 26px;
+            line-height: 22px;
           }
         }
       }

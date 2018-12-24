@@ -684,6 +684,7 @@ export default {
               display: flex;
               display: -webkit-flex;
               line-height: 28px;
+              flex-wrap: wrap;
               span {
                 flex: 1 1 auto;
               }
