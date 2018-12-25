@@ -192,7 +192,6 @@
                   <div class="job-time">
                     <span class="gray">{{work.startTime.slice(0, 7)}} ~ {{work.endTime.slice(0, 7)}}</span>
                     <span>{{work.schoolWorkName}}</span>
-                    <span></span>
                   </div>
                   <div class="job-desc">
                     <div class="desc-text gray">实践描述：</div>
@@ -466,7 +465,7 @@ export default {
       .job-item {
         width: 100%;
         display: inline-block;
-        padding-bottom: 10px;
+        padding: 10px 0;
         border-bottom: 1px solid @main-color-border;
         .job-time {
           line-height: 30px;
@@ -522,12 +521,8 @@ export default {
         }
         li {
           width: 100%;
-          display: flex;
-          display: -webkit-flex;
           line-height: 30px;
-          margin: 5px 0;
           span {
-            flex: 1 1 auto;
             line-height: 20px;
             text-align: left;
           }
@@ -535,21 +530,42 @@ export default {
             min-width: 120px;
             max-width: 120px;
           }
+          .job-time {
+            width: 100%;
+            display: flex;
+            display: -webkit-flex;
+            span {
+              flex: 1 1 auto;
+            }
+          }
+        }
+        .honor-item {
+          display: flex;
+          display: -webkit-flex;
+          span {
+            flex: 1 1 auto;
+            flex-wrap: wrap;
+          }
         }
         .honor-list,
         .post-list {
-          padding: 0 50px;
+          padding: 10px 50px;
+        }
+        .honor-list {
+          .honor-item {
+            margin: 5px 0;
+          }
         }
       }
     }
     .skill {
       width: 100%;
       display: inline-block;
-      padding: 10px 20px;
       li {
         width: 100%;
         display: flex;
         line-height: 30px;
+        margin: 5px 0;
         span {
           flex: 1 1 auto;
           line-height: 20px;

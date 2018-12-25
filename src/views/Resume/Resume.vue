@@ -892,7 +892,7 @@ export default {
           .job-desc {
             width: 100%;
             display: inline-block;
-            padding-top: 5px;
+            padding: 5px 0;
             .desc-text {
               float: left;
               line-height: 26px;

@@ -433,6 +433,7 @@ export default {
 							.address {
 								display: block;
 								padding-left: 70px;
+								padding-top: 6px;
 								line-height: 22px;
 							}
 						}

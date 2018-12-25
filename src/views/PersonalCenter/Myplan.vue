@@ -4,35 +4,6 @@
 			<el-tab-pane label="职业规划" name="first">
 				<div class="plan-list">
 					<div class="nodata" v-if="!planList.length&&Object.keys(generalPlanData).length">还没有任何数据~</div> 
-          <div class="item modify-item" v-for="plan in planList" :key="plan.stage">
-            <img src="../../assets/images/term.png" alt="">
-            <div class="item-content">
-              <div class="name">{{plan.stageName}}</div>
-              <div class="status">状态：
-                <span class="red" v-if="plan.state == '-1'">待提交</span>
-                <span class="red" v-if="plan.state == 10">待审核</span>
-                <span class="red" v-if="plan.state == 30">审核未通过</span>
-                <span class="red" v-if="plan.auditScore">{{plan.auditScore}}分</span>
-              </div>
-              <div class="time">{{plan.updateDate.slice(0,10)}}</div>
-              <div class="btn-box">
-                <div class="operation-btn view-btn" @click="viewPlan(plan.stage)">查看</div>
-              </div>
-            </div>
-            <div class="comment-box" v-if="plan.auditContent.length">
-              <div class="comment-title">评语：</div>
-              <div class="comment-content" v-if="!plan.showMore" v-for="(content, index) in plan.auditContent" :key="index">
-                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
-              </div>
-              <div class="comment-all-content" v-if="plan.showMore" v-for="(content, index) in plan.auditContent" :key="index">
-                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
-              </div>
-              <div class="show-more" v-if="plan.auditContent[0]!=null&&plan.auditContent[0].length>45">
-                <i class="iconfont icon-down" v-if="!plan.showMore" @click="showMoreText(plan)"></i>
-                <i class="iconfont icon-up" v-if="plan.showMore" @click="showMoreText(plan)"></i>
-              </div>
-            </div>
-          </div>
           <div class="item modify-item" v-if="Object.keys(generalPlanData).length">
             <img src="../../assets/images/term.png" alt="">
             <div class="item-content">
@@ -59,6 +30,35 @@
               <div class="show-more" v-if="generalPlanAuditContent[0]!=null&&generalPlanAuditContent[0].length>45">
                 <i class="iconfont icon-down" v-if="!generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
                 <i class="iconfont icon-up" v-if="generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
+              </div>
+            </div>
+          </div>
+          <div class="item modify-item" v-for="plan in planList" :key="plan.stage">
+            <img src="../../assets/images/term.png" alt="">
+            <div class="item-content">
+              <div class="name">{{plan.stageName}}</div>
+              <div class="status">状态：
+                <span class="red" v-if="plan.state == '-1'">待提交</span>
+                <span class="red" v-if="plan.state == 10">待审核</span>
+                <span class="red" v-if="plan.state == 30">审核未通过</span>
+                <span class="red" v-if="plan.auditScore">{{plan.auditScore}}分</span>
+              </div>
+              <div class="time">{{plan.updateDate.slice(0,10)}}</div>
+              <div class="btn-box">
+                <div class="operation-btn view-btn" @click="viewPlan(plan.stage)">查看</div>
+              </div>
+            </div>
+            <div class="comment-box" v-if="plan.auditContent.length">
+              <div class="comment-title">评语：</div>
+              <div class="comment-content" v-if="!plan.showMore" v-for="(content, index) in plan.auditContent" :key="index">
+                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
+              </div>
+              <div class="comment-all-content" v-if="plan.showMore" v-for="(content, index) in plan.auditContent" :key="index">
+                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
+              </div>
+              <div class="show-more" v-if="plan.auditContent[0]!=null&&plan.auditContent[0].length>45">
+                <i class="iconfont icon-down" v-if="!plan.showMore" @click="showMoreText(plan)"></i>
+                <i class="iconfont icon-up" v-if="plan.showMore" @click="showMoreText(plan)"></i>
               </div>
             </div>
           </div>
