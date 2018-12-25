@@ -123,6 +123,7 @@ export default {
     generalPlanInfo: '/plan/findGeneralPlanByUserId',
     // 添加、修改个人总规划
     saveGeneralPlan: '/plan/saveGeneralPlan',
+    updateGeneralPlan: '/plan/updateGeneralPlan',
 
     // 开启总规划视频
     insertVideoOpen: '/plan/insertVideoOpen',

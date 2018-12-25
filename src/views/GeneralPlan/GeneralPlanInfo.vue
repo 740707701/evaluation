@@ -36,7 +36,7 @@
 									<span class="value" v-if="sub.value instanceof Array" v-for="(subVal,subIdx) in sub.value" :key="subIdx">{{subVal}}</span>
 									<div class="sub-item" v-if="typeof sub.value === 'string'&&sub.value">
 										<div class="sub-value">
-											<pre>{{sub.value}}</pre>{{sub.value}}
+											<pre>{{sub.value}}</pre>
 										</div>
 									</div>
 								</div>

@@ -7,6 +7,7 @@ const FIND_PLACEHOLDER = 'FIND_PLACEHOLDER'
 const PLAN_DICT_DATA = 'PLAN_DICT_DATA'
 const GENERALPLAN_PAPER = 'GENERALPLAN_PAPER'
 const SAVE_GENERALPLAN = 'SAVE_GENERALPLAN'
+const UPDATE_GENERALPLAN = 'UPDATE_GENERALPLAN'
 const GENERALPLAN_INFO = 'GENERALPLAN_INFO'
 
 const VIDEO_LIST = 'VIDEO_LIST'
@@ -121,7 +122,13 @@ export default {
         return res
       })
     },
-    // 添加、修改个人总规划
+    // 添加提交、修改个人总规划
+    [UPDATE_GENERALPLAN]({commit}, data) {
+      return api.post(config.url.updateGeneralPlan, data).then(res => {
+        return res
+      })
+    },
+    // 保存个人总规划
     [SAVE_GENERALPLAN]({commit}, data) {
       return api.post(config.url.saveGeneralPlan, data).then(res => {
         return res

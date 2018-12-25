@@ -72,7 +72,8 @@
 						</div>
 					</div>
 					<div class="btn-box">
-						<div class="complete-btn" @click="post">完成</div>
+						<div class="btn save-btn" @click="post('save')">保存</div>
+						<div class="btn complete-btn" @click="post('post')">提交</div>
 					</div>
 				</div>
 			</div>
@@ -122,7 +123,7 @@ export default {
 				}
 			})
 		},
-		post() {
+		post(type) {
 			for(let i = 0;i < this.generalPlanPaper.length;i++) {
 				let item = this.generalPlanPaper[i]
 				if(item.required === 1){
@@ -158,16 +159,29 @@ export default {
 				id: this.generalPlanId,
 				content: JSON.stringify(this.generalPlanPaper)
 			}
-			this.$store.dispatch('SAVE_GENERALPLAN', data).then(res => {
-				this.$message.success(res.data.msg || '保存成功！')
-				this.$router.replace({path: '/generalPlanInfo'})
-			}).catch(err => {
-				if(err.data) {
-					this.$message.error(err.data.msg)
-				} else {
-					this.$message.error('提交失败，请稍后重试！')
-				}
-			})
+			if(type === 'save') {
+				this.$store.dispatch('SAVE_GENERALPLAN', data).then(res => {
+					this.$message.success(res.data.msg || '保存成功！')
+					this.$router.replace({path: '/generalPlanInfo'})
+				}).catch(err => {
+					if(err.data) {
+						this.$message.error(err.data.msg)
+					} else {
+						this.$message.error('提交失败，请稍后重试！')
+					}
+				})
+			} else if(type === 'post') {
+				this.$store.dispatch('UPDATE_GENERALPLAN', data).then(res => {
+					this.$message.success(res.data.msg || '提交成功！')
+					this.$router.replace({path: '/generalPlanInfo'})
+				}).catch(err => {
+					if(err.data) {
+						this.$message.error(err.data.msg)
+					} else {
+						this.$message.error('提交失败，请稍后重试！')
+					}
+				})
+			}
 		}
 	}
 }
@@ -256,16 +270,22 @@ export default {
 				.btn-box {
 					margin: 30px auto;
 					text-align: center;
-					.complete-btn {
+					.btn {
 						width: 110px;
 						height: 33px;
 						line-height: 33px;
 						text-align: center;
 						cursor: pointer;
-						background-color: @main-color-blue;
-						color: #fff;
 						border-radius: 4px;
 						display: inline-block;
+					}
+					.complete-btn {
+						background-color: @main-color-blue;
+						color: #fff;
+					}
+					.save-btn {
+						border: 1px solid @main-color-blue;
+						margin-right: 30px;
 					}
 				}
 			}
