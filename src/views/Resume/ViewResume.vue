@@ -35,34 +35,34 @@
             </div>
           </div>
         </div>
-        <div class="work-box">
-          <ul class="item-list">
+        <div class="work-box" v-if="workExperList.length || eduList.length">
+          <ul class="item-list" v-if="workExperList.length">
             <li>
               <span class="item">
                 <span class="item-title">最近工作</span>
               </span>
             </li>
             <li>
-              <span class="item">
+              <span class="item" v-if="workExperList.length">
                 <span class="name">职位： </span>
-                <span v-if="workExperList.length">{{workExperList[0].position}}</span>
+                <span class="value">{{workExperList[0].position}}</span>
               </span>
             </li>
             <li>
-              <span class="item">
+              <span class="item" v-if="workExperList.length">
                 <span class="name">公司： </span>
-                <span v-if="workExperList.length">{{workExperList[0].companyName}}</span>
+                <span class="value">{{workExperList[0].companyName}}</span>
                 
               </span>
             </li>
             <li>
-              <span class="item">
+              <span class="item" v-if="workExperList.length">
                 <span class="name">行业： </span>
-                <span v-if="workExperList.length">{{workExperList[0].industryName}}</span>
+                <span class="value">{{workExperList[0].industryName}}</span>
               </span>
             </li>
           </ul>
-          <ul class="item-list">
+          <ul class="item-list" v-if="eduList.length">
             <li>
               <span class="item">
                 <span class="item-title">最高学历/学位</span>
@@ -71,24 +71,24 @@
             <li>
               <span class="item">
                 <span class="name">专业： </span>
-                <span v-if="eduList.length">{{eduList[0].eduMajor}}</span>
+                <span class="value" v-if="eduList.length">{{eduList[0].eduMajor}}</span>
               </span>
             </li>
             <li class="item">
               <span class="item">
                 <span class="name">学校： </span>
-                <span v-if="eduList.length">{{eduList[0].schoolName}}</span>
+                <span class="value" v-if="eduList.length">{{eduList[0].schoolName}}</span>
               </span>
             </li>
             <li class="item">
               <span class="item">
                 <span class="name">学历/学位： </span>
-                <span v-if="eduList.length">{{eduList[0].degreeName}}</span>
+                <span class="value" v-if="eduList.length">{{eduList[0].degreeName}}</span>
               </span>
             </li>
           </ul>
         </div>
-        <div class="content">
+        <div class="content" v-if="expectInfo.expectSalaryName || baseInfo.evaluate">
           <div class="expect item-content">
             <div class="item-title">求职意向</div>
             <ul class="item-list" v-if="expectInfo.expectSalaryName">
@@ -102,7 +102,7 @@
               </li>
               <li>
                 <span class="item">
-                  <span class="name">职能/职位： </span>{{expectInfo.expectPositionName}}
+                  <span class="name">职能/职位： </span> <span class="position">{{expectInfo.expectPositionName}}</span>
                 </span>
                 <span class="item">
                   <span class="name">工作类型：  </span>{{expectInfo.expectWorkTypeName}}
@@ -117,7 +117,7 @@
                 </span>
               </li>
             </ul>
-            <div class="evaluate-box">
+            <div class="evaluate-box" v-if="baseInfo.evaluate">
               <span class="name">自我评价：</span>
               <div class="evaluate">
                 <pre>{{baseInfo.evaluate}}</pre>
@@ -407,9 +407,15 @@ export default {
             color: #1a1a1a;
           }
           .name {
+            float: left;
             width: 90px;
             color: #666;
-            display: inline-block;
+          }
+          .value {
+            display: block;
+            padding-left: 90px;
+            line-height: 22px;
+            padding-top: 3px;
           }
         }
       }
