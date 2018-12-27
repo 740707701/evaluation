@@ -13,8 +13,6 @@
 					<img src="../../assets/images/plan_bg.jpg" alt="">
 					<div class="banner-text">
 						<div class="term-title" v-for="term in planList" :key="term.stage" v-if="planList[termIndex].stage==term.stage">{{term.stageName}}</div>
-						<div class="term-split"></div>
-						<div class="sub-title">Freshman last semester planning</div>
 					</div>
 				</div>
 				<div class="edit-box" v-if="auth!==3">
@@ -28,7 +26,7 @@
 						<div class="en-border"></div>
 						<div class="options-title">{{options.optionsTitle}}</div>
 						<div class="item" v-if="planInfoList[plan.type]?planInfoList[plan.type].length:''" v-for="(plan, subIndex) in options.planList" :key="subIndex">
-							<div class="item-title">
+							<div class="item-title" v-if="!plan.hideTitleNum">
 								<span class="num">{{subIndex+1>=10?subIndex+1:'0'+(subIndex+1)}}</span>
 								<span class="title">{{plan.title}}</span>
 							</div>
@@ -55,14 +53,18 @@
 										</div>
 										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">课程目标：</div>
-											<div class="content-text">{{item.goal}}</div>
+											<div class="content-text">
+												<pre>{{item.goal}}</pre>
+											</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.sscore">
 											<div class="content-title">实际分数：</div>
 											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.sscore}}分</div>
 											<div class="plan-content perfect-content" v-if="item.finish">
 												<div class="content-title">课程总结：</div>
-												<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
+												<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">
+													<pre>{{item.finish}}</pre>
+												</div>
 											</div>
 											<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 												<div class="content-title">是否完成目标：</div>
@@ -89,25 +91,29 @@
 										</div>
 										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">大赛目标：</div>
-											<div class="content-text">{{item.goal}}</div>
+											<div class="content-text">
+												<pre>{{item.goal}}</pre>
+											</div>
 										</div>
 										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">参赛计划：</div>
-											<div class="content-text">{{item.desc}}</div>
+											<div class="content-text">
+												<pre>{{item.desc}}</pre>
+											</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
 											<div class="content-title">大赛总结：</div>
-											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">
+												<pre>{{item.finish}}</pre>
+											</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
 											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
 									</div>
-									<div class="plan-box" v-if="plan.type=='pread'">
+									<div class="plan-box" v-if="plan.type=='thesiss'">
 										<div class="plan-top" v-if="!item.edit">
-											<span class="name">{{item.name}}</span>
-											<span class="score">{{item.type}}</span>
 											<div class="operation">
 												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
 												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
@@ -123,12 +129,89 @@
 											</div>
 										</div>
 										<div class="plan-content" v-if="!item.edit">
-											<div class="content-title">阅读计划：</div>
-											<div class="content-text">{{item.content}}</div>
+											<div class="content-title">计划内容：</div>
+											<div class="content-text">
+												<pre>{{item.content}}</pre>
+											</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.finish">
+											<div class="content-title">实施总结：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">
+												<pre>{{item.finish}}</pre>
+												</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
+											<div class="content-title">是否完成目标：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+										</div>
+									</div>
+									<div class="plan-box" v-if="plan.type=='internships'">
+										<div class="plan-top" v-if="!item.edit">
+											<span class="name">{{item.name}}</span>
+											<div class="operation">
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<el-dropdown trigger="click"  v-if="auth==1">
+													<span class="el-dropdown-link">
+														<i class="iconfont icon-yijiao" title="移交"></i>
+													</span>
+													<el-dropdown-menu slot="dropdown">
+														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
+													</el-dropdown-menu>
+												</el-dropdown>
+												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
+											</div>
+										</div>
+										<div class="plan-content" v-if="!item.edit">
+											<div class="content-title">计划内容：</div>
+											<div class="content-text">
+												<pre>{{item.content}}</pre>
+											</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.finish">
+											<div class="content-title">实施总结：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">
+												<pre>{{item.finish}}</pre>
+											</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
+											<div class="content-title">是否完成目标：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+										</div>
+									</div>
+									<div class="plan-box" v-if="plan.type=='pread'">
+										<div class="plan-top" v-if="!item.edit">
+											<div class="operation">
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<el-dropdown trigger="click" v-if="auth==1">
+													<span class="el-dropdown-link">
+														<i class="iconfont icon-yijiao" title="移交"></i>
+													</span>
+													<el-dropdown-menu slot="dropdown">
+														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
+													</el-dropdown-menu>
+												</el-dropdown>
+												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
+											</div>
+										</div>
+										<div class="plan-content" v-if="!item.edit">
+											<div class="content-title">图书阅读计划：</div>
+											<div class="content-text">
+												<pre>{{item.name}}</pre>
+											</div>
+										</div>
+										<div class="plan-content" v-if="!item.edit">
+											<div class="content-title">碎片化学习计划：</div>
+											<div class="content-text">
+												<pre>{{item.content}}</pre>
+											</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
 											<div class="content-title">阅读感想：</div>
-											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">
+												<pre>{{item.finish}}</pre>
+											</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.progress">
 											<div class="content-title">阅读进度：</div>
@@ -159,12 +242,16 @@
 											</div>
 										</div>
 										<div class="plan-content" v-if="!item.edit">
-											<div class="content-title">计划目标：</div>
-											<div class="content-text">{{item.desc}}</div>
+											<div class="content-title">计划内容：</div>
+											<div class="content-text">
+												<pre>{{item.desc}}</pre>
+											</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
-											<div class="content-title">计划总结：</div>
-											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
+											<div class="content-title">实施总结：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">
+												<pre>{{item.finish}}</pre>
+											</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
@@ -190,50 +277,22 @@
 										</div>										
 										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">计划目标：</div>
-											<div class="content-text">{{item.goal}}</div>
-										</div>
-										<div class="plan-content perfect-content" v-if="item.finish">
-											<div class="content-title">计划总结：</div>
-											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
-										</div>
-										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
-											<div class="content-title">是否完成目标：</div>
-											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
-										</div>
-									</div>
-									<div class="plan-box" v-if="plan.type=='internships'">
-										<div class="plan-top" v-if="!item.edit">
-											<div class="operation">
-												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
-												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
-												<el-dropdown trigger="click"  v-if="auth==1">
-													<span class="el-dropdown-link">
-														<i class="iconfont icon-yijiao" title="移交"></i>
-													</span>
-													<el-dropdown-menu slot="dropdown">
-														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
-													</el-dropdown-menu>
-												</el-dropdown>
-												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
+											<div class="content-text">
+												<pre>{{item.goal}}</pre>
 											</div>
 										</div>
-										<div class="plan-content" v-if="!item.edit">
-											<div class="content-title">实践内容：</div>
-											<div class="content-text">{{item.content}}</div>
-										</div>
-										<div class="plan-content" v-if="!item.edit">
-											<div class="content-title">计划目标：</div>
-											<div class="content-text">{{item.score}}</div>
-										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
-											<div class="content-title">计划总结：</div>
-											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
+											<div class="content-title">实施总结：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">
+												<pre>{{item.finish}}</pre>
+											</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
 											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
 									</div>
+									
 									<div class="plan-box" v-if="plan.type=='certificates'">
 										<div class="plan-top" v-if="!item.edit">
 											<span class="name">{{item.name}}</span>
@@ -253,11 +312,13 @@
 										</div>
 										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">计划内容：</div>
-											<div class="content-text">{{item.content}}</div>
+											<div class="content-text">
+												<pre>{{item.content}}</pre>
+											</div>
 										</div>
 										<div class="plan-content perfect-content">
 											<div class="content-title">是否完成目标：</div>
-											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '考试通过': item.isEnd == '2'? '未参加考试': '考试未通过'}}</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.pic&&(item.isEnd==1||item.isEnd==0)">
 											<div class="content-title" v-if="item.isEnd=='1'">证书图片：</div>
@@ -265,6 +326,40 @@
 											<div class="content-text">
 												<img :src="item.pic" alt="">
 											</div>
+										</div>
+									</div>
+									<div class="plan-box" v-if="plan.type=='lifes' || plan.type=='ships' || plan.type=='promotions'">
+										<div class="plan-top" v-if="!item.edit">
+											<span class="name">{{item.name}}</span>
+											<div class="operation">
+												<i class="iconfont icon-bianji" title="编辑" v-if="auth!=3" @click="editPlan(item,plan.type)"></i>
+												<i class="iconfont icon-perfect" title="实施总结" v-if="auth==1" @click="perfect(item,plan.type)"></i>
+												<el-dropdown trigger="click" v-if="auth==1">
+													<span class="el-dropdown-link">
+														<i class="iconfont icon-yijiao" title="移交"></i>
+													</span>
+													<el-dropdown-menu slot="dropdown">
+														<el-dropdown-item v-for="term in planList" :key="term.stage" @click.native="transfer(term,item,plan.type)">{{term.stageName}}</el-dropdown-item>
+													</el-dropdown-menu>
+												</el-dropdown>
+												<i class="iconfont icon-delete" title="删除" v-if="auth==1" @click="deletePlan(item,plan.type)"></i>
+											</div>
+										</div>
+										<div class="plan-content" v-if="!item.edit">
+											<div class="content-title">计划内容：</div>
+											<div class="content-text">
+												<pre>{{item.content}}</pre>
+											</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.finish">
+											<div class="content-title">实施总结：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">
+												<pre>{{item.finish}}</pre>
+											</div>
+										</div>
+										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
+											<div class="content-title">是否完成目标：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.isEnd == '1'? '已完成':'未完成'}}</div>
 										</div>
 									</div>
 									<div class="plan-box" v-if="plan.type=='additions'">
@@ -286,11 +381,15 @@
 										</div>
 										<div class="plan-content" v-if="!item.edit">
 											<div class="content-title">计划内容：</div>
-											<div class="content-text">{{item.additionalDesc}}</div>
+											<div class="content-text">
+												<pre>{{item.additionalDesc}}</pre>
+											</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.finish">
-											<div class="content-title">计划总结：</div>
-											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">{{item.finish}}</div>
+											<div class="content-title">实施总结：</div>
+											<div class="content-text" :class="item.isEnd===1?'finish':'unfinish'">
+												<pre>{{item.finish}}</pre>
+											</div>
 										</div>
 										<div class="plan-content perfect-content" v-if="item.isEnd===0 || item.isEnd===1">
 											<div class="content-title">是否完成目标：</div>
@@ -301,7 +400,7 @@
 								<!--完善弹窗 -->
 								<div class="item-plan perfect" v-if="!item.edit&&currentPlanId==item.id&&currentType==plan.type">
 									<div class="plan-box" v-if="plan.type=='requireds'||plan.type=='options'||plan.type=='selfs'">
-										<el-form :model="form" label-width="110px" label-position="left">
+										<el-form :model="form" label-width="150px" label-position="left">
 											<el-form-item label="实际分数：">
 												<el-input v-model="form.sscore" size="small" placeholder="请输入分数" :maxlength="30" class="form-input"></el-input>
 											</el-form-item>
@@ -321,8 +420,8 @@
 										</el-form>
 									</div>
 									<div class="plan-box" v-if="plan.type!='requireds'&&plan.type!='options'&&plan.type!='selfs'">
-										<el-form :model="form" label-width="110px" label-position="left">
-											<el-form-item label="计划总结：" v-if="plan.type!='profs'&&plan.type!='pread'&&plan.type!='certificates'">
+										<el-form :model="form" label-width="150px" label-position="left">
+											<el-form-item label="实施总结：" v-if="plan.type!='profs'&&plan.type!='pread'&&plan.type!='certificates'">
 												<el-input type="textarea" v-model="form.finish" size="small" placeholder="请输入总结(150个字以内)" :maxlength="150"></el-input>
 											</el-form-item>
 											<el-form-item label="大赛总结：" v-if="plan.type=='profs'">
@@ -388,7 +487,7 @@
 												<el-button size="small" @click="editCancel(item)">取消</el-button>
 											</el-form-item>
 										</el-form>
-										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='profs'">
+										<el-form :model="item" label-width="150px" label-position="left" v-if="plan.type=='profs'">
 											<el-form-item label="大赛名称：">
 												<el-input v-model="curEditPlanInfo.name" size="small" placeholder="请输入大赛名称" :maxlength="50" class="form-input"></el-input>
 											</el-form-item>
@@ -403,7 +502,7 @@
 												<el-button size="small" @click="cancel()">取消</el-button>
 											</el-form-item>
 										</el-form>
-										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='pread'">
+										<el-form :model="item" label-width="150px" label-position="left" v-if="plan.type=='pread'">
 											<el-form-item label="书籍名称：">
 												<el-input v-model="curEditPlanInfo.name" size="small" placeholder="请输入书籍名称" :maxlength="50" class="form-input"></el-input>
 											</el-form-item>
@@ -418,7 +517,7 @@
 												<el-button size="small" @click="editCancel(item)">取消</el-button>
 											</el-form-item>
 										</el-form>
-										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='officeSkills'">
+										<el-form :model="item" label-width="150px" label-position="left" v-if="plan.type=='officeSkills'">
 											<el-form-item label="技能名称：">
 												<el-input v-model="curEditPlanInfo.name" disabled size="small" placeholder="请输入技能名称" :maxlength="50" class="form-input"></el-input>
 											</el-form-item>
@@ -430,7 +529,7 @@
 												<el-button size="small" @click="editCancel(item)">取消</el-button>
 											</el-form-item>
 										</el-form>
-										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='vocations'">
+										<el-form :model="item" label-width="150px" label-position="left" v-if="plan.type=='vocations'">
 											<el-form-item label="职业技能名称：">
 												<el-input v-model="curEditPlanInfo.name" disabled size="small" placeholder="请输入职业技能名称" :maxlength="50" class="form-input"></el-input>
 											</el-form-item>
@@ -442,7 +541,7 @@
 												<el-button size="small" @click="editCancel(item)">取消</el-button>
 											</el-form-item>
 										</el-form>
-										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='internships'">
+										<el-form :model="item" label-width="150px" label-position="left" v-if="plan.type=='internships'">
 											<el-form-item label="计划内容：">
 												<el-input type="textarea" v-model="curEditPlanInfo.content" size="small" placeholder="请输入计划内容(500个字以内)" :maxlength="500"></el-input>
 											</el-form-item>
@@ -454,7 +553,7 @@
 												<el-button size="small" @click="editCancel(item)">取消</el-button>
 											</el-form-item>
 										</el-form>
-										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='certificates'">
+										<el-form :model="item" label-width="150px" label-position="left" v-if="plan.type=='certificates'">
 											<el-form-item label="证书名称：">
 												<el-input v-model="curEditPlanInfo.name" disabled size="small" placeholder="请输入证书名称" :maxlength="50" class="form-input"></el-input>
 											</el-form-item>
@@ -466,7 +565,7 @@
 												<el-button size="small" @click="editCancel(item)">取消</el-button>
 											</el-form-item>
 										</el-form>
-										<el-form :model="item" label-width="110px" label-position="left" v-if="plan.type=='additions'">
+										<el-form :model="item" label-width="150px" label-position="left" v-if="plan.type=='additions'">
 											<el-form-item label="计划名称：">
 												<el-input v-model="curEditPlanInfo.additionalName" size="small" placeholder="请输入计划名称" :maxlength="50" class="form-input"></el-input>
 											</el-form-item>
@@ -571,11 +670,19 @@
 							},
 							{
 								type: "selfs",
-								title: "自学课程"
+								title: "辅修课程"
 							},
 							{
 								type: "profs",
 								title: "专业大赛",
+							},
+							{
+								type: "thesiss",
+								title: "专业论文",
+							},
+							{
+								type: "internships",
+								title: "课外专业实践",
 							},
 							{
 								type: "pread",
@@ -590,15 +697,11 @@
 						planList: [
 							{
 								type: "officeSkills",
-								title: "办公技能",
+								title: "办公技能提升",
 							},
 							{
 								type: "vocations",
-								title: "职业能力",
-							},
-							{
-								type: "internships",
-								title: "实习实践",
+								title: "职业软实力",
 							}
 						]
 					},
@@ -610,6 +713,43 @@
 							{
 								type: "certificates",
 								title: "考证计划",
+								hideTitleNum: true
+							}
+						]
+					},
+					{
+						optionsTitle: '生活管理计划',
+						en: 'Life Management plan',
+						showPlanList: true,
+						planList: [
+							{
+								type: "lifes",
+								title: "生活管理计划",
+								hideTitleNum: true
+							}
+						]
+					},
+					{
+						optionsTitle: '背景提升计划',
+						en: 'Background Upgrading Program',
+						showPlanList: true,
+						planList: [
+							{
+								type: "promotions",
+								title: "背景提升计划",
+								hideTitleNum: true
+							}
+						]
+					},
+					{
+						optionsTitle: '人际关系与社交管理计划',
+						en: 'Interpersonal relationship and social management plan',
+						showPlanList: true,
+						planList: [
+							{
+								type: "ships",
+								title: "人际关系与社交管理计划",
+								hideTitleNum: true
 							}
 						]
 					},
@@ -621,6 +761,7 @@
 							{
 								type: "additions",
 								title: "其他计划",
+								hideTitleNum: true
 							}
 						]
 					},
@@ -629,30 +770,12 @@
 		},
 		created(){
 			this.stage = this.$route.query.stage
-			// this.getMetaData()
 			this.getPlanList()
 		},
 		mounted(){},
 		methods: {
 			sysbelong() {
 				return sysbelong()
-			},
-			getMetaData(){
-        Promise.all([
-          this.$store.dispatch("CERTIFICATE_DATA"), //证书列表
-          this.$store.dispatch("OFFICE_DATA"), //所有的办公技能列表
-          this.$store.dispatch("VOCATION_DATA"), //所有职业能力列表
-        ]).then(res => {
-					this.certificatesData = res[0].data
-					this.officeData = res[1].data
-					this.vocationsData = res[2].data
-        }).catch(err => {
-          if (err.data.msg) {
-            this.$message({type: "error", message: err.data.msg});
-          } else {
-            this.$message({type: "error", message: "获取字典数据失败！"});
-          }
-        })
 			},
 			getPlanList(){
 				let params = {
@@ -686,21 +809,30 @@
 					// auth 1:可完善、移交 3：不可编辑
 					this.auth = res.data.auth;
 					if(!this.planInfoList['requireds'] && !this.planInfoList['options'] && !this.planInfoList['selfs'] && 
-						!this.planInfoList['profs'] && !this.planInfoList['pread']){
+						!this.planInfoList['profs'] && !this.planInfoList['pread'] && !this.planInfoList['thesiss'] 
+						&& !this.planInfoList['internships']){
 							this.infoOptions[0].showPlanList = false;
 					}
-					if(!this.planInfoList['officeSkills'] && !this.planInfoList['vocations'] && !this.planInfoList['internships']){
+					if(!this.planInfoList['officeSkills'] && !this.planInfoList['vocations'] ){
 						this.infoOptions[1].showPlanList = false;
 					}
 					if(!this.planInfoList['certificates']){
 						this.infoOptions[2].showPlanList = false;
 					}
-					if(!this.planInfoList['additions']){
+					if(!this.planInfoList['lifes']){
 						this.infoOptions[3].showPlanList = false;
 					}
+					if(!this.planInfoList['promotions']){
+						this.infoOptions[4].showPlanList = false;
+					}
+					if(!this.planInfoList['ships']){
+						this.infoOptions[5].showPlanList = false;
+					}
+					if(!this.planInfoList['additions']){
+						this.infoOptions[6].showPlanList = false;
+					}
         }).catch(err => {
-          console.log(err)
-          if (err.data.msg) {
+          if (err.data) {
             this.$message({type: "error", message: err.data.msg});
           } else {
             this.$message({type: "error", message: "获取规划信息失败！"});
@@ -737,6 +869,7 @@
 				this.currentPlanInfo = item;
 				this.currentType = type;
 				this.currentPlanId = item.id;
+				console.log(type)
 				this.imageUrl = '';
 				this.form = {
 					sscore: '',
@@ -748,6 +881,7 @@
 			//保存
 			save(item, type, org, planId){
 				this.currentType = type;
+				
 				let data = {}
 				let errMessage = ''
 				let successMessage = ''
@@ -848,7 +982,11 @@
 				else if(this.currentType == 'profs'){
 					if(org == 'prefect'){
 						if(data.finish == "" ) {
-							this.$message({type: "error", message:"请输入计划总结！"})
+							this.$message({type: "error", message:"请输入实施总结！"})
+							return false;
+						}
+						if(data.isEnd === "" ) {
+							this.$message({type: "error", message:"请选择是否完成目标！"})
 							return false;
 						}
 					}else if(org == 'edit'){
@@ -879,24 +1017,13 @@
 				else if(this.currentType == 'pread'){
 					if(org == 'prefect'){
 						if(data.finish == "" ) {
-							this.$message({type: "error", message:"请输入计划总结！"})
+							this.$message({type: "error", message:"请输入实施总结！"})
 							return false;
 						}else if(data.progress == ''){
 							this.$message({type: "error", message:"请输入阅读进度！"})
 							return false;
 						}else if(Number(data.progress) != data.progress || Number(data.progress)>100 || Number(data.progress)<0){
 							this.$message({type: "error", message:"请输入0~100范围内的数字！"})
-							return false;
-						}
-					}else if(org == 'edit'){
-						if(data.name == ""){
-							this.$message({type: "error", message:"请选择书籍名称！"})
-							return false;
-						}else if(data.type == ""){
-							this.$message({type: "error", message:"请选择书籍类型！"})
-							return false;
-						}else if(data.content == ""){
-							this.$message({type: "error", message:"请输入阅读计划！"})
 							return false;
 						}
 					}
@@ -913,12 +1040,28 @@
 						}
 					})
 				}
+				else if(this.currentType == 'thesiss') {
+					this.$store.dispatch('UPDATE_PROFTHESIS', data).then(res => {
+						this.currentPlanId = '';
+						this.transferDialog = false;
+						this.getPlanInfo(this.planList[this.termIndex].id);
+						this.$message({type: "success", message: successMessage})
+					}).catch(err => {
+						if (err.data.msg) {
+							this.$message({type: "error", message: err.data.msg});
+						} else {
+							this.$message({type: "error", message: errMessage});
+						}
+					})
+				}
+
 				else if(this.currentType == 'officeSkills'){
+					console.log(this.currentType)
 					if(org == 'prefect'){
 						if(data.finish == ""){
-							this.$message({type: "error", message:"请输入计划总结！"})
+							this.$message({type: "error", message:"请输入实施总结！"})
 							return false;
-						}else if(data.isEnd === ""){
+						} else if(data.isEnd === ""){
 							this.$message({type: "error", message:"请选择是否完成目标！"})
 							return false;
 						}
@@ -947,7 +1090,10 @@
 				else if(this.currentType == 'vocations'){
 					if(org == 'prefect'){
 						if(data.finish == ""){
-							this.$message({type: "error", message:"请输入计划总结！"})
+							this.$message({type: "error", message:"请输入实施总结！"})
+							return false;
+						} else if(data.isEnd === ""){
+							this.$message({type: "error", message:"请选择是否完成目标！"})
 							return false;
 						}
 					}else if(org == 'edit'){
@@ -975,7 +1121,10 @@
 				else if(this.currentType == 'internships'){
 					if(org == 'prefect') {
 						if(data.finish == ""){
-							this.$message({type: "error", message:"请输入计划总结！"})
+							this.$message({type: "error", message:"请输入实施总结！"})
+							return false;
+						} else if(data.isEnd === ""){
+							this.$message({type: "error", message:"请选择是否完成目标！"})
 							return false;
 						}
 					}else if(org == 'edit'){
@@ -1032,18 +1181,82 @@
 						}
 					})
 				}
+				else if(this.currentType == 'lifes'){
+					if(org == 'prefect') {
+						if(data.finish == ""){
+							this.$message({type: "error", message:"请输入实施总结！"})
+							return false;
+						} else if(data.isEnd === ""){
+							this.$message({type: "error", message:"请选择是否完成目标！"})
+							return false;
+						}
+					}
+					this.$store.dispatch('UPDATE_LIFEMANAGEMENT', data).then(res => {
+						this.currentPlanId = '';
+						this.transferDialog = false;
+						this.getPlanInfo(this.planList[this.termIndex].id);
+						this.$message({type: "success", message: successMessage})
+					}).catch(err => {
+						if (err.data.msg) {
+							this.$message({type: "error", message: err.data.msg});
+						} else {
+							this.$message({type: "error", message: errMessage});
+						}
+					})
+				}
+				else if(this.currentType == 'ships'){
+					if(org == 'prefect') {
+						if(data.finish == ""){
+							this.$message({type: "error", message:"请输入实施总结！"})
+							return false;
+						} else if(data.isEnd === ""){
+							this.$message({type: "error", message:"请选择是否完成目标！"})
+							return false;
+						}
+					}
+					this.$store.dispatch('UPDATE_INTERPERSONALRELATIONSHIP', data).then(res => {
+						this.currentPlanId = '';
+						this.transferDialog = false;
+						this.getPlanInfo(this.planList[this.termIndex].id);
+						this.$message({type: "success", message: successMessage})
+					}).catch(err => {
+						if (err.data.msg) {
+							this.$message({type: "error", message: err.data.msg});
+						} else {
+							this.$message({type: "error", message: errMessage});
+						}
+					})
+				}
+				else if(this.currentType == 'promotions'){
+					if(org == 'prefect') {
+						if(data.finish == ""){
+							this.$message({type: "error", message:"请输入实施总结！"})
+							return false;
+						} else if(data.isEnd === ""){
+							this.$message({type: "error", message:"请选择是否完成目标！"})
+							return false;
+						}
+					}
+					this.$store.dispatch('UPDATE_BGPROMOTION', data).then(res => {
+						this.currentPlanId = '';
+						this.transferDialog = false;
+						this.getPlanInfo(this.planList[this.termIndex].id);
+						this.$message({type: "success", message: successMessage})
+					}).catch(err => {
+						if (err.data.msg) {
+							this.$message({type: "error", message: err.data.msg});
+						} else {
+							this.$message({type: "error", message: errMessage});
+						}
+					})
+				}
 				else if(this.currentType == 'additions'){
 					if(org == 'prefect') {
 						if(data.finish == ""){
-							this.$message({type: "error", message:"请输入计划总结！"})
+							this.$message({type: "error", message:"请输入实施总结！"})
 							return false;
-						}
-					}else if(org == 'edit'){
-						if(data.additionalName == ""){
-							this.$message({type: "error", message:"请输入计划名称！"})
-							return false;
-						}else if(data.additionalDesc == ""){
-							this.$message({type: "error", message:"请输入计划内容！"})
+						} else if(data.isEnd === ""){
+							this.$message({type: "error", message:"请选择是否完成目标！"})
 							return false;
 						}
 					}
@@ -1079,153 +1292,34 @@
 				let data = {
 					id: this.currentPlanInfo.id
 				}
-				if(this.currentType == 'requireds'){
-					this.$store.dispatch('DELETE_REQUIRED', data).then(res => {
-						this.dialogVisible = false;
-						this.getPlanList();
-						this.$message({type: "success",message: "删除成功!"})
-					}).catch(err =>{
-						console.log(err)
-						if (err.data.msg) {
-							this.$message({type: "error",message: err.data.msg});
-						} else {
-							this.$message({type: "error", message: "删除失败，请稍后重试！"});
-						}
-					})
-				}
-				else if(this.currentType == 'options'){
-					this.$store.dispatch('DELETE_OPTIONAL', data).then(res => {
-						this.dialogVisible = false;
-						this.getPlanList();
-						this.$message({type: "success", message: "删除成功!"})
-					}).catch(err =>{
-						console.log(err)
-						if (err.data.msg) {
-							this.$message({type: "error", message: err.data.msg});
-						} else {
-							this.$message({type: "error", message: "删除失败，请稍后重试！"});
-						}
-					})
-				}
-				else if(this.currentType == 'selfs'){
-					this.$store.dispatch('DELETE_SELF', data).then(res => {
-						this.dialogVisible = false;
-						this.getPlanList();
-						this.$message({type: "success", message: "删除成功!"})
-					}).catch(err =>{
-						console.log(err)
-						if (err.data.msg) {
-							this.$message({type: "error", message: err.data.msg});
-						} else {
-							this.$message({type: "error", message: "删除失败，请稍后重试！"});
-						}
-					})
-				}
-				else if(this.currentType == 'profs'){
-					//专业大赛
-					this.$store.dispatch('DELETE_PROF', data).then(res => {
-						this.dialogVisible = false;
-						this.getPlanList();
-						this.$message({type: "success", message: "删除成功!"})
-					}).catch(err =>{
-						console.log(err)
-						if (err.data.msg) {
-							this.$message({type: "error", message: err.data.msg});
-						} else {
-							this.$message({type: "error", message: "删除失败，请稍后重试！"});
-						}
-					})
-				}
-				else if(this.currentType == 'pread'){
-					//专业阅读
-					this.$store.dispatch('DELETE_PREAD', data).then(res => {
-						this.dialogVisible = false;
-						this.getPlanList();
-						this.$message({type: "success", message: "删除成功!"})
-					}).catch(err =>{
-						console.log(err)
-						if (err.data.msg) {
-							this.$message({type: "error", message: err.data.msg});
-						} else {
-							this.$message({type: "error", message: "删除失败，请稍后重试！"});
-						}
-					})
-				}
-				else if(this.currentType == 'officeSkills'){
-					//办公技能
-					this.$store.dispatch('DELETE_OFFICE', data).then(res => {
-						this.dialogVisible = false;
-						this.getPlanList();
-						this.$message({type: "success", message: "删除成功!"})
-					}).catch(err =>{
-						console.log(err)
-						if (err.data.msg) {
-							this.$message({type: "error", message: err.data.msg});
-						} else {
-							this.$message({type: "error", message: "删除失败，请稍后重试！"});
-						}
-					})
-				}
-				else if(this.currentType == 'vocations'){
-					//职业能力
-					this.$store.dispatch('DELETE_VOCATION', data).then(res => {
-						this.dialogVisible = false;
-						this.getPlanList();
-						this.$message({type: "success", message: "删除成功!"})
-					}).catch(err =>{
-						console.log(err)
-						if (err.data.msg) {
-							this.$message({type: "error", message: err.data.msg});
-						} else {
-							this.$message({type: "error", message: "删除失败，请稍后重试！"});
-						}
-					})
-				}
-				else if(this.currentType == 'internships'){
-					//实习实践
-					this.$store.dispatch('DELETE_INTERNSHIP', data).then(res => {
-						this.dialogVisible = false;
-						this.getPlanList();
-						this.$message({type: "success", message: "删除成功!"})
-					}).catch(err =>{
-						console.log(err)
-						if (err.data.msg) {
-							this.$message({type: "error", message: err.data.msg});
-						} else {
-							this.$message({type: "error", message: "删除失败，请稍后重试！"});
-						}
-					})
-				}
-				else if(this.currentType == 'certificates'){
-					//证书计划
-					this.$store.dispatch('DELETE_CERTIFICATE', data).then(res => {
-						this.dialogVisible = false;
-						this.getPlanList();
-						this.$message({type: "success", message: "删除成功!"})
-					}).catch(err =>{
-						console.log(err)
-						if (err.data.msg) {
-							this.$message({type: "error", message: err.data.msg});
-						} else {
-							this.$message({type: "error", message: "删除失败，请稍后重试！"});
-						}
-					})
-				}
-				else if(this.currentType == 'additions'){
-					//其他计划
-					this.$store.dispatch('DELETE_ADDITIONAL', data).then(res => {
-						this.dialogVisible = false;
-						this.getPlanList();
-						this.$message({type: "success", message: "删除成功!"})
-					}).catch(err =>{
-						console.log(err)
-						if (err.data.msg) {
-							this.$message({type: "error", message: err.data.msg});
-						} else {
-							this.$message({type: "error", message: "删除失败，请稍后重试！"});
-						}
-					})
-				}
+				let methodName = ''
+				if(this.currentType == 'requireds') { methodName = 'DELETE_REQUIRED'}
+				else if(this.currentType == 'options') { methodName = 'DELETE_OPTIONAL' }
+				else if(this.currentType == 'selfs') { methodName = 'DELETE_SELF' }
+				else if(this.currentType == 'profs') { methodName = 'DELETE_PROF' }
+				else if(this.currentType == 'pread') { methodName = 'DELETE_PREAD' }
+				else if(this.currentType == 'officeSkills') { methodName = 'DELETE_OFFICE' }
+				else if(this.currentType == 'vocations') { methodName = 'DELETE_VOCATION' }
+				else if(this.currentType == 'internships') { methodName = 'DELETE_INTERNSHIP' }
+				else if(this.currentType == 'certificates') { methodName = 'DELETE_CERTIFICATE' }
+				else if(this.currentType == 'thesiss') { methodName = 'DELETE_PROFTHESIS' }
+				else if(this.currentType == 'lifes') { methodName = 'DELETE_LIFEMANAGEMENT' }
+				else if(this.currentType == 'ships') { methodName = 'DELETE_INTERPERSONALRELATIONSHIP' }
+				else if(this.currentType == 'promotions') { methodName = 'DELETE_BGPROMOTION' }
+				else if(this.currentType == 'additions') { methodName = 'DELETE_ADDITIONAL' }
+				// 调用删除方法
+				this.$store.dispatch(methodName, data).then(res => {
+					this.dialogVisible = false;
+					this.getPlanList();
+					this.$message({type: "success", message: "删除成功!"})
+				}).catch(err =>{
+					console.log(err)
+					if (err.data.msg) {
+						this.$message({type: "error", message: err.data.msg});
+					} else {
+						this.$message({type: "error", message: "删除失败，请稍后重试！"});
+					}
+				})
 			},
 			handleClose(done) {
 				this.$confirm('确认关闭？')
@@ -1303,7 +1397,7 @@
 					}
 					.banner-text {
 						position: absolute;
-						top: 110px;
+						top: 150px;
 						left: 230px;
 						.term-title {
 							font-size: 40px;
@@ -1349,7 +1443,7 @@
 					.options-item {
 						margin-bottom: 30px;
 						.en {
-							font-size: 20px;
+							font-size: 18px;
 							font-weight: 600;
 							line-height: 30px;
 						}
@@ -1357,21 +1451,20 @@
 							width:20px;
 							height: 2px;
 							border-bottom: 1px solid @main-color-blue;
-							margin-bottom: 10px;
 						}
 						.options-title {
-							font-size: 20px;
+							font-size: 16px;
 							line-height: 40px;
 						}
 						.item {
-							margin-bottom: 20px;
+							margin-bottom: 10px;
 							.item-title {
 								margin-bottom: 10px;
 								.num {
 									font-size: 30px;
 								}
 								.title {
-									width: 40px;
+									width: 68px;
 									line-height: 18px;
 									font-size: 14px;
 									font-weight: bold;
@@ -1387,17 +1480,43 @@
 								margin-left: 9px;
 								.item-plan {
 									border-left: 1px dotted @main-color-blue;
+									position: relative;
 									.sign {
-										float: left;
 										width: 16px;
 										height: 16px;
+										background-color:#fff;
 										border-radius: 10px;
 										background-color: #fff;
 										border: 4px solid #F09D3D;
-										margin-left: -9px;
+										position: absolute;
+										top: 0px;
+										left: -8px;
 									}
 									.plan-box {
 										padding: 0px 30px 10px 30px;
+										position: relative;
+										.operation {
+											position: absolute;
+											top: 0;
+											right: 0;
+											.icon-bianji {
+												color: #3477f6;
+											}
+											.icon-perfect {
+												color: goldenrod;
+											}
+											.icon-delete {
+												color: #db3529;
+											}
+											.icon-yijiao {
+												color: #f09d3d;
+											}
+											i {
+												font-size: 18px;
+												margin-right: 10px;
+												cursor: pointer;
+											}
+										}
 										.btn-box {
 											text-align: center;
 										}
@@ -1448,52 +1567,34 @@
 										}
 									}
 									.plan-top {
-										margin-bottom: 5px;
+										span {
+											display: inline-block;
+											height: 30px;
+											line-height: 24px;
+										}
 										.name {
+											min-width: 140px;
 											max-width: 85%;
-											line-height: 20px;
 											font-weight: 600;
 											color: @main-color-blue;
-											margin-right: 40px;
-											display: inline-block;
+											margin-right: 10px;
 										}
 										.score {
 											font-weight: 600;
 										}
-										.operation {
-											float: right;
-											line-height: 30px;
-											.icon-bianji {
-												color: #3477f6;
-											}
-											.icon-perfect {
-												color: goldenrod;
-											}
-											.icon-delete {
-												color: #db3529;
-											}
-											.icon-yijiao {
-												color: #f09d3d;
-											}
-											i {
-												font-size: 18px;
-												margin-right: 15px;
-												cursor: pointer;
-											}
-											
-										}
+										
 									}
 									.plan-content {
 										width:100%;
 										display: inline-block;
 										.content-title {
 											float: left;
-											width: 110px;
-											margin-top: 3px;
+											width: 150px;
+											margin-top: 5px;
 										}
 										.content-text {
 											color: #A2A9B8;
-											margin-left: 110px;
+											margin-left: 150px;
 											line-height: 22px;
 											.el-progress {
 												width: 400px;
