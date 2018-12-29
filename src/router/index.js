@@ -149,7 +149,7 @@ const routes = [
       {
         path: '/',
         name: "careerplan",
-        component: () => import('@/views/CareerPlan/CareerPlan1'),
+        component: () => import('@/views/CareerPlan/CareerPlan'),
         meta: {
           routerType: 'plan'
         }
