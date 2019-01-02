@@ -52,7 +52,16 @@
           </div>
           <div class="item-desc">
             <div class="name">课程目标</div>
-            <div class="desc-text">{{item.goal}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.goal}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.goal}}</pre>
+            </div>
+            <div class="show-more" v-if="item.goal.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -70,7 +79,16 @@
           </div>
           <div class="item-desc">
             <div class="name">课程目标：</div>
-            <div class="desc-text">{{item.goal}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.goal}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.goal}}</pre>
+            </div>
+            <div class="show-more" v-if="item.goal.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -88,7 +106,16 @@
           </div>
           <div class="item-desc">
             <div class="name">课程目标：</div>
-            <div class="desc-text">{{item.goal}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.goal}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.goal}}</pre>
+            </div>
+            <div class="show-more" v-if="item.goal.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -103,11 +130,29 @@
           </div>
           <div class="item-desc item-goal">
             <div class="name">大赛目标：</div>
-            <div class="desc-text">{{item.goal}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.goal}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.goal}}</pre>
+            </div>
+            <div class="show-more" v-if="item.goal.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-desc">
             <div class="name">大赛计划：</div>
-            <div class="desc-text">{{item.desc}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.desc}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.desc}}</pre>
+            </div>
+            <div class="show-more" v-if="item.desc.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -119,11 +164,29 @@
           </div>
           <div class="item-desc">
             <div class="name">图书阅读计划：</div>
-            <div class="desc-text">{{item.name}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.name}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.name}}</pre>
+            </div>
+            <div class="show-more" v-if="item.name.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-desc">
             <div class="name">碎片化学习计划：</div>
-            <div class="desc-text">{{item.content}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="show-more" v-if="item.content.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -147,7 +210,16 @@
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
-            <div class="desc-text">{{item.desc}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.desc}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.desc}}</pre>
+            </div>
+            <div class="show-more" v-if="item.desc.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -162,7 +234,16 @@
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
-            <div class="desc-text">{{item.goal}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.goal}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.goal}}</pre>
+            </div>
+            <div class="show-more" v-if="item.goal.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -177,7 +258,16 @@
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
-            <div class="desc-text">{{item.content}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="show-more" v-if="item.content.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -193,7 +283,16 @@
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
-            <div class="desc-text">{{item.content}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="show-more" v-if="item.content.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -208,7 +307,16 @@
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
-            <div class="desc-text">{{item.additionalDesc}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.additionalDesc}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.additionalDesc}}</pre>
+            </div>
+            <div class="show-more" v-if="item.additionalDesc.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -220,7 +328,16 @@
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
-            <div class="desc-text">{{item.content}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="show-more" v-if="item.content.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -235,7 +352,16 @@
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
-            <div class="desc-text">{{item.content}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="show-more" v-if="item.content.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -250,7 +376,16 @@
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
-            <div class="desc-text">{{item.content}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="show-more" v-if="item.content.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -265,7 +400,16 @@
           </div>
           <div class="item-desc">
             <div class="name">计划内容：</div>
-            <div class="desc-text">{{item.content}}</div>
+            <div class="desc-text" v-if="!item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="desc-all-text" v-if="item.showMore">
+              <pre>{{item.content}}</pre>
+            </div>
+            <div class="show-more" v-if="item.content.length>30">
+              <i class="iconfont icon-down" v-if="!item.showMore" @click="showMoreText(item)"></i>
+              <i class="iconfont icon-up" v-if="item.showMore" @click="showMoreText(item)"></i>
+            </div>
           </div>
           <div class="item-del" @click="deletePlan(item)">
             <i class="el-icon-delete"></i>
@@ -351,6 +495,9 @@ export default {
       this.$store.dispatch('FIND_PLACEHOLDER', {name: e}).then(res => {
         this.$set(this.plan.textareaBox[0], 'placeholder', res.data.length ? res.data : this.plan.textareaBox[0].placeholder)
       })
+    },
+    showMoreText(item) {
+      this.$set(item, 'showMore', !item.showMore)
     },
     post(){
       if(this.plan.type == 'requireds'){
@@ -1151,9 +1298,25 @@ export default {
             margin-bottom: 6px;
             color: #A2A9B8;
           }
-          .desc-text {
+          .desc-text, .desc-all-text {
             line-height: 16px;
             color: #B4BFD1;
+          }
+          .desc-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+          }
+          .show-more {
+            width: 100%;
+            text-align: center;
+            margin-top: 5px;
+            i {
+              cursor: pointer;
+            }
           }
         }
         .item-del {

@@ -38,7 +38,7 @@ export default {
   min-height: 100%;
   pre {
     font-family: "微软雅黑";
-    white-space: pre-wrap;
+    white-space: pre-line;
     word-wrap: break-word;
   }
   // iconfont 彩色图标颜色
