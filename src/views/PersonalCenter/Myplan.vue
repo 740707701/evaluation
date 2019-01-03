@@ -3,7 +3,7 @@
 		<el-tabs v-model="activeName" @tab-click="tabsClick">
 			<el-tab-pane label="职业规划" name="first">
 				<div class="plan-list">
-					<div class="nodata" v-if="!planList.length&&Object.keys(generalPlanData).length">还没有任何数据~</div> 
+					<div class="nodata" v-if="!planList.length&&!Object.keys(generalPlanData).length">还没有任何数据~</div> 
           <div class="item modify-item" v-if="Object.keys(generalPlanData).length">
             <img src="../../assets/images/term.png" alt="">
             <div class="item-content">
