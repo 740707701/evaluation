@@ -25,7 +25,7 @@
 									</span>
 								</span>
 							</div>
-							<div class="job-desc">
+							<div class="job-desc" v-if="work.responsibleContent">
 								<div class="desc-text gray">负责内容：</div>
 								<div class="desc-content">
 									<ul class="desc-list">
@@ -35,7 +35,7 @@
 									</ul>
 								</div>
 							</div>
-							<div class="job-desc">
+							<div class="job-desc" v-if="work.workResult">
 								<div class="desc-text gray">实践成果：</div>
 								<div class="desc-content">
 									<ul class="desc-list">
@@ -177,7 +177,6 @@ export default {
         ],
         workResult: [
           {
-            required: true,
             message: "请输入实践成果",
             trigger: "blur"
           }

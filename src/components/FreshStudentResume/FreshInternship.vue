@@ -36,7 +36,7 @@
 									</ul>
 								</div>
 							</div>
-							<div class="job-desc">
+							<div class="job-desc" v-if="work.workResult">
 								<div class="desc-text gray">实践成果：</div>
 								<div class="desc-content">
 									<ul class="desc-list">

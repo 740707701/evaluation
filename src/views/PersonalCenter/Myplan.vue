@@ -22,12 +22,22 @@
             <div class="comment-box" v-if="generalPlanAuditContent.length">
               <div class="comment-title">评语：</div>
               <div class="comment-content" v-for="(content, index) in generalPlanAuditContent" :key="index" v-if="!generalPlanData.showMore">
-                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
+                <div v-if="content!=null" :title="content">
+                  <div class="comment-num">({{index+1}})</div>
+                  <div class="comment-text">
+                    <pre>{{content}}</pre>
+                  </div>
+                </div>
               </div>
               <div class="comment-all-content" v-for="(content, index) in generalPlanAuditContent" :key="index" v-if="generalPlanData.showMore">
-                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
+                <div v-if="content!=null" :title="content">
+                  <div class="comment-num">({{index+1}})</div>
+                  <div class="comment-text">
+                    <pre>{{content}}</pre>
+                  </div>
+                </div>
               </div>
-              <div class="show-more" v-if="generalPlanAuditContent[0]!=null&&generalPlanAuditContent[0].length>45">
+              <div class="show-more" v-if="generalPlanAuditContent[generalPlanAuditContent.length-1]!=null&&generalPlanAuditContent[generalPlanAuditContent.length-1].length>20">
                 <i class="iconfont icon-down" v-if="!generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
                 <i class="iconfont icon-up" v-if="generalPlanData.showMore" @click="showMoreText(generalPlanData)"></i>
               </div>
@@ -51,12 +61,22 @@
             <div class="comment-box" v-if="plan.auditContent.length">
               <div class="comment-title">评语：</div>
               <div class="comment-content" v-if="!plan.showMore" v-for="(content, index) in plan.auditContent" :key="index">
-                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
+                <div v-if="content!=null" :title="content">
+                  <div class="comment-num">({{index+1}})</div>
+                  <div class="comment-text">
+                    <pre>{{content}}</pre>
+                  </div>
+                </div>
               </div>
               <div class="comment-all-content" v-if="plan.showMore" v-for="(content, index) in plan.auditContent" :key="index">
-                <span v-if="content!=null">（{{index+1}}）{{content}}</span>
+                <div v-if="content!=null" :title="content">
+                  <div class="comment-num">({{index+1}})</div>
+                  <div class="comment-text">
+                    <pre>{{content}}</pre>
+                  </div>
+                </div>
               </div>
-              <div class="show-more" v-if="plan.auditContent[0]!=null&&plan.auditContent[0].length>45">
+              <div class="show-more" v-if="plan.auditContent[plan.auditContent.length-1]!=null&&plan.auditContent[plan.auditContent.length-1].length>20">
                 <i class="iconfont icon-down" v-if="!plan.showMore" @click="showMoreText(plan)"></i>
                 <i class="iconfont icon-up" v-if="plan.showMore" @click="showMoreText(plan)"></i>
               </div>
@@ -235,6 +255,12 @@ export default {
           width: 100%;
           line-height: 20px;
           color: #A2A9B8;
+          .comment-num {
+            float: left;
+          }
+          .comment-text {
+            margin-left: 20px;
+          }
         }
         .comment-content {
           display: -webkit-box;
