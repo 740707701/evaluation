@@ -118,6 +118,7 @@ export default {
 			this[msg] = true
 		},
     addSkill: function() {
+      this.$emit('changeTag', 7)
       if(!this.baseParams.resumeId){
         this.$message({
           type: "error",
@@ -131,6 +132,7 @@ export default {
       this.showSkillEdit = true;
     },
     editSkill: function(id) {
+      this.$emit('changeTag', 7)
       this.currentSkill = this.skillList.filter(function(item) {
         return item.id == id;
       });

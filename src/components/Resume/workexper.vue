@@ -273,6 +273,7 @@ export default {
       this.workExperInfo.industryList = e;
     },
     addWorkExper: function() {
+      this.$emit('changeTag', 4)
       if(!this.baseParams.resumeId){
         this.$message({
           type: "error",
@@ -286,6 +287,7 @@ export default {
       this.showWorkExperiencedEdit = true;
     },
     editWorkExper: function(id) {
+      this.$emit('changeTag', 4)
       this.currentExper = this.workExperList.filter(function(item) {
         return item.id == id;
       });

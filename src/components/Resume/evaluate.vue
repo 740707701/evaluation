@@ -46,6 +46,7 @@ export default {
   props: ["evaluateInfo", "baseParams"],
   methods: {
     editEvaluate: function() {
+      this.$emit('changeTag', 2)
       this.showEvaluateMsg = false;
       if(!this.baseParams.resumeId){
         this.$message({

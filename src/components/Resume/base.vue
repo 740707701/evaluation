@@ -363,6 +363,7 @@ export default {
       this.base.nativePlaceList = e;
     },
     editBaseInfo: function() {
+      this.$emit('changeTag', 1)
       console.log(this.baseInfo)
       this.showBaseInfoEdit = true;
       this.base = {

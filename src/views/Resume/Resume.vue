@@ -75,13 +75,13 @@
           </el-col>
           <el-col :span="15" class="center-content">
             
-            <baseBox :baseInfo="baseInfo" :baseData="baseData" :baseParams="baseParams" @saved="updateInfo"></baseBox>
-            <expectBox :expectInfo="expectInfo" :expectData="expectData" :baseParams="baseParams" @saved="updateInfo"></expectBox>
-            <evaluateBox :evaluateInfo="evaluateInfo"  @saved="updateInfo" :baseParams="baseParams"></evaluateBox>
-            <workExperBox :workExperList="workExperList" :workExperData="workExperData" :baseParams="baseParams" @saved="updateInfo"></workExperBox>
-            <eduBox :eduList="eduList" :eduData="eduData" :baseParams="baseParams" @saved="updateInfo"></eduBox>
-            <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" :baseParams="baseParams" @saved="updateInfo"></schoolBox>
-            <skillBox :skillList="skillList" :baseParams="baseParams" @saved="updateInfo"></skillBox>
+            <baseBox :baseInfo="baseInfo" :baseData="baseData" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></baseBox>
+            <expectBox :expectInfo="expectInfo" :expectData="expectData" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></expectBox>
+            <evaluateBox :evaluateInfo="evaluateInfo" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></evaluateBox>
+            <workExperBox :workExperList="workExperList" :workExperData="workExperData" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></workExperBox>
+            <eduBox :eduList="eduList" :eduData="eduData" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></eduBox>
+            <schoolBox :schoolHonorList="schoolHonorList" :schoolWorkList="schoolWorkList" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></schoolBox>
+            <skillBox :skillList="skillList" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></skillBox>
           
             <div class="post-resume">
               <el-button size="small" class="resume-btn" @click="postResume">提交简历</el-button>
@@ -307,6 +307,10 @@ export default {
     previewResume: function() {
       this.$router.push({ path: '/viewResume', query: { resumeId: this.resumeId } })
     },
+    // 获取编辑的选项
+    changeTagType(type) {
+      this.filterTag(type)
+    },
     //HR小提示 前端搜索
     filterTag: function(value) {
       if (value) {
@@ -314,6 +318,7 @@ export default {
           return item.value == value;
         });
         this.tagType = tag[0].type;
+        this.tag = value
       }
     },
     getData: function() {

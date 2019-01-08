@@ -83,14 +83,14 @@
           </el-col>
           <el-col :span="15" class="center-content">
             
-            <freshBaseBox :baseInfo="baseInfo" :baseData="baseData" :baseParams="baseParams" @saved="updateInfo"></freshBaseBox>
-            <freshEvaluateBox :evaluateInfo="evaluateInfo"  @saved="updateInfo" :baseParams="baseParams"></freshEvaluateBox>
-            <freshEduBox :eduList="eduList" :eduData="eduData" :baseParams="baseParams" @saved="updateInfo"></freshEduBox>
-            <freshInternshipBox :internshipList="internshipList" :baseParams="baseParams" @saved="updateInfo"></freshInternshipBox>
-            <freshSchoolJobExperBox :schoolJobExperList="schoolJobExperList" :baseParams="baseParams" @saved="updateInfo"></freshSchoolJobExperBox>
-            <freshHonorBox :honorList="honorList" :baseParams="baseParams" @saved="updateInfo"></freshHonorBox>
-            <freshSkillBox :skillList="skillList" :baseParams="baseParams" @saved="updateInfo"></freshSkillBox>
-            <freshHobbyBox :hobbyInfo="hobbyInfo" :baseParams="baseParams" @saved="updateInfo"></freshHobbyBox>
+            <freshBaseBox :baseInfo="baseInfo" :baseData="baseData" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></freshBaseBox>
+            <freshEvaluateBox :evaluateInfo="evaluateInfo" :baseParams="baseParams"  @saved="updateInfo" @changeTag="changeTagType"></freshEvaluateBox>
+            <freshEduBox :eduList="eduList" :eduData="eduData" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></freshEduBox>
+            <freshInternshipBox :internshipList="internshipList" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></freshInternshipBox>
+            <freshSchoolJobExperBox :schoolJobExperList="schoolJobExperList" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></freshSchoolJobExperBox>
+            <freshHonorBox :honorList="honorList" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></freshHonorBox>
+            <freshSkillBox :skillList="skillList" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></freshSkillBox>
+            <freshHobbyBox :hobbyInfo="hobbyInfo" :baseParams="baseParams" @saved="updateInfo" @changeTag="changeTagType"></freshHobbyBox>
 
             <div class="post-resume">
               <el-button size="small" class="resume-btn save-btn" @click="saveResume">保存简历</el-button>
@@ -158,7 +158,7 @@ import freshHonorBox from "@/components/FreshStudentResume/FreshHonor.vue";
 import freshSkillBox from "@/components/FreshStudentResume/FreshSkill.vue";
 import freshHobbyBox from "@/components/FreshStudentResume/FreshHobby.vue";
 import preview from "@/components/Resume/preview.vue";
-import tags from "../../api/tags";
+import tags from "../../api/studentTags";
 
 export default {
   name: "freshStudentResume",
@@ -205,6 +205,7 @@ export default {
       this.getResumeInfo();
       this.getData();
     }
+    // this.filterTag(3)
   },
   methods: {
     //获取简历信息
@@ -308,10 +309,13 @@ export default {
       this.resumeId = ''
       this.getResumeInfo()
     },
-    
     //预览
     preview: function() {
       this.showPreview = true;
+    },
+    // 获取编辑的选项
+    changeTagType(type) {
+      this.filterTag(type)
     },
     //HR小提示 前端搜索
     filterTag: function(value) {
@@ -320,6 +324,7 @@ export default {
           return item.value == value;
         });
         this.tagType = tag[0].type;
+        this.tag = value
       }
     },
     getData: function() {

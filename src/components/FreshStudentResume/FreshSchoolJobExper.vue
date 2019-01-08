@@ -200,6 +200,7 @@ export default {
 			this[msg] = true
 		},
     addSchoolWork: function() {
+      this.$emit('changeTag', 5)
       if (!this.baseParams.resumeId) {
         this.$message({
           type: "error",
@@ -213,6 +214,7 @@ export default {
       this.showSchoolWorkEdit = true;
     },
     editSchoolWork: function(id) {
+      this.$emit('changeTag', 5)
       this.currentWork = this.schoolJobExperList.filter(function(item) {
         return item.id == id;
       });

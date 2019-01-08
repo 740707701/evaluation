@@ -237,6 +237,7 @@ export default {
 			this[msg] = true
 		},
     addSchoolHonor: function() {
+      this.$emit('changeTag', 6)
       if (!this.baseParams.resumeId) {
         this.$message({
           type: "error",
@@ -250,6 +251,7 @@ export default {
       this.showSchoolHonorEdit = true;
     },
     editSchoolHonor: function(id) {
+      this.$emit('changeTag', 6)
       this.currentHonor = this.schoolHonorList.filter(function(item) {
         return item.id == id;
       });
@@ -316,6 +318,7 @@ export default {
     },
 
     addSchoolWork: function() {
+      this.$emit('changeTag', 6)
       if (!this.baseParams.resumeId) {
         this.$message({
           type: "error",
@@ -329,6 +332,7 @@ export default {
       this.showSchoolWorkEdit = true;
     },
     editSchoolWork: function(id) {
+      this.$emit('changeTag', 6)
       this.currentWork = this.schoolWorkList.filter(function(item) {
         return item.id == id;
       });

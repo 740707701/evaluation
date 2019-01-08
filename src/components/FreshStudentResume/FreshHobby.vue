@@ -46,6 +46,7 @@ export default {
   props: ["hobbyInfo", "baseParams"],
   methods: {
     editEvaluate: function() {
+      this.$emit('changeTag', 8)
       this.showEvaluateMsg = false;
       if(!this.baseParams.resumeId){
         this.$message({

@@ -198,6 +198,7 @@ export default {
 			this[msg] = true
 		},
     addEdu: function() {
+      this.$emit('changeTag', 3)
       if(!this.baseParams.resumeId){
         this.$message({
           type: "error",
@@ -211,6 +212,7 @@ export default {
       this.showEducationEdit = true;
     },
     editEdu: function(id) {
+      this.$emit('changeTag', 3)
       this.currentEdu = this.eduList.filter(function(item) {
         return item.id == id;
       });

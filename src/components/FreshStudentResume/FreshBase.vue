@@ -278,6 +278,7 @@ export default {
     },
     editBaseInfo: function() {
       console.log(this.baseInfo)
+      this.$emit('changeTag', 1)
       this.showBaseInfoEdit = true;
       this.base = {
         resumeType: this.baseInfo.resumeType || this.resumeType,

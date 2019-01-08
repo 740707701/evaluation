@@ -230,6 +230,7 @@ export default {
       this.expect.expectPlaceList = e;
     },
     editJobIntension: function() {
+      this.$emit('changeTag', 3)
       if(!this.baseParams.resumeId){
         this.$message({
           type: "error",
