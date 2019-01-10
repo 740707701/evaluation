@@ -36,7 +36,7 @@
         <pre>{{baseInfo.evaluate}}</pre>
       </div>
 			<div class="module-content">
-				<div class="module expect" v-if="baseInfo.resumeType===2">
+				<div class="module expect" v-if="baseInfo.resumeType===2&&expectInfo.expectPositionName">
 					<div class="top">
 						<div class="title">求职意向</div>
 						<div class="icon-box">

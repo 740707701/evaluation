@@ -33,18 +33,14 @@
 							<div class="item">
 								<span class="name">出生年月：</span><span>{{baseInfo.birth?baseInfo.birth.slice(0,10): ''}}</span>
 							</div>
-						</li>
-						<li>
 							<div class="item">
 								<span class="name">性别：</span>
 								<span v-if="baseInfo.sex==1">男</span>
             		<span v-if="baseInfo.sex==2">女</span>
 							</div>
-							<div class="item">
+							<div class="item" v-if="baseInfo.nativePlaceName">
 								<span class="name">籍贯：</span><span>{{baseInfo.nativePlaceName}}</span>
 							</div>
-						</li>
-						<li v-if="baseInfo.politicalOutlookName || baseInfo.nation">
 							<div class="item">
 								<span class="name">民族：</span><span>{{baseInfo.nation}}</span>
 							</div>
@@ -52,20 +48,16 @@
 								<span class="name">政治面貌：</span>
 								<span>{{baseInfo.politicalOutlookName}}</span>
 							</div>
-						</li>
-						<li>
 							<div class="item">
 								<span class="name">电话：</span><span>{{baseInfo.phone}}</span>
 							</div>
 							<div class="item">
 								<span class="name" v-if="eduList.length">学历：</span><span v-if="eduList.length">{{eduList[0].degreeName}}</span>
 							</div>
-						</li>
-						<li>
 							<div class="item" v-if="baseInfo.resumeType===2">
 								<span class="name">毕业院校：</span><span v-if="eduList.length">{{eduList[0].schoolName}}</span>
 							</div>
-							<div class="item" v-if="baseInfo.resumeType===1">
+							<div class="item" v-if="baseInfo.resumeType===1&&baseInfo.jobIntention">
 								<span class="name">求职意向：</span><span>{{baseInfo.jobIntention}}</span>
 							</div>
 							<div class="item">
@@ -77,7 +69,7 @@
 						<img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" alt="">
 					</div>
 				</div>
-				<div class="module edu">
+				<div class="module edu" v-if="eduList.length">
 					<div class="top">
 						<div class="title">教育经历</div>
 					</div>
@@ -199,12 +191,13 @@
 						</div>
 					</div>
 				</div>
-				<div class="module eva">
+				<div class="module eva" v-if="baseInfo.evaluate">
 					<div class="top">
 						<div class="title">自我评价</div>
 					</div>
 					<div class="item">
-						<pre>{{baseInfo.evaluate}}</pre></div>
+						<pre>{{baseInfo.evaluate}}</pre>
+					</div>
 				</div>
 				<div class="module eva hobby" v-if="baseInfo.hobby&&baseInfo.resumeType===1">
 					<div class="top">

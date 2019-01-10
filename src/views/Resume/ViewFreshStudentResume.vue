@@ -16,55 +16,51 @@
 						<span class="cn">基本信息</span>
 					</div>
 					<div class="item-content">
-						<div class="row">
-							<div class="row-item">
+						<div class="base-row">
+							<div class="base-item">
 								<span class="name">姓名：</span>
 								<span class="value">{{baseInfo.name}}</span>
 							</div>
-							<div class="row-item">
+							<div class="base-item">
 								<span class="name">手机号码：</span>
 								<span class="value">{{baseInfo.phone}}</span>
-							</div><div class="row-item">
+							</div>
+							<div class="base-item" v-if="baseInfo.politicalOutlookName">
 								<span class="name">政治面貌：</span>
 								<span class="value">{{baseInfo.politicalOutlookName}}</span>
 							</div>
-						</div>
-						<div class="row">
-							<div class="row-item">
+							<div class="base-item" v-if="baseInfo.nativePlaceName">
 								<span class="name">籍贯：</span>
 								<span class="value">{{baseInfo.nativePlaceName}}</span>
 							</div>
-							<div class="row-item">
+							<div class="base-item" v-if="baseInfo.birth">
 								<span class="name">出生日期：</span>
 								<span class="value">{{baseInfo.birth?baseInfo.birth.slice(0,10): ''}}</span>
-							</div><div class="row-item">
+							</div>
+							<div class="base-item" v-if="baseInfo.jobIntention">
 								<span class="name">求职意向：</span>
 								<span class="value">{{baseInfo.jobIntention}}</span>
 							</div>
-						</div>
-						<div class="row">
-							<div class="row-item">
+							<div class="base-item">
 								<span class="name">性别：</span>
 								<span class="value">{{baseInfo.sex=='1'?'男':'女'}}</span>
 							</div>
-							<div class="row-item">
+							<div class="base-item">
 								<span class="name">邮箱地址：</span>
 								<span class="value">{{baseInfo.email}}</span>
-							</div><div class="row-item">
+							</div>
+							<div class="base-item" v-if="baseInfo.marriageStatusName">
 								<span class="name">婚姻状态：</span>
 								<span class="value">{{baseInfo.marriageStatusName}}</span>
 							</div>
-						</div>
-						<div class="row">
-							<div class="row-item">
+							<div class="base-item">
 								<span class="name">民族：</span>
 								<span class="value">{{baseInfo.nation}}</span>
 							</div>
-							<div class="row-item">
+							<div class="base-item">
 								<span class="name">现居住地：</span>
 								<span class="value">{{baseInfo.address}}</span>
 							</div>
-							<div class="row-item"></div>
 						</div>
 					</div>
 				</div>
@@ -397,6 +393,29 @@ export default {
 				transform: translate(-50%,-50%);
 			}
 		}
+		.base {
+			.base-row{
+				width: 100%;
+				display: inline-block;
+				.base-item {
+					float: left;
+					width: 33%;
+					margin: 5px 0;
+					.name {
+						float: left;
+						width: 80px;
+						line-height: 22px;
+						color: #666;
+					}
+					.value {
+						padding-left: 80px;
+						display: block;
+						color: #999;
+						line-height: 22px;
+					}
+				}
+			}
+		}
 		.item {
 			padding: 10px 30px;
 			&:last-child {
@@ -426,12 +445,13 @@ export default {
 			}
 			.value {
 				color: #999;
-				line-height: 20px;
+				line-height: 22px;
 			}
 			.row{
 				display: flex;
+				display: -webkit-flex;
 				.row-item {
-					flex: 2;
+					flex: 3;
 					margin: 5px 0;
 				}
 				.skill-time {

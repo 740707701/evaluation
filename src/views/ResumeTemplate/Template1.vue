@@ -28,7 +28,7 @@
 							<span class="key">民族：</span>
 							<span class="value">{{baseInfo.nation}}</span>
 						</li>
-						<li>
+						<li v-if="baseInfo.nativePlaceName">
 							<span class="key">籍贯：</span>
 							<span class="value">{{baseInfo.nativePlaceName}}</span>
 						</li>
@@ -61,7 +61,7 @@
 						</li>
 					</ul>
 				</div>
-				<div class="personal">
+				<div class="personal" v-if="baseInfo.evaluate">
 					<div class="title">自我评价
 						<span class="en">SELF-EVALUATION</span>
 					</div>
@@ -71,7 +71,7 @@
 				</div>
 			</div>
 			<div class="right-content">
-				<div class="module expect" v-if="baseInfo.resumeType===2">
+				<div class="module expect" v-if="baseInfo.resumeType===2&&expectInfo.expectPositionName">
 					<div class="top">
 						<div class="icon-box">
 							<i class="iconfont icon-lingdai"></i>
