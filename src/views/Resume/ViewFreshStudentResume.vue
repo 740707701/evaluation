@@ -45,7 +45,7 @@
 						<div class="row">
 							<div class="row-item">
 								<span class="name">性别：</span>
-								<span class="value">{{baseInfo.sex===1?'男':'女'}}</span>
+								<span class="value">{{baseInfo.sex=='1'?'男':'女'}}</span>
 							</div>
 							<div class="row-item">
 								<span class="name">邮箱地址：</span>
