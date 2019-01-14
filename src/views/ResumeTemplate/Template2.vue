@@ -338,18 +338,18 @@ export default {
         padding: 30px 30px 0 50px;
         .avatar {
           float: left;
-          width: 120px;
-          height: 120px;
-          border-radius: 60px;
+          width: 150px;
+          height: 150px;
+          border-radius: 50%;
+          overflow: hidden;
           img {
-            width: 120px;
-            height: 120px;
-            border-radius: 60px;
+            width: 150px;
+            height: auto;
           }
         }
         .base-info {
           color: #fff;
-          margin-left: 150px;
+          margin-left: 180px;
           .title {
             font-size: 22px;
             line-height: 40px;

@@ -650,15 +650,27 @@ export default {
           padding: 10px 20px;
           .avatar {
             float: left;
-            width: 85px;
-            height: 104px;
-            // background-color: #eaeaea;
+            width: 100px;
+            height: 125px;
+            position: relative;
             img {
-              width: 85px;
-              height: 104px;
-              // background-color: #eaeaea;
+              width: 100%;
+              height: auto;
               border: none;
               display: inline-block;
+            }
+            .upload-bg {
+              width: 100%;
+              height: 100%;
+              line-height: 125px;
+              background-color: rgba(0,0,0,0.3);
+              display: inline-block;
+              color: #fff;
+              text-align: center;
+              cursor: pointer;
+              position: absolute;
+              top: 0;
+              left: 0;
             }
             .text {
               text-align: center;
@@ -671,8 +683,8 @@ export default {
             cursor: pointer;
             position: relative;
             .input-file {
-              width: 85px;
-              height: 104px;
+              width: 100px;
+              height: 125px;
               position: absolute;
               top: 0;
               left: 0;
@@ -681,7 +693,8 @@ export default {
             }
           }
           .info-list {
-            margin-left: 105px;
+            min-height: 125px;
+            margin-left: 125px;
             .name {
               line-height: 28px;
               .right-icon {

@@ -386,7 +386,7 @@ export default {
 					text-align: center;
 					.avatar {
 						width: 150px;
-						height: 170px;
+						height: auto;
 						display: inline-block;
 						margin: 20px 0;
 						background-color: #fff;

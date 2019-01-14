@@ -5,7 +5,9 @@
 			<img class="title-img" src="../../assets/images/resume_head.png" alt="">
 			<div class="bg">
 				<div class="img-box">
-					<img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" alt="">
+					<div class="avatar">
+						<img :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" alt="">
+					</div>
 				</div>
 				<div class="text-content">
 					<div class="title">{{baseInfo.name}}</div>
@@ -133,16 +135,21 @@ export default {
 					left: 50%;
 					margin-top: -90px;
 					margin-left: -90px;
-					img {
-						width: 140px;
-						height: 140px;
-						border-radius: 70px;
-						display: inline-block;
+					.avatar {
+						width: 150px;
+						height: 150px;
+						border-radius: 50%;
+						overflow: hidden;
 						position: absolute;
 						top: 50%;
 						left: 50%;
-						margin-left: -70px;
-						margin-top: -70px;
+						margin-left: -75px;
+						margin-top: -75px;
+					}
+					img {
+						width: 150px;
+						height: auto;
+						
 					}
 				}
 				.text-content {

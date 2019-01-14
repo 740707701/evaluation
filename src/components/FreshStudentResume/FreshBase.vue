@@ -65,7 +65,11 @@
         <span>基本信息</span>
       </div>
       <div class="base-content">
-        <upload :uploadType="`resume_head`" :imgWidth="`85px`" :imgHeight="`104px`" :imgUrl="imgUrl" @upload="getImgUrl"></upload>
+        <!-- <upload :uploadType="`resume_head`" :imgWidth="`85px`" :imgHeight="`104px`" :imgUrl="imgUrl" @upload="getImgUrl"></upload> -->
+        <div class="avatar" @click="chooseImg">
+          <img :src="base.headPicAll?base.headPicAll:require('../../assets/images/man.png')" alt="">
+          <div class="upload-bg">点击上传</div>
+        </div>
         <div class="edit-content baseinfo-content">
           <el-form :inline="true" :model="base" :rules="rules" ref="base" label-width="100px" class="form-box">
             <el-form-item label="姓名：" prop="name" class="input-box">
@@ -160,10 +164,20 @@
       </div>
     </div>
   </div>
+  <el-dialog
+  title="上传头像"
+  :visible.sync="showCropperBox"
+  :append-to-body="true">
+  <cropper :uploadType="`resume_head`" @upload="getImgUrl"></cropper>
+  <span slot="footer" class="dialog-footer">
+    <el-button type="primary" size="small" @click="showCropperBox = false">关闭</el-button>
+  </span>
+</el-dialog>
 </div>
 </template>
 <script>
 import upload from '../Upload'
+import cropper from '../Cropper'
 export default {
   name: "baseInfo",
   data() {
@@ -204,7 +218,8 @@ export default {
       showEmailMsg: false,
       showAddressMsg: false,
       showNationMsg: false,
-			showJobIntentionMsg: false,
+      showJobIntentionMsg: false,
+      showCropperBox: false,
 
       base: {},
       resumeType: '',
@@ -276,6 +291,9 @@ export default {
     changeNativePlace: function(e){
       this.base.nativePlaceList = e;
     },
+    chooseImg() {
+      this.showCropperBox = true
+    },
     editBaseInfo: function() {
       console.log(this.baseInfo)
       this.$emit('changeTag', 1)
@@ -287,6 +305,7 @@ export default {
         phone: this.baseInfo.phone,
         email: this.baseInfo.email,
         sex: this.baseInfo.sex,
+        headPicAll: this.baseInfo.headPicAll,
         nativePlaceList: this.baseInfo.nativePlaceList,
         // workYear: this.baseInfo.workYear,
         // jobStatus: this.baseInfo.jobStatus,
@@ -335,12 +354,17 @@ export default {
       this.$refs[formName].resetFields();
     },
     getImgUrl: function(data){
-      this.base.headPicAll = data.rootPath + data.headPic;
-      this.base.headPic = data.headPic;
+      console.log(data)
+      if(Object.keys(data).length) {
+        this.showCropperBox = false
+        this.base.headPicAll = data.rootPath + data.headPic;
+        this.base.headPic = data.headPic;
+      }
     }
   },
   components: {
-    upload
+    upload,
+    cropper
   }
 };
 </script>

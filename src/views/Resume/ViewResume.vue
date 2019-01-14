@@ -350,13 +350,13 @@ export default {
       display: inline-block;
       .avatar {
         float: left;
-        width: 85px;
-        height: 104px;
+        width: 100px;
+        height: 125px;
         margin-left: 25px;
         margin-right: 30px;
         img {
-          width: 85px;
-          height: 104px;
+          width: 100%;
+          height: auto;
           border: none;
           display: inline-block;
         }

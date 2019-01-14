@@ -392,6 +392,8 @@ export default {
 				height: 100%;
 				border-left: 2px solid #4D7181;
 				.module {
+					width: 100%;
+					display: inline-block;
 					.top {
 						width: 100%;
 						height: 30px;
@@ -435,8 +437,8 @@ export default {
 					.avatar {
 						float: right;
 						img {
-							width: 150px;
-							height: 145px;
+							width: 120px;
+							height: auto;
 							display: inline-block;
 						}
 					}

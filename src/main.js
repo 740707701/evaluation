@@ -13,6 +13,7 @@ import './assets/icon/iconfont.js'
 import ('!style-loader!css-loader!less-loader!./assets/css/colors.less')
 import VueClipboard  from 'vue-clipboard2'
 import VideoPlayer from 'vue-video-player'
+import VueCropper from 'vue-cropper'
 import 'video.js/dist/video-js.css'
 
 import htmlToPdf from '@/components/HtmltoPdf.js'
@@ -21,6 +22,7 @@ Vue.use(htmlToPdf)
 Vue.use(ElementUI)
 Vue.use(VueClipboard )
 Vue.use(VideoPlayer)
+Vue.use(VueCropper)
 
 Vue.config.productionTip = false
 

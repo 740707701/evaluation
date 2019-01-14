@@ -5,7 +5,9 @@
       <div class="pdf-content" id="pdfDom">
 				<div class="header-bg">
 					<img class="img-bg" src="../../assets/images/student-bg.png" alt="">
-					<img class="avatar" :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" >
+					<div class="avatar">
+						<img class="" :src="baseInfo.headPicAll?baseInfo.headPicAll:require('../../assets/images/man.png')" >
+					</div>
 				</div>
 				<div class="item base">
 					<div class="title-box">
@@ -388,9 +390,14 @@ export default {
 				width: 150px;
 				height: 150px;
 				border-radius: 50%;
+				overflow: hidden;
 				position: absolute;
 				left: 50%;
 				transform: translate(-50%,-50%);
+				img {
+					width: 100%;
+					height: auto;
+				}
 			}
 		}
 		.base {
