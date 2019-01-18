@@ -389,7 +389,7 @@ export default {
 						height: auto;
 						display: inline-block;
 						margin: 20px 0;
-						background-color: #fff;
+						background-color: transparent;
 					}
 				}
 				.xuedianba {
