@@ -640,7 +640,7 @@ export default {
           .avatar {
             float: left;
             width: 100px;
-            height: 125px;
+            height: auto;
             position: relative;
             img {
               width: 100%;
@@ -651,7 +651,7 @@ export default {
             .upload-bg {
               width: 100%;
               height: 100%;
-              line-height: 125px;
+              padding-top: 50px;
               background-color: rgba(0,0,0,0.3);
               display: inline-block;
               color: #fff;

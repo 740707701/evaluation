@@ -61,9 +61,9 @@
           original: false,  // 上传图片是否显示原始宽高
           canMoveBox: true,  // 能否拖动截图框
           autoCrop: true, // 是否默认生成截图框
-          autoCropWidth: 140, 
-          autoCropHeight: 170, 
-          fixedBox: true // 截图框固定大小
+          autoCropWidth: 150, 
+          autoCropHeight: 150, 
+          fixedBox: false // 截图框固定大小
         }, 
         fileName:'',  //本机文件地址
         downImg: '#',
@@ -231,7 +231,8 @@
 			right: 10px;
 			.preview {
 				width: 150px;
-				height: 155px;
+        height: 150px;
+        border-radius: 50%;
 				border: 1px solid #ccc;
 				background-color: #ccc;
 				margin: 5px;
