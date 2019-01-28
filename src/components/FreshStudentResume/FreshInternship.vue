@@ -27,7 +27,7 @@
 								</span>
 							</div>
 							<div class="job-desc" v-if="work.schoolWorkDesc">
-								<div class="desc-text gray">实践内容：</div>
+								<!-- <div class="desc-text gray">实践内容：</div> -->
 								<div class="desc-content">
 									<ul class="desc-list">
                     <li>
@@ -36,7 +36,7 @@
 									</ul>
 								</div>
 							</div>
-							<div class="job-desc" v-if="work.workResult">
+							<!-- <div class="job-desc" v-if="work.workResult">
 								<div class="desc-text gray">实践成果：</div>
 								<div class="desc-content">
 									<ul class="desc-list">
@@ -55,7 +55,7 @@
                     </li>
 									</ul>
 								</div>
-							</div>
+							</div> -->
 						</li>
 					</ul>
 					<div class="imperfect" v-if="!showSchoolWorkEdit&&!internshipList.length">
@@ -100,13 +100,17 @@
 								@focus="inputFocus('workInfo','showWorkNameMsg')" @blur="showWorkNameMsg=false"></el-input>
 								<div class="msg" v-if="showWorkNameMsg">请确认此岗位对求职有帮助</div>
 							</el-form-item>
-							<el-form-item label="实践内容：" prop="schoolWorkDesc" class="input-box desc-box">
+							<el-form-item label="" prop="schoolWorkDesc" class="input-box desc-box edu-desc">
 								<div class="work-desc">
 									<el-input class="desc-input" type="textarea" v-model="workInfo.schoolWorkDesc" :maxlength="200" 
-									placeholder="注意：实习经验的描述与目标岗位的招聘要求尽量匹配，用词精准，注意不要大段大段文字呈现，要写成一条一条的，用“1、2、3、”来进行标示。例如：1、进行市场调研，在潜客聚集地进行线下传单的发放；2、潜客信息的收集与汇总，并进行数据分析。"></el-input>
+									placeholder="此部分的内容要描述实习经验，实习经验的描述与目标岗位的招聘要求尽量匹配，用词精准，同时如果有实践成果的话，要用数据来呈现，突出个人成果以及做出的贡献。注意：不要大段大段文字呈现，同时要写成一条一条的，便于HR阅读，例如：
+进行市场调研，在潜客聚集地进行线下传单的发放；         
+潜客信息的收集与汇总，并进行数据分析；
+单日发放传单600张，收集有效信息100个，部门绩效排名3/60。
+                        "></el-input>
 								</div>
 							</el-form-item>
-							<el-form-item label="实践成果：" prop="workResult" class="input-box desc-box">
+							<!-- <el-form-item label="实践成果：" prop="workResult" class="input-box desc-box">
 								<div class="work-desc">
 									<el-input class="desc-input" type="textarea" v-model="workInfo.workResult" :maxlength="200" 
 									placeholder="注意：实习成果尽量以数据来呈现，突出个人成果以及做出的贡献。例如：单日发放传单600张，收集有效信息100个，部门绩效排名3/60。"></el-input>
@@ -117,7 +121,7 @@
 									<el-input class="desc-input" type="textarea" v-model="workInfo.growHarvest" :maxlength="200" 
 									placeholder="注意：根据实习实践具体内容，进行某能力提升的说明。例如：通过本次实习，使我的沟通表达能力和统计分析能力得到了提升。"></el-input>
 								</div>
-							</el-form-item>
+							</el-form-item> -->
 							<el-form-item size="small" class="edit-btn-box">
 								<el-button class="save-btn" @click="saveSchoolWork('workInfo')">保存</el-button>
 								<el-button class="cancel" @click="cancelSchoolWork('workInfo')">取消</el-button>

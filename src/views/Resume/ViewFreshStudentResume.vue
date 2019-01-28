@@ -102,7 +102,7 @@
 								</div>
 							</div>
 							<div class="job-desc" v-if="edu.eduDesc">
-                <div class="desc-text gray">学习课程：</div>
+                <!-- <div class="desc-text gray">学习课程：</div> -->
                 <div class="desc-content">
                   <ul class="desc-list">
                     <li class="desc-item">
@@ -136,7 +136,7 @@
 								</div>
 							</div>
 							<div class="job-desc" v-if="intership.schoolWorkDesc">
-                <div class="desc-text gray">主修内容：</div>
+                <!-- <div class="desc-text gray">主修内容：</div> -->
                 <div class="desc-content">
                   <ul class="desc-list">
                     <li class="desc-item">
@@ -145,7 +145,7 @@
                   </ul>
                 </div>
               </div>
-							<div class="job-desc" v-if="intership.workResult">
+							<!-- <div class="job-desc" v-if="intership.workResult">
                 <div class="desc-text gray">实践成果：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
@@ -164,7 +164,7 @@
 										</li>
                   </ul>
                 </div>
-              </div>
+              </div> -->
 						</div>
 					</div>
 				</div>
@@ -190,7 +190,7 @@
 								</div>
 							</div>
 							<div class="job-desc" v-if="school.responsibleContent">
-                <div class="desc-text gray">实践内容：</div>
+                <!-- <div class="desc-text gray">实践内容：</div> -->
                 <div class="desc-content">
                   <ul class="desc-list">
                     <li class="desc-item">
@@ -199,7 +199,7 @@
                   </ul>
                 </div>
               </div>
-							<div class="job-desc" v-if="school.workResult">
+							<!-- <div class="job-desc" v-if="school.workResult">
                 <div class="desc-text gray">实践成果：</div>
                 <div class="desc-content">
                   <ul class="desc-list">
@@ -218,7 +218,7 @@
 										</li>
                   </ul>
                 </div>
-              </div>
+              </div> -->
 						</div>
 					</div>
 				</div>
@@ -477,9 +477,9 @@ export default {
 					float: left;
 					line-height: 26px;
 					color: #666;
+					margin-right: 100px;
 				}
 				.desc-content {
-					margin-left: 100px;
 					line-height: 24px;
 					.desc-list {
 						li {

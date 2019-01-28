@@ -24,7 +24,7 @@
             </span>
           </div>
           <div class="job-desc" v-if="edu.eduDesc">
-            <div class="desc-text gray">学习课程：</div>
+            <!-- <div class="desc-text gray">学习课程：</div> -->
             <div class="desc-content">
               <ul class="desc-list">
                 <li class="desc-item">
@@ -33,14 +33,14 @@
               </ul>
             </div>
           </div>
-          <div class="job-desc" v-if="edu.scoreRank">
+          <!-- <div class="job-desc" v-if="edu.scoreRank">
             <div class="desc-text gray">成绩排名：</div>
             <div class="desc-content">
               <ul class="desc-list">
                 <li class="desc-item">{{edu.scoreRank}}</li>
               </ul>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="imperfect" v-if="!showEducationEdit&&!eduList.length">
           <p class="perfect-text">完善教育经历，展现专业能力，让HR更了解你！</p>
@@ -101,13 +101,16 @@
                   </el-option>
                 </el-select> -->
               </el-form-item>
-							<el-form-item label="成绩排名：" prop="scoreRank" class="input-box">
+							<!-- <el-form-item label="成绩排名：" prop="scoreRank" class="input-box">
                 <el-input size="small" v-model="eduInfo.scoreRank" placeholder="请输入成绩排名" :maxlength="30"></el-input>
-              </el-form-item>
-              <el-form-item label="学习课程：" prop="eduDesc" class="input-box desc-box edu-desc">
+              </el-form-item> -->
+              <el-form-item label="" prop="eduDesc" class="input-box desc-box edu-desc">
                 <div class="work-desc">
-                  <el-input class="desc-input" type="textarea" v-model="eduInfo.eduDesc" :maxlength="300"
-									placeholder="描述在校期间所学专业，主要包括课程内容，毕业设计等" 
+                  <el-input class="desc-input" type="textarea" v-model="eduInfo.eduDesc" :maxlength="200"
+									placeholder="此部分可以描述的内容有学过的课程，做过的训练以及成绩排名等，需要注意如下几点：1、课程不要写太多，写几门主要的课程、特色课程和与应聘岗位相关的课程就可以了；2、如果成绩排名在前5的话，可以把成绩排名写进去；3、不同的内容分成一行一行地写，千万不要大段大段文字地写。例如对于会计学专业可以这样写：
+主修课程：成本会计、管理会计、财务管理、审计学、税法等；
+熟练使用用友金蝶软件，参加ERP沙盘模拟并负责市场运营；
+成绩排名：3/64" 
 									@focus="inputFocus('eduInfo','showEduDescMsg')" @blur="showEduDescMsg=false"></el-input>
                   <div class="msg" v-if="showEduDescMsg">请确认学习课程罗列与意向岗位的匹配度</div>
                 </div>

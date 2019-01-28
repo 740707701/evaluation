@@ -86,7 +86,7 @@
 							</div>
 						</div>
 						<div class="content" v-if="edu.eduDesc">
-							<div class="title">学习课程：</div>
+							<!-- <div class="title">学习课程：</div> -->
 							<div class="work-content">
 								<pre>{{edu.eduDesc}}</pre>
 							</div>
@@ -122,11 +122,11 @@
 							<span>{{internship.schoolWorkName}}</span>
 						</div>
 						<div class="content">
-							<div class="title">实践内容：</div>
+							<!-- <div class="title">实践内容：</div> -->
 							<div class="work-content">
 								<pre>{{internship.schoolWorkDesc}}</pre></div>
 						</div>
-						<div class="content" v-if="internship.workResult">
+						<!-- <div class="content" v-if="internship.workResult">
 							<div class="title">实践成果：</div>
 							<div class="work-content">
 								<pre>{{internship.workResult}}</pre></div>
@@ -135,7 +135,7 @@
 							<div class="title">成长收获：</div>
 							<div class="work-content">
 								<pre>{{internship.growHarvest}}</pre></div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="module school" v-if="(schoolHonorList.length || schoolWorkList.length)&&baseInfo.resumeType===2">
@@ -150,7 +150,7 @@
 								<span>{{work.schoolWorkName}}</span>
 							</div>
 							<div class="work-desc">
-								<div class="desc-title">实践描述：</div>
+								<!-- <div class="desc-title">实践描述：</div> -->
 								<div class="desc-content">
 									<pre>{{work.schoolWorkDesc}}</pre>
 								</div>
@@ -458,6 +458,7 @@ export default {
 						}
 						.content {
 							color: #666;
+							margin-top: 6px;
 							.title {
 								line-height: 30px;
 							}

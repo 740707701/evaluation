@@ -471,6 +471,7 @@ export default {
       font-size: 12px;
       line-height: 1;
       color: @main-color-red;
+      margin-top: 6px;
       position: absolute;
       top: 100%;
       left: 0;
@@ -817,6 +818,10 @@ export default {
             }
             .edu-desc {
               margin-right: 0px;
+              margin-left: 100px;
+              textarea {
+                min-height: 160px!important;
+              }
             }
             .work-desc {
               width: 100%;
@@ -896,14 +901,19 @@ export default {
         .job-item {
           width: 100%;
           display: inline-block;
-          padding: 10px 20px;
+          padding: 0px 20px;
           border-bottom: 1px solid @main-color-border;
+          li {
+            width:100%;
+            display: inline-block;
+          }
           .job-time,
           .job-type {
             display: flex;
             display: -webkit-flex;
             flex-wrap: wrap;
             line-height: 30px;
+            margin: 5px 0;
             span {
               flex: 1 1 auto;
               line-height: 22px;
@@ -921,13 +931,14 @@ export default {
           .job-desc {
             width: 100%;
             display: inline-block;
-            padding-top: 5px 0;
+            margin: 10px 0;
+            color: #999;
             .desc-text {
               float: left;
               line-height: 22px;
+              margin-right: 100px;
             }
             .desc-content {
-              margin-left: 100px;
               line-height: 24px;
               .desc-list {
                 li {
@@ -940,7 +951,7 @@ export default {
         .skill {
           width: 100%;
           display: inline-block;
-          padding: 10px 20px;
+          padding: 0px 20px;
           li {
             width: 100%;
             display: flex;
@@ -948,7 +959,7 @@ export default {
             span {
               flex: 1 1 auto;
               text-align: left;
-              line-height: 20px;
+              line-height: 22px;
             }
             .skill-time {
               min-width:120px;

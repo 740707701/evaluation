@@ -26,7 +26,7 @@
 								</span>
 							</div>
 							<div class="job-desc" v-if="work.responsibleContent">
-								<div class="desc-text gray">负责内容：</div>
+								<!-- <div class="desc-text gray">负责内容：</div> -->
 								<div class="desc-content">
 									<ul class="desc-list">
                     <li>
@@ -35,7 +35,7 @@
 									</ul>
 								</div>
 							</div>
-							<div class="job-desc" v-if="work.workResult">
+							<!-- <div class="job-desc" v-if="work.workResult">
 								<div class="desc-text gray">实践成果：</div>
 								<div class="desc-content">
 									<ul class="desc-list">
@@ -54,7 +54,7 @@
                     </li>
 									</ul>
 								</div>
-							</div>
+							</div> -->
 						</li>
 					</ul>
 					<div class="imperfect" v-if="!showSchoolWorkEdit&&!schoolJobExperList.length">
@@ -99,13 +99,16 @@
 								@focus="inputFocus('workInfo','showWorkNameMsg')" @blur="showWorkNameMsg=false"></el-input>
 								<div class="msg" v-if="showWorkNameMsg">请确认此职务对求职有帮助</div>
 							</el-form-item>
-							<el-form-item label="负责内容：" prop="responsibleContent" class="input-box desc-box">
+							<el-form-item label="" prop="responsibleContent" class="input-box desc-box edu-desc">
 								<div class="work-desc">
 									<el-input class="desc-input" type="textarea" v-model="workInfo.responsibleContent" :maxlength="200" 
-									placeholder="注意：担任职务具体负责哪些工作，是策划/执行/统筹/协调还是什么，面向的群体是谁，要具体说明，注意不要大段大段文字呈现，要写成一条一条的，用“1、2、3、”来进行标示。例如（学生会文艺部部长）：1、根据学期安排，协助老师进行校园文化活动的策划、宣传、统筹与实施；2、部分成员的值班安排、团建活动、带教等部门管理工作。"></el-input>
+									placeholder="此部分内容要描述校园经历，担任职务具体负责哪些工作，是策划/执行/统筹/协调还是什么，面向的群体是谁，要具体说明，如果有实践成果的话，要用数据来呈现，突出个人成果以及做出的贡献。注意：不要大段大段文字呈现，要写成一条一条的，便于HR阅读。例如如果是学生会文艺部部长可以这样写：
+根据学期安排，协助老师进行校园文化活动的策划、宣传、统筹与实施；
+完成部分成员的值班安排、团建活动、带教等部门管理工作；
+策划并组织校园歌手大赛、主持人大赛、演讲比赛、迎新晚会等共计10余场校级活动，参与学生人数达3000+。"></el-input>
 								</div>
 							</el-form-item>
-							<el-form-item label="实践成果：" prop="workResult" class="input-box desc-box">
+							<!-- <el-form-item label="实践成果：" prop="workResult" class="input-box desc-box">
 								<div class="work-desc">
 									<el-input class="desc-input" type="textarea" v-model="workInfo.workResult" :maxlength="200" 
 									placeholder="注意：实习成果尽量以数据来呈现，突出个人成果以及做出的贡献。例如：策划并组织校园歌手大赛、主持人大赛、演讲比赛、迎新晚会等共计10余场校级活动，参与学生人数达3000+；以上活动均取得良好的效果，团队获得老师及同学的一致好评。"></el-input>
@@ -116,7 +119,7 @@
 									<el-input class="desc-input" type="textarea" v-model="workInfo.growHarvest" :maxlength="200" 
 									placeholder="注意：根据校园经历的具体内容，进行某能力提升的说明。例如：锻炼了我的组织协调能力及统筹策划能力，大大提升了我的抗压能力及应变能力。"></el-input>
 								</div>
-							</el-form-item>
+							</el-form-item> -->
 							<el-form-item size="small" class="edit-btn-box">
 								<el-button class="save-btn" @click="saveSchoolWork('workInfo')">保存</el-button>
 								<el-button class="cancel" @click="cancelSchoolWork('workInfo')">取消</el-button>
