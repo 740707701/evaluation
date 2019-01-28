@@ -87,7 +87,7 @@ export default {
           if (err.data.msg) {
             this.$message({type: "error", message: err.data.msg});
           } else {
-            this.$message({type: "error", message: "获取数据失败"});
+            this.$message({type: "error", message: "获取测评课程失败，请稍后重试！"});
           }
         });
     },
@@ -101,7 +101,7 @@ export default {
           if (err.data.msg) {
             this.$message({ type: "error", message: err.data.msg})
           } else {
-            this.$message({ type: "error", message: "获取热门测评失败"});
+            this.$message({ type: "error", message: "获取热门测评失败，请稍后重试！"});
           }
         });
     },

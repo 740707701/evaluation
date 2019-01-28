@@ -247,31 +247,6 @@ const routes = [
       requireAuth: true
     }
   },
-  // {
-  //   path: "/resumeBg",
-  //   name: "resumeBg",
-  //   component: () => import('@/views/Resume/ResumeBg'),
-  //   meta: {
-  //     routerType: 'resume'
-  //   }
-  // },
-  
-  // {
-  //   path: "/viewResume/:resumeId/:org?",
-  //   name: "viewResume",
-  //   component: () => import('@/views/Resume/ViewResume'),
-  //   meta: {
-  //     requireAuth: true
-  //   }
-  // },
-  // {
-  //   path: "/resumePreview",
-  //   name: "resumePreview",
-  //   component: () => import('@/views/Resume/ResumePreview'),
-  //   meta: {
-  //     requireAuth: true
-  //   }
-  // },
   {
     path: "/cartdetail",
     name: "cartDetail",
@@ -335,12 +310,37 @@ const routes = [
   // 行业与职业认知
   {
     path: "/vocationCognize",
-    name: "vocationCognize",
     component: () => import('@/views/VocationCognize/Index'),
     meta: {
       requireAuth: true,
       routerType: 'vocation'
-    }
+    },
+    children: [
+      {
+        path: '/',
+        name: 'vocationList',
+        component: () => import('@/views/VocationCognize/VocationList'),
+        meta: {
+          routerType: 'vocation'
+        }
+      },
+      {
+        path: '/vocationDetail',
+        name: 'vocationDetail',
+        component: () => import('@/views/VocationCognize/VocationDetail'),
+        meta: {
+          routerType: 'vocation'
+        }
+      },
+      {
+        path: '/vocationPractice',
+        name: 'vocationPractice',
+        component: () => import('@/views/VocationCognize/VocationPractice'),
+        meta: {
+          routerType: 'vocation'
+        }
+      }
+    ]
   },
   // 实习与就业
   {

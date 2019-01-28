@@ -246,6 +246,29 @@ export default {
     //查询是否开启大三大四计划
     queryOpen: 'plan/findPlanOpen',
 
+    // 行业与职业认知
+    // 课程列表
+    vocationCourseList: 'industry/cognitionList',
+    // 课程详情
+    vocationCourseDetail: 'industry/cognitionInfo',
+    // 课程视频列表
+    vocationVideoList: 'subject/common/question-list-{pointId}',
+    // 课程练习 验证答题是否全部正确
+    vocationVerifyAnswer: 'subject/common/question-answer',
+    // 课程视频 可播放状态 是否开启
+    vocationVideoStatus: 'industry/isQuestionOpen',
+    // 开启下一个课程
+    openNextQuestion: 'industry/finishQuestion',
+    // 评论列表
+    vocationCommentList: 'industry/commentList',
+    // 发表、回复评论
+    publishComment: 'industry/insertComment',
+    // 点赞
+    vocationLike: 'industry/hitStar',
+    // 点击题目添加浏览次数
+    vocationInsertViews: 'industry/insertViews',
+
+
     //用户
     login: 'user/login',
     register: 'user/register',

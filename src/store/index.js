@@ -9,6 +9,8 @@ import sso from './modules/sso'
 import metadata from './modules/metadata'
 import person from './modules/person'
 import order from './modules/order'
+import vocation from './modules/vocation'
+import tiku from './modules/tiku'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -54,6 +56,8 @@ export default new Vuex.Store({
     sso,
     metadata,
     person,
-    order
+    order,
+    vocation,
+    tiku
   }
 })
