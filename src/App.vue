@@ -83,6 +83,12 @@ export default {
   .el-checkbox__label {
     font-size: 14px;
   }
+  .el-radio, .el-checkbox {
+    white-space: normal;
+  }
+  .el-checkbox__label {
+    display: initial;
+  }
   //element-ui input日期框的图标
   /*8
   .el-input__prefix {
