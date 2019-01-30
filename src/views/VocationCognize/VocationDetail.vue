@@ -11,7 +11,7 @@
         <img class="detail-img" :src="courseDetail.picAll" alt="">
         <div class="info-box">
           <div class="title">{{courseDetail.cognitionName}} 
-            <!-- <span class="hot">会员免费学</span> -->
+            <span class="hot" v-if="courseDetail.cognitionMode===1">会员免费学</span>
           </div>
           <p>浏览次数：{{courseDetail.num}}</p>
           <p class="rate">评价打分：
@@ -21,7 +21,7 @@
           <p class="red" v-if="courseDetail.cognitionMode===1">价格： ¥ {{courseDetail.price}}</p>
           <p class="red" v-if="courseDetail.cognitionMode===0">免费</p>
           <div class="btn-box">
-            <div class="operation-btn test-btn">会员免费学</div>
+            <!-- <div class="operation-btn test-btn">会员免费学</div> -->
             <div class="operation-btn buy-btn" @click="buy" v-if="userInfo.ismember!=1&&courseDetail.cognitionMode===1">购买课程</div>
           </div>
         </div>
@@ -41,9 +41,6 @@
 								<div class="lock-bg" v-if="!video.isOpen">
 									<i class="iconfont icon-lock"></i>
 								</div>
-								<!-- <div class="lock-bg" v-if="!video.isOpen&&index!==0&&courseDetail.cognitionMode!==0||userInfo.ismember!==1&&isBuy===0">
-									<i class="iconfont icon-lock"></i>
-								</div> -->
 							</div>
 						</td>
             <td class="name">{{video.title}}</td>
@@ -51,8 +48,6 @@
             <td>
 							<div class="btn study-btn" :class="video.isOpen===true?'':'disabled'" @click="showPlayer(video, index)">学习课程</div>
               <div class="btn practice-btn" :class="video.isOpen===true?'':'disabled'" @click="practice(video, index)">做练习</div>
-							<!-- <div class="btn study-btn" :class="video.isOpen===true&&userInfo.ismember===1 || isBuy===1&&index===0?'':'disabled'" @click="showPlayer(video, index)">学习课程</div>
-              <div class="btn practice-btn" :class="video.isOpen===true&&userInfo.ismember===1 || isBuy===1&&index===0?'':'disabled'" @click="practice(video, index)">做练习</div> -->
 						</td>
             <td style="width: 366px;padding: 0;text-align: left;">
 							<span class="tag" v-if="userInfo.ismember!==1&&index===0&&isBuy===0&&courseDetail.cognitionMode===1">成为会员或者购买课程才可学习。</span>
@@ -166,7 +161,6 @@ export default {
         .then(res => {
           this.courseDetail = res.data;
           this.isBuy = res.data.flag // 1:已购买，0：未购买
-          console.log(type)
           if(!type) {
             this.getVideoList()
           }
@@ -189,7 +183,6 @@ export default {
             this.$set(item, 'isOpen', true)
           }
         })
-        console.log('videoList111', this.videoList)
 			}).catch(err => {
         this.$message.error('获取课程目录失败，请稍后重试！')
 			})
@@ -488,7 +481,6 @@ export default {
           line-height: 28px;
           font-size: 16px;
           font-weight: bold;
-          padding-right: 8px;
           display: inline-block;
           position: relative;
           .hot {
@@ -500,8 +492,8 @@ export default {
             color: #fff;
             border-radius: 5px;
             position: absolute;
-            top: -14px;
-            right: -100%;
+            top: -12px;
+            right: -77px;
           }
           .hot:after {
             content: '';   
@@ -883,7 +875,7 @@ export default {
       max-height: 55%;
 			background-color: #fff;
 			position: absolute;
-			top: 25%;
+			top: 30%;
 			left: 50%;
       transform: translate(-50%,-40%);
       z-index: 0;

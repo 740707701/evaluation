@@ -99,7 +99,6 @@ export default {
 	},
 	methods: {
 		post() {
-			// console.log('fxAnswer', this.fxAnswer)
 			let subtitleList = this.questionContent.subtitleList
 			let answer = []
 			subtitleList.map((item, index) => {
@@ -110,7 +109,6 @@ export default {
 					}
 				})
 			})
-			// console.log('answer', answer)
 			let data = {
 				examPaperId: this.courseId,
 				answerSheetItems: [
@@ -122,9 +120,7 @@ export default {
 					}
 				]
 			}
-			// console.log('data', data)
 			this.$store.dispatch('VERIFY_ANSWER', data).then(res => {
-				// console.log('res', res)
 				if(res.data.result === 'success') {
 					let nextQuestionId = res.data.object
 					// 开启下一题
@@ -138,7 +134,6 @@ export default {
 					}
 				}
 			}).catch(err => {
-				// console.log('err', err)
 				if(err.data.result === 'error') {
 					this.showFailDialog = true
 				}
@@ -163,9 +158,6 @@ export default {
 		},
 		gotoStudy() {
 			this.$router.push({path: '/vocationDetail', query: { courseId: this.courseId }})
-		},
-		goBack() {
-
 		}
 	}
 }
