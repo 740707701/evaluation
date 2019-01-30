@@ -12,8 +12,8 @@
 				<div class="title">商品信息</div>
 				<div class="goodslist">
 					<div class="item" v-for="item in cartList" :key="item.id">
-						<img :src="cartData.rootPath?cartData.rootPath+item.pic:item.picAll" alt="">
-						<div class="name">{{item.cepingName}}</div>
+						<img :src="cartData.rootPath?cartData.rootPath+item.pic:item.picAll || item.pic" alt="">
+						<div class="name">{{item.cepingName || item.cognitionName}}</div>
 						<div class="price">¥ {{item.price}}</div>
 					</div>
 				</div>
@@ -56,6 +56,7 @@ export default {
   data() {
     return {
       showPayDialog: false,
+      productType: '',
       cartData: {},
       cartList: [],
       cepingIdList: [],
@@ -70,10 +71,11 @@ export default {
   created() {
     this.cartList = JSON.parse(localStorage.getItem("cartList"));
     this.cartData = JSON.parse(localStorage.getItem("cartData"));
+    this.productType = this.$route.query.productType
     this.userInfo = this.$store.state.userInfo;
     for (let item of this.cartList) {
       this.cepingIdList.push(item.id);
-      this.payTitle.push(item.cepingName);
+      this.payTitle.push(item.cepingName || item.cognitionName);
     }
   },
   methods: {
@@ -120,7 +122,7 @@ export default {
           type: "error",
           message: "请选择支付方式"
         });
-        return;
+        return false;
       }
       if (this.payType == "alipay") {
         axios.defaults.headers.post["Content-Type"] = "text/html;charest=utf-8";

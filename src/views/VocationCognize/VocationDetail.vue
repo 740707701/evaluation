@@ -8,7 +8,7 @@
         </router-link>
       </div>
       <div class="content">
-        <img class="detail-img" :src="courseDetail.pic" alt="">
+        <img class="detail-img" :src="courseDetail.picAll" alt="">
         <div class="info-box">
           <div class="title">{{courseDetail.cognitionName}} 
             <!-- <span class="hot">会员免费学</span> -->
@@ -22,7 +22,7 @@
           <p class="red" v-if="courseDetail.cognitionMode===0">免费</p>
           <div class="btn-box">
             <div class="operation-btn test-btn">会员免费学</div>
-            <div class="operation-btn buy-btn" @click="buy" v-if="userInfo.ismember!=1">购买课程</div>
+            <div class="operation-btn buy-btn" @click="buy" v-if="userInfo.ismember!=1&&courseDetail.cognitionMode===1">购买课程</div>
           </div>
         </div>
         <div class="intro">
@@ -38,9 +38,12 @@
 							<div class="course-img" @click="showPlayer(video, $event)">
 								<img v-if="video.fileType === 'video'" :src="video.coverUrl?video.coverUrl:require('../../assets/images/video-poster.jpg')" alt="">
 								<img v-if="video.fileType === 'pdf'" :src="require('../../assets/images/pdf.png')" alt="">
-								<div class="lock-bg" v-if="!video.isOpen&&index!==0">
+								<div class="lock-bg" v-if="!video.isOpen">
 									<i class="iconfont icon-lock"></i>
 								</div>
+								<!-- <div class="lock-bg" v-if="!video.isOpen&&index!==0&&courseDetail.cognitionMode!==0||userInfo.ismember!==1&&isBuy===0">
+									<i class="iconfont icon-lock"></i>
+								</div> -->
 							</div>
 						</td>
             <td class="name">{{video.title}}</td>
@@ -48,10 +51,14 @@
             <td>
 							<div class="btn study-btn" :class="video.isOpen===true?'':'disabled'" @click="showPlayer(video, index)">学习课程</div>
               <div class="btn practice-btn" :class="video.isOpen===true?'':'disabled'" @click="practice(video, index)">做练习</div>
-							<span class="tag" v-if="userInfo.ismember!=1&&index===0">成为会员或者购买课程才可学习。</span>
-							<span class="tag" v-if="Object.keys(openQuestions).length===index">学完一个课程，练习全对，才能解锁下一个课程。</span>
-							<span class="tag" v-if="video.showMsg">您还没有完成上一课程的练习，请先完成才能解锁此课程。</span>
+							<!-- <div class="btn study-btn" :class="video.isOpen===true&&userInfo.ismember===1 || isBuy===1&&index===0?'':'disabled'" @click="showPlayer(video, index)">学习课程</div>
+              <div class="btn practice-btn" :class="video.isOpen===true&&userInfo.ismember===1 || isBuy===1&&index===0?'':'disabled'" @click="practice(video, index)">做练习</div> -->
 						</td>
+            <td style="width: 366px;padding: 0;text-align: left;">
+							<span class="tag" v-if="userInfo.ismember!==1&&index===0&&isBuy===0&&courseDetail.cognitionMode===1">成为会员或者购买课程才可学习。</span>
+							<span class="tag" v-if="userInfo.ismember===1&&Object.keys(openQuestions).length===index">学完一个课程，练习全对，才能解锁下一个课程。</span>
+							<span class="tag" v-if="video.showMsg">您还没有完成上一课程的练习，请先完成才能解锁此课程。</span>
+            </td>
           </tr>
         </table>
 				<div class="sub-title">评论区
@@ -65,7 +72,7 @@
 					<div class="btn right" :class="publishCommentText.length?'high-btn':'disabled'" @click="publishComment">发表</div>
 				</div>
 				<div class="comment-box">
-          <div class="nodata" v-if="!commentList.length">还没有任何评论，快去评论吧(*￣︶￣)</div>
+          <div class="nodata" v-if="!commentList.length">还没有任何评论，快去查看课程发表评论吧(*￣︶￣)</div>
 					<div class="item" v-for="comment in commentList" :key="comment.id">
 						<img :src="comment.userHead" alt="" class="avatar">
 						<div class="item-content">
@@ -93,6 +100,13 @@
 							</div>
 						</div>
 					</div>
+          <div class="page-box" v-if="commentList.length">
+            <el-pagination layout="prev, pager, next" :total="total"
+            :current-page="currentPage"
+            :page-size="pageSize"
+            @current-change="handleCurrentChange"
+            ></el-pagination>
+          </div>
 				</div>
       </div>
     </div>
@@ -119,6 +133,10 @@ export default {
       currentComment: {},
       isBuy: 0, //非会员是否已购买
       openQuestions: {},
+      pageIndex: 1,
+      pageSize: 10,
+      currentPage: 1,
+      total: 0,
 
 			videoList:[],
 			currentVideo: {},
@@ -133,9 +151,8 @@ export default {
   },
   created: function() {
     this.courseId = this.$route.query.courseId
-    this.getCourseDetail(this.courseId)
-    this.getVideoList()
-    this.findOpen(this.courseId)
+    this.getCourseDetail()
+    
     this.getCommentList()
   },
   methods: {
@@ -143,12 +160,16 @@ export default {
       return showPrice()
 		},
     // 获取课程详情
-    getCourseDetail() {
+    getCourseDetail(type) {
       this.$store
         .dispatch('VOCATION_COURSE_DETAIL', { id: this.courseId })
         .then(res => {
           this.courseDetail = res.data;
-          this.isBuy = res.data.flag
+          this.isBuy = res.data.flag // 1:已购买，0：未购买
+          console.log(type)
+          if(!type) {
+            this.getVideoList()
+          }
         })
         .catch(err => {
           if(err.data.msg){
@@ -162,11 +183,13 @@ export default {
 		getVideoList() {
 			this.$store.dispatch('VOCATION_VIDEO_LIST', this.courseId).then(res => {
         this.videoList = res.data.object
+        this.findOpen(this.courseId)
         this.videoList.map((item, index) => {
-          if(index === 0) {
+          if(index === 0 && (this.userInfo.ismember === 1 || this.isBuy === 1 || this.courseDetail.cognitionMode===0)) {
             this.$set(item, 'isOpen', true)
           }
         })
+        console.log('videoList111', this.videoList)
 			}).catch(err => {
         this.$message.error('获取课程目录失败，请稍后重试！')
 			})
@@ -197,7 +220,7 @@ export default {
     // 播放视频 或弹出pdf
 		showPlayer(video, index) {
      // todo 如果已购买可播放     
-     if(video.isOpen) {
+     if(video.isOpen && (this.userInfo.ismember === 1 || this.isBuy === 1 || this.courseDetail.cognitionMode===0)) {
         if(video.fileType === 'video') {
           this.currentVideo = video
           this.showPlayerBigger = true
@@ -209,8 +232,10 @@ export default {
         }
         this.insertViews()
      } else {
-        this.$message.error('您还没有完成上一课程的练习，请先完成才能解锁此课程。')
+       if(this.userInfo.ismember === 1 || this.isBuy === 1 || this.courseDetail.cognitionMode===0) {
+        // this.$message.error('您还没有完成上一课程的练习，请先完成才能解锁此课程。')
         this.$set(video, 'showMsg', true)
+       }
      }
     },
     // 查询是否开启课程
@@ -240,14 +265,16 @@ export default {
       })
     },
     // 做练习
-    practice(video) {
-      if(video.isOpen) {
+    practice(video, index) {
+      if(video.isOpen && (this.userInfo.ismember === 1 || this.isBuy === 1 || this.courseDetail.cognitionMode===0)) {
         localStorage.setItem('questionContent', video.content)
         localStorage.setItem('videoName', video.title)
         this.$router.push({ path: '/vocationPractice', query: { courseId: this.courseId, questionId: video.questionId} })
       } else {
-        this.$message.error('您还没有完成上一课程的练习，请先完成才能解锁此课程。')
-        this.$set(video, 'showMsg', true)
+        if(this.userInfo.ismember === 1 || this.isBuy === 1 || this.courseDetail.cognitionMode===0) {
+          // this.$message.error('您还没有完成上一课程的练习，请先完成才能解锁此课程。')
+          this.$set(video, 'showMsg', true)
+        }
       }
     },
     // 点击视频 记录浏览次数
@@ -266,12 +293,15 @@ export default {
     // 获取评论列表
     getCommentList() {
       let params = {
-        id: this.courseId
+        id: this.courseId,
+        pageIndex: this.pageIndex,
+        pageSize: this.pageSize
       }
       this.$store
       .dispatch("VOCATION_COMMENT_LIST", params)
       .then(res => {
-        this.commentList = res.data
+        this.commentList = res.data.list
+        this.total = res.data.total
       })
       .catch(err => {
         if (err.data) {
@@ -280,6 +310,10 @@ export default {
           this.$message({type: "error", message: "获取评论失败，请稍后重试！"})
         }
       })
+    },
+    handleCurrentChange(val) {
+      this.pageIndex = val
+      this.getCommentList()
     },
     // 发表评论
     publishComment() {
@@ -300,6 +334,8 @@ export default {
         this.showPublishComment = false
         this.$message.success('发表评论成功！')
         this.getCommentList()
+        // 更新详情平均打分
+        this.getCourseDetail('update')
       }).catch(err => {
         if(err.data) {
           this.$message.error(err.data.msg)
@@ -356,14 +392,15 @@ export default {
     buy(){
       let cartData = {
         rootPath: '',
-        totalPrice: ''
+        totalPrice: this.courseDetail.price
       };
       let cartList = []
-      // this.detail.baseInfo.purchaseNum = 1; //购物车默认数量为1
-      // cartList.push(this.detail.baseInfo)
+      this.courseDetail.purchaseNum = 1; // 购物车默认数量为1
+      this.courseDetail.productType = 3; // 行业与职业认知 类型：3
+      cartList.push(this.courseDetail)
       localStorage.setItem('cartList', JSON.stringify(cartList));
       localStorage.setItem('cartData', JSON.stringify(cartData));
-      this.$router.push({ name: 'settlement' });
+      this.$router.push({ path: '/settlement', query: {productType: 3} });
     }
   },
 };
@@ -665,6 +702,8 @@ export default {
 				}
 			}
 			.comment-box {
+        width: 100%;
+        display: inline-block;
 				.item:last-child {
 					border: none;
 				}
@@ -729,7 +768,10 @@ export default {
 							display: inline-block;
 						}
 					}
-				}
+        }
+        .page-box {
+          float: right;
+        }
 			}
     }
     .success-dialog {
@@ -838,16 +880,15 @@ export default {
 		left: 0;
 		.video-box {
       width: 80%;
+      max-height: 55%;
 			background-color: #fff;
 			position: absolute;
-			top: 50%;
+			top: 25%;
 			left: 50%;
-			transform: translate(-50%,-50%);
+      transform: translate(-50%,-40%);
+      z-index: 0;
 			.video-player {
         width: 100%;
-        video {
-          max-height: 50%;
-        }
 				& /deep/ .video-js .vjs-big-play-button {
 					width: 36px;
 					height: 36px;
@@ -863,11 +904,11 @@ export default {
 				}
 				&:hover {
 					background-color: rgba(0,0,0,0.3);
-					// & /deep/ .video-js .vjs-big-play-button {
-					// 	background-color: red;
-					// }
-				}
-			}
+        }
+        & /deep/ .video-js.vjs-fluid {
+          padding-top: 50%;
+        }
+      }
 			.close {
 				width: 24px;
 				height: 24px;
@@ -880,7 +921,8 @@ export default {
 				font-size: 26px;
 				position: absolute;
 				right: 10px;
-				top: 10px;
+        top: 10px;
+        z-index: 1;
 			}
 		}
 

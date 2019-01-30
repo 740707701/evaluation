@@ -9,9 +9,12 @@
 			</div>
 			<p class="order-no">订单编号： {{orderNo}}</p>
 			<p class="money">在线支付： {{money}}元</p>
-			<div class="link">
+			<div class="link" v-if="productType!=='3'">
 				<router-link to="/personalcenter/second">去测评</router-link>
 				<a class="later" @click="showLaterBox=true">稍后测试</a>
+			</div>
+			<div class="link" v-if="productType==='3'">
+				<router-link to="/vocationCognize">查看行业与职业认知课程</router-link>
 			</div>
 			<div class="tips">
 				重要提示：扶诚旗下测评平台及销售商不会以订单异常、系统升级为由，要求您点击任何链接进行退款。
@@ -33,6 +36,7 @@ export default {
 		return {
 			orderNo: '',
 			money: '',
+			productType: '',
 			buyed: false,
 			showLaterBox: false
 		}
@@ -40,6 +44,7 @@ export default {
 	created(){
 		this.orderNo = this.$route.params.orderNo;
 		this.money = this.$route.params.money;
+		this.productType = this.$route.params.productType // 1:购买测评支付成功返回，3：购买行业与职业认知支付成功返回
 		this.buyed = true; //代表已购买，向头部emit事件显示红点
 	},
 	methods: {},

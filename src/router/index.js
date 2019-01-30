@@ -263,7 +263,7 @@ const routes = [
     component: () => import('@/views/Pay/WechatPay')
   },
   {
-    path: "/paysuccess/:orderNo/:money",
+    path: "/paysuccess/:orderNo/:money/:productType?",
     name: "paysuccess",
     component: () => import('@/views/Pay/PaySuccess')
   },
